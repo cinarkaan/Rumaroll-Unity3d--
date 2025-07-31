@@ -4,7 +4,10 @@
 
  <img src="../SS/Main.png">
 
+![ALT TEXT](../SS/Main.png)
+
 <p> The main menu is the ui that is conducted the origin stream of game. The players might make various processes.</p>
+
 
 <h2>New Game</h2>
 
