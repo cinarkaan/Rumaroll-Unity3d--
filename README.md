@@ -2,7 +2,7 @@
 
 <h1>MAIN MENU</h1>
 
- <img src="..//SS//Main.png">
+ <img src="../SS/Main.png">
 
 <p> The main menu is the ui that is conducted the origin stream of game. The players might make various processes.</p>
 
