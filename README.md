@@ -34,6 +34,8 @@
 
 <h2>Day - From Stage 5 To Stage 12 (5 x 5 - 12 x 12) </h2>
 
+<img src="./SS/Day.png">
+
 <p> In this scene , player must be pay attendioned to obstacles that was placed either solution or unsolution ways. Anymore they can collect diamonds to purchase rare item on the store. Also they can use it on this scene. In addition these they can take a review map that is placed right bottom on the screen.</p>
   
 
