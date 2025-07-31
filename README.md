@@ -3,26 +3,29 @@
 <h1>MAIN MENU</h1>
 
  <img src="./SS/Main.png">
+ 
+<p> The players will start to game in here after lauched app. But if the tutorial passed , they must be started from continuous by passing in the store. Otherwise the recorded game is reseted.</p>
 
 <p> The main menu is the ui that is conducted the origin stream of game. The players might make various processes.</p>
-
-
-<h2>New Game</h2>
-
-<p> The players will start to game in here after lauched app. But if the tutorial passed , they must be started from continuous by passing in the store. Otherwise the recorded game is reseted.</p>
 
 <h2>Continue & Store</h2>
 <p> The players are able to purchase items or see count of items and loots that belongs just before start to game , if they would like</p>
 
+ <img src="./SS/Store.png">
+
 <h2>Multiplayer</h2>
 
 <p> There are 2 different options. First one is the create game lobby that is setuped rooms by players. Second one is the lobby that joins players. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room.</p>
+
+<img src="./SS/Multiplayer.png">
 
 <h2>Settings</h2>
 
 <p> The players might to prefer to turn off or initialize some settings about the game (e.g sounds , vfx ..)</p>
 
 <h2>Tutorial - Stage 4 (4 x 4 Grid Platform)</h2>
+
+<img src="./SS/Settings.png">
 
 <p> In this scene , player what have to do which is the will be told them by guide  when it start game. Players can collect the coins that is to be spent on the store to purchase items. It is easy stage</p>
 
