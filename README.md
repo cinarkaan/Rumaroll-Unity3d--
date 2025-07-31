@@ -18,7 +18,7 @@
 
 <img src="./SS/Multiplayer.png">
 
-<p> There are 2 different options. First one is the create game lobby that is setuped rooms by players. Second one is the lobby that joins players. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room.</p>
+<p> There are 2 different options. First one is the create game lobby that is setuped rooms by players. Second one is the lobby that joins players. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room. The player who won is to be own the rewards end of the stage.</p>
 
 <h2>Settings</h2>
 
