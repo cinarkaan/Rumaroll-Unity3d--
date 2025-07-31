@@ -28,6 +28,8 @@
 
 <h2>Tutorial - Stage 4 (4 x 4 Grid Platform)</h2>
 
+<img src="./SS/Tutorial.png">
+
 <p> In this scene , player what have to do which is the will be told them by guide  when it start game. Players can collect the coins that is to be spent on the store to purchase items. It is easy stage</p>
 
 <h2>Day - From Stage 5 To Stage 12 (5 x 5 - 12 x 12) </h2>
