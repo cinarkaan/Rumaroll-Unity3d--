@@ -2,6 +2,8 @@
 
 <h1>MAIN MENU</h1>
 
+ <img src="Main.png">
+
 <p> The main menu is the ui that is conducted the origin stream of game. The players might make various processes.</p>
 
 <h2>New Game</h2>
