@@ -4,6 +4,10 @@
 
 <p>The cube that is colorful is to reach out evacuation point by rolling on the tile that matches with it's bottom face colors. Each new stage means more extended platform.</p>
 
+<h1>How To Play</h1>
+
+<p>As you can see , The buttons are placed on the screen of both left and right. You are able to manage by pressing move or another things about ui in here.To turn another point view , you are slightly slide your finger either from left to right or from right to left. This makes to be able to seen another point view towards to cube. </p>
+
 <h2>MAIN MENU</h2>
 
  <img src="./SS/Main.png">
