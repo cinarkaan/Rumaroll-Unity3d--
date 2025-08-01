@@ -1,6 +1,10 @@
 # Rumaroll
 
-<h1>MAIN MENU</h1>
+<h1>Purpose</h1>
+
+<p>The cube that is colorful is to reach out evacuation point by rolling on the tile that matches with it's bottom face colors. Each new stage means more extended platform.</p>
+
+<h2>MAIN MENU</h2>
 
  <img src="./SS/Main.png">
  
