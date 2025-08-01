@@ -6,6 +6,7 @@
 
 <h1>How To Play</h1>
 
+<h3>Android</h3>
 <p>As you can see , The buttons are placed on the screen of both left and right. You are able to manage by pressing move or another things about ui in here.To turn another point view , you are slightly slide your finger either from left to right or from right to left. This makes to be able to seen another point view towards to cube. </p>
 
 <h2>MAIN MENU</h2>
