@@ -9,6 +9,9 @@
 <h3>Android</h3>
 <p>As you can see , The buttons are placed on the screen of both left and right. You are able to manage by pressing move or another things about ui in here.To turn another point view , you are slightly slide your finger either from left to right or from right to left. This makes to be able to seen another point view towards to cube. </p>
 
+<h3>PC</h3>
+<p>To rolling the cube that you see in the bottom of the screen , you are to press from keyboard 'W','A','S','D'. To get clue , you must press keyboard 'C' as well as activated shield 'R'. If you press 'ESC' pause menu will be opened. If you want to see where you are , you can open map by pressing 'M'. To change aspect view , you can use either left or right arrow from keyboard.</p>
+
 <h2>MAIN MENU</h2>
 
  <img src="./SS/Main.png">
