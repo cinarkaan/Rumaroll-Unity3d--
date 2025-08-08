@@ -20,6 +20,12 @@
 
 <p> The main menu is the ui that is conducted the origin stream of game. The players might make various processes.</p>
 
+<h2>Settings</h2>
+
+<img src="./SS/Settings.png">
+
+<p> The players might to prefer to turn off or initialize some settings about the game (e.g sound , vfx ..)</p>
+
 <h2>Continue & Store</h2>
 
  <img src="./SS/Store.png">
@@ -28,17 +34,13 @@
 
 <h2>Multiplayer</h2>
 
-<img src="./SS/Multiplayer.jpg">
-
 <img src="./SS/Loby.jpg">
 
+<img src="./SS/Multiplayer.jpg">
+
+<img src="./SS/Rewards.png">
+
 <p> There are 2 different options. First one is the create game lobby that is setuped rooms by players. Second one is the lobby that joins players. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room. The player who won is to be own the rewards end of the stage. The player who reach out to evacuation point wins the game , the first player(host) starts at the (6,6) referance point and the second player(client) starts at the (18,18) referance point. In here two player are connected to each other by using UDP socket protocol. Both two player must have been connected  same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player. </p>
-
-<h2>Settings</h2>
-
-<img src="./SS/Settings.png">
-
-<p> The players might to prefer to turn off or initialize some settings about the game (e.g sound , vfx ..)</p>
 
 <h2>Tutorial - Stage 4 (4 x 4 Grid Platform)</h2>
 
