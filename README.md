@@ -1,22 +1,60 @@
 <h1>Structures Of Scripts</h1>
 
-<p>The all scripts explained and conduct hierarchy of them on the following as briefly.</p>
+<p>The all scripts explained and conduct hierarchy of them on the following as briefly. (What are works ? , How are used ? , The logic of conduct...) e.g was explained.</p>
 
-<h2>Platform Managers</h2>
+<h2>Platform Manager</h2>
 
-<p>The platform that consists of colurful tiles and dynamics are initialized in here. This manager always works as firstly.</p>
+<p>The platform that consists of colurful tiles and dynamics are initialized in here. According to the stage , it creates the platform and find unique solution each time(By DFS Algorithm). Beside this and the operations that includes all of them are excecuted by this script.This manager always works as firstly.</p>
 
 <h2>Event Manager</h2>
 
-<p>The events that consists of both diamonds and coins are initialized in here. That is second works after platform manager.</p>
+<p>The events that consists of both diamonds and coins are initialized in here. E.g the after the collides with player as well as placed on the platform..That is second works after platform manager.</p>
 
 <h2>Obstacles Manager</h2>
 
-<p>All obstacles are initialized in here. This scripts are triggered as third order.</p>
+<p>All obstacles are initialized in here. According to the stage the certain obstacles are placed on the platform. After of that , the moves of obstacles are launched in here. This scripts are triggered as third order. </p>
 
 <h2>Enemy Manager</h2>
 
-<p>At the latest , this script runs. All enemies are initialized in here.</p>
+<p>At the latest , this script runs. All enemies are initialized in here. The enemy are moved as autonomic by the both A* and special algorithm. The moving path are created in here , the mechanics of move are launhed in here. Finally the enemy is placed on the platform. </p>
+
+<h2>Rolling Cube Controller</h2>
+
+<p>The main control center of player cube . All operations , game mechanics that belongs of player cubes are executed in here. As well as if the player want to use shield. Or after the each move of player , the gps are updated in here then it sets to UIController</p>
+
+<h2>Aspect Controller</h2>
+
+<p>In here the player controls the aspect point view of the cube. When the player use the swipe from Controller. This script are updated the aspect point view toward to the player cube.</p>
+
+<h2>UI Controller</h2>
+
+<p>Player controls the user interfaces objects(Buttons , swipes ,clicks) e.g are controlled in here. Briefly the operations about the UI are placed in this script. The all UI operations either keyboard or screen(Mobile) is conducted by this scripts.</p>
+
+<h2>Game Map Controller</h2>
+
+<p>The game map to see where the player is placed are conducted in this script. The script are initialized after platform manager. It adjusts as stage.</p>
+
+<h2>Server Manager</h2>
+
+<p>The top structure in Multiplayer. First , this script are executed in multiplayer scene to init server settings that was adjusted by main menu side. It runs before Network Platform Manager script. It controls the connect and disconnect, kick of , sets authorized e.g that belongs the player cube. At the end of the game the struct is disposed.</p>
+
+<h2>Network Platform Manager</h2>
+
+<p>Just like the platform manager at the singleplayer side. The script conducts the operations belongs on the platform. It runs end of the server manager.</p>
+
+<h2>Network UI Manager</h2>
+
+<p>Just like the UIManager at the singleplayer side. The script conducts the operations belongs on UI. It runs end of the server manager.</p>
+
+<h2>Network Cube Controller</h2>
+
+<p>Just like the UIManager at the singleplayer side. The script conducts the operations belongs on Player(game mechanics , e.g). It runs end of the Network UI Manager , which is the control mechanics assigned as dynamic the player that connected.</p>
+
+
+
+
+
+
 
 
 
