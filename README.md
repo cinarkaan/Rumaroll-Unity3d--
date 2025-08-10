@@ -1,5 +1,7 @@
 <h1>Structures Of Scripts</h1>
 
+<h2>MANAGERS</h2>
+
 <p>The all scripts explained and conduct hierarchy of them on the following as briefly. (What are works ? , How are used ? , The logic of conduct...) e.g was explained.</p>
 
 <h2>Platform Manager</h2>
@@ -49,6 +51,10 @@
 <h2>Network Cube Controller</h2>
 
 <p>Just like the UIManager at the singleplayer side. The script conducts the operations belongs on Player(game mechanics , e.g). It runs end of the Network UI Manager , which is the control mechanics assigned as dynamic the player that connected.</p>
+
+<h2>Room Broadcaster & Room Listener</h2>
+
+<p>The player that has been connected at the common share point wifi might be founded each other through this script. The player(Host) who was created game share with Local IP. The another player(client) is might be explored it by using thought named as ''RoomListener". The signaficant things are firstly the wifi must be turned on and both of two player must be connected common share point wi-fi. The room name , min/max player and join button will be seems after refreshed.</p>
 
 
 
