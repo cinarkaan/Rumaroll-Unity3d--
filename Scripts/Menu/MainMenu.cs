@@ -3,45 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 
 public class MainMenu : MonoBehaviour
 {
 
-    [SerializeField]
-    private CanvasGroup[] uiMenu;
+    [SerializeField] private CanvasGroup[] uiMenu;
+    [SerializeField] public CanvasGroup[] UIMenu => uiMenu;
+    
+    [SerializeField] private RectTransform icon;
+    [SerializeField] public RectTransform Icon => icon;
 
-    [SerializeField]
+    [SerializeField] private Toggle[] toggles;
+    [SerializeField] public Toggle[] Toggles => toggles;
+
+    [SerializeField] private SceneLoader loader;
+    [SerializeField] public SceneLoader Loader => loader;
+
+    [SerializeField] 
     private TMP_Text[] events;
-
-    [SerializeField]
-    private RectTransform icon;
-
-    [SerializeField]
+    [SerializeField] 
     private List<Image> images;
-
-    [SerializeField]
-    private TMP_Dropdown stageMenu;
-
-    [SerializeField]
-    private TMP_InputField roomName;
-
-    [SerializeField]
-    private RectTransform roomList;
-
     [SerializeField]
     private AudioSource _click_Sfx;
 
-    public GameObject roomPrefab;
     public ParticleSystem Vfx_Mystical_Scatter;
 
-    [SerializeField]
-    private List<Toggle> toggles = new List<Toggle>();
     [SerializeField]
     private Slider touchSensitivity;
     [SerializeField]
@@ -49,38 +37,23 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private float duration;
     [SerializeField]
-    private SceneLoader loader;
-    [SerializeField]
     private Image frame;
-    [SerializeField]
-    private NetworkManager manager;
-    [SerializeField]
-    private UnityTransport transport;
 
     private float _sensitivity = 10f;
 
     private float t = 0f;
 
-    private RoomDiscovery discovery;
-    private RoomBroadcaster broadcast;
+    private MultiPlayerMenu MultiPlayerMenu;
 
     public void Start()
     {
-        Application.targetFrameRate = -1;
+        Application.targetFrameRate = -1; // Remove FPS Limit
 
         StartCoroutine(fadeImage(images.First().color, Color.clear, duration,images.First())); // Launch fade animation only when app start
 
-        if (FindObjectsOfType<NetworkManager>().Length > 1) // Clear the all managers end of the multiplayer rivaly 
-        {
-            manager = FindObjectsOfType<NetworkManager>().First();
-            transport = manager.GetComponent<UnityTransport>();
-            for (int i = 1 ; i < (FindObjectsOfType<NetworkManager>().Length);  i++)
-            {
-                Destroy(FindObjectsOfType<NetworkManager>()[i].gameObject);
-            }
-        }
+        MultiPlayerMenu = GetComponent<MultiPlayerMenu>();
 
-        manager.OnClientStarted += ClientStarted(); // Memory leak when client on the start    
+        CleanUpDestory(); // Clean the network objects that remains from multiplayer
 
         initialize(); // Adjust save - load system as automatically
     }
@@ -120,35 +93,6 @@ public class MainMenu : MonoBehaviour
         float size = Mathf.PingPong(Time.time * 60f, 40f) + 100f;
         icon.sizeDelta = new Vector2(size, size);
         icon.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
-    }
-    private Action ClientStarted ()
-    {
-        return () => { 
-            manager.SceneManager.OnLoad += OnSceneLoading;
-            manager.SceneManager.OnLoadComplete += OnSceneLoaded;
-        };
-    }
-    private void OnSceneLoaded (ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
-    {
-        if (clientId != manager.LocalClientId) return;
-
-        Scene current = SceneManager.GetActiveScene();
-
-        manager.SceneManager.OnLoad -= OnSceneLoading;
-        manager.OnClientStarted -= ClientStarted();
-        manager.SceneManager.OnLoadComplete -= OnSceneLoaded;
-
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
-        manager.SceneManager.UnloadScene(current);
-    }
-    public void OnSceneLoading(ulong clientId, string sceneName, LoadSceneMode loadSceneMode, AsyncOperation asyncOperation)
-    {
-
-        if (clientId != manager.LocalClientId) return;
-
-        asyncOperation.allowSceneActivation = false;
-
-        StartCoroutine(loader.LoadSceneMultiplayer(asyncOperation));
     }
     private void initialize()
     {
@@ -242,14 +186,6 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(fadeCanvasGroup(0, 1, uiMenu[2],""));
         StartCoroutine(fadeCanvasGroup(1f , 1f, uiMenu.Last(), ""));
     }
-    public void backMenuFromMultiplayer () 
-    {
-        PlaySFX();
-        StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu[1], ""));
-        StartCoroutine(fadeCanvasGroup(0, 1, uiMenu[4], ""));
-        StartCoroutine(fadeCanvasGroup(1f, 0.75f, uiMenu.Last(),""));
-        icon.gameObject.SetActive(true);
-    }
     public void startGame ()
     {
         PlaySFX();
@@ -268,6 +204,7 @@ public class MainMenu : MonoBehaviour
     }
     public void multiplayer ()
     {
+        MultiPlayerMenu.enabled = true;
         PlaySFX();
         if (!WiFi())
         {
@@ -278,68 +215,8 @@ public class MainMenu : MonoBehaviour
         Vector3 end = new Vector3(-600f, -205f, 0f);
         StartCoroutine(selectedIcon(start, end));
         StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[4], ""));
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu[1], ""));
+        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu[0], ""));
     }
-    public void CreateGame ()
-    {
-        PlaySFX();
-        broadcast = manager.gameObject.AddComponent<RoomBroadcaster>();
-        StartCoroutine(selectedIcon(icon.localPosition,new Vector3(-600,40f,0)));
-        StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[5], ""));
-        StartCoroutine(fadeCanvasGroup(0f, 0.75f, uiMenu.Last(), ""));
-    }
-    public void getRoomNameInput ()
-    {
-        broadcast.roomName = roomName.text;
-    }
-    public void getSelectedStage ()
-    {
-        int selectedStage = stageMenu.value;
-        broadcast.stage += selectedStage; 
-    }
-    public void create ()
-    {
-        PlaySFX();
-        broadcast.StartBroadcast();
-        transport.SetConnectionData(broadcast.localIP, 7777);
-        manager.StartHost();
-        manager.SceneManager.OnLoad += OnSceneLoading;
-        manager.SceneManager.LoadScene("Multiplayer", LoadSceneMode.Additive);
-        manager.SceneManager.OnLoadComplete += OnSceneLoaded;
-    }
-    public void BackMultiplayerFromCreate ()
-    {
-        PlaySFX();
-        Destroy(broadcast);
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu[5], ""));
-        StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu.Last(), ""));
-    }
-    public void BackMultiplayerFromJoin ()
-    {
-        PlaySFX();
-        foreach (Transform obj in roomList)
-            if (obj.name != "Information")
-                Destroy(obj.gameObject);
-        Destroy(discovery);
-        roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu[6], ""));
-        StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu.Last(), ""));
-    }
-    public void JoinGame ()
-    {
-        PlaySFX();
-        roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
-        discovery = manager.gameObject.AddComponent<RoomDiscovery>();
-        StartCoroutine(selectedIcon(icon.localPosition, new Vector3(-600, -199f,0f)));
-        StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu[6], ""));
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-    }
-    public void refresh ()
-    {
-        PlaySFX();
-        discovery.StopAllCoroutines();
-        discovery.StartScanning(ref roomList, ref roomPrefab, ref manager);
-    } 
     public void saveSettings ()
     {
         PlaySFX();
@@ -372,30 +249,6 @@ public class MainMenu : MonoBehaviour
     {
         _sensitivity = touchSensitivity.value;
     }
-    public void EasyCheck()
-    {
-        if (toggles[5].isOn)
-        {
-            toggles[6].isOn = false;
-            toggles[7].isOn = false;
-        }
-    }
-    public void NormalCheck()
-    {
-        if (toggles[6].isOn)
-        {
-            toggles[5].isOn = false;
-            toggles[7].isOn = false;
-        }
-    }
-    public void HardCheck()
-    {
-        if (toggles[7].isOn)
-        {
-            toggles[6].isOn = false;
-            toggles[5].isOn = false;
-        }
-    }
     public void postProcessingChecker(bool postProcessing)
     {
         postProcessing = toggles[4].isOn;
@@ -413,7 +266,7 @@ public class MainMenu : MonoBehaviour
         }
         image.color = end;
     }
-    private IEnumerator selectedIcon (Vector3 start , Vector3 End)
+    public IEnumerator selectedIcon (Vector3 start , Vector3 End)
     {
         float elapsed = 0f;
         while(elapsed < iconDuration)
@@ -435,7 +288,7 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator fadeCanvasGroup(float targetAlpha, float duration, CanvasGroup cv, string name)
+    public IEnumerator fadeCanvasGroup(float targetAlpha, float duration, CanvasGroup cv, string name)
     {
         float startAlpha = cv.alpha;
         float elapsed = 0f;
@@ -456,7 +309,7 @@ public class MainMenu : MonoBehaviour
     }
     private bool WiFi ()
     {
-    #if UNITY_ANDROID && !UNITY_EDITOR
+# if UNITY_ANDROID && !UNITY_EDITOR
         using (AndroidJavaObject activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity"))
         {
             try
@@ -482,5 +335,14 @@ public class MainMenu : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("Sfx") == 1)
             _click_Sfx.Play();
+    }
+    public void CleanUpDestory ()
+    {
+        var access = new GameObject("Access");
+        DontDestroyOnLoad(access);
+        var objs = access.scene.GetRootGameObjects();
+        if (objs.Length > 1)
+            for (int i = 1; i < objs.Length; i++)
+                Destroy(objs[i]);
     }
 }

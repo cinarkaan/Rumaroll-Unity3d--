@@ -49,7 +49,7 @@ public class PlatformManager : MonoBehaviour
 
         prefabs[2].transform.position = new Vector3(6, 0.99f, 6);
 
-        stage = PlayerPrefs.GetInt("Stage");
+        //stage = PlayerPrefs.GetInt("Stage");
 
         AdjustPlatformStatus(Random.Range(0, 3));
 
@@ -197,7 +197,7 @@ public class PlatformManager : MonoBehaviour
             Vector3 moveDir = new Vector3(current.x - prev.x, 0, current.y - prev.y);
 
             cubeSim.Roll(moveDir);
-            int bottomFace = cubeSim.GetBottomFaceIndex();
+            int bottomFace = cubeSim.faceIndices[0];
             gridTiles[solutionPath[i]] = new PlatformTile((Material)tileMaterials[bottomFace], true);
         }
     }

@@ -13,16 +13,16 @@ public class GameMapController : MonoBehaviour
     [SerializeField]
     private PlatformManager platformManager;
 
+    [SerializeField]
+    private UIController UIController;
+
     private Vector3 originPos = new Vector3(9, 0, 9);
     private float ort = 3.5f;
-
-    [SerializeField]
-    private RawImage gameMapImage;
 
     private void Start()
     {
         StartCoroutine(initializeMapCamera());
-        renderController(gameMapImage);
+        renderController(UIController.RawImage);
     }
     public void renderController (RawImage gameMap)
     {

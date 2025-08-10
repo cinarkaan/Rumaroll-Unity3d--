@@ -106,7 +106,7 @@ public class NetworkPlatformManager : NetworkBehaviour
 
     private GameObject player;
 
-    private bool progress = false;
+    public bool Progress { get; private set; }
 
     public NetworkList<CubeMaterials> CubeMaterials = new NetworkList<CubeMaterials>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkList<Tiles> tiles = new NetworkList<Tiles>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -135,14 +135,14 @@ public class NetworkPlatformManager : NetworkBehaviour
     }
     private IEnumerator WaitUntilServer ()
     {
-        yield return new WaitUntil(() => serverManager._stage.Value != 0);
+        yield return new WaitUntil(() => serverManager.Stage.Value != 0);
 
         AdjustWeatherStatus();
 
         if (serverManager.Manager.IsHost)
         {
             player = GameObject.Find("Host");
-            player.GetComponent<NetworkCubeController>().target = new Vector2Int(serverManager._stage.Value + 6, serverManager._stage.Value + 6);
+            player.GetComponent<NetworkCubeController>().target = new Vector2Int(serverManager.Stage.Value + 6, serverManager.Stage.Value + 6);
         }
         else
         {
@@ -165,14 +165,14 @@ public class NetworkPlatformManager : NetworkBehaviour
     }
     void Update()
     {
-        if (progress && NetworkUIController.currentIndex == 1)
+        if (Progress && NetworkUIController.currentIndex == 1)
         {
             ParallelFrustumCulling();
             FrustumCullingForColorfuls();
         }
         else
         {
-            if (progress)
+            if (Progress)
             {
                 Graphics.DrawMeshInstanced(_tile, 0, tileMat, tile);
                 Graphics.DrawMeshInstanced(_frame, 0, frameMat, frame);
@@ -304,7 +304,7 @@ public class NetworkPlatformManager : NetworkBehaviour
     }
     private void CreateSolutionPath()
     {
-        Vector2Int goal = new Vector2Int(6 + serverManager._stage.Value, 6 + serverManager._stage.Value);
+        Vector2Int goal = new Vector2Int(6 + serverManager.Stage.Value, 6 + serverManager.Stage.Value);
         List<Vector2Int> solutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal);
 
         CubeSimulator cubeSim = new CubeSimulator();
@@ -324,7 +324,7 @@ public class NetworkPlatformManager : NetworkBehaviour
             Vector3 moveDir = new Vector3(current.x - prev.x, 0, current.y - prev.y);
 
             cubeSim.Roll(moveDir);
-            int bottomFace = cubeSim.GetBottomFaceIndex();
+            int bottomFace = cubeSim.faceIndices[0];
             Tiles t = new()
             {
                 positon = solutionPath[i],
@@ -379,7 +379,7 @@ public class NetworkPlatformManager : NetworkBehaviour
         {
             Vector2Int next = current + dir;
 
-            if (next.x < 6 || next.y < 6 || next.x > serverManager._stage.Value + 6 || next.y > serverManager._stage.Value + 6)
+            if (next.x < 6 || next.y < 6 || next.x > serverManager.Stage.Value + 6 || next.y > serverManager.Stage.Value + 6)
                 continue;
 
             if (visited.Contains(next))
@@ -397,25 +397,16 @@ public class NetworkPlatformManager : NetworkBehaviour
     private void CreateDynamics()
     {
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
-        switch (serverManager._stage.Value)
+        switch (serverManager.Stage.Value)
         {
             case 10:
-                uniqueRandomGenerator.min = 1;
-                uniqueRandomGenerator.max = tiles.Count - 1;
-                uniqueRandomGenerator.count = 4;
-                uniqueRandomGenerator.Generate();
+                uniqueRandomGenerator = SetDynamicProperties(4);
                 break;
             case 11:
-                uniqueRandomGenerator.min = 1;
-                uniqueRandomGenerator.max = tiles.Count - 1;
-                uniqueRandomGenerator.count = 7;
-                uniqueRandomGenerator.Generate();
+                uniqueRandomGenerator = SetDynamicProperties(7);
                 break;
             case 12:
-                uniqueRandomGenerator.min = 1;
-                uniqueRandomGenerator.max = tiles.Count - 1;
-                uniqueRandomGenerator.count = 10;
-                uniqueRandomGenerator.Generate();
+                uniqueRandomGenerator = SetDynamicProperties(10);
                 break;
             default:
                 break;
@@ -427,10 +418,14 @@ public class NetworkPlatformManager : NetworkBehaviour
             tiles[item] = tile;
         }            
     }
-    private void InitializePlatformAsHost()
+    private UniqueRandomGenerator SetDynamicProperties (int Count)
+    {
+        return new UniqueRandomGenerator(1, tiles.Count - 1, Count);
+    }
+    private void InitializeEnvironment ()
     {
         materialPropertyBlock = new MaterialPropertyBlock();
-        Material temp;
+
         _tile = TilePrefab.GetComponent<MeshFilter>().sharedMesh;
         tileMat = TilePrefab.GetComponent<MeshRenderer>().sharedMaterial;
 
@@ -439,11 +434,25 @@ public class NetworkPlatformManager : NetworkBehaviour
 
         _frame = TilePrefab.transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
         frameMat = TilePrefab.transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
+    }
+    private void PlaceFlag ()
+    {
+        GameObject start = Instantiate(flag, new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)allMaterials.Find(m => LocalTiles[new Vector2Int(6, 6)]);
+        GameObject finish = Instantiate(flag, new Vector3(serverManager.Stage.Value + 6 + 0.5f, 0.6f, serverManager.Stage.Value + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+        finish.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)allMaterials.Find(m => LocalTiles[new Vector2Int(6 + serverManager.Stage.Value, 6 + serverManager.Stage.Value)]);
 
-        for (int x = 0; x < serverManager._stage.Value + 12; x++)
-            for (int z = 0; z < serverManager._stage.Value + 12; z++)
+    }
+    private void InitializePlatformAsHost()
+    {
+        Material temp;
+
+        InitializeEnvironment();
+
+        for (int x = 0; x < serverManager.Stage.Value + 12; x++)
+            for (int z = 0; z < serverManager.Stage.Value + 12; z++)
             {
-                if (x < 6 || z < 6 || x > 6 + serverManager._stage.Value || z > 6 + serverManager._stage.Value)
+                if (x < 6 || z < 6 || x > 6 + serverManager.Stage.Value || z > 6 + serverManager.Stage.Value)
                 {
                     tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), TilePrefab.transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), TilePrefab.transform.GetChild(1).localRotation, TilePrefab.transform.GetChild(1).localScale));
@@ -479,29 +488,17 @@ public class NetworkPlatformManager : NetworkBehaviour
                     LocalTiles[new Vector2Int(x, z)] = temp;
                 }
             }
-
-        GameObject start = Instantiate(flag, new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)allMaterials.Find(m => LocalTiles[new Vector2Int(6,6)]);
-        GameObject finish = Instantiate(flag, new Vector3(serverManager._stage.Value + 6 + 0.5f, 0.6f, serverManager._stage.Value + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        finish.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)allMaterials.Find(m => LocalTiles[new Vector2Int(6 + serverManager._stage.Value, 6 + serverManager._stage.Value)]);
-        progress = true;
+        PlaceFlag();
+        Progress = true;
     }
     private void InitializePlatformAsClient()
     {
-        materialPropertyBlock = new MaterialPropertyBlock();
-        _tile = TilePrefab.GetComponent<MeshFilter>().sharedMesh;
-        tileMat = TilePrefab.GetComponent<MeshRenderer>().sharedMaterial;
+        InitializeEnvironment();
 
-        _surfaces = TilePrefab.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
-        surfacesMat = TilePrefab.transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial;
-
-        _frame = TilePrefab.transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
-        frameMat = TilePrefab.transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
-
-        for (int x = 0; x < serverManager._stage.Value + 12; x++)
-            for (int z = 0; z < serverManager._stage.Value + 12; z++)
+        for (int x = 0; x < serverManager.Stage.Value + 12; x++)
+            for (int z = 0; z < serverManager.Stage.Value + 12; z++)
             {
-                if (x < 6 || z < 6 || x > 6 + serverManager._stage.Value || z > 6 + serverManager._stage.Value)
+                if (x < 6 || z < 6 || x > 6 + serverManager.Stage.Value || z > 6 + serverManager.Stage.Value)
                 {
                     tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), TilePrefab.transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), TilePrefab.transform.GetChild(1).localRotation, TilePrefab.transform.GetChild(1).localScale));
@@ -522,14 +519,11 @@ public class NetworkPlatformManager : NetworkBehaviour
             }
 
         SetMaterialOfRival();
-        GameObject start = Instantiate(flag, new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)allMaterials.Find(m => LocalTiles[new Vector2Int(6, 6)]);
-        GameObject finish = Instantiate(flag, new Vector3(serverManager._stage.Value + 6 + 0.5f, 0.6f, serverManager._stage.Value + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        finish.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)allMaterials.Find(m => LocalTiles[new Vector2Int(6 + serverManager._stage.Value, 6 + serverManager._stage.Value)]);
+        PlaceFlag();
         RequestClearListServerRpc();
         LaunchDynamics();
-        serverManager._sceneLoader.operation = 2;
-        progress = true;
+        serverManager._UIController.SceneLoader.operation = 2;
+        Progress = true;
     }
     public ServerManager getManager()
     {
@@ -613,10 +607,10 @@ public class NetworkPlatformManager : NetworkBehaviour
     private void RequestClearListServerRpc()
     {
         LaunchDynamics();
-        tiles.Clear();
-        ClientCube.Clear();
-        CubeMaterials.Clear();
-        serverManager._sceneLoader.operation = 2; // Client is ready , remove waiting screen
+        tiles.Dispose();
+        ClientCube.Dispose();
+        CubeMaterials.Dispose();
+        serverManager._UIController.SceneLoader.operation = 2; // Client is ready , remove waiting screen
     }
     private void LaunchDynamics()
     {
@@ -636,7 +630,7 @@ public class NetworkPlatformManager : NetworkBehaviour
     {
         if (PlayerPrefs.GetInt("Vfx") == 0) return;
 
-        int _stage = serverManager._stage.Value;
+        int _stage = serverManager.Stage.Value;
 
         if (serverManager.IsHost)
             WeatherCode.Value = UnityEngine.Random.Range(0, 3);
@@ -668,4 +662,3 @@ public class NetworkPlatformManager : NetworkBehaviour
         WeatherCode.Dispose();
     }
 }
-

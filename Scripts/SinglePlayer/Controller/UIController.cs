@@ -22,8 +22,12 @@ public class UIController : MonoBehaviour
     private List<Button> buttons = new List<Button>();
     [SerializeField]
     private List<Image> images = new List<Image>();
+    
     [SerializeField]
-    private List<RawImage> rawImages = new List<RawImage>();
+    private RawImage[] rawImages;
+    public RawImage RawImage => rawImages[0];
+    
+
     [SerializeField]
     private List<Text> texts = new List<Text>();
     [SerializeField]

@@ -12,6 +12,14 @@ public class UniqueRandomGenerator
     {
         uniqueRandoms = new HashSet<int> ();
     }
+    public UniqueRandomGenerator (int min, int max, int count)
+    {
+        uniqueRandoms = new HashSet<int>();
+        this.min = min;
+        this.max = max;
+        this.count = count;
+        Generate();
+    }
     public void Generate()
     {
         while (uniqueRandoms.Count < count)

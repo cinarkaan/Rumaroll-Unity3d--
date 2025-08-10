@@ -257,6 +257,7 @@ MonoBehaviour:
   _clue: {fileID: 1649303930}
   solutionPath: []
   unSolutionPath: []
+  progress: 0
 --- !u!1 &85577101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,7 +1783,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174211541}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57c7997c58d0b2942ac1bf52211b4c2a, type: 3}
   m_Name: 
@@ -2751,7 +2752,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.7
-  frameMaterial: {fileID: 2100000, guid: 2eb0d3bc7c7f01b4aa65f10ff3e50af6, type: 2}
   trailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
     type: 3}
 --- !u!114 &1653454541
@@ -4083,8 +4083,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 668584287}
-  - {fileID: 1655365271}
   - {fileID: 1134570853}
+  - {fileID: 1655365271}
   - {fileID: 1688231783}
   - {fileID: 930985475}
   - {fileID: 2093181363}
@@ -4292,7 +4292,7 @@ MonoBehaviour:
   rt: {fileID: 8400000, guid: 9d046f5076ee5784c9cd4719d8a15259, type: 2}
   currentIndex: 1
   platformManager: {fileID: 58574696}
-  gameMapImage: {fileID: 668584288}
+  UIController: {fileID: 1174211545}
 --- !u!114 &1986244304
 MonoBehaviour:
   m_ObjectHideFlags: 0

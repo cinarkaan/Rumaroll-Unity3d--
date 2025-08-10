@@ -49,10 +49,4 @@ public class CubeSimulator
         }
         faceIndices = newOrder;
     }
-
-    // It returns bottom face index(faceIndices[0]) of the cube. 
-    public int GetBottomFaceIndex()
-    {
-        return faceIndices[0];
-    }
 }

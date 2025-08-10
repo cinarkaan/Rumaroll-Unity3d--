@@ -816,6 +816,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubeController: {fileID: 0}
   rt: {fileID: 8400000, guid: 9d046f5076ee5784c9cd4719d8a15259, type: 2}
+  Info: {fileID: 19351283}
+  _sceneLoader: {fileID: 1280818415}
   _rivalGPS: {fileID: 1780142490}
   target: {fileID: 1520682615}
   rawImages:
@@ -2316,7 +2318,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: eaea3b58dd40dd042a5eeafdf4f78ed6, type: 3}
-  m_Color: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+  m_Color: {r: 0.690566, g: 0.67623353, b: 0.67623353, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0
@@ -2818,10 +2820,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46edd71a14cea084393382870b78cce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Info: {fileID: 19351283}
-  _rival: {fileID: 0}
-  _sceneLoader: {fileID: 1280818415}
-  _stage:
+  UIControler: {fileID: 348827880}
+  _rival: {fileID: 1780142490}
+  Stage:
+    m_InternalValue: 0
+  Difficulty:
     m_InternalValue: 0
 --- !u!4 &1412364716
 Transform:

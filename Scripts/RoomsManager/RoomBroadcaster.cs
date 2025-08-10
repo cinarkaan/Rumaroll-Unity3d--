@@ -6,7 +6,6 @@ using System.Text;
 using UnityEngine;
 
 
-
 public class RoomBroadcaster : MonoBehaviour
 {
     public string roomName = "MyRoom";
@@ -18,6 +17,7 @@ public class RoomBroadcaster : MonoBehaviour
     private UdpClient server;
     private bool isRunning;
     public string localIP { get; private set; }
+    public Difficulty difficulty;
 
     private void Start()
     {
@@ -61,8 +61,8 @@ public class RoomBroadcaster : MonoBehaviour
     }
     private string GetLocalIPAddress()
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-                try
+# if UNITY_ANDROID && !UNITY_EDITOR
+        try
         {
             using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             {
@@ -99,6 +99,7 @@ public class RoomBroadcaster : MonoBehaviour
         return "127.0.0.1";
 #endif
     }
+
     private void OnDestroy() => StopBroadcast();
     private void OnApplicationQuit()
     {

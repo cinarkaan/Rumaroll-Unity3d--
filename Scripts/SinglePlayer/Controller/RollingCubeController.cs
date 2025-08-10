@@ -19,13 +19,12 @@ public class RollingCubeController : MonoBehaviour
     [SerializeField]
     private AudioSource _rolling;
 
+    private CubeSimulator CubeSimulator = new();
     public ParticleSystem shield { get; private set; }
 
     private Vector3 _shieldVelocity = Vector3.zero;
 
     private MobileTrail cubeTrail;
-
-    private int[] faceIndices = { 0, 1, 2, 3, 4, 5 }; // Bottom, Top, Front, Back, Left, Right faces
 
     private bool isRolling = false;
     private bool moving = true;
@@ -61,22 +60,22 @@ public class RollingCubeController : MonoBehaviour
     {
         isRolling = true;
 
-        int[] oldIndices = (int[])faceIndices.Clone();
+        int[] oldIndices = CubeSimulator.faceIndices;
 
-        RollFaceIndices(direction);
+        CubeSimulator.Roll(direction);
 
         StartCoroutine(Move(direction));
 
         yield return new WaitUntil(() => !moving);
 
-        Material mat = faceQuads[faceIndices[0]].GetComponent<Renderer>().sharedMaterial;
+        Material mat = faceQuads[CubeSimulator.faceIndices[0]].GetComponent<Renderer>().sharedMaterial;
 
         Material tile = platformManager.GetTileMatAtPosition(GetTileCoordAtPosition());
 
         if (!mat.name.Equals(tile.name))
         {
             moving = true;
-            faceIndices = oldIndices;
+            CubeSimulator.faceIndices = oldIndices;
             StartCoroutine(Move(direction * (-1)));
             yield return new WaitUntil(() => !moving);
         }
@@ -123,53 +122,6 @@ public class RollingCubeController : MonoBehaviour
         moving = false;
 
     }
-    private void RollFaceIndices(Vector3 direction)
-{
-    int[] old = (int[])faceIndices.Clone();
-
-    // Varsayılan sıralama: 0=Bottom, 1=Top, 2=Front, 3=Back, 4=Left, 5=Right
-
-    if (direction == Vector3.forward) // Z+
-    {
-        faceIndices[0] = old[2]; // Bottom = Front
-        faceIndices[1] = old[3]; // Top = Back
-        faceIndices[2] = old[1]; // Front = Top
-        faceIndices[3] = old[0]; // Back = Bottom
-        // Left, Right sabit
-        faceIndices[4] = old[4];
-        faceIndices[5] = old[5];
-    }
-    else if (direction == Vector3.back) // Z-
-    {
-        faceIndices[0] = old[3]; // Bottom = Back
-        faceIndices[1] = old[2]; // Top = Front
-        faceIndices[2] = old[0]; // Front = Bottom
-        faceIndices[3] = old[1]; // Back = Top
-        // Left, Right sabit
-        faceIndices[4] = old[4];
-        faceIndices[5] = old[5];
-    }
-    else if (direction == Vector3.left) // X-
-    {
-        faceIndices[0] = old[4]; // Bottom = Left
-        faceIndices[1] = old[5]; // Top = Right
-        faceIndices[4] = old[1]; // Left = Top
-        faceIndices[5] = old[0]; // Right = Bottom
-        // Front, Back sabit
-        faceIndices[2] = old[2];
-        faceIndices[3] = old[3];
-    }
-    else if (direction == Vector3.right) // X+
-    {
-        faceIndices[0] = old[5]; // Bottom = Right
-        faceIndices[1] = old[4]; // Top = Left
-        faceIndices[4] = old[0]; // Left = Bottom
-        faceIndices[5] = old[1]; // Right = Top
-        // Front, Back sabit
-        faceIndices[2] = old[2];
-        faceIndices[3] = old[3];
-    }
-}
     public Vector2Int GetTileCoordAtPosition()
     {
     	int x = Mathf.RoundToInt(transform.position.x / 1f);

@@ -13,12 +13,20 @@ public class NetworkUIController : MonoBehaviour
 
     public RenderTexture rt;
 
+    private readonly int[] events = { 3, 10, 3, 5 }; // 0 : Diamonds, 1: Coins, 2 : Shields, 3 : Clues. It shows events count.
+
     public static int currentIndex = 1;
 
     private int OriginalCameraCulling;
 
-    [SerializeField]
-    private Transform _rivalGPS;
+    [SerializeField] private TMP_Text Info;
+    public TMP_Text _Info => Info;
+
+    [SerializeField] private SceneLoader _sceneLoader;
+    public SceneLoader SceneLoader => _sceneLoader;
+
+    [SerializeField] 
+    private Transform _rivalGPS;  
 
     [SerializeField]
     private Transform target;
@@ -134,13 +142,13 @@ public class NetworkUIController : MonoBehaviour
                     isRotating = true;
                     if (deltaX > 0)
                     {
-                        aspectController.index = aspectController.index == 3 ? 0 : ++aspectController.index;
-                        aspectController.rightSwipe();
+                        aspect.index = aspect.index == 3 ? 0 : ++aspect.index;
+                        aspect.rightSwipe();
                     }
                     else if (deltaX < 0)
                     {
-                        aspectController.index = aspectController.index == 0 ? 3 : --aspectController.index;
-                        aspectController.leftSwipe();
+                        aspect.index = aspect.index == 0 ? 3 : --aspect.index;
+                        aspect.leftSwipe();
                     }
                 }
                 isRotating = false;
@@ -237,12 +245,12 @@ public class NetworkUIController : MonoBehaviour
     {
         Vector3 originPos = new Vector3(9, 0, 9);
         float ort = 5.36f;
-        yield return new WaitUntil(() => manager._stage.Value != 0);
-        float factor = (manager._stage.Value - 6) * 0.5f;
+        yield return new WaitUntil(() => manager.Stage.Value != 0);
+        float factor = (manager.Stage.Value - 6) * 0.5f;
         mapCamera.GetComponent<Camera>().orthographicSize = ort + factor;
         mapCamera.transform.position = new Vector3(originPos.x + factor, 0, originPos.z + factor);
         if (manager.IsHost)
-            target.position = new Vector3(manager._stage.Value + 6, 0.6f, manager._stage.Value + 6);
+            target.position = new Vector3(manager.Stage.Value + 6, 0.6f, manager.Stage.Value + 6);
         else
             target.position = new Vector3(6f, 0.6f, 6f);
 
@@ -319,8 +327,8 @@ public class NetworkUIController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        manager.GetInfo().rectTransform.localPosition = new Vector3(-299f, 161f, 0f); // Set the localPositions of information => -113f , 140f
-        manager.GetInfo().text = "YOUR REWARDS WILL BE READY AT 2 SECONDS"; // Write it "TAP TO OPEN CHEST"
+        Info.rectTransform.localPosition = new Vector3(-299f, 161f, 0f); // Set the localPositions of information => -113f , 140f
+        Info.text = "YOUR REWARDS WILL BE READY AT 2 SECONDS"; // Write it "TAP TO OPEN CHEST"
 
         Winning.gameObject.SetActive(true);
 
@@ -352,11 +360,11 @@ public class NetworkUIController : MonoBehaviour
     private IEnumerator GatherRewards ()
     {
 
-        manager.GetInfo().rectTransform.localPosition = new Vector3(-220, 161f, 0f); // Set the localPositions of information => -113f , 140f
+        Info.rectTransform.localPosition = new Vector3(-220, 161f, 0f); // Set the localPositions of information => -113f , 140f
 
-        manager.GetInfo().text = "YOUR REWARDS HAS BEEN READY"; // Write it "TAP TO OPEN CHEST"
+        Info.text = "YOUR REWARDS HAS BEEN READY"; // Write it "TAP TO OPEN CHEST"
 
-        Reward reward = manager.Rewards();
+        Reward reward = Rewards();
 
         Winning.rectTransform.GetChild(reward.FirstRewardIndex).gameObject.SetActive(true);
 
@@ -422,5 +430,31 @@ public class NetworkUIController : MonoBehaviour
 
         StartCoroutine(manager.DisconnectFromGame(2.5f));
 
+    }
+    public Reward Rewards()
+    {
+        int firstRewardsIndex = Random.Range(0, 4); // Indicating whether it has the rewards at that index. 
+        int secondRewardsIndex = Random.Range(0, 4); // Indicating whether it has the rewards at that index.
+
+        return new Reward(firstRewardsIndex, secondRewardsIndex, events[firstRewardsIndex], events[secondRewardsIndex]);
+    }
+}
+
+public struct Reward
+{
+    public int FirstRewardIndex { get; private set; }
+
+    public int SecondRewardIndex { get; private set; }
+
+    public int AmountOfFirst { get; private set; }
+
+    public int AmountOfSecond { get; private set; }
+
+    public Reward(int firstRewardIndex, int secondRewardIndex, int AmountOfFirst, int AmountOfSecond)
+    {
+        FirstRewardIndex = firstRewardIndex;
+        SecondRewardIndex = secondRewardIndex;
+        this.AmountOfFirst = AmountOfFirst;
+        this.AmountOfSecond = AmountOfSecond;
     }
 }

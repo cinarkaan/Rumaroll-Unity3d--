@@ -2815,7 +2815,7 @@ MonoBehaviour:
   rt: {fileID: 8400000, guid: 9d046f5076ee5784c9cd4719d8a15259, type: 2}
   currentIndex: 1
   platformManager: {fileID: 1750448861}
-  gameMapImage: {fileID: 884393817}
+  UIController: {fileID: 1590028057}
 --- !u!114 &978774150 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3228786452200725812, guid: a9e7dbcd937893a48a3ec74185e300bf,

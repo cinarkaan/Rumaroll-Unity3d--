@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,18 +9,17 @@ public class ServerManager : NetworkBehaviour
 {
 
     [SerializeField]
-    private TMP_Text Info;
+    private NetworkUIController UIControler;
+    public NetworkUIController _UIController => UIControler;
 
     public Transform _rival;
     
-    public SceneLoader _sceneLoader;
-
-    private readonly int[] events = { 3, 10, 3, 5 }; // 0 : Diamonds, 1: Coins, 2 : Shields, 3 : Clues. It shows events count.
-
     private bool EndGame = false;
 
-    public NetworkManager Manager {  get; private set; }
-    public NetworkVariable<int> _stage = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Stage = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Difficulty = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    public NetworkManager Manager { get; private set; }
     
     private List<ulong> clients;
     private ulong hostLocalId;
@@ -29,13 +27,14 @@ public class ServerManager : NetworkBehaviour
     private void Start()
     {
         Application.targetFrameRate = -1;
+        
         var access = new GameObject("Access");
+
         DontDestroyOnLoad(access);
 
         Manager = access.scene.GetRootGameObjects().ToList().Find(h => h.name == "NetworkManager").GetComponent<NetworkManager>();
 
         Destroy(access.scene.GetRootGameObjects().ToList().Find(h => h.name == "Access"));
-
     }
     public override void OnNetworkSpawn()
     {
@@ -47,14 +46,15 @@ public class ServerManager : NetworkBehaviour
 
         if (Manager.IsHost)
         {
-            StartCoroutine(_sceneLoader.RemoveWaiting(2, "Host"));
-            _stage.Value = Manager.gameObject.GetComponent<RoomBroadcaster>().stage;
+            StartCoroutine(UIControler.SceneLoader.RemoveWaiting(2, "Host"));
+            Stage.Value = Manager.gameObject.GetComponent<RoomBroadcaster>().stage;
+            Difficulty.Value = Manager.gameObject.GetComponent<RoomBroadcaster>().difficulty.GetHashCode();
             Manager.OnClientConnectedCallback += OnClientConnected;
             Manager.OnClientDisconnectCallback += OnClientDisconnected;
         }
         else
         {
-            StartCoroutine(_sceneLoader.RemoveWaiting(2, "Client"));
+            StartCoroutine(UIControler.SceneLoader.RemoveWaiting(2, "Client"));
             StartCoroutine(CheckHostConnection());
             _rival = GameObject.Find("Host").transform;
         }
@@ -66,7 +66,7 @@ public class ServerManager : NetworkBehaviour
 
         int clientCounts = Manager.ConnectedClients.Count;
         if (clientCounts >= 2)
-            _sceneLoader.loadingText.text = $"Waiting for players {clientCounts}/{2}";
+            UIControler.SceneLoader.loadingText.text = $"Waiting for players {clientCounts}/{2}";
         Manager.GetComponent<RoomBroadcaster>().StopBroadcast();
         _rival = GameObject.Find("Client").transform;
     }
@@ -74,6 +74,8 @@ public class ServerManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsHost && NetworkManager.Singleton.ConnectedClients.Count <= 1 && !EndGame)
         {
+            Stage.Dispose();
+            Difficulty.Dispose();
             Manager.Shutdown();
             Destroy(Manager.gameObject);
             SceneManager.LoadScene("MainMenu");
@@ -93,8 +95,8 @@ public class ServerManager : NetworkBehaviour
         {
             if (!Manager.IsConnectedClient && !EndGame)
             {
-                Info.rectTransform.localPosition = new Vector3(-272f, 65f, 0f);
-                Info.text = "THE HOST HAS BEEN DISCONNECTED!!!";
+                UIControler._Info.rectTransform.localPosition = new Vector3(-272f, 65f, 0f);
+                UIControler._Info.text = "THE HOST HAS BEEN DISCONNECTED!!!";
                 yield return new WaitForSeconds(1.2f);
                 Manager.Shutdown();
                 Destroy(Manager.gameObject);
@@ -105,20 +107,21 @@ public class ServerManager : NetworkBehaviour
         }
 
     }
+
     [ServerRpc(RequireOwnership = false)]
     public void NoticationWonPlayerServerRpc (string name)
     {
         if (name.Equals("Host"))
         {
-            Info.rectTransform.localPosition = new Vector3(-225f, 65f, 0f);
-            Info.text = "CONGRATULATIONS , YOU WON !!!";
+            UIControler._Info.rectTransform.localPosition = new Vector3(-225f, 65f, 0f);
+            UIControler._Info.text = "CONGRATULATIONS , YOU WON !!!";
             EndGame = true;
             NotificateClientRpc("YOU LOST !!!", false ,new Vector3(-14, 65f, 0f));
         }
         else
         {
-            Info.rectTransform.localPosition = new Vector3(-14, 65f, 0f);
-            Info.text = "YOU LOST !!!";
+            UIControler._Info.rectTransform.localPosition = new Vector3(-14, 65f, 0f);
+            UIControler._Info.text = "YOU LOST !!!";
             NotificateClientRpc("CONGRATULATIONS , YOU WON !!!", true, new Vector3(-225f, 65f, 0f));
             StartCoroutine(DisconnectFromGame(2.5f));
         }
@@ -139,11 +142,12 @@ public class ServerManager : NetworkBehaviour
     {
         if (Manager.IsHost) return;
         EndGame = true;
-        Info.rectTransform.localPosition = textPos;
-        Info.text = clientMessage;
+        UIControler._Info.rectTransform.localPosition = textPos;
+        UIControler._Info.text = clientMessage;
         if (!hasWon)
             StartCoroutine(DisconnectFromGame(2.5f));
     }
+
     public IEnumerator DisconnectFromGame (float second)
     {
         yield return new WaitForSeconds(second);
@@ -151,35 +155,7 @@ public class ServerManager : NetworkBehaviour
         Destroy (Manager.gameObject);
         SceneManager.LoadScene("MainMenu");
     }
-    public Reward Rewards ()
-    {
-        int firstRewardsIndex = Random.Range(0, 4); // Indicating whether it has the rewards at that index. 
-        int secondRewardsIndex = Random.Range(0, 4); // Indicating whether it has the rewards at that index.
-
-        return new Reward(firstRewardsIndex, secondRewardsIndex, events[firstRewardsIndex], events[secondRewardsIndex]);
-    }
-    public TMP_Text GetInfo ()
-    {
-        return this.Info;
-    }
 
 }
 
-public struct Reward
-{
-    public int FirstRewardIndex { get; private set; }
 
-    public int SecondRewardIndex { get; private set; }
-
-    public int AmountOfFirst { get; private set; }
-
-    public int AmountOfSecond { get; private set; }
-
-    public Reward (int firstRewardIndex, int secondRewardIndex, int AmountOfFirst, int AmountOfSecond)
-    {
-        FirstRewardIndex = firstRewardIndex;
-        SecondRewardIndex = secondRewardIndex;
-        this.AmountOfFirst = AmountOfFirst;
-        this.AmountOfSecond = AmountOfSecond;
-    }
-}

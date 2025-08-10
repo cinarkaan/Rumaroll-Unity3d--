@@ -979,8 +979,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: HardCheck
         m_Mode: 1
         m_Arguments:
@@ -1344,8 +1344,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: refresh
         m_Mode: 1
         m_Arguments:
@@ -1940,6 +1940,7 @@ GameObject:
   - component: {fileID: 244724193}
   - component: {fileID: 244724192}
   - component: {fileID: 244724194}
+  - component: {fileID: 244724195}
   m_Layer: 0
   m_Name: UIController
   m_TagString: Untagged
@@ -1968,24 +1969,7 @@ MonoBehaviour:
   - {fileID: 175604177}
   - {fileID: 1153163283}
   - {fileID: 1770621350}
-  events:
-  - {fileID: 565057913}
-  - {fileID: 1758891824}
-  - {fileID: 386964203}
-  - {fileID: 1232620659}
   icon: {fileID: 1811333285}
-  images:
-  - {fileID: 748198542}
-  - {fileID: 667819704}
-  - {fileID: 403026051}
-  stageMenu: {fileID: 317041042}
-  roomName: {fileID: 1212795293}
-  roomList: {fileID: 487800576}
-  _click_Sfx: {fileID: 244724194}
-  roomPrefab: {fileID: 3649321265650948414, guid: 8b775ab5fb5f3ef448555312de03708b,
-    type: 3}
-  Vfx_Mystical_Scatter: {fileID: 2980875688219069478, guid: aa99a3d34a316d14f9a73429292538fc,
-    type: 3}
   toggles:
   - {fileID: 381951226}
   - {fileID: 109188683}
@@ -1995,13 +1979,23 @@ MonoBehaviour:
   - {fileID: 555675884}
   - {fileID: 1822911754}
   - {fileID: 113643577}
+  loader: {fileID: 1142856644}
+  events:
+  - {fileID: 565057913}
+  - {fileID: 1758891824}
+  - {fileID: 386964203}
+  - {fileID: 1232620659}
+  images:
+  - {fileID: 748198542}
+  - {fileID: 667819704}
+  - {fileID: 403026051}
+  _click_Sfx: {fileID: 244724194}
+  Vfx_Mystical_Scatter: {fileID: 2980875688219069478, guid: aa99a3d34a316d14f9a73429292538fc,
+    type: 3}
   touchSensitivity: {fileID: 359001966}
   iconDuration: 0.75
   duration: 1.5
-  loader: {fileID: 1142856644}
   frame: {fileID: 721402119}
-  manager: {fileID: 95802300}
-  transport: {fileID: 95802299}
 --- !u!4 &244724193
 Transform:
   m_ObjectHideFlags: 0
@@ -2113,6 +2107,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &244724195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244724191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05110fe7d242d5438a86a05d262a2a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 95802300}
+  transport: {fileID: 95802299}
+  roomList: {fileID: 487800576}
+  roomName: {fileID: 1212795293}
+  stageMenu: {fileID: 317041042}
+  roomPrefab: {fileID: 3649321265650948414, guid: 8b775ab5fb5f3ef448555312de03708b,
+    type: 3}
 --- !u!1 &246556423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2424,8 +2437,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: getSelectedStage
         m_Mode: 1
         m_Arguments:
@@ -3140,8 +3153,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: backMenuFromMultiplayer
         m_Mode: 1
         m_Arguments:
@@ -4327,8 +4340,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: EasyCheck
         m_Mode: 1
         m_Arguments:
@@ -6681,8 +6694,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: CreateGame
         m_Mode: 1
         m_Arguments:
@@ -7493,8 +7506,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: create
         m_Mode: 1
         m_Arguments:
@@ -7990,8 +8003,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: getRoomNameInput
         m_Mode: 1
         m_Arguments:
@@ -11487,8 +11500,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: BackMultiplayerFromJoin
         m_Mode: 1
         m_Arguments:
@@ -12271,8 +12284,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: NormalCheck
         m_Mode: 1
         m_Arguments:
@@ -13577,8 +13590,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: BackMultiplayerFromCreate
         m_Mode: 1
         m_Arguments:
@@ -14158,8 +14171,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 244724192}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+      - m_Target: {fileID: 244724195}
+        m_TargetAssemblyTypeName: MultiPlayerMenu, Assembly-CSharp
         m_MethodName: JoinGame
         m_Mode: 1
         m_Arguments:
