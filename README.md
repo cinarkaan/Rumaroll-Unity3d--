@@ -56,12 +56,26 @@
 
 <p>The player that has been connected at the common share point wifi might be founded each other through this script. The player(Host) who was created game share with Local IP. The another player(client) is might be explored it by using thought named as ''RoomListener". The signaficant things are firstly the wifi must be turned on and both of two player must be connected common share point wi-fi. The room name , min/max player and join button will be seems after refreshed.</p>
 
-<h2>Cube & UTIL</h2>
+<h2>CUBE & UTIL</h2>
 
 <h2>Cube Simulator And Cube Explosion</h2>
 
 <p>The first script are recorded the face indicates of player cube. It's part of the cube controller class. After each roll operations the indicates are updated. The second script is conducted the rigidbody operations what will be happend end of the game over. For example if the cannon obstacles shoots the player. The rigidbody are triggered on the cube player that was scattered prefab and then the cube expodes by using pyhsic engine.</p>
 
+<h2>Scene Loader</h2>
+<p>It's conducted the async scene loading operations both multiplayer and singleplayer.</p>
+
+<h2>ColorfulTile</h2>
+<p>It's part of the platform manager. It makes to change colors of tile at the runtime with sync way</p>
+
+<h2>MobileTrail/h2>
+<p>It's part of the cube controller. It's ghost trail effect by using mesh component.</p>
+
+<h2>MobileTrail/h2>
+<p>It's part of the cube controller. It's ghost trail effect by using mesh component.</p>
+
+<h2>OverlapBoxNonAllocPoller</h2>
+<p>It's controlled colliders on the game.</p>
 
 
 
