@@ -63,19 +63,35 @@
 <p>The first script are recorded the face indicates of player cube. It's part of the cube controller class. After each roll operations the indicates are updated. The second script is conducted the rigidbody operations what will be happend end of the game over. For example if the cannon obstacles shoots the player. The rigidbody are triggered on the cube player that was scattered prefab and then the cube expodes by using pyhsic engine.</p>
 
 <h2>Scene Loader</h2>
-<p>It's conducted the async scene loading operations both multiplayer and singleplayer.</p>
+<p>It's conducted the async scene loading operations both multiplayer and singleplayer. Also this script responses from async scene loading. </p>
 
 <h2>ColorfulTile</h2>
-<p>It's part of the platform manager. It makes to change colors of tile at the runtime with sync way</p>
+
+<p>It's part of the platform manager. It makes to change colors of tile at the runtime within sync way. It is launched end of the obstacle manager to be indicated dynamic tiles.</p>
 
 <h2>MobileTrail/h2>
-<p>It's part of the cube controller. It's ghost trail effect by using mesh component.</p>
 
-<h2>MobileTrail/h2>
-<p>It's part of the cube controller. It's ghost trail effect by using mesh component.</p>
+<p>It's part of the cube controller. It responses from ghost trail effect by using mesh component of player.At the each move of player it is triggered.</p>
 
 <h2>OverlapBoxNonAllocPoller</h2>
-<p>It's controlled colliders on the game.</p>
+
+<p>It's responsive from colliders at the game. This script are used physics engine on the game engine to be inspected the collisions each other with obstacles and player. This script is lighter than rigidbody colliders. With the high accuracy , it is inspected the collisions.</p>
+
+<h2>Tutorial</h2>
+<p>At the scene named as the "Tutorial" , this script is called to be showed instructions to the player. What is the purpose of game ? How is played ?  e.g</p>
+
+<h2>FlagWaver</h2>
+<p>It just the small flag wave effect through by using mesh renderer of gameobject./p>
+
+<h2>UniqueRandomGenerator</h2>
+<p>It is used to place dynamics on the multiplayer and events where are placed at the singleplayer scenes. They must not placed same position. Because of that this script execute this task./p>
+
+<h2>Menu & Multiplayer</h2>
+<p>It is only responsive the UI task on the main menu and multiplayer.(E.g Settings , Store , Multiplayer)/p>
+
+
+
+
 
 
 
