@@ -20,6 +20,7 @@ public class UIController : MonoBehaviour
     [Header("UI objects")]
     [SerializeField]
     private List<Button> buttons = new List<Button>();
+
     [SerializeField]
     private List<Image> images = new List<Image>();
     
@@ -81,16 +82,18 @@ public class UIController : MonoBehaviour
             texts.Find(t => t.name == "DiamondCount").text = ": X" + PlayerPrefs.GetInt("Diamond").ToString();
         if (texts.Find(t => t.name == "ShieldCount") != null)
             texts.Find(t => t.name == "ShieldCount").text = ": X" + PlayerPrefs.GetInt("Shield").ToString();
-        texts.Find(t => t.name == "ClueCount").text = ": X" + PlayerPrefs.GetInt("Clue").ToString();
+        if (texts.Find(t => t.name == "ClueCount") != null)
+            texts.Find(t => t.name == "ClueCount").text = ": X" + PlayerPrefs.GetInt("Clue").ToString();
         texts[0].gameObject.SetActive(PlayerPrefs.GetInt("Fps") > 0 ? true : false);
         swipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
     }
     public void initializeButtons()
     {
         buttons.Find(b => b.name == "Close").gameObject.SetActive(false);
-        if (buttons.Find(b => b.name == "Shield") != null)
-            buttons.Find(b => b.name == "Shield").interactable = PlayerPrefs.GetInt("Shield") > 0;
-        buttons.Find(b => b.name == "Clue").interactable = PlayerPrefs.GetInt("Clue") > 0;
+        if (buttons.Find(b => b != null &&  b.name == "Shield") is Button shield)
+         shield.interactable = PlayerPrefs.GetInt("Shield") > 0;
+        if (buttons.Find(b => b != null &&  b.name == "Clue") is Button clue)
+            clue.interactable = PlayerPrefs.GetInt("Clue") > 0;
     }
     public void initializeUserPrefs ()
     {
@@ -289,7 +292,7 @@ public class UIController : MonoBehaviour
         buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(false);
         StartCoroutine(mapFade(new Color(1,1,1,0)));
     }
-    public void shield () // Close render on the mapcamera 
+    public void shield () 
     {
 
         audioSource.PlayOneShot(audioClips[1], _volume);
