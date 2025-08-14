@@ -6,45 +6,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class NetworkUIController : MonoBehaviour
+public class NetworkUIController : ExceptionalUI
 {
-
     public NetworkCubeController cubeController;
 
     public RenderTexture rt;
-
-    private readonly int[] events = { 3, 10, 3, 5 }; // 0 : Diamonds, 1: Coins, 2 : Shields, 3 : Clues. It shows events count.
-
+    
     public static int currentIndex = 1;
-
-    private int OriginalCameraCulling;
-
-    [SerializeField] private TMP_Text Info;
-    public TMP_Text _Info => Info;
 
     [SerializeField] private SceneLoader _sceneLoader;
     public SceneLoader SceneLoader => _sceneLoader;
+
+    [SerializeField]
+    private List<TMP_Text> texts = new List<TMP_Text>();
+    public TMP_Text Info => texts[1];
 
     [SerializeField] 
     private Transform _rivalGPS;  
 
     [SerializeField]
     private Transform target;
-
-    [SerializeField]
-    private List<RawImage> rawImages = new List<RawImage>();
-
-    [SerializeField]
-    private float fadeDuration = 0.5f;
-
-    [SerializeField]
-    private List<TMP_Text> texts = new List<TMP_Text>();
-
-    [SerializeField]
-    private List<Button> buttons = new List<Button>();
-
-    [SerializeField]
-    private AspectController aspect;
 
     [SerializeField]
     private ServerManager manager;
@@ -55,38 +36,35 @@ public class NetworkUIController : MonoBehaviour
     [SerializeField]
     private Image _pauseMenu, Winning;
 
-    [SerializeField]
-    private float swipeThreshold = 70f;
-
-    private float timeSinceLastUpdate = 0;
-
-    private bool isRotating = false;
-
-    public static float _volume = 0f;
-
     private Vector2 touchStart;
+
+    private int OriginalCameraCulling;
+
+    private readonly int[] events = { 3, 10, 3, 5 }; // 0 : Diamonds, 1: Coins, 2 : Shields, 3 : Clues. It shows events count.
+
+
     private void Start()
     {
-        initUserPrefs();
+        InitializeUserPrefs();
         buttons.Find(c => c.name == "CloseMap").gameObject.SetActive(false);
-        StartCoroutine(initializeMapCamera());
+        StartCoroutine(InitializeMapCamera());
         MapCamController(rawImages.Find(r => r.name == "GameMap"));
         if (manager.IsHost)
             StartCoroutine(WaitAndPlayer("Host"));
         else
             StartCoroutine(WaitAndPlayer("Client"));
     }
-    private void Update()
+    private void LateUpdate()
     {
-        timeSinceLastUpdate += Time.unscaledDeltaTime;
+        TimeSinceLastUpdate += Time.unscaledDeltaTime;
 
-        if (manager._rival != null)
-            _rivalGPS.position = manager._rival.position;
+        if (manager.Rival != null)
+            _rivalGPS.position = manager.Rival.position;
 
-        if (texts[0].enabled && timeSinceLastUpdate >= 1f)
+        if (texts[0].enabled && TimeSinceLastUpdate >= 1f)
         {
             texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime)).ToString();
-            timeSinceLastUpdate = 0f;
+            TimeSinceLastUpdate = 0f;
         }
 
 #if UNITY_STANDALONE_WIN
@@ -109,21 +87,21 @@ public class NetworkUIController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
-            OpenMenu();
+            Pause();
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            aspect.index = aspect.index == 0 ? 3 : --aspect.index;
-            aspect.leftSwipe();
+            Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
+            Aspect.leftSwipe();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            aspect.index = aspect.index == 3 ? 0 : ++aspect.index;
-            aspect.rightSwipe();
+            Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
+            Aspect.rightSwipe();
         }
 
-        if (aspect.target != null)
-            aspect.pivotAspect();
+        if (Aspect.target != null)
+            Aspect.pivotAspect();
 
 #else
         if (Input.touchCount == 1)
@@ -153,22 +131,17 @@ public class NetworkUIController : MonoBehaviour
                 }
                 isRotating = false;
             }
-            aspect.pivotAspect();
         }
-
+        if (aspect.target != null)
+            aspect.pivotAspect();
 #endif
 
     }
-    public void OpenButton ()
+    protected override void InitializeUserPrefs()
     {
-        StartCoroutine(OpenChest());
-    }
-    private void initUserPrefs ()
-    {
+        texts[0].enabled = PlayerPrefs.GetInt("Fps") == 1;
+        SwipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
         NetworkUIController._volume = PlayerPrefs.GetInt("Sfx");
-        texts[0].enabled = (PlayerPrefs.GetInt("Fps") == 1);
-        var _mainaudio = aspect.GetComponent<AudioSource>();
-        _mainaudio.PlayOneShot(_mainaudio.clip, PlayerPrefs.GetInt("Music"));
     }
     private IEnumerator WaitAndPlayer (string playerType)
     {
@@ -176,51 +149,63 @@ public class NetworkUIController : MonoBehaviour
         
         cubeController = GameObject.Find(playerType).GetComponent<NetworkCubeController>();
 
-        aspect.target = GameObject.Find (playerType).GetComponent<Transform>();
+        Aspect.target = GameObject.Find(playerType).GetComponent<Transform>();
 
         cubeController._gps.position = cubeController.transform.position;
     }
-    private void ButtonManager (bool active)
+    public override void Forward ()
     {
-        buttons.ForEach(b => b.gameObject.SetActive(active));
+        if (!IsRotating)
+            cubeController.TryMove(Aspect.dirs[0]);
     }
-    public void Forward ()
+    public override void GameOver(int SoundIndex, string name)
     {
-        if (!isRotating)
-            cubeController.TryMove(aspect.dirs[0]);
+        if (name != cubeController.name) return;
+        if (SoundIndex == 2)
+            audioSource.PlayOneShot(audioClips[0], _volume);
+        else if (SoundIndex == 3)
+            audioSource.PlayOneShot(audioClips[1], _volume);
+
+        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f, images.Find(f => f.name == "GameOverMenu")));
+        cubeController.Render(false);
+        buttons.ForEach(b => b.gameObject.SetActive(false));
     }
-    public void Backward()
+    public override void Backward()
     {
-        if (!isRotating)
-            cubeController.TryMove(aspect.dirs[2]);
+        if (!IsRotating)
+            cubeController.TryMove(Aspect.dirs[2]);
     }
-    public void Left()
+    public override void Left()
     {
-        if (!isRotating)
-            cubeController.TryMove(aspect.dirs[3]);
+        if (!IsRotating)
+            cubeController.TryMove(Aspect.dirs[3]);
     }
-    public void Right()
+    public override void Right()
     {
-        if (!isRotating)
-            cubeController.TryMove(aspect.dirs[1]);
+        if (!IsRotating)
+            cubeController.TryMove(Aspect.dirs[1]);
     }
-    public void OpenMap ()
+    public override void OpenMap ()
     {
         NetworkUIController.currentIndex = 0;
         MapCamController(rawImages.Find(r => r.name == "GameMap"));
-        ButtonManager(false);
+        ButtonsManager(false);
         buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(true);
-        StartCoroutine(mapFade(new Color(1f ,1f ,1f ,1f)));
+        StartCoroutine(MapFade(new Color(1f ,1f ,1f ,1f), null));
         cubeController._gps.GetChild(0).GetComponent<ParticleSystem>().Play();
         _rivalGPS.GetChild(0).GetComponent<ParticleSystem>().Play();
     }
-    public void CloseMap()
+    public override void CloseMap()
     {
         NetworkUIController.currentIndex = 1;
-        ButtonManager(true);
+        ButtonsManager(true);
         buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(false);
         Camera.main.cullingMask = OriginalCameraCulling;
-        StartCoroutine(mapFade(new Color(1f, 1f, 1f, 0f)));
+        StartCoroutine(MapFade(new Color(1f, 1f, 1f, 0f), () =>
+        {
+            //if (NetworkUIController.currentIndex == 1)
+                MapCamController(rawImages.Find(r => r.name == "GameMap"));
+        }));
         cubeController._gps.GetChild(0).GetComponent<ParticleSystem>().Stop();
         _rivalGPS.GetChild(0).GetComponent<ParticleSystem>().Stop();
     }
@@ -241,7 +226,7 @@ public class NetworkUIController : MonoBehaviour
             gameMap.texture = null;
         }
     }
-    private IEnumerator initializeMapCamera()
+    private IEnumerator InitializeMapCamera()
     {
         Vector3 originPos = new Vector3(9, 0, 9);
         float ort = 5.36f;
@@ -260,34 +245,17 @@ public class NetworkUIController : MonoBehaviour
 
         OriginalCameraCulling = Camera.main.cullingMask;
     }
-    private IEnumerator mapFade(Color targetColor)
-    {
-        Color startColor = rawImages[0].color;
-        float time = 0f;
-
-        while (time < fadeDuration)
-        {
-            time += Time.deltaTime;
-            rawImages[0].color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / fadeDuration));
-            yield return null;
-        }
-
-        rawImages[0].color = targetColor;
-
-        if (NetworkUIController.currentIndex == 1)
-            MapCamController(rawImages.Find(r => r.name == "GameMap"));
-    }
-    public void OpenMenu ()
+    public override void Pause ()
     {
         buttons.Last().gameObject.SetActive(false);
         StartCoroutine(PauseMenu(new Vector3(1f ,1f, 1f)));
     }
-    public void CloseMenu()
+    public override void Continue()
     {
         buttons.Last().gameObject.SetActive(true);
         StartCoroutine(PauseMenu(new Vector3(0f, 0f, 1f)));
     }
-    public void Menu()
+    public override void Menu()
     {
         if (manager.Manager.IsHost) // !!! WARNING !!! If the host has shutdown and exit to mainmenu , the client has been still staying on the scene... If the host kick out to the client , do not destroy will no be destroyed on the client.
         {
@@ -306,6 +274,18 @@ public class NetworkUIController : MonoBehaviour
             Destroy(manager.Manager.gameObject);
             SceneManager.LoadScene("MainMenu");
         }
+    }
+    public override void Restart () 
+    {
+        if (manager.IsHost)
+            cubeController.transform.position = new Vector3(6f, 0.99f, 6f);
+        else
+            cubeController.transform.position = new Vector3(manager.Stage.Value + 6f, 0.99f, manager.Stage.Value + 6f);
+
+        cubeController.Render(true);
+        StartCoroutine(scalerMenu(Vector3.one, Vector3.zero, 1f, images.Find(f => f.name == "GameOverMenu")));
+        buttons.ForEach(b => b.gameObject.SetActive(true));
+        cubeController.Origin();
     }
     public void DistributeRewards ()
     {

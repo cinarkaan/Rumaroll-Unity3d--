@@ -49,7 +49,7 @@ public class PlatformManager : MonoBehaviour
 
         prefabs[2].transform.position = new Vector3(6, 0.99f, 6);
 
-        stage = PlayerPrefs.GetInt("Stage");
+        //stage = PlayerPrefs.GetInt("Stage");
 
         AdjustPlatformStatus(Random.Range(0, 3));
 
@@ -366,7 +366,7 @@ public class PlatformManager : MonoBehaviour
                             dynamicPath.Add(new Vector2Int(middlePoint, y));
                     break;
                 case 10:
-                    List<GameObject> placed = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().blade.ToList();
+                    List<GameObject> placed = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
                     while (placed.Count > 0)
                     {
                         Vector2Int pos = new Vector2Int((int)placed[0].transform.position.x, (int)placed[0].transform.position.z);
@@ -402,7 +402,7 @@ public class PlatformManager : MonoBehaviour
             switch (stage)
             {
                 case 7:
-                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().spikes.ToList();
+                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Spikes.ToList();
                     while (referanced.Count > 0)
                     {
                         int regionCount = 1;
@@ -431,7 +431,7 @@ public class PlatformManager : MonoBehaviour
                     }
                     break;
                 case 9:
-                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().blade.ToList();
+                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
                     while (referanced.Count > 0)
                     {
                         Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
@@ -447,7 +447,7 @@ public class PlatformManager : MonoBehaviour
                     }
                     break;
                 case 11:
-                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().blade.ToList();
+                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
                     while (referanced.Count > 0)
                     {
                         Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);

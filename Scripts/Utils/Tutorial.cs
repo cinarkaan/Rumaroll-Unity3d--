@@ -39,8 +39,8 @@ public class Tutorial : MonoBehaviour
     private IEnumerator talk()
     {
         yield return new WaitUntil(() => !tap); 
-        UIController.eventsManager(false);
-        UIController.buttonsManager(false);
+        UIController.EventsManager(false);
+        UIController.ButtonsManager(false);
         UIController.playerController.Render(false);
         fullText = "Welcome to the world of cube. The magical colorful cube needs to reach out evacutaion point where is located on the flag. ";
         StartCoroutine(showEvacutaionPoint(new Vector3(UIController.playerController.getGridManager().stage + 6, UIController.playerController.transform.position.y, UIController.playerController.getGridManager().stage + 6), 0));
@@ -56,14 +56,14 @@ public class Tutorial : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 step++;
-                StartCoroutine(UIController.fadeInOut(new Color(0f, 0f, 0f, 0.6f), Color.clear, 1f));
-                StartCoroutine(UIController.scalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, false, _talk));
+                StartCoroutine(UIController.FadeInOut(new Color(0f, 0f, 0f, 0.6f), Color.clear, 1f));
+                StartCoroutine(UIController.scalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _talk));
                 if (step < 2)
                     StartCoroutine(showEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
                 else
                 {
-                    UIController.eventsManager(true);
-                    UIController.buttonsManager(true);
+                    UIController.EventsManager(true);
+                    UIController.ButtonsManager(true);
                     GameObject.Find("Canvas/Close").SetActive(false);
                     UIController.playerController.Render(true);
                     UIController.playerController.GetComponent<OverlapBoxNonAllocPoller>().enabled = true;
@@ -118,8 +118,8 @@ public class Tutorial : MonoBehaviour
             UIController.playerController.transform.position = Vector3.SmoothDamp(UIController.playerController.transform.position, camEnd, ref velocity, 0.3f);
             yield return null;
         }
-        StartCoroutine(UIController.fadeInOut(Color.clear, new Color(0, 0, 0, 0.6f), 1f));
-        StartCoroutine(UIController.scalerMenu(new Vector3(0f, 0f, 1f), new Vector3(1f, 1f, 1f), 0.8f, false, _talk));
+        StartCoroutine(UIController.FadeInOut(Color.clear, new Color(0, 0, 0, 0.6f), 1f));
+        StartCoroutine(UIController.scalerMenu(new Vector3(0f, 0f, 1f), new Vector3(1f, 1f, 1f), 0.8f, _talk));
         StartCoroutine(PlayTypewriterFade(step));
     }
     private IEnumerator PlayTypewriterFade(int step)

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class NetworkCubeController : NetworkBehaviour
 {
@@ -51,7 +52,12 @@ public class NetworkCubeController : NetworkBehaviour
             transform.gameObject.name = "Client";
             target = new Vector2Int(6, 6);
         }
+
         cubeTrail = GetComponent<MobileTrail>();
+
+        yield return new WaitUntil(() => platformManager.getManager().progress);
+
+        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager.getManager().Difficulty.Value > 0 ) ? platformManager.getManager()._UIController : null;
     }
     public void TryMove(Vector3 dir)
     {
@@ -150,6 +156,19 @@ public class NetworkCubeController : NetworkBehaviour
             var manager = GameObject.Find("UIManager").GetComponent<NetworkUIController>();
             manager.DistributeRewards();
         }
+    }
+    public void Render(bool render)
+    {
+        int index = 0;
+        while (index < 6)
+            transform.GetChild(index++).GetComponent<MeshRenderer>().enabled = render;
+        transform.GetComponent<MeshRenderer>().enabled = render;
+    }
+    public void Origin ()
+    {
+        GetComponent<OverlapBoxNonAllocPoller>().GameOver = false;
+        transform.rotation = Quaternion.identity;
+        CubeSimulator.Reset();
     }
 }
 

@@ -12,17 +12,24 @@ public class ServerManager : NetworkBehaviour
     private NetworkUIController UIControler;
     public NetworkUIController _UIController => UIControler;
 
-    public Transform _rival;
+    public Transform Rival;
     
     private bool EndGame = false;
 
-    public NetworkVariable<int> Stage = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> Difficulty = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Stage = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Difficulty = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<bool> Launch = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkList<Vector2Int> _Blades = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public NetworkManager Manager { get; private set; }
     
-    private List<ulong> clients;
-    private ulong hostLocalId;
+    public bool progress { get; private set; }
+
+    private List<ulong> Clients;
+    private ulong HostLocalId;
     
     private void Start()
     {
@@ -56,19 +63,20 @@ public class ServerManager : NetworkBehaviour
         {
             StartCoroutine(UIControler.SceneLoader.RemoveWaiting(2, "Client"));
             StartCoroutine(CheckHostConnection());
-            _rival = GameObject.Find("Host").transform;
+            Rival = GameObject.Find("Host").transform;
         }
+        progress = true;
     }
     private void OnClientConnected (ulong clientID)
     {
-        clients = new List<ulong>(Manager.ConnectedClientsIds);
-        hostLocalId = Manager.LocalClientId;
+        Clients = new List<ulong>(Manager.ConnectedClientsIds);
+        HostLocalId = Manager.LocalClientId;
 
         int clientCounts = Manager.ConnectedClients.Count;
         if (clientCounts >= 2)
             UIControler.SceneLoader.loadingText.text = $"Waiting for players {clientCounts}/{2}";
         Manager.GetComponent<RoomBroadcaster>().StopBroadcast();
-        _rival = GameObject.Find("Client").transform;
+        Rival = GameObject.Find("Client").transform;
     }
     private void OnClientDisconnected(ulong clientId)
     {
@@ -83,9 +91,9 @@ public class ServerManager : NetworkBehaviour
     }
     public void KickOutAllClients()
     {
-        foreach (ulong client in clients)
+        foreach (ulong client in Clients)
         {
-            if (client != hostLocalId)
+            if (client != HostLocalId)
                 KickClientRpc(client);
         }
     }
@@ -95,8 +103,8 @@ public class ServerManager : NetworkBehaviour
         {
             if (!Manager.IsConnectedClient && !EndGame)
             {
-                UIControler._Info.rectTransform.localPosition = new Vector3(-272f, 65f, 0f);
-                UIControler._Info.text = "THE HOST HAS BEEN DISCONNECTED!!!";
+                UIControler.Info.rectTransform.localPosition = new Vector3(-272f, 65f, 0f);
+                UIControler.Info.text = "THE HOST HAS BEEN DISCONNECTED!!!";
                 yield return new WaitForSeconds(1.2f);
                 Manager.Shutdown();
                 Destroy(Manager.gameObject);
@@ -113,15 +121,15 @@ public class ServerManager : NetworkBehaviour
     {
         if (name.Equals("Host"))
         {
-            UIControler._Info.rectTransform.localPosition = new Vector3(-225f, 65f, 0f);
-            UIControler._Info.text = "CONGRATULATIONS , YOU WON !!!";
+            UIControler.Info.rectTransform.localPosition = new Vector3(-225f, 65f, 0f);
+            UIControler.Info.text = "CONGRATULATIONS , YOU WON !!!";
             EndGame = true;
             NotificateClientRpc("YOU LOST !!!", false ,new Vector3(-14, 65f, 0f));
         }
         else
         {
-            UIControler._Info.rectTransform.localPosition = new Vector3(-14, 65f, 0f);
-            UIControler._Info.text = "YOU LOST !!!";
+            UIControler.Info.rectTransform.localPosition = new Vector3(-14, 65f, 0f);
+            UIControler.Info.text = "YOU LOST !!!";
             NotificateClientRpc("CONGRATULATIONS , YOU WON !!!", true, new Vector3(-225f, 65f, 0f));
             StartCoroutine(DisconnectFromGame(2.5f));
         }
@@ -142,12 +150,24 @@ public class ServerManager : NetworkBehaviour
     {
         if (Manager.IsHost) return;
         EndGame = true;
-        UIControler._Info.rectTransform.localPosition = textPos;
-        UIControler._Info.text = clientMessage;
+        UIControler.Info.rectTransform.localPosition = textPos;
+        UIControler.Info.text = clientMessage;
         if (!hasWon)
             StartCoroutine(DisconnectFromGame(2.5f));
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestClearServerRpc()
+    {
+        UIControler.SceneLoader.operation = 2; // Client is ready , remove waiting screen for host
+        Launch.Value = true;
+        //Stage.Dispose();
+        Difficulty.Dispose();
+        _Spikes.Clear();
+        _Blades.Clear();
+        _Path.Clear();
+
+    }
     public IEnumerator DisconnectFromGame (float second)
     {
         yield return new WaitForSeconds(second);
@@ -157,5 +177,3 @@ public class ServerManager : NetworkBehaviour
     }
 
 }
-
-

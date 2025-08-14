@@ -1,77 +1,94 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyManager : ExceptionalPath
+public class NetworkEnemyManager : ExceptionalPath
 {
 
     [SerializeField]
     private GameObject Bulldozer;
 
     [SerializeField]
-    private PlatformManager platformManager;
+    private NetworkPlatformManager PlatformManager;
 
     [SerializeField]
-    private EventManager eventManager;
+    private NetworkObstacleManager ObstacleManager;
 
     [SerializeField]
-    private ObstacleManager obstacleManager;
+    private NetworkUIController Controller;
 
     [SerializeField]
-    private UIController controller;
+    private ServerManager ServerManager;
 
+    
     private int[,] Map;
 
     private void Start()
     {
         Map = new int[13, 13];
         var _sound = Bulldozer.GetComponent<AudioSource>();
-        _sound.PlayOneShot(_sound.clip, UIController._volume);
+        _sound.PlayOneShot(_sound.clip, 1);
         StartCoroutine(InitializeManager());
     }
-    private IEnumerator InitializeManager ()
+    private IEnumerator InitializeManager()
     {
-        yield return new WaitUntil(() => ObstacleManager.progress);
+        yield return new WaitUntil(() => ObstacleManager.Progress);
 
-        if (platformManager.stage == 12) // The manager only must be worked at the stage 12 
+        if (ServerManager.Stage.Value == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
         {
-            PathFinding();
+            if (ServerManager.IsHost)
+            {
+                PathFinding();
+                Path.ForEach(p => ServerManager._Path.Add(p));
+            }
+            else
+            {
+                foreach (Vector3 position in ServerManager._Path)
+                    Path.Add(position);
+                Free();
+                _pathprogress = true;
+            }
+
+            yield return new WaitUntil(() => ServerManager.Launch.Value);
             StartCoroutine(AdjustRouteDirsEnemy(Bulldozer));
         }
+        else
+            if (!ServerManager.IsHost)
+                Free();
 
         yield return null;
     }
-    private void PathFinding ()
+    private void PathFinding()
     {
-        // First evulation of map without obstacles , with events
-        for (int i = 0; i < eventManager.Precious.Count; i++)
-        {
-            Vector2Int coord = new Vector2Int()
-            {
-                x = Mathf.Abs(6 - ((int)eventManager.Precious[i].transform.position.x)),
-                y = Mathf.Abs(18 - ((int)eventManager.Precious[i].transform.position.z))
-            }; // Turn into local map system according to the A* algorithm
-
-            Map[coord.x, coord.y] = 1; // Assign to obstacle symbol
-        } // Initializing the first obstacles (Cutters)
-
         // Adding obstacles in to the map
-        for (int i = 0; i < obstacleManager.Cutters.Count; i++)
+        for (int i = 0; i < ObstacleManager.Spikes.Count; i++)
         {
             Vector2Int coord = new Vector2Int()
             {
-                x = Mathf.Abs(6 - ((int)obstacleManager.Cutters[i].transform.position.x)),
-                y = Mathf.Abs(18 - ((int)obstacleManager.Cutters[i].transform.position.z))
+                x = Mathf.Abs(6 - ((int)ObstacleManager.Spikes[i].transform.position.x)),
+                y = Mathf.Abs(18 - ((int)ObstacleManager.Spikes[i].transform.position.z))
             }; // Turn into local map system according to the A* algorithm
 
             Map[coord.x, coord.y] = 1; // Assign to obstacle symbol
+        }
 
+        for (int i = 0; i < ObstacleManager.Blades.Count; i++)
+        {
+            Vector2Int coord = new Vector2Int()
+            {
+                x = Mathf.Abs(6 - ((int)ObstacleManager.Blades[i].transform.position.x)),
+                y = Mathf.Abs(18 - ((int)ObstacleManager.Blades[i].transform.position.z))
+            }; // Turn into local map system according to the A* algorithm
+
+            Map[coord.x, coord.y] = 1; // Assign to obstacle symbol
         }
 
         //Exception case : The bulldozer might be moved to arrive point , even if there has been loot(coins or diamond) at this point. Other wise the recursive method will be throwed exception
         Map[12, 12] = 0;
+        Map[0, 12] = 1;
+        Map[12, 0] = 1;
+
 
         HashSet<Vector2Int> CloseList = new HashSet<Vector2Int>(); // Initialize visited nodes
 
@@ -87,7 +104,7 @@ public class EnemyManager : ExceptionalPath
             Path.Add(new Vector3(StartPos.x + _path[i].x, 1f, StartPos.z - _path[i].y));
             //Debug.Log("Step " + i + " : " + Path.Last());
         }
-        
+
         _pathprogress = true;
     }
     private void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved)
@@ -116,12 +133,12 @@ public class EnemyManager : ExceptionalPath
         // First check out the boundary then obstacle
         if (right_N.y <= 12 && Map[right_N.x, right_N.y] != 1)
             OpenList.Add(new Node(right_N)); // Calculate total cost and evaluate open list for first neighboord
-        
+
 
         // First check out the boundary then obstacle
         if (down_N.x <= 12 && Map[down_N.x, down_N.y] != 1)
             OpenList.Add(new Node(down_N)); // Calculate total cost and evaluate open list for second neighboord}
-    
+
         if (CloseList.Count > 1 && (CloseList.Last() - CloseList.ToArray()[CloseList.Count - 2]).magnitude > 1) // If there are available the nodes that skipped, the path have to resolve  
             resolved = true;
 
@@ -167,57 +184,13 @@ public class EnemyManager : ExceptionalPath
 
         return _resolved.ToHashSet(); // Return HasSet<Vector2Int>()
     }
+    private void Free()
+    {
+        PlatformManager.RequestClearPlatformListServerRpc();
+        ServerManager.RequestClearServerRpc();
+        ServerManager._UIController.SceneLoader.operation = 2;
+    }
+
+
 
 }
-
-public struct Node : IEquatable<Node>, IComparable<Node>
-{
-    public Vector2Int Coord;
-    public int Cost; // F(n) = G(n) + H(n)
-
-    public Node(Vector2Int Coord)
-    {
-        this.Coord = Coord;
-        Cost = 0;
-        CalculateCost();
-    }
-    private void CalculateCost ()
-    {
-        int heuristic = Mathf.Abs(Coord.x - 12) + Mathf.Abs(Coord.y - 12); // Heuristic Method(Manhatten Distance)
-        int real = Coord.x + Coord.y; // G(n) : Real Cost
-        Cost = real + heuristic; // F(n) : Total Cost
-    }
-
-    // Equality: Check it only according to the coord value
-    public bool Equals(Node other)
-    {
-        return this.Coord == other.Coord;
-    }
-    public override bool Equals(object obj)
-    {
-        return obj is Node other && Equals(other);
-    }
-    public override int GetHashCode()
-    {
-
-        return Coord.GetHashCode(); // Unless the coord is odd , it is sufficient
-    }
-    public int CompareTo(Node other)
-    {
-        int costCompare = this.Cost.CompareTo(other.Cost);
-        if (costCompare == 0)
-            return this.Coord.GetHashCode().CompareTo(other.Coord.GetHashCode()); // Eþitse farklýlaþtýr
-
-        //return costCompare;
-
-        // Secondary comparison to avoid duplicate cost issues
-        int xCompare = Coord.x.CompareTo(other.Coord.x);
-        return xCompare != 0 ? xCompare : Coord.y.CompareTo(other.Coord.y);
-
-    }
-    public override string ToString()
-    {
-        return $"Node({Coord.x}, {Coord.y}) Cost: {Cost}";
-    }
-}
-

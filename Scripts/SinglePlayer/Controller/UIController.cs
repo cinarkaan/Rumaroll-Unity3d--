@@ -4,51 +4,25 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class UIController : MonoBehaviour
+public class UIController : ExceptionalUI
 {
     
     [Header("Screen control")]
     [SerializeField]
-    private float fadeDuration = 1f;
-    [SerializeField]
     private int counterDurationMin = 10;
-    [SerializeField]
-    private float swipeThreshold = 70f;
     [SerializeField]
     private float fadeDurationSpiwe = 0.5f;
 
-    [Header("UI objects")]
     [SerializeField]
-    private List<Button> buttons = new List<Button>();
-
-    [SerializeField]
-    private List<Image> images = new List<Image>();
-    
-    [SerializeField]
-    private RawImage[] rawImages;
-    public RawImage RawImage => rawImages[0];
-    
+    private List<GameObject> objects = new List<GameObject>();
 
     [SerializeField]
     private List<Text> texts = new List<Text>();
-    [SerializeField]
-    private List<GameObject> objects = new List<GameObject>();
-    [SerializeField]
-    private AspectController aspectController;
+
     [SerializeField]
     private SceneLoader loader;
     [SerializeField]
-    private GameMapController gameMapController;
-
-    [SerializeField]
-    private AudioClip[] audioClips;
-    [SerializeField]
-    private AudioSource audioSource;
-
-    private AudioSource _mainSource;
-
-    public float _volume { get; private set; }
-
+    private GameMapController gameMapController;  
 
     [Header("Durations of shield's back counter")]
     [SerializeField]
@@ -57,25 +31,22 @@ public class UIController : MonoBehaviour
     [Header("Requirements")]
     [SerializeField]
     private PlatformManager platformManager;
+
     public RollingCubeController playerController;
 
     private Vector2 touchStart;
 
-    private float timeSinceLastUpdate = 0;
-
-    private bool isRotating = false, isCounter;
+    private bool isCounter;
 
     void Start()
     {        
-        _mainSource = aspectController.transform.GetComponent<AudioSource>();
-        _mainSource.PlayOneShot(audioClips.Last(), PlayerPrefs.GetInt("Music"));
-        StartCoroutine(placeFlag());
-        initializeEvents();
-        initializeButtons();
-        initializeUserPrefs();
-        StartCoroutine(fadeInOut(Color.black, Color.clear, 1f));
+        StartCoroutine(PlaceFlag());
+        InitializeEvents();
+        InitializeButtons();
+        InitializeUserPrefs();
+        StartCoroutine(FadeInOut(Color.black, Color.clear, 1f));
     }
-    public void initializeEvents ()
+    public void InitializeEvents ()
     {
         texts.Find(t => t.name == "CoinCount").text = ": X" + PlayerPrefs.GetInt("Coin").ToString();
         if (texts.Find(t => t.name == "DiamondCount") != null)
@@ -85,9 +56,9 @@ public class UIController : MonoBehaviour
         if (texts.Find(t => t.name == "ClueCount") != null)
             texts.Find(t => t.name == "ClueCount").text = ": X" + PlayerPrefs.GetInt("Clue").ToString();
         texts[0].gameObject.SetActive(PlayerPrefs.GetInt("Fps") > 0 ? true : false);
-        swipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
+        SwipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
     }
-    public void initializeButtons()
+    public void InitializeButtons()
     {
         buttons.Find(b => b.name == "Close").gameObject.SetActive(false);
         if (buttons.Find(b => b != null &&  b.name == "Shield") is Button shield)
@@ -95,57 +66,57 @@ public class UIController : MonoBehaviour
         if (buttons.Find(b => b != null &&  b.name == "Clue") is Button clue)
             clue.interactable = PlayerPrefs.GetInt("Clue") > 0;
     }
-    public void initializeUserPrefs ()
+    protected override void InitializeUserPrefs ()
     {
-        texts[0].gameObject.SetActive(PlayerPrefs.GetInt("Fps") == 1);
-        swipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
-        _volume = PlayerPrefs.GetInt("Sfx");
+        texts[0].enabled = (PlayerPrefs.GetInt("Fps") == 1);
+        SwipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
+        UIController._volume = PlayerPrefs.GetInt("Sfx");
     }
     private void LateUpdate()
     {
-        timeSinceLastUpdate += Time.unscaledDeltaTime;
+        TimeSinceLastUpdate += Time.unscaledDeltaTime;
 
-        if (texts[0].enabled && timeSinceLastUpdate >= 1f)
+        if (texts[0].enabled && TimeSinceLastUpdate >= 1f)
         {
             texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime)).ToString();
-            timeSinceLastUpdate = 0f;
+            TimeSinceLastUpdate = 0f;
         }
 
 #if UNITY_STANDALONE_WIN
         
         if (Input.GetKeyDown(KeyCode.A))
-            OnMoveLeft();
+            Left();
         else if (Input.GetKeyDown(KeyCode.D))
-            OnMoveRight();
+            Right();
         else if (Input.GetKeyDown(KeyCode.W))
-            OnMoveForward();
+            Forward();
         else if (Input.GetKeyDown(KeyCode.S))
-            OnMoveBackward();
+            Backward();
         
         if (Input.GetKeyDown(KeyCode.M))
         {
             if (gameMapController.currentIndex == 0)
-                closeMap();
+                CloseMap();
             else
-                openMap();
+                OpenMap();
         }
 
         if (Input.GetKeyDown(KeyCode.C) && buttons.Find(b => b.name == "Clue").interactable)
-            clue();
+            Clue();
         if (SceneManager.GetActiveScene().buildIndex > 1 && Input.GetKeyDown(KeyCode.R) && buttons.Find(b => b.name == "Shield").interactable)
-                shield();
+                Shield();
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            aspectController.index = aspectController.index == 0 ? 3 : --aspectController.index;
-            aspectController.leftSwipe();
+            Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
+            Aspect.leftSwipe();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            aspectController.index = aspectController.index == 3 ? 0 : ++aspectController.index;
-            aspectController.rightSwipe();
+            Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
+            Aspect.rightSwipe();
         }
 
 #else
@@ -178,14 +149,14 @@ public class UIController : MonoBehaviour
             }
         }
 #endif
-        aspectController.pivotAspect();
+        Aspect.pivotAspect();
     }
-    public IEnumerator placeFlag ()
+    public IEnumerator PlaceFlag ()
     {
         yield return new WaitUntil(() => platformManager.progress);
         objects.Last().transform.position = new Vector3(platformManager.stage + 6, 0.5f, platformManager.stage + 6);
     }
-    private IEnumerator shieldCounter ()
+    private IEnumerator ShieldCounter ()
     {
         images.Last().gameObject.SetActive(true);
 
@@ -218,11 +189,7 @@ public class UIController : MonoBehaviour
 
         playerController.shield.Stop();
     }
-    public void buttonsManager(bool interactable)
-    {
-        buttons.ForEach(b => b.gameObject.SetActive(interactable));
-    }
-    public void eventsManager (bool interactable)
+    public void EventsManager (bool interactable)
     {
         int index = 2;
         while (index < images.Count)
@@ -235,64 +202,68 @@ public class UIController : MonoBehaviour
         if (!playerController.GetComponent<OverlapBoxNonAllocPoller>().shieldIsActive && images.Last().name == "IsShieldActive")
             images.Last().gameObject.SetActive(false);
     }
-    public void gameOver (int SoundIndex)
+    public override void GameOver(int SoundIndex, string name)
     {
         if (SoundIndex == 2)
             audioSource.PlayOneShot(audioClips[2], _volume);
         else if (SoundIndex == 3)
             audioSource.PlayOneShot(audioClips.Last(), _volume);
 
-        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f, false, images.Find(f => f.name == "GameOverMenu")));
+        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f, images.Find(f => f.name == "GameOverMenu")));
         playerController.Render(false);
         buttons.ForEach(b => b.gameObject.SetActive(false));
     }
-    public void Pause ()
+    public override void Pause ()
     {
-        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f, true,images.Find(f => f.name == "PauseMenu")));
+        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f,images.Find(f => f.name == "PauseMenu")));
         buttons.ForEach(b => b.interactable = false);
     }
-    public void Resume ()
+    public override void Continue()
     {
         buttons.ForEach(b => b.interactable = true);
         Time.timeScale = 1f;
-        StartCoroutine(scalerMenu(Vector3.one, Vector3.zero, 1f, false, images.Find(f => f.name == "PauseMenu")));
+        StartCoroutine(scalerMenu(Vector3.one, Vector3.zero, 1f, images.Find(f => f.name == "PauseMenu")));
         images.Find(f => f.name == "PauseMenu").gameObject.SetActive(true);
     }
-    public void Restart ()
+    public override void Restart ()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    public void menu ()
+    public override void Menu ()
     {
         Time.timeScale = 1f;
-        StartCoroutine(sceneLoader(0f, 1f, 0.5f, "MainMenu"));
+        StartCoroutine(SceneLoader(0f, 1f, 0.5f, "MainMenu"));
     } 
-    public void OnMoveForward() { if (isRotating) return; playerController.TryMove(aspectController.dirs[0]); }
-    public void OnMoveRight() { if (isRotating) return; playerController.TryMove(aspectController.dirs[1]); }
-    public void OnMoveBackward() { if (isRotating) return; playerController.TryMove(aspectController.dirs[2]); }
-    public void OnMoveLeft() { if (isRotating) return; playerController.TryMove(aspectController.dirs[3]); }
-    public void openMap ()
+    public override void Forward() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[0]); }
+    public override void Right() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[1]); }
+    public override void Backward() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[2]); }
+    public override void Left() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[3]); }
+    public override void OpenMap ()
     {
         objects.First().transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         gameMapController.currentIndex = 0;
         gameMapController.renderController(rawImages[0]);
-        eventsManager(false);
-        buttonsManager(false);
+        EventsManager(false);
+        ButtonsManager(false);
         buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(true);
-        StartCoroutine(mapFade(Color.white));
+        StartCoroutine(MapFade(Color.white, null));
     }
-    public void closeMap ()
+    public override void CloseMap ()
     {
         Camera.main.cullingMask = gameMapController.OriginalCulllingIndex;
         objects.First().transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
         gameMapController.currentIndex = 1;
-        eventsManager(true);
-        buttonsManager(true);
+        EventsManager(true);
+        ButtonsManager(true);
         buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(false);
-        StartCoroutine(mapFade(new Color(1,1,1,0)));
+        StartCoroutine(MapFade(new Color(1,1,1,0), () =>
+        {
+            //if (gameMapController.currentIndex == 1)
+                gameMapController.renderController(rawImages[0]);
+        }));
     }
-    public void shield () 
+    public void Shield () 
     {
 
         audioSource.PlayOneShot(audioClips[1], _volume);
@@ -301,9 +272,9 @@ public class UIController : MonoBehaviour
         texts.Find(t => t.name == "ShieldCount").text = ": X" + PlayerPrefs.GetInt("Shield").ToString();
         playerController.GetComponent<OverlapBoxNonAllocPoller>().shieldIsActive = true;
         StartCoroutine(playerController.ShieldController(true));
-        StartCoroutine(shieldCounter());
+        StartCoroutine(ShieldCounter());
     }
-    public void clue ()
+    public void Clue ()
     {
         audioSource.PlayOneShot(audioClips[0], _volume);
         int currentAmount = PlayerPrefs.GetInt("Clue");
@@ -324,15 +295,15 @@ public class UIController : MonoBehaviour
     {
         objects[0].transform.position = player;
     }
-    public void updateCoinCount (int count)
+    public void UpdateCoinCount (int count)
     {
         texts.Find(t => t.name == "CoinCount").text = " : X" + count.ToString();
     }
-    public void updateDiamondCount (int count)
+    public void UpdateDiamondCount (int count)
     {
         texts.Find(t => t.name == "DiamondCount").text = " : X" + count.ToString();
     }
-    public IEnumerator sceneLoader(float startAlpha, float targetAlpha, float duration, string sceneName)
+    public IEnumerator SceneLoader(float startAlpha, float targetAlpha, float duration, string sceneName)
     {
         float elapsed = 0f;
 
@@ -350,45 +321,14 @@ public class UIController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(loader.LoadSceneWithPreparation(sceneName));
     }
-    public IEnumerator scalerMenu (Vector3 from , Vector3 to, float time,bool menu,Image image)
-    {
-        float elapsed = 0f;
-        while (elapsed < time)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / time);
-            image.GetComponent<RectTransform>().localScale = Vector3.Lerp(from, to, t);
-            yield return null;
-        }
-
-        image.GetComponent<RectTransform>().localScale = to;
-    }
-    private IEnumerator mapFade(Color targetColor)
-    {
-        Color startColor = rawImages[0].color;
-        float time = 0f;
-
-        while (time < fadeDuration)
-        {
-            time += Time.deltaTime;
-            rawImages[0].color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / fadeDuration));
-            yield return null;
-        }
-
-        rawImages[0].color = targetColor;
-        
-        if (gameMapController.currentIndex == 1)
-            gameMapController.renderController(rawImages[0]);
-
-    }
-    public IEnumerator fadeInOut(Color startColor, Color end, float duration)
+    public IEnumerator FadeInOut(Color startColor, Color end, float duration)
     {
         float time = 0f;
 
-        while (time < fadeDuration)
+        while (time < FadeDuration)
         {
             time += Time.deltaTime;
-            images[1].GetComponent<Image>().color = Color.Lerp(startColor, end, time / fadeDuration);
+            images[1].GetComponent<Image>().color = Color.Lerp(startColor, end, time / FadeDuration);
             yield return null;
         }
 

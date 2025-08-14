@@ -497,8 +497,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: menu
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Menu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -559,7 +559,6 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585551}
-  - component: {fileID: 330585552}
   m_Layer: 0
   m_Name: GameCamera
   m_TagString: MainCamera
@@ -702,102 +701,6 @@ MonoBehaviour:
   targetOffset: {x: 0, y: 0, z: 0}
   targetRotation: {x: 0, y: 0, z: 0, w: 0}
   index: 0
---- !u!82 &330585552
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &337603540
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,8 +784,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: clue
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Clue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1168,8 +1071,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: shield
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Shield
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1300,8 +1203,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: menu
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Menu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1720,8 +1623,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnMoveBackward
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Backward
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1852,8 +1755,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: openMap
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: OpenMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2198,8 +2101,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: closeMap
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: CloseMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3248,8 +3151,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnMoveLeft
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Left
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4007,8 +3910,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnMoveForward
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Forward
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4139,8 +4042,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnMoveRight
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Right
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4312,10 +4215,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1720279cf47424ea338189538ccc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDuration: 1
-  counterDurationMin: 10
-  swipeThreshold: 70
-  fadeDurationSpiwe: 0.5
+  SwipeThreshold: 70
+  FadeDuration: 0.5
+  Aspect: {fileID: 330585551}
+  audioClips:
+  - {fileID: 8300000, guid: 58da1d166bbfac44caf600b3db59797e, type: 3}
+  - {fileID: 8300000, guid: bcd43908c6e541544be665d8ba26c929, type: 3}
+  - {fileID: 8300000, guid: 001e53eb79588534a8eae3ee3b22e4f0, type: 3}
+  - {fileID: 8300000, guid: ec0443c52a57ff64986d685d7af4018e, type: 3}
+  - {fileID: 8300000, guid: 7c7750dbdafc67b41905583134abc73e, type: 3}
+  audioSource: {fileID: 1590028058}
   buttons:
   - {fileID: 29966987}
   - {fileID: 716745273}
@@ -4338,6 +4247,12 @@ MonoBehaviour:
   - {fileID: 1174978175}
   rawImages:
   - {fileID: 884393817}
+  gameOver: 0
+  counterDurationMin: 10
+  fadeDurationSpiwe: 0.5
+  objects:
+  - {fileID: 1317997094}
+  - {fileID: 1693777329}
   texts:
   - {fileID: 1955914238}
   - {fileID: 1199547647}
@@ -4345,19 +4260,8 @@ MonoBehaviour:
   - {fileID: 368576237}
   - {fileID: 85223368}
   - {fileID: 685285301}
-  objects:
-  - {fileID: 1317997094}
-  - {fileID: 1693777329}
-  aspectController: {fileID: 330585551}
   loader: {fileID: 1785057817}
   gameMapController: {fileID: 928945329}
-  audioClips:
-  - {fileID: 8300000, guid: 58da1d166bbfac44caf600b3db59797e, type: 3}
-  - {fileID: 8300000, guid: bcd43908c6e541544be665d8ba26c929, type: 3}
-  - {fileID: 8300000, guid: 001e53eb79588534a8eae3ee3b22e4f0, type: 3}
-  - {fileID: 8300000, guid: ec0443c52a57ff64986d685d7af4018e, type: 3}
-  - {fileID: 8300000, guid: 7c7750dbdafc67b41905583134abc73e, type: 3}
-  audioSource: {fileID: 1590028058}
   _shieldDuration: 30
   platformManager: {fileID: 1750448861}
   playerController: {fileID: 978774150}
@@ -4486,12 +4390,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0030a6559cb7d48b099e30a49c1e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulldozer: {fileID: 1690800258453965176, guid: 9197838d2fc62214b8c4a83427b82173,
+  Bulldozer: {fileID: 1690800258453965176, guid: 9197838d2fc62214b8c4a83427b82173,
     type: 3}
   platformManager: {fileID: 1750448861}
   eventManager: {fileID: 1222619372}
   obstacleManager: {fileID: 1666209822}
-  WheelRotationSpeed: 360
   controller: {fileID: 1590028057}
 --- !u!4 &1615463019
 Transform:
@@ -4982,8 +4885,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1590028057}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Resume
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: Continue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -6,8 +6,8 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 {
 
     [Header("The managers that will conduct what will be happened after collide")]
-    [SerializeField]
-    private UIController UIController;
+    public ExceptionalUI UIController;
+    
     [SerializeField]
     private EventManager eventManager;
 
@@ -36,8 +36,7 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
     public LayerMask targetLayers;
 
     public bool shieldIsActive = false;
-    private bool gameOver = false;
-
+    
     // Timer count to use in update
     private float _timer = 0f;
 
@@ -47,14 +46,17 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
     // How many colliders detect at the same time , it increases as that as.
     private Collider[] _results = new Collider[8];
 
+    public bool GameOver = false;
+
     private void Start()
     {
-        sparks.collision.SetPlane(0, GameObject.Find("PlatformManager").transform);
+        if (SceneLoader.currentScene.Equals("Day"))
+            sparks.collision.SetPlane(0, GameObject.Find("PlatformManager").transform);
     }
 
     private void Update()
     {
-        if (!gameOver)
+        if (!GameOver)
         {
             _timer += Time.deltaTime;
             if (_timer < checkInterval) return;
@@ -100,7 +102,7 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
         if (other.layer == 10 || other.layer == 13)
         {
-            eventManager.checkEarned(other);
+            eventManager.CheckEarned(other);
             return;
         }
 
@@ -117,8 +119,8 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
             if (other.name.Equals("Bullet"))
                 Instantiate(destroyedCube, new Vector3(transform.position.x, 1.5f, transform.position.z), Quaternion.Euler(Vector3.zero), null);
 
-            UIController.gameOver(SoundIndex);
-            gameOver = true;
+            UIController.GameOver(SoundIndex, transform.root.gameObject.name);
+            GameOver = true;
         }
         // Add your own game logic:
         // • other.SetActive(false);
@@ -126,4 +128,7 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
         // • play effects
         // • e.g.
     }
+
+    
+
 }

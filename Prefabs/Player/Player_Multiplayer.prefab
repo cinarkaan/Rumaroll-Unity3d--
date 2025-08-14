@@ -431,6 +431,8 @@ GameObject:
   - component: {fileID: 2675120432292735954}
   - component: {fileID: 927991939510881389}
   - component: {fileID: 3176715530045173487}
+  - component: {fileID: 5498195611146795228}
+  - component: {fileID: 6257897802174800625}
   m_Layer: 0
   m_Name: Player_Multiplayer
   m_TagString: Untagged
@@ -521,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3671544487
+  GlobalObjectIdHash: 2668893872
   InScenePlacedSourceGlobalObjectIdHash: 2668893872
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -582,7 +584,6 @@ MonoBehaviour:
   - {fileID: 3725527591565208177}
   - {fileID: 3248387229087207519}
   - {fileID: 7584254622815097393}
-  faceIndices: 000000000100000002000000030000000400000005000000
   _move_Sfx:
   - {fileID: 8300000, guid: 1466307decae96648bcaf59e48c20694, type: 3}
   - {fileID: 8300000, guid: dda19bdfcee50084f9790b95f4f63ce4, type: 3}
@@ -698,6 +699,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &5498195611146795228
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079906987083917387}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9302074, y: 1.9302074, z: 1.9302074}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6257897802174800625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8079906987083917387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e66e5c0b6fa00a4694ffa8e604342f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIController: {fileID: 0}
+  eventManager: {fileID: 0}
+  sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
+  destroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
+    type: 3}
+  halfExtents: {x: 0.48, y: 0.48, z: 0.48}
+  centerOffset: {x: 0, y: 0, z: 0}
+  checkInterval: 0.1
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 16392
+  shieldIsActive: 0
 --- !u!1 &9205223379145374170
 GameObject:
   m_ObjectHideFlags: 0

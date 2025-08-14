@@ -89,7 +89,7 @@ public class RollingCubeController : MonoBehaviour
     private IEnumerator Move(Vector3 direction)
     {
 
-        _rolling.PlayOneShot(_move_Sfx[0], control._volume);
+        _rolling.PlayOneShot(_move_Sfx[0], UIController._volume);
 
         moving = true;
         Vector3 anchor = transform.position + (Vector3.down + direction) * 1f / 2f;
@@ -110,7 +110,7 @@ public class RollingCubeController : MonoBehaviour
 
             yield return null;
         }
-        _rolling.PlayOneShot(_move_Sfx[1], control._volume);
+        _rolling.PlayOneShot(_move_Sfx[1], UIController._volume);
 
         Vector3 finalPos = transform.position;
 
@@ -142,7 +142,7 @@ public class RollingCubeController : MonoBehaviour
     private void HasPlayerArrive ()
     {
         if (GetTileCoordAtPosition().Equals(new Vector2Int(platformManager.stage + 6, platformManager.stage + 6)))
-            StartCoroutine(control.sceneLoader(0, 1, 0.15f, "Day"));
+            StartCoroutine(control.SceneLoader(0, 1, 0.15f, "Day"));
     }
     public IEnumerator ShieldController (bool isActive)
     {
