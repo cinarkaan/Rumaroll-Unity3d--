@@ -49,7 +49,7 @@ public class PlatformManager : MonoBehaviour
 
         prefabs[2].transform.position = new Vector3(6, 0.99f, 6);
 
-        //stage = PlayerPrefs.GetInt("Stage");
+        stage = PlayerPrefs.GetInt("Stage");
 
         AdjustPlatformStatus(Random.Range(0, 3));
 
