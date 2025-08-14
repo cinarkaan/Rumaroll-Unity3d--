@@ -52,6 +52,10 @@
 
 <p>Just like the UIManager at the singleplayer side. The script conducts the operations belongs on Player(game mechanics , e.g). It runs end of the Network UI Manager , which is the control mechanics assigned as dynamic the player that connected.</p>
 
+<h2>Exceptional(UI,Placements,Path)</h2>
+
+<p>To necessary of OOP design and using the same script on the another place, this files includes the cross inheritance to implement regarding classes. It contains common values and virtual methods that uses different places but same purposes.</p>
+
 <h2>Room Broadcaster & Room Listener</h2>
 
 <p>The player that has been connected at the common share point wifi might be founded each other through this script. The player(Host) who was created game share with Local IP. The another player(client) is might be explored it by using thought named as ''RoomListener". The signaficant things are firstly the wifi must be turned on and both of two player must be connected common share point wi-fi. The room name , min/max player and join button will be seems after refreshed.</p>
