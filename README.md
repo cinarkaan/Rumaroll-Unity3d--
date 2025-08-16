@@ -2,7 +2,7 @@
 
 <h1>Purpose</h1>
 
-<p>The cube that is colorful is to reach out evacuation point by rolling on the tile that matches with it's bottom face colors. Each new stage means more extended platform.</p>
+<p>The cube that is colorful is to reach out evacuation point by rolling on the tile that matches with it's bottom face colors. At the each new stage means more extended platform and more difficult obstacles</p>
 
 <h1>How To Play</h1>
 
