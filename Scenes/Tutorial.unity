@@ -166,12 +166,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb2234be90aa0b47bb5a3d7252019fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: 4
-  prefabs:
+  Stage: 4
+  Prefabs:
   - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
   - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
   - {fileID: 1653454530}
-  weatherSystem:
+  WeatherSystem:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
@@ -2254,6 +2254,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mysterious_Clue_Vfx
       objectReference: {fileID: 0}
+    - target: {fileID: 1882998312307894098, guid: 7bb703f380180524e8e0775ef97d6255,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2612031549290082827, guid: 7bb703f380180524e8e0775ef97d6255,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2495,6 +2500,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f7610d54e12cd77428eee589015a4550, type: 2}
     - target: {fileID: -7511558181221131132, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 429a728421108e0498b4571acc0c889d,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2eb0d3bc7c7f01b4aa65f10ff3e50af6, type: 2}
@@ -2527,6 +2537,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player_SinglePlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 429a728421108e0498b4571acc0c889d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1378090415999995971, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
@@ -3579,7 +3594,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 0
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: 0
+  m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3660,7 +3675,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
@@ -3760,7 +3775,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 184847557
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1980965886
 RectTransform:
@@ -4073,7 +4088,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10

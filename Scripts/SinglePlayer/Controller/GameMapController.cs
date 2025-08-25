@@ -44,8 +44,8 @@ public class GameMapController : MonoBehaviour
     } // Which camera must be activated 
     private IEnumerator initializeMapCamera () // Init cam positions according to the map
     {
-        yield return new WaitUntil(() => platformManager.progress);
-        float factor = (platformManager.stage - 6) * 0.5f;
+        yield return new WaitUntil(() => platformManager.Progress);
+        float factor = (platformManager.Stage - 6) * 0.5f;
         transform.GetComponent<Camera>().orthographicSize = ort + factor;
         transform.position = new Vector3(originPos.x + factor, 0.2f, originPos.z + factor);
         yield return new WaitUntil(() => Camera.main != null);

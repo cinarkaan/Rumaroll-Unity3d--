@@ -43,7 +43,7 @@ public class Tutorial : MonoBehaviour
         UIController.ButtonsManager(false);
         UIController.playerController.Render(false);
         fullText = "Welcome to the world of cube. The magical colorful cube needs to reach out evacutaion point where is located on the flag. ";
-        StartCoroutine(showEvacutaionPoint(new Vector3(UIController.playerController.getGridManager().stage + 6, UIController.playerController.transform.position.y, UIController.playerController.getGridManager().stage + 6), 0));
+        StartCoroutine(showEvacutaionPoint(new Vector3(UIController.playerController.getGridManager().Stage + 6, UIController.playerController.transform.position.y, UIController.playerController.getGridManager().Stage + 6), 0));
     }
     private IEnumerator touchToCountinue(int step)
     {
@@ -74,14 +74,14 @@ public class Tutorial : MonoBehaviour
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 step++;
-                StartCoroutine(UIController.fadeInOut(new Color(0f,0f,0f,0.6f), Color.clear, 1f));
-                StartCoroutine(UIController.scalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, false, _talk));
+                StartCoroutine(UIController.FadeInOut(new Color(0f,0f,0f,0.6f), Color.clear, 1f));
+                StartCoroutine(UIController.scalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _talk));
                 if (step < 2)
                     StartCoroutine(showEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
                 else
                 {
-                    UIController.eventsManager(true);
-                    UIController.buttonsManager(true);
+                    UIController.EventsManager(true);
+                    UIController.ButtonsManager(true);
                     GameObject.Find("Canvas/Close").SetActive(false);
                     UIController.playerController.Render(true);
                     UIController.playerController.GetComponent<OverlapBoxNonAllocPoller>().enabled = true;

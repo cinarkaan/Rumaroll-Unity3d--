@@ -16,13 +16,22 @@ public class ServerManager : NetworkBehaviour
     
     private bool EndGame = false;
 
+    // General
     public NetworkVariable<int> Stage = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<int> Difficulty = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<bool> Launch = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
+    // Obstacle & Enemy
     public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkList<Vector2Int> _Blades = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    // Platform
+    public NetworkList<CubeMaterials> CubeMaterials = new NetworkList<CubeMaterials>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkList<Tiles> tiles = new NetworkList<Tiles>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkList<ClientFaceIndicates> ClientCube = new NetworkList<ClientFaceIndicates>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> WeatherCode = new NetworkVariable<int>(0);
+
 
     public NetworkManager Manager { get; private set; }
     

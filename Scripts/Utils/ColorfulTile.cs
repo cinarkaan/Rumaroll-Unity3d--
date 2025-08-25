@@ -85,11 +85,11 @@ public class ColorfulTile : MonoBehaviour
         if (SceneLoader.currentScene == "Day")
         {
             var obj = GetComponentInParent<PlatformManager>();
-            obj.SetTileMaterialAsDynamic(mat, position);
+            obj.SetTileMat(mat, position);
         } else if (SceneLoader.currentScene == "Multiplayer")
         {
             var obj = GetComponentInParent<NetworkPlatformManager>();
-            obj.SetTileMaterialAsDynamic(mat, position);
+            obj.SetTileMat(mat, position);
         } else
             StopCoroutine(dynamics);
     }

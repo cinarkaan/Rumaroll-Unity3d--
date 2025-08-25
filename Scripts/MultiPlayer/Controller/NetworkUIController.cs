@@ -115,25 +115,25 @@ public class NetworkUIController : ExceptionalUI
             else if (touch.phase == TouchPhase.Ended)
             {
                 float deltaX = touch.position.x - touchStart.x;
-                if (Mathf.Abs(deltaX) > swipeThreshold)
+                if (Mathf.Abs(deltaX) > SwipeThreshold)
                 {
-                    isRotating = true;
+                    IsRotating = true;
                     if (deltaX > 0)
                     {
-                        aspect.index = aspect.index == 3 ? 0 : ++aspect.index;
-                        aspect.rightSwipe();
+                        Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
+                        Aspect.rightSwipe();
                     }
                     else if (deltaX < 0)
                     {
-                        aspect.index = aspect.index == 0 ? 3 : --aspect.index;
-                        aspect.leftSwipe();
+                        Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
+                        Aspect.leftSwipe();
                     }
                 }
-                isRotating = false;
+                IsRotating = false;
             }
         }
-        if (aspect.target != null)
-            aspect.pivotAspect();
+        if (Aspect.target != null)
+            Aspect.pivotAspect();
 #endif
 
     }

@@ -131,21 +131,21 @@ public class UIController : ExceptionalUI
             else if (touch.phase == TouchPhase.Ended)
             {
                 float deltaX = touch.position.x - touchStart.x;
-                if (Mathf.Abs(deltaX) > swipeThreshold)
+                if (Mathf.Abs(deltaX) > SwipeThreshold)
                 {
-                    isRotating = true;
+                    IsRotating = true;
                     if (deltaX > 0)
                     {
-                        aspectController.index = aspectController.index == 3 ? 0 : ++aspectController.index;
-                        aspectController.rightSwipe();
+                        Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
+                        Aspect.rightSwipe();
                     }
                     else if (deltaX < 0)
                     {
-                        aspectController.index = aspectController.index == 0 ? 3 : --aspectController.index;
-                        aspectController.leftSwipe();
+                        Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
+                        Aspect.leftSwipe();
                     }
                 }
-                isRotating = false;
+                IsRotating = false;
             }
         }
 #endif
@@ -153,8 +153,8 @@ public class UIController : ExceptionalUI
     }
     public IEnumerator PlaceFlag ()
     {
-        yield return new WaitUntil(() => platformManager.progress);
-        objects.Last().transform.position = new Vector3(platformManager.stage + 6, 0.5f, platformManager.stage + 6);
+        yield return new WaitUntil(() => platformManager.Progress);
+        objects.Last().transform.position = new Vector3(platformManager.Stage + 6, 0.5f, platformManager.Stage + 6);
     }
     private IEnumerator ShieldCounter ()
     {
@@ -281,8 +281,8 @@ public class UIController : ExceptionalUI
         PlayerPrefs.SetInt("Clue", currentAmount - 1);
         texts.Find(t => t.name == "ClueCount").text = ": X" + PlayerPrefs.GetInt("Clue").ToString();
         Vector2Int current = playerController.GetTileCoordAtPosition();
-        int currentIndex = platformManager.solutionPath.IndexOf(current);
-        Vector2Int cluePos = platformManager.solutionPath[currentIndex + 1];
+        int currentIndex = platformManager.SolutionPath.IndexOf(current);
+        Vector2Int cluePos = platformManager.SolutionPath[currentIndex + 1];
         platformManager._clue.transform.localPosition = new Vector3(cluePos.x, 2.5f, cluePos.y);
         platformManager.AdjustColorOfClue(cluePos);
         platformManager._clue.Play();
@@ -317,7 +317,7 @@ public class UIController : ExceptionalUI
         loader.GetComponent<Image>().raycastTarget = true;
 
         loader.GetComponent<CanvasGroup>().alpha = targetAlpha;
-        PlayerPrefs.SetInt("Stage", (platformManager.stage != 12 && !sceneName.Equals("MainMenu")) ? platformManager.stage + 1 : platformManager.stage);
+        PlayerPrefs.SetInt("Stage", (platformManager.Stage != 12 && !sceneName.Equals("MainMenu")) ? platformManager.Stage + 1 : platformManager.Stage);
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(loader.LoadSceneWithPreparation(sceneName));
     }

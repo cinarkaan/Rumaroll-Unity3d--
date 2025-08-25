@@ -47,8 +47,8 @@ public class RollingCubeController : MonoBehaviour
                 Mathf.RoundToInt(targetPosCandidate.z / 1f)
             );
             // Check out the grid boundaries (Depends on the stage)
-            if (targetCoord.x < 6 || targetCoord.x > platformManager.stage + 6 ||
-                targetCoord.y < 6 || targetCoord.y > platformManager.stage + 6)
+            if (targetCoord.x < 6 || targetCoord.x > platformManager.Stage + 6 ||
+                targetCoord.y < 6 || targetCoord.y > platformManager.Stage + 6)
                 return; 
 
             // if the target position contains grid boundaries , launch rolling operation
@@ -70,7 +70,7 @@ public class RollingCubeController : MonoBehaviour
 
         Material mat = faceQuads[CubeSimulator.faceIndices[0]].GetComponent<Renderer>().sharedMaterial;
 
-        Material tile = platformManager.GetTileMatAtPosition(GetTileCoordAtPosition());
+        Material tile = platformManager.GetTileMat(GetTileCoordAtPosition());
 
         if (!mat.name.Equals(tile.name))
         {
@@ -141,7 +141,7 @@ public class RollingCubeController : MonoBehaviour
     }
     private void HasPlayerArrive ()
     {
-        if (GetTileCoordAtPosition().Equals(new Vector2Int(platformManager.stage + 6, platformManager.stage + 6)))
+        if (GetTileCoordAtPosition().Equals(new Vector2Int(platformManager.Stage + 6, platformManager.Stage + 6)))
             StartCoroutine(control.SceneLoader(0, 1, 0.15f, "Day"));
     }
     public IEnumerator ShieldController (bool isActive)

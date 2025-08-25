@@ -35,7 +35,7 @@ public class EnemyManager : ExceptionalPath
     {
         yield return new WaitUntil(() => ObstacleManager.progress);
 
-        if (platformManager.stage == 12) // The manager only must be worked at the stage 12 
+        if (platformManager.Stage == 12) // The manager only must be worked at the stage 12 
         {
             PathFinding();
             StartCoroutine(AdjustRouteDirsEnemy(Bulldozer));

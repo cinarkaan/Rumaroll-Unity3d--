@@ -34,7 +34,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
     private IEnumerator WaitUntilPlatform()
     {
         yield return new WaitUntil(() => NetworkPlatformManager.Progress);
-        Stage = NetworkPlatformManager.getManager().Stage.Value;
+        Stage = NetworkPlatformManager._ServerManager.Stage.Value;
         UnSolutionCount = NetworkPlatformManager.UnSolution.Count;
         AdjustObstacles();
     }
@@ -75,7 +75,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
         // Only host is able to initialize for placements
         if (ServerManager.IsHost)
         {
-            placed = ExceptionalPlacementOfSpike(NetworkPlatformManager.Solution, null, 1, 1, 1, 1);
+            placed = ExceptionalPlacementOfSpike(NetworkPlatformManager.SolutionPath, null, 1, 1, 1, 1);
             placed.ForEach(p => ServerManager._Spikes.Add(p));
         }
         else
@@ -91,7 +91,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
             }
             GameObject spike = Instantiate(Obstacles[0], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
             spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(spikeMPB);
-            spike.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = NetworkPlatformManager.FindTileMat(placed[0]);
+            spike.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = NetworkPlatformManager.GetTileMat(placed[0]);
             Spikes.Add(spike);
             //platformManager.Replace(placed[0], spike.transform.GetChild(0).gameObject);
             placed.Remove(placed[0]);
@@ -110,7 +110,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
 
         if (ServerManager.IsHost)
         {
-            placed = ExceptionalPlacementOfBlade(NetworkPlatformManager.UnSolution, NetworkPlatformManager.Solution, Vertical, Horizontal, FirstRegion, SecondRegion, ThirdRegion, FourthRegion);
+            placed = ExceptionalPlacementOfBlade(NetworkPlatformManager.UnSolution, NetworkPlatformManager.SolutionPath, Vertical, Horizontal, FirstRegion, SecondRegion, ThirdRegion, FourthRegion);
             placed.ForEach(p => ServerManager._Blades.Add(p));
         }
         else

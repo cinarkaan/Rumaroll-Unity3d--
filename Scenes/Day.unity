@@ -620,7 +620,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
@@ -653,8 +653,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RenderShadows: 0
-  m_RequiresDepthTextureOption: 0
-  m_RequiresOpaqueTextureOption: 0
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: 0
@@ -2683,7 +2683,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
@@ -4607,12 +4607,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb2234be90aa0b47bb5a3d7252019fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: 7
-  prefabs:
+  Progress: 0
+  Prefabs:
   - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
   - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
   - {fileID: 649890630}
-  weatherSystem:
+  Weather:
+  - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
+  - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
+  - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
+  Smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
+    type: 3}
+  SolutionPath: []
+  UnSolution: []
+  Stage: 10
+  WeatherSystem:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
@@ -4620,9 +4629,6 @@ MonoBehaviour:
   _smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
     type: 3}
   _clue: {fileID: 1617006618}
-  solutionPath: []
-  unSolutionPath: []
-  progress: 0
 --- !u!1 &1785057814
 GameObject:
   m_ObjectHideFlags: 0

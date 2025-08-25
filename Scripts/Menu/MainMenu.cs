@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,8 +47,6 @@ public class MainMenu : MonoBehaviour
 
     public void Start()
     {
-        Application.targetFrameRate = -1; // Remove FPS Limit
-
         StartCoroutine(fadeImage(images.First().color, Color.clear, duration,images.First())); // Launch fade animation only when app start
 
         MultiPlayerMenu = GetComponent<MultiPlayerMenu>();

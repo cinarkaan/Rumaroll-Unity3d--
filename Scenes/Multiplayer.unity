@@ -3275,6 +3275,8 @@ MonoBehaviour:
     m_InternalValue: 0
   Launch:
     m_InternalValue: 0
+  WeatherCode:
+    m_InternalValue: 0
 --- !u!4 &1412364716
 Transform:
   m_ObjectHideFlags: 0
@@ -3538,7 +3540,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1587209600}
-  - component: {fileID: 1587209602}
   - component: {fileID: 1587209601}
   m_Layer: 0
   m_Name: PlatformManager
@@ -3574,39 +3575,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 559116888fb546b48986265eee97cafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TilePrefab: {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b,
-    type: 3}
-  Flag: {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
-  ServerManager: {fileID: 1412364715}
-  WeatherSystem:
+  _Stage: 0
+  Progress: 0
+  Prefabs:
+  - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
+  - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
+  Weather:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
   Smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
     type: 3}
-  WeatherCode:
-    m_InternalValue: 0
---- !u!114 &1587209602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587209599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 858216111
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+  SolutionPath: []
+  UnSolution: []
+  ServerManager: {fileID: 1412364715}
 --- !u!1 &1592880280
 GameObject:
   m_ObjectHideFlags: 0
@@ -5082,7 +5064,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 0
   m_AllowMSAA: 1
-  m_AllowDynamicResolution: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 0
   m_StereoConvergence: 10

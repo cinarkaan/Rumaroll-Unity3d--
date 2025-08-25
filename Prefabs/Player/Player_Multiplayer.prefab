@@ -479,7 +479,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2668893872
+  GlobalObjectIdHash: 3671544487
   InScenePlacedSourceGlobalObjectIdHash: 2668893872
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -744,6 +744,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16392
   shieldIsActive: 0
+  GameOver: 0
 --- !u!1 &9205223379145374170
 GameObject:
   m_ObjectHideFlags: 0

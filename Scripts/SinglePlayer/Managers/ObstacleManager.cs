@@ -72,12 +72,12 @@ public class ObstacleManager : ExceptionalPlacement
     private IEnumerator AdjustObstacles ()
     {
         yield return new WaitUntil(() => EventManager.progress);
-        base.Stage = platformManager.stage;
-        base.UnSolutionCount = platformManager.unSolutionPath.Count;
-        int pathSize = platformManager.solutionPath.Count;
-        int unSolvedPathSize = platformManager.unSolutionPath.Count;
+        base.Stage = platformManager.Stage;
+        base.UnSolutionCount = platformManager.UnSolution.Count;
+        int pathSize = platformManager.SolutionPath.Count;
+        int unSolvedPathSize = platformManager.UnSolution.Count;
         int IsEnableVfx = PlayerPrefs.GetInt("Vfx");
-        switch (platformManager.stage)
+        switch (platformManager.Stage)
         {
             case 5:
                 obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
@@ -174,13 +174,13 @@ public class ObstacleManager : ExceptionalPlacement
                 cutterSpeed = 0.95f;
                 obstacles[2].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 PlaceCutters(true, false, false);
-                platformManager.CreateDynamicPath();
+                platformManager.CreateDynamics();
                 break;
             default:
                 break;       
         }
         ObstacleManager.progress = true;
-        platformManager.unSolutionPath.Clear();
+        platformManager.UnSolution.Clear();
     }
     private void PlaceCannon(bool First, bool Second)
     {
@@ -226,7 +226,7 @@ public class ObstacleManager : ExceptionalPlacement
         Head.SetColor("_ColorTop", obstacles[1].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         Rod.SetColor("_ColorBottom", obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         Rod.SetColor("_ColorTop", obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-        List<Vector2Int> placed = ExceptionalPlacementOfBlade(platformManager.unSolutionPath, platformManager.solutionPath ,verticalM, horizontalM, firstRegion, secondRegion, thirdRegion, fourthRegion);
+        List<Vector2Int> placed = ExceptionalPlacementOfBlade(platformManager.UnSolution, platformManager.SolutionPath ,verticalM, horizontalM, firstRegion, secondRegion, thirdRegion, fourthRegion);
         while(placed.Count > 0) // If placable blade was found or not
         {
             if (placed[0] == Vector2Int.zero)
@@ -244,7 +244,7 @@ public class ObstacleManager : ExceptionalPlacement
         Blade.ForEach(t => t.transform.GetChild(0).localScale = new Vector3(1.2f, 1.2f, 1.2f));
         Blade.ForEach(t => t.transform.GetChild(0).localPosition = new Vector3(0f, -1f, 0f));
 
-        platformManager.CreateDynamicPath();
+        platformManager.CreateDynamics();
     }
     private void PlaceCutters (bool final, bool start , bool diamonds)
     {
@@ -316,7 +316,7 @@ public class ObstacleManager : ExceptionalPlacement
         spikeMPB.SetColor("_ColorBottom", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         spikeMPB.SetColor("_ColorTop", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
 
-        List<Vector2Int> placed = ExceptionalPlacementOfSpike(platformManager.solutionPath, null, firstCount, secondCount, thirdCount, fourthCount);
+        List<Vector2Int> placed = ExceptionalPlacementOfSpike(platformManager.SolutionPath, null, firstCount, secondCount, thirdCount, fourthCount);
         while (placed.Count > 0)
         {
             if (placed[0] == Vector2Int.zero)
@@ -326,12 +326,12 @@ public class ObstacleManager : ExceptionalPlacement
             }
             GameObject spike = Instantiate(obstacles[4], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
             spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(spikeMPB);
-            spike.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = platformManager.GetTileMatAtPosition(placed[0]);
+            spike.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = platformManager.GetTileMat(placed[0]);
             Spikes.Add(spike);
             platformManager.Replace(placed[0],spike.transform.GetChild(0).gameObject);
             placed.Remove(placed[0]);
         }
-        platformManager.CreateDynamicPath();
+        platformManager.CreateDynamics();
     }
     private void CannonShoot()
     {
@@ -343,7 +343,7 @@ public class ObstacleManager : ExceptionalPlacement
         isShooting = true;
         Cannon.ForEach(c => c.transform.GetChild(0).GetChild(0).gameObject.SetActive(true));
         Vector3 start = new(-2.5f, 0f, -0.25f);
-        Vector3 final = start * (2.5f * platformManager.stage);
+        Vector3 final = start * (2.5f * platformManager.Stage);
         final.y = -0.1f;
         float elapsed = 0f;
         Cannon.ForEach(c => c.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>().Play());

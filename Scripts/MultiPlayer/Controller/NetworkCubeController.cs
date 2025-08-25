@@ -48,16 +48,16 @@ public class NetworkCubeController : NetworkBehaviour
         }
         else
         {
-            transform.position = new Vector3(platformManager.getManager().Stage.Value + 6, 0.99f, platformManager.getManager().Stage.Value + 6);
+            transform.position = new Vector3(platformManager._ServerManager.Stage.Value + 6, 0.99f, platformManager._ServerManager.Stage.Value + 6);
             transform.gameObject.name = "Client";
             target = new Vector2Int(6, 6);
         }
 
         cubeTrail = GetComponent<MobileTrail>();
 
-        yield return new WaitUntil(() => platformManager.getManager().progress);
+        yield return new WaitUntil(() => platformManager._ServerManager.progress);
 
-        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager.getManager().Difficulty.Value > 0 ) ? platformManager.getManager()._UIController : null;
+        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager._ServerManager.Difficulty.Value > 0 ) ? platformManager._ServerManager._UIController : null;
     }
     public void TryMove(Vector3 dir)
     {
@@ -71,8 +71,8 @@ public class NetworkCubeController : NetworkBehaviour
                 Mathf.RoundToInt(targetPosCandidate.z / 1f)
             );
             // Check out platform boundaries depends on platform manager
-            if (targetCoord.x < 6 || targetCoord.x > platformManager.getManager().Stage.Value+ 6 ||
-                targetCoord.y < 6 || targetCoord.y > platformManager.getManager().Stage.Value + 6)
+            if (targetCoord.x < 6 || targetCoord.x > platformManager._ServerManager.Stage.Value+ 6 ||
+                targetCoord.y < 6 || targetCoord.y > platformManager._ServerManager.Stage.Value + 6)
                 return;
             StartCoroutine(Roll(dir));
         }
@@ -91,7 +91,7 @@ public class NetworkCubeController : NetworkBehaviour
 
         Material mat = faceQuads[CubeSimulator.faceIndices[0]].GetComponent<Renderer>().sharedMaterial;
 
-        Material tile = platformManager.FindTileMat(GetTileCoordAtPosition());
+        Material tile = platformManager.GetTileMat(GetTileCoordAtPosition());
 
         if (!mat.name.Equals(tile.name))
         {
@@ -152,7 +152,7 @@ public class NetworkCubeController : NetworkBehaviour
         if (target.Equals(GetTileCoordAtPosition()))
         {
             isRolling = true;
-            platformManager.getManager().NoticationWonPlayerServerRpc(transform.gameObject.name);
+            platformManager._ServerManager.NoticationWonPlayerServerRpc(transform.gameObject.name);
             var manager = GameObject.Find("UIManager").GetComponent<NetworkUIController>();
             manager.DistributeRewards();
         }

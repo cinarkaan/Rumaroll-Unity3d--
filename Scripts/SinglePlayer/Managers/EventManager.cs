@@ -47,12 +47,12 @@ public class EventManager : MonoBehaviour
         CoinMPB.SetColor("_ColorTop", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
         uniqueRandomGenerator.min = 0;
-        uniqueRandomGenerator.max = platformManager.solutionPath.Count;
+        uniqueRandomGenerator.max = platformManager.SolutionPath.Count;
         uniqueRandomGenerator.count = _CoinCount;
         uniqueRandomGenerator.Generate();
         foreach (var item in uniqueRandomGenerator.uniqueRandoms)
         {
-            Vector3 pos = new(platformManager.solutionPath[item].x, 1f, platformManager.solutionPath[item].y);
+            Vector3 pos = new(platformManager.SolutionPath[item].x, 1f, platformManager.SolutionPath[item].y);
             GameObject coin = Instantiate(coinPrefab, pos, coinPrefab.transform.rotation, transform);
             coin.GetComponent<Renderer>().SetPropertyBlock(CoinMPB);
             Precious.Add(coin);
@@ -65,15 +65,15 @@ public class EventManager : MonoBehaviour
         DiamondMPB.SetColor("_ColorTop", diamondPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
         uniqueRandomGenerator.min = 0;
-        uniqueRandomGenerator.max = platformManager.unSolutionPath.Count;
+        uniqueRandomGenerator.max = platformManager.UnSolution.Count;
         uniqueRandomGenerator.count = _DiamondCount;
-        uniqueRandomGenerator.GenerateBySolutions(platformManager.solutionPath, platformManager.unSolutionPath);
+        uniqueRandomGenerator.GenerateBySolutions(platformManager.SolutionPath, platformManager.UnSolution);
 
         foreach (var item in uniqueRandomGenerator.uniqueRandoms)
         {
             if ((_DiamondCount--) > 0)
             {
-                Vector3 pos = new Vector3(platformManager.unSolutionPath[item].x, 0.75f, platformManager.unSolutionPath[item].y);
+                Vector3 pos = new Vector3(platformManager.UnSolution[item].x, 0.75f, platformManager.UnSolution[item].y);
                 GameObject dim = Instantiate(diamondPrefab, pos, Quaternion.Euler(0, 0, 0), transform);
                 dim.GetComponent<Renderer>().SetPropertyBlock(DiamondMPB);
                 Precious.Add(dim);
@@ -111,7 +111,7 @@ public class EventManager : MonoBehaviour
     }
     private void FinalizeEventsCount ()
     {
-        switch (platformManager.stage)
+        switch (platformManager.Stage)
         {
             case 4:
                 _CoinCount = 3;
@@ -168,7 +168,7 @@ public class EventManager : MonoBehaviour
     }
     private IEnumerator WaitForPlatform ()
     {
-        yield return new WaitUntil(() => platformManager.progress);
+        yield return new WaitUntil(() => platformManager.Progress);
         FinalizeEventsCount();
     }
     private IEnumerator PlayEndDestroy (ParticleSystem vfx, Vector3 position)

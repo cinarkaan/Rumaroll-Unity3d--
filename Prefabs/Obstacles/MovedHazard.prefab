@@ -145,7 +145,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 24eb41458009fb14f8dab7ffc2c23114,
         type: 3}
       propertyPath: m_DynamicOccludee
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 24eb41458009fb14f8dab7ffc2c23114,
         type: 3}
