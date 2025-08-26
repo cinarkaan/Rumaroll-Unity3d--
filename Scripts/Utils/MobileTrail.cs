@@ -3,28 +3,28 @@ using UnityEngine;
 
 public class MobileTrail : MonoBehaviour
 {
-    public float duration;
-    public GameObject trailPrefab;
+    public float Duration;
+    public GameObject TrailPrefab;
 
     public void Trail ()
     {
-        createTrail();
+        CreateTrail();
     }
-    private void createTrail()
+    private void CreateTrail()
     {
-        GameObject trail = Instantiate(trailPrefab, transform.position, transform.rotation);
+        GameObject trail = Instantiate(TrailPrefab, transform.position, transform.rotation);
         trail.transform.position = transform.position;
         trail.transform.rotation = transform.rotation;
         trail.transform.localScale = transform.localScale;
-        StartCoroutine(fadeOut(trail));
+        StartCoroutine(FadeOut(trail));
     }
-    private IEnumerator fadeOut(GameObject trail)
+    private IEnumerator FadeOut(GameObject trail)
     {
         float elapsed = 0f;
-        while (elapsed < duration)
+        while (elapsed < Duration)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
+            float t = Mathf.Clamp01(elapsed / Duration);
             float alpha = Mathf.Lerp(1f, 0f, t);
             trail.GetComponent<Renderer>().material.SetFloat("_Power", alpha);
             yield return null;

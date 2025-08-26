@@ -28,7 +28,7 @@ public class EnemyManager : ExceptionalPath
     {
         Map = new int[13, 13];
         var _sound = Bulldozer.GetComponent<AudioSource>();
-        _sound.PlayOneShot(_sound.clip, UIController._volume);
+        _sound.PlayOneShot(_sound.clip, UIController._Volume);
         StartCoroutine(InitializeManager());
     }
     private IEnumerator InitializeManager ()

@@ -164,12 +164,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8305334219474476080, guid: eb86638c02ce87a43918012084adbc32,
         type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8305334219474476080, guid: eb86638c02ce87a43918012084adbc32,
+        type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7865715144011661884, guid: eb86638c02ce87a43918012084adbc32,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7865715144011661884, guid: eb86638c02ce87a43918012084adbc32,
+        type: 3}
+      propertyPath: m_DynamicOccludee
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7865715144011661884, guid: eb86638c02ce87a43918012084adbc32,
@@ -194,12 +204,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -547307252021135688, guid: eb86638c02ce87a43918012084adbc32,
         type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -547307252021135688, guid: eb86638c02ce87a43918012084adbc32,
+        type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 344036275444884144, guid: eb86638c02ce87a43918012084adbc32,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 344036275444884144, guid: eb86638c02ce87a43918012084adbc32,
+        type: 3}
+      propertyPath: m_DynamicOccludee
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 344036275444884144, guid: eb86638c02ce87a43918012084adbc32,
@@ -229,12 +249,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4516777956042673164, guid: eb86638c02ce87a43918012084adbc32,
         type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4516777956042673164, guid: eb86638c02ce87a43918012084adbc32,
+        type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4715726512392760948, guid: eb86638c02ce87a43918012084adbc32,
         type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4715726512392760948, guid: eb86638c02ce87a43918012084adbc32,
+        type: 3}
+      propertyPath: m_DynamicOccludee
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4715726512392760948, guid: eb86638c02ce87a43918012084adbc32,

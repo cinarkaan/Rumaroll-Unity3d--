@@ -223,7 +223,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
             material = ServerManager.CubeMaterials[0]._surfaceMat,
             onSolution = true
         };
-        ServerManager.tiles.Add(tile);
+        ServerManager.Tiles.Add(tile);
         
         for (int i = 1; i < SolutionPath.Count; i++)
         {
@@ -239,7 +239,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 material = ServerManager.CubeMaterials[bottomFace]._surfaceMat,
                 onSolution = true
             };
-            ServerManager.tiles.Add(t);
+            ServerManager.Tiles.Add(t);
             if (i == SolutionPath.Count - 1)
             {
                 for (int index = 0; index < 6; index++)
@@ -257,26 +257,27 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     public override void CreateDynamics()
     {
-        UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
+        // Zero index is the origin point that's why we can not started it from this as well as tiles.count is shown evacuation point with exceed.
+        UniqueRandomGenerator uniqueRandomGenerator = new ();
         switch (ServerManager.Stage.Value)
         {
             case 10:
-                uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.tiles.Count - 1, 4);
+                uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.Tiles.Count - 1, 4);
                 break;
             case 11:
-                uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.tiles.Count - 1, 7);
+                uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.Tiles.Count - 1, 7);
                 break;
             case 12:
-                uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.tiles.Count - 1, 10);
+                uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.Tiles.Count - 1, 10);
                 break;
             default:
                 break;
         }
-        foreach (var item in uniqueRandomGenerator.uniqueRandoms)
+        foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
-            Tiles tile = ServerManager.tiles[item];
+            Tiles tile = ServerManager.Tiles[item];
             tile._markAsDynamic = true;
-            ServerManager.tiles[item] = tile;
+            ServerManager.Tiles[item] = tile;
         }            
     }
     protected override void PlaceFlag ()
@@ -328,7 +329,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
                         MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom"));
                         MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop"));
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(MaterialPropertyBlock);
-                        ServerManager.tiles.Add(t);
+                        ServerManager.Tiles.Add(t);
                         UnSolution.Add(new Vector2Int(x, z));
                     }
                     LocalTiles[new Vector2Int(x, z)] = temp;
@@ -367,7 +368,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     public Tiles? HasAtTile (Vector2Int pos,ref GameObject colorfulTile)
     {
-        foreach (Tiles t in ServerManager.tiles)
+        foreach (Tiles t in ServerManager.Tiles)
         {
             if (t.positon.Equals(pos))
             {
@@ -380,7 +381,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     public Material GetTileMat(Vector2Int pos, ref GameObject _colorfulTile)
     {
-        foreach (Tiles t in ServerManager.tiles)
+        foreach (Tiles t in ServerManager.Tiles)
         {
             if (t.positon.Equals(pos))
             {
@@ -439,18 +440,9 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     private IEnumerator RunAndWaitForClient ()
     {
-        yield return new WaitUntil(() => ServerManager.tiles.Count != 0);
+        yield return new WaitUntil(() => ServerManager.Tiles.Count != 0);
 
         SetMaterialOfRival();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestClearPlatformListServerRpc()
-    {
-        ServerManager.tiles.Dispose();
-        ServerManager.ClientCube.Dispose();
-        //CubeMaterials.Dispose();
-        ServerManager.WeatherCode.Dispose();
     }
     public IEnumerator LaunchDynamics()
     {

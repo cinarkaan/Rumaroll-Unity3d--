@@ -5,42 +5,42 @@ public class FlagWaver : MonoBehaviour
 {
     [Header("Wave Parameters")]
     [Tooltip("Dalga amplitude (Height)")]
-    public float amplitude = 0.5f;
+    public float Amplitude = 0.5f;
     [Tooltip("Wave Lenght")]
-    public float wavelength = 2f;
+    public float Wavelength = 2f;
     [Tooltip("Wave Speed")]
-    public float speed = 1f;
+    public float Speed = 1f;
 
-    private MeshFilter mf;
-    private Mesh mesh;
-    private Vector3[] originalVerts;
-    private Vector3[] displacedVerts;
+    private MeshFilter MeshFilter;
+    private Mesh Mesh;
+    private Vector3[] OriginalVerts;
+    private Vector3[] DisplacedVerts;
 
     void Start()
     {
-        mf = GetComponent<MeshFilter>();
-        mesh = mf.mesh;
+        MeshFilter = GetComponent<MeshFilter>();
+        Mesh = MeshFilter.mesh;
         // For the performance , the mesh is signed as dynamic
-        mesh.MarkDynamic();
+        Mesh.MarkDynamic();
 
-        originalVerts = mesh.vertices;
-        displacedVerts = new Vector3[originalVerts.Length];
-        originalVerts.CopyTo(displacedVerts, 0);
+        OriginalVerts = Mesh.vertices;
+        DisplacedVerts = new Vector3[OriginalVerts.Length];
+        OriginalVerts.CopyTo(DisplacedVerts, 0);
     }
     void Update()
     {
         // Wave offset by the time
-        float time = Time.time * speed;
+        float time = Time.time * Speed;
 
-        for (int i = 0; i < displacedVerts.Length; i++)
+        for (int i = 0; i < DisplacedVerts.Length; i++)
         {
-            Vector3 orig = originalVerts[i];
+            Vector3 orig = OriginalVerts[i];
             // Wave function: sin( (x / λ) + t ) * A
-            float wave = Mathf.Sin((orig.x / wavelength) + time) * amplitude;
-            displacedVerts[i] = new Vector3(orig.x, orig.y + wave, orig.z);
+            float wave = Mathf.Sin((orig.x / Wavelength) + time) * Amplitude;
+            DisplacedVerts[i] = new Vector3(orig.x, orig.y + wave, orig.z);
         }
 
-        mesh.vertices = displacedVerts;
-        mesh.RecalculateNormals();  // To be proper the lighting so it works as seamless
+        Mesh.vertices = DisplacedVerts;
+        Mesh.RecalculateNormals();  // To be proper the lighting so it works as seamless
     }
 }

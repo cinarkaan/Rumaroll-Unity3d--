@@ -6,47 +6,47 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public static string currentScene { get; private set; } // Current index when it run
-    public TMP_Text loadingText { get; private set; } // Child text of this script
-    private AsyncOperation asyncLoad; 
-    private List<GameObject> roots = new List<GameObject>(); // Root objects that in the tutorial scene
+    public static string CurrentScene { get; private set; } // Current index when it run
+    public TMP_Text LoadingText { get; private set; } // Child text of this script
+    private AsyncOperation AsyncLoad; 
+    private List<GameObject> Root = new(); // Root objects that in the tutorial scene
 
     // it will be use remowe the waiting screen to be notificated by either host or client from server side on multiplayer
-    public int operation = 1;
+    public int Operation = 1;
 
-    void Start()
+    private void Start()
     {
-        SceneLoader.currentScene = SceneManager.GetActiveScene().name;
-        loadingText = transform.GetChild(1).GetComponent<TMP_Text>();
+        SceneLoader.CurrentScene = SceneManager.GetActiveScene().name;
+        LoadingText = transform.GetChild(1).GetComponent<TMP_Text>();
     }
-    private IEnumerator fadeText ()
+    private IEnumerator FadeText ()
     {
         float t = 0f;
         while (true)
         {
             float alpha = Mathf.PingPong(t * 1f, 1f);
-            loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, alpha);
+            LoadingText.color = new Color(LoadingText.color.r, LoadingText.color.g, LoadingText.color.b, alpha);
             t += Time.deltaTime;
             yield return null;
         }
     }
     public IEnumerator LoadSceneWithPreparation(string targetSceneName)
     {
-        asyncLoad = SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Additive);   
+        AsyncLoad = SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Additive);   
      
-        asyncLoad.allowSceneActivation = false;
+        AsyncLoad.allowSceneActivation = false;
 
-        while (asyncLoad.progress < 0.9f)
+        while (AsyncLoad.progress < 0.9f)
         {
-            loadingText.text = "LOADING % " + (int)(asyncLoad.progress * 100);
+            LoadingText.text = "LOADING % " + (int)(AsyncLoad.progress * 100);
             yield return null;
         }
 
-        loadingText.rectTransform.localPosition = new Vector3(loadingText.rectTransform.localPosition.x + (-80f) , loadingText.rectTransform.localPosition.y , loadingText.rectTransform.localPosition.z);
+        LoadingText.rectTransform.localPosition = new Vector3(LoadingText.rectTransform.localPosition.x + (-80f) , LoadingText.rectTransform.localPosition.y , LoadingText.rectTransform.localPosition.z);
 
-        loadingText.text = "TAP TO CONTINUE";
+        LoadingText.text = "TAP TO CONTINUE";
 
-        StartCoroutine(fadeText());
+        StartCoroutine(FadeText());
 
 #if UNITY_STANDALONE_WIN
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
@@ -56,21 +56,22 @@ public class SceneLoader : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        asyncLoad.allowSceneActivation = true;
+        AsyncLoad.allowSceneActivation = true;
 
-        yield return new WaitUntil(() => !asyncLoad.isDone);
+        yield return new WaitUntil(() => !AsyncLoad.isDone);
         
         Scene loaded = SceneManager.GetSceneByName(targetSceneName);
 
         SceneManager.SetActiveScene(loaded);
 
-        loaded.GetRootGameObjects(roots);
+        loaded.GetRootGameObjects(Root);
 
         if (targetSceneName == "Tutorial")
-            roots.Find(o => o.name == "UIManager").GetComponent<Tutorial>().tap = true;
+            Root.Find(o => o.name == "UIManager").GetComponent<Tutorial>().Tap = true;
 
-        SceneManager.UnloadSceneAsync(SceneLoader.currentScene);
+        SceneManager.UnloadSceneAsync(SceneLoader.CurrentScene);
 
+        SceneLoader.CurrentScene = targetSceneName;
     }
     public IEnumerator LoadSceneMultiplayer(AsyncOperation asyncOperation)
     {
@@ -92,7 +93,7 @@ public class SceneLoader : MonoBehaviour
 
         while (asyncOperation.progress < 0.9f)
         {
-            loadingText.text = "LOADING % " + (int)(asyncLoad.progress * 100);
+            LoadingText.text = "LOADING % " + (int)(AsyncLoad.progress * 100);
 
             yield return null;
         }
@@ -109,17 +110,17 @@ public class SceneLoader : MonoBehaviour
         CanvasGroup load = GetComponent<CanvasGroup>();
         float elapsed = 0f;
 
-        StartCoroutine(fadeText());
+        StartCoroutine(FadeText());
 
         if (playerType.Equals("Host"))
         {
-            loadingText.text = $"WAITING FOR PLAYERS {operation}/{max}";
-            yield return new WaitUntil(() => operation > 1);
+            LoadingText.text = $"WAITING FOR PLAYERS {Operation}/{max}";
+            yield return new WaitUntil(() => Operation > 1);
         } else
         {
-            loadingText.rectTransform.localPosition = new Vector3(-105f, -112f, 0f);
-            loadingText.text = $"WAITING FOR HOST";
-            yield return new WaitUntil(() => operation > 1);
+            LoadingText.rectTransform.localPosition = new Vector3(-105f, -112f, 0f);
+            LoadingText.text = $"WAITING FOR HOST";
+            yield return new WaitUntil(() => Operation > 1);
         }
 
         yield return new WaitForSeconds(1f);
@@ -135,4 +136,5 @@ public class SceneLoader : MonoBehaviour
         load.interactable = false;
         load.blocksRaycasts = false;
     }
+
 }

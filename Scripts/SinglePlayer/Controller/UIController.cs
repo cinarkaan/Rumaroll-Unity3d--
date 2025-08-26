@@ -44,7 +44,7 @@ public class UIController : ExceptionalUI
         InitializeEvents();
         InitializeButtons();
         InitializeUserPrefs();
-        StartCoroutine(FadeInOut(Color.black, Color.clear, 1f));
+        StartCoroutine(FadeInOut(Color.black, Color.clear));
     }
     public void InitializeEvents ()
     {
@@ -60,17 +60,18 @@ public class UIController : ExceptionalUI
     }
     public void InitializeButtons()
     {
-        buttons.Find(b => b.name == "Close").gameObject.SetActive(false);
-        if (buttons.Find(b => b != null &&  b.name == "Shield") is Button shield)
-         shield.interactable = PlayerPrefs.GetInt("Shield") > 0;
-        if (buttons.Find(b => b != null &&  b.name == "Clue") is Button clue)
+        if (Buttons.Find(b => b != null && b.name == "Close") is Button close)
+            close.gameObject.SetActive(false);
+        if (Buttons.Find(b => b != null && b.name == "Shield") is Button shield)
+            shield.interactable = PlayerPrefs.GetInt("Shield") > 0;
+        if (Buttons.Find(b => b != null && b.name == "Clue") is Button clue)
             clue.interactable = PlayerPrefs.GetInt("Clue") > 0;
     }
     protected override void InitializeUserPrefs ()
     {
         texts[0].enabled = (PlayerPrefs.GetInt("Fps") == 1);
         SwipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
-        UIController._volume = PlayerPrefs.GetInt("Sfx");
+        UIController._Volume = PlayerPrefs.GetInt("Sfx");
     }
     private void LateUpdate()
     {
@@ -158,9 +159,9 @@ public class UIController : ExceptionalUI
     }
     private IEnumerator ShieldCounter ()
     {
-        images.Last().gameObject.SetActive(true);
+        Images.Last().gameObject.SetActive(true);
 
-        buttons.Find(b => b.name == "Shield").interactable = false;
+        Buttons.Find(b => b.name == "Shield").interactable = false;
 
         playerController.shield.Play();
 
@@ -172,18 +173,18 @@ public class UIController : ExceptionalUI
             yield return new WaitUntil(() => !isCounter);
         }
 
-        playerController.GetComponent<OverlapBoxNonAllocPoller>().shieldIsActive = false;
+        playerController.GetComponent<OverlapBoxNonAllocPoller>().ShieldIsActive = false;
 
         _shieldDuration = 30f;
 
         texts[5].text = "";
 
-        images.Last().gameObject.SetActive(false);
+        Images.Last().gameObject.SetActive(false);
 
         if (PlayerPrefs.GetInt("Shield") == 0)
-            buttons.Find(b => b.name == "Shield").interactable = false;
+            Buttons.Find(b => b.name == "Shield").interactable = false;
         else
-            buttons.Find(b => b.name == "Shield").interactable = true;
+            Buttons.Find(b => b.name == "Shield").interactable = true;
 
         StartCoroutine(playerController.ShieldController(false));
 
@@ -192,38 +193,38 @@ public class UIController : ExceptionalUI
     public void EventsManager (bool interactable)
     {
         int index = 2;
-        while (index < images.Count)
+        while (index < Images.Count)
         {
-            if (index == images.Count - 1 && playerController.GetComponent<OverlapBoxNonAllocPoller>().shieldIsActive)
+            if (index == Images.Count - 1 && playerController.GetComponent<OverlapBoxNonAllocPoller>().ShieldIsActive)
                 break;
-            images[index++].gameObject.SetActive(interactable);
+            Images[index++].gameObject.SetActive(interactable);
         }
 
-        if (!playerController.GetComponent<OverlapBoxNonAllocPoller>().shieldIsActive && images.Last().name == "IsShieldActive")
-            images.Last().gameObject.SetActive(false);
+        if (!playerController.GetComponent<OverlapBoxNonAllocPoller>().ShieldIsActive && Images.Last().name == "IsShieldActive")
+            Images.Last().gameObject.SetActive(false);
     }
     public override void GameOver(int SoundIndex, string name)
     {
         if (SoundIndex == 2)
-            audioSource.PlayOneShot(audioClips[2], _volume);
+            AudioSource.PlayOneShot(AudioClips[2], _Volume);
         else if (SoundIndex == 3)
-            audioSource.PlayOneShot(audioClips.Last(), _volume);
+            AudioSource.PlayOneShot(AudioClips.Last(), _Volume);
 
-        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f, images.Find(f => f.name == "GameOverMenu")));
+        StartCoroutine(ScalerMenu(Vector3.zero, Vector3.one, 1f, Images.Find(f => f.name == "GameOverMenu")));
         playerController.Render(false);
-        buttons.ForEach(b => b.gameObject.SetActive(false));
+        Buttons.ForEach(b => b.gameObject.SetActive(false));
     }
     public override void Pause ()
     {
-        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f,images.Find(f => f.name == "PauseMenu")));
-        buttons.ForEach(b => b.interactable = false);
+        StartCoroutine(ScalerMenu(Vector3.zero, Vector3.one, 1f,Images.Find(f => f.name == "PauseMenu")));
+        Buttons.ForEach(b => b.interactable = false);
     }
     public override void Continue()
     {
-        buttons.ForEach(b => b.interactable = true);
+        Buttons.ForEach(b => b.interactable = true);
         Time.timeScale = 1f;
-        StartCoroutine(scalerMenu(Vector3.one, Vector3.zero, 1f, images.Find(f => f.name == "PauseMenu")));
-        images.Find(f => f.name == "PauseMenu").gameObject.SetActive(true);
+        StartCoroutine(ScalerMenu(Vector3.one, Vector3.zero, 1f, Images.Find(f => f.name == "PauseMenu")));
+        Images.Find(f => f.name == "PauseMenu").gameObject.SetActive(true);
     }
     public override void Restart ()
     {
@@ -243,11 +244,11 @@ public class UIController : ExceptionalUI
     {
         objects.First().transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         gameMapController.currentIndex = 0;
-        gameMapController.renderController(rawImages[0]);
+        gameMapController.renderController(RawImages[0]);
         EventsManager(false);
         ButtonsManager(false);
-        buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(true);
-        StartCoroutine(MapFade(Color.white, null));
+        Buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(true);
+        StartCoroutine(MapFade(Color.white));
     }
     public override void CloseMap ()
     {
@@ -256,40 +257,53 @@ public class UIController : ExceptionalUI
         gameMapController.currentIndex = 1;
         EventsManager(true);
         ButtonsManager(true);
-        buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(false);
-        StartCoroutine(MapFade(new Color(1,1,1,0), () =>
+        Buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(false);
+        StartCoroutine(MapFade(new Color(1,1,1,0)));
+    }
+    protected override IEnumerator MapFade(Color targetColor)
+    {
+        Color startColor = RawImages[0].color;
+        float time = 0f;
+
+        while (time < FadeDuration)
         {
-            //if (gameMapController.currentIndex == 1)
-                gameMapController.renderController(rawImages[0]);
-        }));
+            time += Time.deltaTime;
+            RawImages[0].color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / FadeDuration));
+            yield return null;
+        }
+
+        RawImages[0].color = targetColor;
+
+        if (gameMapController.currentIndex == 1)
+            gameMapController.renderController(RawImages[0]);
     }
     public void Shield () 
     {
 
-        audioSource.PlayOneShot(audioClips[1], _volume);
+        AudioSource.PlayOneShot(AudioClips[1], _Volume);
         int currentAmount = PlayerPrefs.GetInt("Shield");
         PlayerPrefs.SetInt("Shield", currentAmount - 1);
         texts.Find(t => t.name == "ShieldCount").text = ": X" + PlayerPrefs.GetInt("Shield").ToString();
-        playerController.GetComponent<OverlapBoxNonAllocPoller>().shieldIsActive = true;
+        playerController.GetComponent<OverlapBoxNonAllocPoller>().ShieldIsActive = true;
         StartCoroutine(playerController.ShieldController(true));
         StartCoroutine(ShieldCounter());
     }
     public void Clue ()
     {
-        audioSource.PlayOneShot(audioClips[0], _volume);
+        AudioSource.PlayOneShot(AudioClips[0], _Volume);
         int currentAmount = PlayerPrefs.GetInt("Clue");
         PlayerPrefs.SetInt("Clue", currentAmount - 1);
         texts.Find(t => t.name == "ClueCount").text = ": X" + PlayerPrefs.GetInt("Clue").ToString();
         Vector2Int current = playerController.GetTileCoordAtPosition();
         int currentIndex = platformManager.SolutionPath.IndexOf(current);
         Vector2Int cluePos = platformManager.SolutionPath[currentIndex + 1];
-        platformManager._clue.transform.localPosition = new Vector3(cluePos.x, 2.5f, cluePos.y);
+        platformManager.Clue.transform.localPosition = new Vector3(cluePos.x, 2.5f, cluePos.y);
         platformManager.AdjustColorOfClue(cluePos);
-        platformManager._clue.Play();
+        platformManager.Clue.Play();
         if (PlayerPrefs.GetInt("Clue") == 0)
-            buttons.Find(b => b.name == "Clue").interactable = false;
+            Buttons.Find(b => b.name == "Clue").interactable = false;
         else
-            buttons.Find(b => b.name == "Clue").interactable = true;
+            Buttons.Find(b => b.name == "Clue").interactable = true;
     }
     public void UpdateGps (Vector3 player)
     {
@@ -321,18 +335,18 @@ public class UIController : ExceptionalUI
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(loader.LoadSceneWithPreparation(sceneName));
     }
-    public IEnumerator FadeInOut(Color startColor, Color end, float duration)
+    public IEnumerator FadeInOut(Color startColor, Color end)
     {
         float time = 0f;
 
         while (time < FadeDuration)
         {
             time += Time.deltaTime;
-            images[1].GetComponent<Image>().color = Color.Lerp(startColor, end, time / FadeDuration);
+            Images[1].GetComponent<Image>().color = Color.Lerp(startColor, end, time / FadeDuration);
             yield return null;
         }
 
-        images[1].GetComponent<Image>().color = end;
+        Images[1].GetComponent<Image>().color = end;
     }
     public IEnumerator ExtendAndFadeAnimation ()
     {
@@ -347,7 +361,7 @@ public class UIController : ExceptionalUI
         {
             timer += Time.deltaTime;
             float shieldSize = Mathf.PingPong(Time.time * 38f, 20) + 55;
-            images.Last().rectTransform.sizeDelta = new Vector2(shieldSize, shieldSize);
+            Images.Last().rectTransform.sizeDelta = new Vector2(shieldSize, shieldSize);
             if (_shieldDuration < 10f)
             {
                 texts[5].rectTransform.localScale = Vector3.Lerp(originalSize, new Vector3(1.3f, 1.3f, 1f), Mathf.Clamp01(timer / 1f));

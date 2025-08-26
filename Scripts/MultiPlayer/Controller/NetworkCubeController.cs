@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
-using Unity.VisualScripting;
 
 public class NetworkCubeController : NetworkBehaviour
 {
@@ -55,7 +54,7 @@ public class NetworkCubeController : NetworkBehaviour
 
         cubeTrail = GetComponent<MobileTrail>();
 
-        yield return new WaitUntil(() => platformManager._ServerManager.progress);
+        yield return new WaitUntil(() => platformManager._ServerManager.Progress);
 
         GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager._ServerManager.Difficulty.Value > 0 ) ? platformManager._ServerManager._UIController : null;
     }
@@ -107,7 +106,7 @@ public class NetworkCubeController : NetworkBehaviour
     }
     private IEnumerator move(Vector3 direction)
     {
-        _rolling.PlayOneShot(_move_Sfx[0], NetworkUIController._volume);
+        _rolling.PlayOneShot(_move_Sfx[0], NetworkUIController._Volume);
 
         moving = true;
         Vector3 anchor = transform.position + (Vector3.down + direction) * 1f / 2f;
@@ -129,7 +128,7 @@ public class NetworkCubeController : NetworkBehaviour
             yield return null;
         }
 
-        _rolling.PlayOneShot(_move_Sfx[1], NetworkUIController._volume);
+        _rolling.PlayOneShot(_move_Sfx[1], NetworkUIController._Volume);
         
         Vector3 finalPos = transform.position;
         finalPos.x = Mathf.Round(finalPos.x / 1f) * 1f;

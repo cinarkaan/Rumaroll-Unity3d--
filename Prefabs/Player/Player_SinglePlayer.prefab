@@ -498,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3b2b23cfa1995488a4c921e1886f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformManager: {fileID: 0}
+  PlatformManager: {fileID: 0}
   faceQuads:
   - {fileID: 3084054423824723930}
   - {fileID: 1589529695056629110}
@@ -507,7 +507,9 @@ MonoBehaviour:
   - {fileID: 3082333071496832432}
   - {fileID: 7967602235719509982}
   control: {fileID: 0}
-  _move_Sfx: []
+  _move_Sfx:
+  - {fileID: 0}
+  - {fileID: 0}
   _rolling: {fileID: 0}
   rollDuration: 0.5
 --- !u!114 &9203242227484082096
@@ -522,8 +524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3113526eac7f3f14e9a89fdb69e046a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.7
-  trailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
+  Duration: 0.7
+  TrailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
     type: 3}
 --- !u!65 &6639692150677055320
 BoxCollider:
@@ -559,17 +561,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIController: {fileID: 0}
-  eventManager: {fileID: 0}
-  sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
-  destroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
+  EventManager: {fileID: 0}
+  Sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
+  DestroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
     type: 3}
-  halfExtents: {x: 0.48, y: 0.48, z: 0.48}
-  centerOffset: {x: 0, y: 0, z: 0}
-  checkInterval: 0.1
-  targetLayers:
+  HalfExtents: {x: 0.4, y: 0.4, z: 0.4}
+  CenterOffset: {x: 0, y: 0, z: 0}
+  CheckInterval: 0.1
+  TargetLayers:
     serializedVersion: 2
-    m_Bits: 25600
-  shieldIsActive: 0
+    m_Bits: 16392
+  ShieldIsActive: 0
   GameOver: 0
 --- !u!4 &8987068663321085726 stripped
 Transform:

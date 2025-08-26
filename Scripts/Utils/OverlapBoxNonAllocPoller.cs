@@ -9,61 +9,61 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
     public ExceptionalUI UIController;
     
     [SerializeField]
-    private EventManager eventManager;
+    private EventManager EventManager;
 
     [Header("The objects during the destroy moment")]
     [SerializeField]
-    private ParticleSystem sparks;
+    private ParticleSystem Sparks;
 
     [Header("The object is going to play disintegrate effect with rigidbody system")]
     [SerializeField]
-    private GameObject destroyedCube;
+    private GameObject DestroyedCube;
 
     [Header("Box volume settings")]
     [Tooltip("Half-extents of the box. For example, (1, 1, 1) means a 2󫎾 volume in world space.")]
-    public Vector3 halfExtents = new Vector3(1f, 1f, 1f);
+    public Vector3 HalfExtents = new Vector3(1f, 1f, 1f);
 
     [Tooltip("The center offset of the box relative to the local pivot. For example, (0, 1, 0) means look 1 unit above the pivot.")]
-    public Vector3 centerOffset = Vector3.zero;
+    public Vector3 CenterOffset = Vector3.zero;
 
     [Header("Range of control")]
     [Tooltip("How often should it perform overlap checks? For mobile devices, a range of 0.1�0.2 is appropriate.")]
     [Range(0.01f, 1f)]
-    public float checkInterval = 0.1f;
+    public float CheckInterval = 0.1f;
 
     [Header("Target Layers")]
     [Tooltip("Which Layers' colliders do you want to detect?")]
-    public LayerMask targetLayers;
+    public LayerMask TargetLayers;
 
-    public bool shieldIsActive = false;
+    public bool ShieldIsActive = false;
     
     // Timer count to use in update
-    private float _timer = 0f;
+    private float _Timer = 0f;
 
     private int SoundIndex = 0;
 
     // OverlapBoxNonAlloc result array (it had been allocated before)
     // How many colliders detect at the same time , it increases as that as.
-    private Collider[] _results = new Collider[8];
+    private Collider[] _Results = new Collider[8];
 
     public bool GameOver = false;
 
     private void Start()
     {
-        if (SceneLoader.currentScene.Equals("Day"))
-            sparks.collision.SetPlane(0, GameObject.Find("PlatformManager").transform);
+       if (SceneLoader.CurrentScene.Equals("Day"))
+            Sparks.collision.SetPlane(0, GameObject.Find("PlatformManager").transform);
     }
 
     private void Update()
     {
         if (!GameOver)
         {
-            _timer += Time.deltaTime;
-            if (_timer < checkInterval) return;
-            _timer = 0f;
+            _Timer += Time.deltaTime;
+            if (_Timer < CheckInterval) return;
+            _Timer = 0f;
 
             // 1) Calculate the volume on the world
-            Vector3 worldCenter = transform.TransformPoint(centerOffset);
+            Vector3 worldCenter = transform.TransformPoint(CenterOffset);
             Quaternion worldRot = transform.rotation;
 
             // 2) Inquires with overlapBoxNonAlloc 
@@ -75,17 +75,17 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
             //    - QueryTriggerInteraction.Ignore: Ignore trigger colliders
             int hitCount = Physics.OverlapBoxNonAlloc(
                 worldCenter,
-                halfExtents,
-                _results,
+                HalfExtents,
+                _Results,
                 worldRot,
-                targetLayers,
+                TargetLayers,
                 QueryTriggerInteraction.Ignore
             );
 
             // 3) the colliders detected as hitcount as, process these
             for (int i = 0; i < hitCount; i++)
             {
-                GameObject other = _results[i].gameObject;
+                GameObject other = _Results[i].gameObject;
                 HandleOverlapWith(other);
             }
         }
@@ -102,22 +102,22 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
         if (other.layer == 10 || other.layer == 13)
         {
-            eventManager.CheckEarned(other);
+            EventManager.CheckEarned(other);
             return;
         }
 
-        if (!shieldIsActive)
+        if (!ShieldIsActive)
         {
             SoundIndex = (other.name == "Spkile" || other.name == "Cutter(Clone)") ? 2 : -1;
 
             if (other.name.Contains("Hazard"))
             {
                 SoundIndex = 3;
-                Instantiate(sparks, new Vector3(other.transform.position.x, 1.2f, other.transform.position.z), Quaternion.Euler(-90f, 0f, 0f), other.transform.root);
+                Instantiate(Sparks, new Vector3(other.transform.position.x, 1.2f, other.transform.position.z), Quaternion.Euler(-90f, 0f, 0f), other.transform.root);
             }
 
             if (other.name.Equals("Bullet"))
-                Instantiate(destroyedCube, new Vector3(transform.position.x, 1.5f, transform.position.z), Quaternion.Euler(Vector3.zero), null);
+                Instantiate(DestroyedCube, new Vector3(transform.position.x, 1.5f, transform.position.z), Quaternion.Euler(Vector3.zero), null);
 
             UIController.GameOver(SoundIndex, transform.root.gameObject.name);
             GameOver = true;

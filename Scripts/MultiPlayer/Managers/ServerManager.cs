@@ -17,25 +17,25 @@ public class ServerManager : NetworkBehaviour
     private bool EndGame = false;
 
     // General
-    public NetworkVariable<int> Stage = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> Difficulty = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<bool> Launch = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> Stage = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The Stage which is width and height of the platform
+    public NetworkVariable<int> Difficulty = new(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The difficulty level
+    public NetworkVariable<bool> Launch = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // If the game was stated , the update methods will be run.
 
     // Obstacle & Enemy
-    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkList<Vector2Int> _Blades = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Spikes position in the obstacle
+    public NetworkList<Vector2Int> _Blades = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // // Blades position in the obstacle
+    public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Paths in the enemy
 
     // Platform
-    public NetworkList<CubeMaterials> CubeMaterials = new NetworkList<CubeMaterials>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkList<Tiles> tiles = new NetworkList<Tiles>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkList<ClientFaceIndicates> ClientCube = new NetworkList<ClientFaceIndicates>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> WeatherCode = new NetworkVariable<int>(0);
+    public NetworkList<CubeMaterials> CubeMaterials = new NetworkList<CubeMaterials>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The materials face of the cube 
+    public NetworkList<Tiles> Tiles = new NetworkList<Tiles>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The informations about the platform
+    public NetworkList<ClientFaceIndicates> ClientCube = new NetworkList<ClientFaceIndicates>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The client's cube faces of materials
+    public NetworkVariable<int> WeatherCode = new NetworkVariable<int>(0); // Weather status
 
 
     public NetworkManager Manager { get; private set; }
     
-    public bool progress { get; private set; }
+    public bool Progress { get; private set; }
 
     private List<ulong> Clients;
     private ulong HostLocalId;
@@ -74,7 +74,7 @@ public class ServerManager : NetworkBehaviour
             StartCoroutine(CheckHostConnection());
             Rival = GameObject.Find("Host").transform;
         }
-        progress = true;
+        Progress = true;
     }
     private void OnClientConnected (ulong clientID)
     {
@@ -83,7 +83,7 @@ public class ServerManager : NetworkBehaviour
 
         int clientCounts = Manager.ConnectedClients.Count;
         if (clientCounts >= 2)
-            UIControler.SceneLoader.loadingText.text = $"Waiting for players {clientCounts}/{2}";
+            UIControler.SceneLoader.LoadingText.text = $"Waiting for players {clientCounts}/{2}";
         Manager.GetComponent<RoomBroadcaster>().StopBroadcast();
         Rival = GameObject.Find("Client").transform;
     }
@@ -123,6 +123,13 @@ public class ServerManager : NetworkBehaviour
             yield return new WaitForSeconds(3f);
         }
 
+    }
+    public IEnumerator DisconnectFromGame(float second)
+    {
+        yield return new WaitForSeconds(second);
+        Manager.Shutdown();
+        Destroy(Manager.gameObject);
+        SceneManager.LoadScene("MainMenu");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -168,7 +175,7 @@ public class ServerManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RequestClearServerRpc()
     {
-        UIControler.SceneLoader.operation = 2; // Client is ready , remove waiting screen for host
+        UIControler.SceneLoader.Operation = 2; // Client is ready , remove waiting screen for host
         Launch.Value = true;
         //Stage.Dispose();
         Difficulty.Dispose();
@@ -177,12 +184,14 @@ public class ServerManager : NetworkBehaviour
         _Path.Clear();
 
     }
-    public IEnumerator DisconnectFromGame (float second)
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestClearPlatformListServerRpc()
     {
-        yield return new WaitForSeconds(second);
-        Manager.Shutdown();
-        Destroy (Manager.gameObject);
-        SceneManager.LoadScene("MainMenu");
+        Tiles.Clear();
+        ClientCube.Clear();
+        //CubeMaterials.Dispose();
+        WeatherCode.Dispose();
     }
 
 }

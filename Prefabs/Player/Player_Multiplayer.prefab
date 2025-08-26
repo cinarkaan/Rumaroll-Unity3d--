@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3671544487
+  GlobalObjectIdHash: 2668893872
   InScenePlacedSourceGlobalObjectIdHash: 2668893872
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -600,8 +600,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3113526eac7f3f14e9a89fdb69e046a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.7
-  trailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
+  Duration: 0.7
+  TrailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
     type: 3}
 --- !u!82 &3176715530045173487
 AudioSource:
@@ -733,17 +733,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIController: {fileID: 0}
-  eventManager: {fileID: 0}
-  sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
-  destroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
+  EventManager: {fileID: 0}
+  Sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
+  DestroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
     type: 3}
-  halfExtents: {x: 0.48, y: 0.48, z: 0.48}
-  centerOffset: {x: 0, y: 0, z: 0}
-  checkInterval: 0.1
-  targetLayers:
+  HalfExtents: {x: 0.4, y: 0.4, z: 0.4}
+  CenterOffset: {x: 0, y: 0, z: 0}
+  CheckInterval: 0.1
+  TargetLayers:
     serializedVersion: 2
     m_Bits: 16392
-  shieldIsActive: 0
+  ShieldIsActive: 0
   GameOver: 0
 --- !u!1 &9205223379145374170
 GameObject:

@@ -46,11 +46,11 @@ public class EventManager : MonoBehaviour
         CoinMPB.SetColor("_ColorBottom", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         CoinMPB.SetColor("_ColorTop", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
-        uniqueRandomGenerator.min = 0;
-        uniqueRandomGenerator.max = platformManager.SolutionPath.Count;
-        uniqueRandomGenerator.count = _CoinCount;
+        uniqueRandomGenerator.Min = 0;
+        uniqueRandomGenerator.Max = platformManager.SolutionPath.Count;
+        uniqueRandomGenerator.Count = _CoinCount;
         uniqueRandomGenerator.Generate();
-        foreach (var item in uniqueRandomGenerator.uniqueRandoms)
+        foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
             Vector3 pos = new(platformManager.SolutionPath[item].x, 1f, platformManager.SolutionPath[item].y);
             GameObject coin = Instantiate(coinPrefab, pos, coinPrefab.transform.rotation, transform);
@@ -64,12 +64,12 @@ public class EventManager : MonoBehaviour
         DiamondMPB.SetColor("_ColorBottom", diamondPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         DiamondMPB.SetColor("_ColorTop", diamondPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
-        uniqueRandomGenerator.min = 0;
-        uniqueRandomGenerator.max = platformManager.UnSolution.Count;
-        uniqueRandomGenerator.count = _DiamondCount;
+        uniqueRandomGenerator.Min = 0;
+        uniqueRandomGenerator.Max = platformManager.UnSolution.Count;
+        uniqueRandomGenerator.Count = _DiamondCount;
         uniqueRandomGenerator.GenerateBySolutions(platformManager.SolutionPath, platformManager.UnSolution);
 
-        foreach (var item in uniqueRandomGenerator.uniqueRandoms)
+        foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
             if ((_DiamondCount--) > 0)
             {
@@ -88,7 +88,7 @@ public class EventManager : MonoBehaviour
     {
         if (eventObject != null)
         {
-            _lootSfx.PlayOneShot(_lootSfx.clip, UIController._volume);
+            _lootSfx.PlayOneShot(_lootSfx.clip, UIController._Volume);
             if (eventObject.layer == 10)
             {
                 StartCoroutine(PlayEndDestroy(_collideCoin,eventObject.transform.position));

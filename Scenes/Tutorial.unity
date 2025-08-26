@@ -166,22 +166,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb2234be90aa0b47bb5a3d7252019fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Stage: 4
+  _Stage: 4
+  Progress: 0
   Prefabs:
   - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
   - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
   - {fileID: 1653454530}
+  Weather:
+  - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
+  - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
+  - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
+  Smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
+    type: 3}
+  SolutionPath: []
+  UnSolution: []
+  Stage: 4
   WeatherSystem:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
   gameMapController: {fileID: 1986244303}
-  _smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
-    type: 3}
-  _clue: {fileID: 1649303930}
-  solutionPath: []
-  unSolutionPath: []
-  progress: 0
+  Clue: {fileID: 1649303930}
 --- !u!1 &85577101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,23 +1671,25 @@ MonoBehaviour:
   SwipeThreshold: 70
   FadeDuration: 0.5
   Aspect: {fileID: 1976466356}
-  audioClips: []
-  audioSource: {fileID: 0}
-  buttons:
-  - {fileID: 85577103}
-  - {fileID: 2047156604}
-  - {fileID: 1655365272}
-  - {fileID: 1837207665}
+  AudioClips: []
+  AudioSource: {fileID: 0}
+  Buttons:
   - {fileID: 1688231784}
   - {fileID: 930985476}
   - {fileID: 2093181364}
-  images:
-  - {fileID: 1592387420}
+  - {fileID: 1837207665}
+  - {fileID: 2047156604}
+  - {fileID: 85577103}
+  - {fileID: 1655365272}
+  Images:
+  - {fileID: 990008370}
   - {fileID: 303487739}
+  - {fileID: 1473337327}
+  - {fileID: 1592387420}
   - {fileID: 808801354}
-  rawImages:
+  RawImages:
   - {fileID: 668584288}
-  gameOver: 0
+  _GameOver: 0
   counterDurationMin: 10
   fadeDurationSpiwe: 0.5
   objects:
@@ -1693,7 +1700,7 @@ MonoBehaviour:
   - {fileID: 1992863026}
   loader: {fileID: 1473337329}
   gameMapController: {fileID: 1986244303}
-  _shieldDuration: 60
+  _shieldDuration: 30
   platformManager: {fileID: 58574696}
   playerController: {fileID: 1653454541}
 --- !u!114 &1174211546
@@ -1708,10 +1715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c7997c58d0b2942ac1bf52211b4c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDurationText: 0.3
-  intervalBetweenChars: 0.05
-  spawnInterval: 0.02
-  tap: 0
+  FadeDurationText: 0.3
+  IntervalBetweenChars: 0.05
+  SpawnInterval: 0.01
+  Tap: 0
 --- !u!1 &1181598568
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,7 +2156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b204485fac76cd64d8f7103ad50027ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  operation: 1
+  Operation: 1
 --- !u!225 &1473337330
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2642,17 +2649,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIController: {fileID: 1174211545}
-  eventManager: {fileID: 1981511959}
-  sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
-  destroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
+  EventManager: {fileID: 1981511959}
+  Sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
+  DestroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
     type: 3}
-  halfExtents: {x: 0.48, y: 0.48, z: 0.48}
-  centerOffset: {x: 0, y: 0, z: 0}
-  checkInterval: 0.1
-  targetLayers:
+  HalfExtents: {x: 0.4, y: 0.4, z: 0.4}
+  CenterOffset: {x: 0, y: 0, z: 0}
+  CheckInterval: 0.1
+  TargetLayers:
     serializedVersion: 2
     m_Bits: 1024
-  shieldIsActive: 0
+  ShieldIsActive: 0
   GameOver: 0
 --- !u!65 &1653454539
 BoxCollider:
@@ -2687,8 +2694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3113526eac7f3f14e9a89fdb69e046a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.7
-  trailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
+  Duration: 0.7
+  TrailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
     type: 3}
 --- !u!114 &1653454541
 MonoBehaviour:
@@ -2702,7 +2709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3b2b23cfa1995488a4c921e1886f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformManager: {fileID: 58574696}
+  PlatformManager: {fileID: 58574696}
   faceQuads:
   - {fileID: 1653454535}
   - {fileID: 1653454536}

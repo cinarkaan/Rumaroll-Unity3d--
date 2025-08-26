@@ -46,9 +46,9 @@ public class NetworkUIController : ExceptionalUI
     private void Start()
     {
         InitializeUserPrefs();
-        buttons.Find(c => c.name == "CloseMap").gameObject.SetActive(false);
+        Buttons.Find(c => c.name == "CloseMap").gameObject.SetActive(false);
         StartCoroutine(InitializeMapCamera());
-        MapCamController(rawImages.Find(r => r.name == "GameMap"));
+        MapCamController(RawImages.Find(r => r.name == "GameMap"));
         if (manager.IsHost)
             StartCoroutine(WaitAndPlayer("Host"));
         else
@@ -141,7 +141,7 @@ public class NetworkUIController : ExceptionalUI
     {
         texts[0].enabled = PlayerPrefs.GetInt("Fps") == 1;
         SwipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
-        NetworkUIController._volume = PlayerPrefs.GetInt("Sfx");
+        NetworkUIController._Volume = PlayerPrefs.GetInt("Sfx");
     }
     private IEnumerator WaitAndPlayer (string playerType)
     {
@@ -162,13 +162,13 @@ public class NetworkUIController : ExceptionalUI
     {
         if (name != cubeController.name) return;
         if (SoundIndex == 2)
-            audioSource.PlayOneShot(audioClips[0], _volume);
+            AudioSource.PlayOneShot(AudioClips[0], _Volume);
         else if (SoundIndex == 3)
-            audioSource.PlayOneShot(audioClips[1], _volume);
+            AudioSource.PlayOneShot(AudioClips[1], _Volume);
 
-        StartCoroutine(scalerMenu(Vector3.zero, Vector3.one, 1f, images.Find(f => f.name == "GameOverMenu")));
+        StartCoroutine(ScalerMenu(Vector3.zero, Vector3.one, 1f, Images.Find(f => f.name == "GameOverMenu")));
         cubeController.Render(false);
-        buttons.ForEach(b => b.gameObject.SetActive(false));
+        Buttons.ForEach(b => b.gameObject.SetActive(false));
     }
     public override void Backward()
     {
@@ -188,10 +188,10 @@ public class NetworkUIController : ExceptionalUI
     public override void OpenMap ()
     {
         NetworkUIController.currentIndex = 0;
-        MapCamController(rawImages.Find(r => r.name == "GameMap"));
+        MapCamController(RawImages.Find(r => r.name == "GameMap"));
         ButtonsManager(false);
-        buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(true);
-        StartCoroutine(MapFade(new Color(1f ,1f ,1f ,1f), null));
+        Buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(true);
+        StartCoroutine(MapFade(new Color(1f ,1f ,1f ,1f)));
         cubeController._gps.GetChild(0).GetComponent<ParticleSystem>().Play();
         _rivalGPS.GetChild(0).GetComponent<ParticleSystem>().Play();
     }
@@ -199,15 +199,29 @@ public class NetworkUIController : ExceptionalUI
     {
         NetworkUIController.currentIndex = 1;
         ButtonsManager(true);
-        buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(false);
+        Buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(false);
         Camera.main.cullingMask = OriginalCameraCulling;
-        StartCoroutine(MapFade(new Color(1f, 1f, 1f, 0f), () =>
-        {
-            //if (NetworkUIController.currentIndex == 1)
-                MapCamController(rawImages.Find(r => r.name == "GameMap"));
-        }));
+        StartCoroutine(MapFade(new Color(1f, 1f, 1f, 0f)));
+        MapCamController(RawImages.Find(r => r.name == "GameMap"));
         cubeController._gps.GetChild(0).GetComponent<ParticleSystem>().Stop();
         _rivalGPS.GetChild(0).GetComponent<ParticleSystem>().Stop();
+    }
+    protected override IEnumerator MapFade(Color targetColor)
+    {
+        Color startColor = RawImages[0].color;
+        float time = 0f;
+
+        while (time < FadeDuration)
+        {
+            time += Time.deltaTime;
+            RawImages[0].color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / FadeDuration));
+            yield return null;
+        }
+
+        RawImages[0].color = targetColor;
+
+        if (NetworkUIController.currentIndex == 1)
+            MapCamController(RawImages.Find(r => r.name == "GameMap"));
     }
     public void MapCamController(RawImage gameMap)
     {
@@ -247,12 +261,12 @@ public class NetworkUIController : ExceptionalUI
     }
     public override void Pause ()
     {
-        buttons.Last().gameObject.SetActive(false);
+        Buttons.Last().gameObject.SetActive(false);
         StartCoroutine(PauseMenu(new Vector3(1f ,1f, 1f)));
     }
     public override void Continue()
     {
-        buttons.Last().gameObject.SetActive(true);
+        Buttons.Last().gameObject.SetActive(true);
         StartCoroutine(PauseMenu(new Vector3(0f, 0f, 1f)));
     }
     public override void Menu()
@@ -283,8 +297,8 @@ public class NetworkUIController : ExceptionalUI
             cubeController.transform.position = new Vector3(manager.Stage.Value + 6f, 0.99f, manager.Stage.Value + 6f);
 
         cubeController.Render(true);
-        StartCoroutine(scalerMenu(Vector3.one, Vector3.zero, 1f, images.Find(f => f.name == "GameOverMenu")));
-        buttons.ForEach(b => b.gameObject.SetActive(true));
+        StartCoroutine(ScalerMenu(Vector3.one, Vector3.zero, 1f, Images.Find(f => f.name == "GameOverMenu")));
+        Buttons.ForEach(b => b.gameObject.SetActive(true));
         cubeController.Origin();
     }
     public void DistributeRewards ()

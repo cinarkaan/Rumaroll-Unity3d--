@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 public class UniqueRandomGenerator
 {
-    public HashSet<int> uniqueRandoms {  get; private set; }
-    public int min { private get;  set; }
-    public int max { private get; set; }
-    public int count { private get; set; }
+    public HashSet<int> UniqueRandoms {  get; private set; }
+    public int Min { private get;  set; }
+    public int Max { private get; set; }
+    public int Count { private get; set; }
 
     public UniqueRandomGenerator ()
     {
-        uniqueRandoms = new HashSet<int> ();
+        UniqueRandoms = new HashSet<int> ();
     }
     public UniqueRandomGenerator (int min, int max, int count)
     {
-        uniqueRandoms = new HashSet<int>();
-        this.min = min;
-        this.max = max;
-        this.count = count;
+        UniqueRandoms = new HashSet<int>();
+        this.Min = min;
+        this.Max = max;
+        this.Count = count;
         Generate();
     }
     public void Generate()
     {
-        while (uniqueRandoms.Count < count)
+        while (UniqueRandoms.Count < Count)
         {
-            int randomValue = UnityEngine.Random.Range(min, max);
-            uniqueRandoms.Add(randomValue);
+            int randomValue = UnityEngine.Random.Range(Min, Max);
+            UniqueRandoms.Add(randomValue);
         }
     }
     public void GenerateBySolutions (List<Vector2Int> solution, List<Vector2Int> unSolution)
@@ -35,13 +35,13 @@ public class UniqueRandomGenerator
             try
             {
                 if (unSolution.Contains(solution[i] + Vector2Int.up))
-                    uniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.up));
+                    UniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.up));
                 else if (unSolution.Contains(solution[i] + Vector2Int.down))
-                    uniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.down));
+                    UniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.down));
                 else if (unSolution.Contains(solution[i] + Vector2Int.right))
-                    uniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.right));
+                    UniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.right));
                 else if (unSolution.Contains(solution[i] + Vector2Int.left))
-                    uniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.left));
+                    UniqueRandoms.Add(unSolution.IndexOf(solution[i] + Vector2Int.left));
                 else
                     continue;
             }

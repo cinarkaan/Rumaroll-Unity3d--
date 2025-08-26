@@ -14,24 +14,24 @@ public class ExceptionalUI : MonoBehaviour
     [SerializeField]
     protected AspectController Aspect;
     [SerializeField]
-    protected AudioClip[] audioClips;
+    protected AudioClip[] AudioClips;
     [SerializeField]
-    protected AudioSource audioSource;
+    protected AudioSource AudioSource;
     [SerializeField]
-    protected List<Button> buttons = new List<Button>();
+    protected List<Button> Buttons = new List<Button>();
     [SerializeField]
-    protected List<Image> images = new List<Image>();
+    protected List<Image> Images = new List<Image>();
     [SerializeField]
-    protected List<RawImage> rawImages = new List<RawImage>();
-    public RawImage RawImage => rawImages.Find(r => r.gameObject.name == "GameMap");
+    protected List<RawImage> RawImages = new List<RawImage>();
+    public RawImage RawImage => RawImages.Find(r => r.gameObject.name == "GameMap");
 
     protected bool IsRotating = false;
 
     protected float TimeSinceLastUpdate = 0;
 
-    public static float _volume = 0f;
+    public static float _Volume = 0f;
 
-    public bool gameOver = false;
+    public bool _GameOver = false;
 
     public virtual void Forward() { }
     public virtual void Backward() { }
@@ -48,23 +48,10 @@ public class ExceptionalUI : MonoBehaviour
 
     public void ButtonsManager(bool interactable)
     {
-        buttons.ForEach(b => b.gameObject.SetActive(interactable));
+        Buttons.ForEach(b => b.gameObject.SetActive(interactable));
     }
-    protected IEnumerator MapFade(Color targetColor, Action action)
-    {
-        Color startColor = rawImages[0].color;
-        float time = 0f;
-
-        while (time < FadeDuration)
-        {
-            time += Time.deltaTime;
-            rawImages[0].color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / FadeDuration));
-            yield return null;
-        }
-
-        rawImages[0].color = targetColor;
-    }
-    public IEnumerator scalerMenu(Vector3 from, Vector3 to, float time, Image image)
+    protected virtual IEnumerator MapFade(Color targetColor){ yield return null; }
+    public IEnumerator ScalerMenu(Vector3 from, Vector3 to, float time, Image image)
     {
         float elapsed = 0f;
         while (elapsed < time)

@@ -38,10 +38,7 @@ public class NetworkEnemyManager : ExceptionalPath
         if (ServerManager.Stage.Value == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
         {
             if (ServerManager.IsHost)
-            {
                 PathFinding();
-                Path.ForEach(p => ServerManager._Path.Add(p));
-            }
             else
             {
                 foreach (Vector3 position in ServerManager._Path)
@@ -101,7 +98,9 @@ public class NetworkEnemyManager : ExceptionalPath
         // Turn into from A* map coordinates to unity 3d Vector3 path coordinates
         for (int i = 0; i < _path.Length; i++)
         {
-            Path.Add(new Vector3(StartPos.x + _path[i].x, 1f, StartPos.z - _path[i].y));
+            Vector3 _Way = new Vector3(StartPos.x + _path[i].x, 1f, StartPos.z - _path[i].y);
+            Path.Add(_Way);
+            ServerManager._Path.Add(_Way);
             //Debug.Log("Step " + i + " : " + Path.Last());
         }
 
@@ -186,11 +185,8 @@ public class NetworkEnemyManager : ExceptionalPath
     }
     private void Free()
     {
-        PlatformManager.RequestClearPlatformListServerRpc();
+        ServerManager.RequestClearPlatformListServerRpc();
         ServerManager.RequestClearServerRpc();
-        ServerManager._UIController.SceneLoader.operation = 2;
+        ServerManager._UIController.SceneLoader.Operation = 2;
     }
-
-
-
 }

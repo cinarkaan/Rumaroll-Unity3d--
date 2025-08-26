@@ -51,7 +51,7 @@ public class ExceptionalPlatform : MonoBehaviour
             if (index < Surface.Count)
             {
                 Vector3 pos = Surface[index].GetColumn(3);
-                Bounds bounds = new Bounds(pos, Vector3.one);
+                Bounds bounds = new(pos, Vector3.one);
                 if (IsBoundsInsideFrustum(bounds, frustumPlanes))
                     visibleSurfaces.Add(Surface[index]);
             }

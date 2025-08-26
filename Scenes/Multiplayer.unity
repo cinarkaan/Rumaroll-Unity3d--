@@ -818,25 +818,23 @@ MonoBehaviour:
   SwipeThreshold: 70
   FadeDuration: 0.5
   Aspect: {fileID: 2099343412}
-  audioClips:
+  AudioClips:
   - {fileID: 8300000, guid: 001e53eb79588534a8eae3ee3b22e4f0, type: 3}
   - {fileID: 8300000, guid: ec0443c52a57ff64986d685d7af4018e, type: 3}
-  audioSource: {fileID: 348827881}
-  buttons:
-  - {fileID: 96964887}
-  - {fileID: 415343134}
+  AudioSource: {fileID: 348827881}
+  Buttons:
   - {fileID: 603829689}
   - {fileID: 1068577876}
-  - {fileID: 1698532037}
+  - {fileID: 415343134}
+  - {fileID: 96964887}
   - {fileID: 575454001}
+  - {fileID: 1698532037}
   - {fileID: 1592880282}
-  images:
-  - {fileID: 360694178}
+  Images:
   - {fileID: 1345736850}
-  - {fileID: 1280818412}
-  rawImages:
+  RawImages:
   - {fileID: 972715634}
-  gameOver: 0
+  _GameOver: 0
   cubeController: {fileID: 0}
   rt: {fileID: 8400000, guid: 9d046f5076ee5784c9cd4719d8a15259, type: 2}
   _sceneLoader: {fileID: 1280818415}

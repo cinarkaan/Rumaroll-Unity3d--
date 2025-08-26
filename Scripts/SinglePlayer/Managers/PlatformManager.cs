@@ -17,11 +17,11 @@ public class PlatformManager : ExceptionalPlatform
     [SerializeField]
     private GameMapController gameMapController;
 
-    public ParticleSystem _smoke_Burst,_clue;
+    public ParticleSystem Clue;
 
-    private Dictionary<Vector2Int, PlatformTile> gridTiles = new Dictionary<Vector2Int, PlatformTile>();
+    private Dictionary<Vector2Int, PlatformTile> GridTiles = new Dictionary<Vector2Int, PlatformTile>();
 
-    public HashSet<Vector2Int> dynamicPath = new HashSet<Vector2Int>();
+    public HashSet<Vector2Int> DynamicPath = new();
 
     private void Awake()
     {
@@ -91,20 +91,20 @@ public class PlatformManager : ExceptionalPlatform
     protected override void InitializeSolution ()
     {
         Vector2Int goal = new Vector2Int(6 + Stage, 6 + Stage);
-        List<Vector2Int> solutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal);
+        SolutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal);
 
         CubeSimulator cubeSim = new CubeSimulator();
-        gridTiles[new Vector2Int(6, 6)] = new PlatformTile((Material)TileMaterials[0], true);
+        GridTiles[new Vector2Int(6, 6)] = new PlatformTile((Material)TileMaterials[0], true);
 
-        for (int i = 1; i < solutionPath.Count; i++)
+        for (int i = 1; i < SolutionPath.Count; i++)
         {
-            Vector2Int prev = solutionPath[i - 1];
-            Vector2Int current = solutionPath[i];
+            Vector2Int prev = SolutionPath[i - 1];
+            Vector2Int current = SolutionPath[i];
             Vector3 moveDir = new Vector3(current.x - prev.x, 0, current.y - prev.y);
 
             cubeSim.Roll(moveDir);
             int bottomFace = cubeSim.faceIndices[0];
-            gridTiles[solutionPath[i]] = new PlatformTile((Material)TileMaterials[bottomFace], true);
+            GridTiles[SolutionPath[i]] = new PlatformTile((Material)TileMaterials[bottomFace], true);
         }
     }
     private void CreateGrid()
@@ -126,14 +126,14 @@ public class PlatformManager : ExceptionalPlatform
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
                     GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
                     Vector2Int pos = new(x, z);
-                    if (gridTiles.ContainsKey(pos))
+                    if (GridTiles.ContainsKey(pos))
                     {
                         mpb.SetColor("_ColorBottom", AdjustColorAccordingToTile(pos)._bottom);
                         mpb.SetColor("_ColorTop", AdjustColorAccordingToTile(pos)._top);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
                         colorfulTile.AddComponent<ColorfulTile>();
-                        gridTiles[pos].tile = colorfulTile;
-                        gridTiles[pos].OnSolution = true;
+                        GridTiles[pos].tile = colorfulTile;
+                        GridTiles[pos].OnSolution = true;
                         colorfulTile.name = "OnSolution";
 
                     } else
@@ -141,17 +141,17 @@ public class PlatformManager : ExceptionalPlatform
                         mpb.SetColor("_ColorBottom", ((Material)TileMaterials[Random.Range(0, TileMaterials.Length)]).GetColor("_ColorBottom"));
                         mpb.SetColor("_ColorTop", ((Material)TileMaterials[Random.Range(0, TileMaterials.Length)]).GetColor("_ColorTop"));
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
-                        gridTiles[pos] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false);
-                        gridTiles[pos].tile = colorfulTile;
+                        GridTiles[pos] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false);
+                        GridTiles[pos].tile = colorfulTile;
                         colorfulTile.name = "UnSolution";
                     }
                 }
                 mpb.Clear();
             }
         }
-        SolutionPath = gridTiles.Where(value => value.Value.OnSolution).Select(key => key.Key).ToList();
-        UnSolution = gridTiles.Where(value => !value.Value.OnSolution).Select(key => key.Key).ToList();
-        Renderers = gridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
+        SolutionPath = GridTiles.Where(value => value.Value.OnSolution).Select(key => key.Key).ToList();
+        UnSolution = GridTiles.Where(value => !value.Value.OnSolution).Select(key => key.Key).ToList();
+        Renderers = GridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
     }
     protected override void InitializeWeather(int status)
     {
@@ -181,20 +181,20 @@ public class PlatformManager : ExceptionalPlatform
     protected override void PlaceFlag ()
     {
         GameObject start = Instantiate(Prefabs[1], new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = gridTiles.First().Value.material;
+        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = GridTiles.First().Value.material;
         GameObject evacuation = Instantiate(Prefabs[1], new Vector3(Stage + 6 + 0.5f, 0.6f, Stage + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        evacuation.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = gridTiles.Last().Value.material;
+        evacuation.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = GridTiles.Last().Value.material;
         Progress = true;
     }
     public override Material GetTileMat(Vector2Int pos)
     {
-        return gridTiles.ContainsKey(pos) ? gridTiles[pos].material : (Material)TileMaterials[6];
+        return GridTiles.ContainsKey(pos) ? GridTiles[pos].material : (Material)TileMaterials[6];
     }
     public void Replace(Vector2Int pos, GameObject spike)
     {
-        Destroy(gridTiles[pos].tile);
-        gridTiles[pos].tile = spike;
-        Renderers = gridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
+        Destroy(GridTiles[pos].tile);
+        GridTiles[pos].tile = spike;
+        Renderers = GridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
     }
     public override void CreateDynamics()
     {
@@ -211,19 +211,19 @@ public class PlatformManager : ExceptionalPlatform
             {
                 case 6:
                     for (int x = 6; x <= lastPoint; x++)
-                        if (SolutionPath.Contains(new Vector2Int(x, middlePoint)) && dynamicPath.Count < 2)
-                            dynamicPath.Add(new Vector2Int(x, middlePoint));
+                        if (SolutionPath.Contains(new Vector2Int(x, middlePoint)) && DynamicPath.Count < 2)
+                            DynamicPath.Add(new Vector2Int(x, middlePoint));
                     for (int y = 6; y <= lastPoint; y++)
-                        if (SolutionPath.Contains(new Vector2Int(middlePoint, y)) && dynamicPath.Count < 4)
-                            dynamicPath.Add(new Vector2Int(middlePoint, y));
+                        if (SolutionPath.Contains(new Vector2Int(middlePoint, y)) && DynamicPath.Count < 4)
+                            DynamicPath.Add(new Vector2Int(middlePoint, y));
                     break;
                 case 8:
                     for (int x = 6; x <= lastPoint; x++)
-                        if (SolutionPath.Contains(new Vector2Int(x, middlePoint)) && dynamicPath.Count < 3)
-                            dynamicPath.Add(new Vector2Int(x, middlePoint));
+                        if (SolutionPath.Contains(new Vector2Int(x, middlePoint)) && DynamicPath.Count < 3)
+                            DynamicPath.Add(new Vector2Int(x, middlePoint));
                     for (int y = 6; y <= lastPoint; y++)
-                        if (SolutionPath.Contains(new Vector2Int(middlePoint, y)) && dynamicPath.Count < 6)
-                            dynamicPath.Add(new Vector2Int(middlePoint, y));
+                        if (SolutionPath.Contains(new Vector2Int(middlePoint, y)) && DynamicPath.Count < 6)
+                            DynamicPath.Add(new Vector2Int(middlePoint, y));
                     break;
                 case 10:
                     List<GameObject> placed = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
@@ -231,29 +231,29 @@ public class PlatformManager : ExceptionalPlatform
                     {
                         Vector2Int pos = new Vector2Int((int)placed[0].transform.position.x, (int)placed[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left))
-                            dynamicPath.Add(pos + Vector2Int.left);
+                            DynamicPath.Add(pos + Vector2Int.left);
                         if (SolutionPath.Contains(pos + Vector2Int.right))
-                            dynamicPath.Add(pos + Vector2Int.right);
+                            DynamicPath.Add(pos + Vector2Int.right);
                         if (SolutionPath.Contains(pos + Vector2Int.up))
-                            dynamicPath.Add(pos + Vector2Int.up);
+                            DynamicPath.Add(pos + Vector2Int.up);
                         if (SolutionPath.Contains(pos + Vector2Int.down))
-                            dynamicPath.Add(pos + Vector2Int.down);
+                            DynamicPath.Add(pos + Vector2Int.down);
                         placed.Remove(placed[0]);
                     }
                     break;
                 case 12:
                     for (int x = 6; x <= lastPoint; x++)
-                        if (SolutionPath.Contains(new Vector2Int(x, middlePoint)) && dynamicPath.Count < 4)
-                            dynamicPath.Add(new Vector2Int(x, middlePoint));
+                        if (SolutionPath.Contains(new Vector2Int(x, middlePoint)) && DynamicPath.Count < 4)
+                            DynamicPath.Add(new Vector2Int(x, middlePoint));
                     for (int y = 6; y <= lastPoint; y++)
-                        if (SolutionPath.Contains(new Vector2Int(middlePoint, y)) && dynamicPath.Count < 7)
-                            dynamicPath.Add(new Vector2Int(middlePoint, y));
+                        if (SolutionPath.Contains(new Vector2Int(middlePoint, y)) && DynamicPath.Count < 7)
+                            DynamicPath.Add(new Vector2Int(middlePoint, y));
                     break;
                 default:
                     return;
             }
             if (PlayerPrefs.GetInt("Vfx") == 1)
-                dynamicPath.Where(d => gridTiles[d].tile.GetComponent<ColorfulTile>() != null).ToList().ForEach(d => gridTiles[d].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(d),_smoke_Burst));
+                DynamicPath.Where(d => GridTiles[d].tile.GetComponent<ColorfulTile>() != null).ToList().ForEach(d => GridTiles[d].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(d),Smoke_Burst));
             LaunchDynamicPath();
         }
         else
@@ -269,22 +269,22 @@ public class PlatformManager : ExceptionalPlatform
                         Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left) && regionCount > 0)
                         {
-                            dynamicPath.Add(pos + Vector2Int.left);
+                            DynamicPath.Add(pos + Vector2Int.left);
                             regionCount--;
                         }
                         if (SolutionPath.Contains(pos + Vector2Int.right) && regionCount > 0)
                         {
-                            dynamicPath.Add(pos + Vector2Int.right);
+                            DynamicPath.Add(pos + Vector2Int.right);
                             regionCount--;
                         }
                         if (SolutionPath.Contains(pos + Vector2Int.up) && regionCount > 0)
                         {
-                            dynamicPath.Add(pos + Vector2Int.up);
+                            DynamicPath.Add(pos + Vector2Int.up);
                             regionCount--;
                         }
                         if (SolutionPath.Contains(pos + Vector2Int.down) && regionCount > 0)
                         {
-                            dynamicPath.Add(pos + Vector2Int.down);
+                            DynamicPath.Add(pos + Vector2Int.down);
                             regionCount--;
                         }
                         referanced.Remove(referanced[0]);
@@ -296,13 +296,13 @@ public class PlatformManager : ExceptionalPlatform
                     {
                         Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left))
-                            dynamicPath.Add(pos + Vector2Int.left);
+                            DynamicPath.Add(pos + Vector2Int.left);
                         if (SolutionPath.Contains(pos + Vector2Int.right))
-                            dynamicPath.Add(pos + Vector2Int.right);
+                            DynamicPath.Add(pos + Vector2Int.right);
                         if (SolutionPath.Contains(pos + Vector2Int.up))
-                            dynamicPath.Add(pos + Vector2Int.up);
+                            DynamicPath.Add(pos + Vector2Int.up);
                         if (SolutionPath.Contains(pos + Vector2Int.down))
-                            dynamicPath.Add(pos + Vector2Int.down);
+                            DynamicPath.Add(pos + Vector2Int.down);
                         referanced.Remove(referanced[0]);
                     }
                     break;
@@ -312,13 +312,13 @@ public class PlatformManager : ExceptionalPlatform
                     {
                         Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left))
-                            dynamicPath.Add(pos + Vector2Int.left);
+                            DynamicPath.Add(pos + Vector2Int.left);
                         if (SolutionPath.Contains(pos + Vector2Int.right))
-                            dynamicPath.Add(pos + Vector2Int.right);
+                            DynamicPath.Add(pos + Vector2Int.right);
                         if (SolutionPath.Contains(pos + Vector2Int.up))
-                            dynamicPath.Add(pos + Vector2Int.up);
+                            DynamicPath.Add(pos + Vector2Int.up);
                         if (SolutionPath.Contains(pos + Vector2Int.down))
-                            dynamicPath.Add(pos + Vector2Int.down);
+                            DynamicPath.Add(pos + Vector2Int.down);
                         referanced.Remove(referanced[0]);
                     }
                     break;
@@ -326,23 +326,23 @@ public class PlatformManager : ExceptionalPlatform
                     return;
             }
             if (PlayerPrefs.GetInt("Vfx") == 1)
-                dynamicPath.Where(d => gridTiles[d].tile.GetComponent<ColorfulTile>() != null).ToList().ForEach(d => gridTiles[d].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(d),_smoke_Burst));
+                DynamicPath.Where(d => GridTiles[d].tile.GetComponent<ColorfulTile>() != null).ToList().ForEach(d => GridTiles[d].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(d),Smoke_Burst));
             LaunchDynamicPath();
         }
     }
     private void LaunchDynamicPath()
     {
-        foreach (var pos in dynamicPath)
-            gridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)TileMaterials[Random.Range(0, TileMaterials.Length)], gridTiles[pos].material);
+        foreach (var pos in DynamicPath)
+            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)TileMaterials[Random.Range(0, TileMaterials.Length)], GridTiles[pos].material);
     }
     public override void SetTileMat(Material dynamic , Vector2Int pos)
     {
-        gridTiles[pos].material = dynamic;
+        GridTiles[pos].material = dynamic;
     } 
     public override MaterialProperties AdjustColorAccordingToTile (Vector2Int pos)
     {
-        Color _bottomColor = gridTiles[pos].material.GetColor("_ColorBottom");
-        Color _topColor = gridTiles[pos].material.GetColor("_ColorTop");
+        Color _bottomColor = GridTiles[pos].material.GetColor("_ColorBottom");
+        Color _topColor = GridTiles[pos].material.GetColor("_ColorTop");
 
         MaterialProperties _properties = new MaterialProperties(_bottomColor, _topColor);
 
@@ -353,8 +353,8 @@ public class PlatformManager : ExceptionalPlatform
         Gradient _arrows = new Gradient();
         Gradient _glow = new Gradient();
 
-        var _arrowsColorModule = _clue.colorOverLifetime;
-        var glowColorModule = _clue.transform.GetChild(0).GetComponent<ParticleSystem>().colorOverLifetime;
+        var _arrowsColorModule = Clue.colorOverLifetime;
+        var glowColorModule = Clue.transform.GetChild(0).GetComponent<ParticleSystem>().colorOverLifetime;
 
         _arrows.colorKeys = new GradientColorKey[]
         {

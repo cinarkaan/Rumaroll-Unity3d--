@@ -4215,39 +4215,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1720279cf47424ea338189538ccc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SwipeThreshold: 70
+  SwipeThreshold: 20
   FadeDuration: 0.5
   Aspect: {fileID: 330585551}
-  audioClips:
+  AudioClips:
   - {fileID: 8300000, guid: 58da1d166bbfac44caf600b3db59797e, type: 3}
   - {fileID: 8300000, guid: bcd43908c6e541544be665d8ba26c929, type: 3}
   - {fileID: 8300000, guid: 001e53eb79588534a8eae3ee3b22e4f0, type: 3}
   - {fileID: 8300000, guid: ec0443c52a57ff64986d685d7af4018e, type: 3}
-  - {fileID: 8300000, guid: 7c7750dbdafc67b41905583134abc73e, type: 3}
-  audioSource: {fileID: 1590028058}
-  buttons:
-  - {fileID: 29966987}
-  - {fileID: 716745273}
+  AudioSource: {fileID: 1590028058}
+  Buttons:
   - {fileID: 785896376}
-  - {fileID: 393993463}
-  - {fileID: 337603542}
-  - {fileID: 1346691034}
   - {fileID: 714567263}
   - {fileID: 1177503469}
   - {fileID: 1431825139}
-  images:
+  - {fileID: 1346691034}
+  - {fileID: 716745273}
+  - {fileID: 29966987}
+  - {fileID: 393993463}
+  - {fileID: 337603542}
+  Images:
   - {fileID: 743870702}
   - {fileID: 1874534711}
+  - {fileID: 846600085}
   - {fileID: 827005593}
+  - {fileID: 393993464}
+  - {fileID: 337603543}
+  - {fileID: 863268118}
   - {fileID: 863268118}
   - {fileID: 348911489}
   - {fileID: 1228476780}
-  - {fileID: 846600085}
-  - {fileID: 393993464}
   - {fileID: 1174978175}
-  rawImages:
+  RawImages:
   - {fileID: 884393817}
-  gameOver: 0
+  _GameOver: 0
   counterDurationMin: 10
   fadeDurationSpiwe: 0.5
   objects:
@@ -4607,6 +4608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb2234be90aa0b47bb5a3d7252019fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Stage: 10
   Progress: 0
   Prefabs:
   - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
@@ -4620,15 +4622,13 @@ MonoBehaviour:
     type: 3}
   SolutionPath: []
   UnSolution: []
-  Stage: 10
+  Stage: 7
   WeatherSystem:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
   gameMapController: {fileID: 928945329}
-  _smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
-    type: 3}
-  _clue: {fileID: 1617006618}
+  Clue: {fileID: 1617006618}
 --- !u!1 &1785057814
 GameObject:
   m_ObjectHideFlags: 0
@@ -4694,7 +4694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b204485fac76cd64d8f7103ad50027ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  operation: 1
+  Operation: 1
 --- !u!114 &1785057818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5353,9 +5353,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
+      propertyPath: Sparks
+      value: 
+      objectReference: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7,
+        type: 3}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
       propertyPath: manager
       value: 
       objectReference: {fileID: 1590028057}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: EventManager
+      value: 
+      objectReference: {fileID: 1222619372}
     - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
       propertyPath: UIController
@@ -5368,8 +5379,19 @@ PrefabInstance:
       objectReference: {fileID: 1222619372}
     - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
+      propertyPath: DestroyedCube
+      value: 
+      objectReference: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
+        type: 3}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
       propertyPath: shieldIsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: TargetLayers.m_Bits
+      value: 25608
       objectReference: {fileID: 0}
     - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
@@ -5396,6 +5418,11 @@ PrefabInstance:
       propertyPath: rollDuration
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3228786452200725812, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: PlatformManager
+      value: 
+      objectReference: {fileID: 1750448861}
     - target: {fileID: 3228786452200725812, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
       propertyPath: platformManager
@@ -5481,6 +5508,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9203242227484082096, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: Duration
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203242227484082096, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: TrailPrefab
+      value: 
+      objectReference: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -6,14 +6,14 @@ public class ColorfulTile : MonoBehaviour
     private ParticleSystem smoke;
     private MaterialPropertyBlock propertyBlock;
     private Renderer Renderer; // It might be null beacuse of the frustum culling operation
-    public Vector2Int position { get; private set; }
+    public Vector2Int Position { get; private set; }
     private Coroutine dynamics;
 
     private void Awake()
     {
         propertyBlock = new MaterialPropertyBlock();
         Renderer = transform.GetComponent<Renderer>();
-        position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
+        Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
     }
     public void RepeatColor (Material dummy,Material original)
     {
@@ -82,15 +82,16 @@ public class ColorfulTile : MonoBehaviour
     }
     private void ExchangeMaterials (Material mat)
     {
-        if (SceneLoader.currentScene == "Day")
+        if (SceneLoader.CurrentScene == "Day")
         {
             var obj = GetComponentInParent<PlatformManager>();
-            obj.SetTileMat(mat, position);
-        } else if (SceneLoader.currentScene == "Multiplayer")
+            obj.SetTileMat(mat, Position);
+        } else if (SceneLoader.CurrentScene == "Multiplayer")
         {
             var obj = GetComponentInParent<NetworkPlatformManager>();
-            obj.SetTileMat(mat, position);
-        } else
+            obj.SetTileMat(mat, Position);
+        }
+        else
             StopCoroutine(dynamics);
     }
 

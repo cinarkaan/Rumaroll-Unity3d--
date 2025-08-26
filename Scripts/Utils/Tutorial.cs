@@ -10,44 +10,44 @@ public class Tutorial : MonoBehaviour
     [Header("Settings of Animations")]
     [Tooltip("Her bir karakterin fade?in süresi (saniye)")]
     [Range(0.01f, 1f)]
-    public float fadeDurationText = 0.3f;
+    public float FadeDurationText = 0.3f;
 
     [Tooltip("Bir karakter tamamen fade?in olduktan sonra sonraki karaktere geçme süresi (saniye)")]
     [Range(0f, 0.2f)]
-    public float intervalBetweenChars = 0.05f;
+    public float IntervalBetweenChars = 0.05f;
 
     [Tooltip("Harfler arasý baþlangýç gecikmesi (saniye)\nfadeDuration’dan küçük seçilirse fade süreçleri üst üste binecek.")]
     [Range(0.01f, 0.5f)]
-    public float spawnInterval = 0.1f;
+    public float SpawnInterval = 0.1f;
 
-    public bool tap;
+    public bool Tap;
 
-    private Image _talk;
-    private string fullText;
+    private Image _Talk;
+    private string FullText;
 
     private UIController UIController;
 
     void Start()
     {
-        tap = false;
-        _talk = GameObject.Find("Canvas/Talk").GetComponent<Image>();
-        UIController = transform.GetComponentInChildren<UIController>();
+        Tap = false;
+        _Talk = GameObject.Find("Canvas/Talk").GetComponent<Image>();
+        UIController = transform.GetComponent<UIController>();
         UIController.playerController.GetComponent<OverlapBoxNonAllocPoller>().enabled = false;
-        StartCoroutine(talk());
+        StartCoroutine(Talk());
     }
   
-    private IEnumerator talk()
+    private IEnumerator Talk()
     {
-        yield return new WaitUntil(() => !tap); 
+        yield return new WaitUntil(() => !Tap); 
         UIController.EventsManager(false);
         UIController.ButtonsManager(false);
         UIController.playerController.Render(false);
-        fullText = "Welcome to the world of cube. The magical colorful cube needs to reach out evacutaion point where is located on the flag. ";
-        StartCoroutine(showEvacutaionPoint(new Vector3(UIController.playerController.getGridManager().Stage + 6, UIController.playerController.transform.position.y, UIController.playerController.getGridManager().Stage + 6), 0));
+        FullText = "Welcome to the world of cube. The magical colorful cube needs to reach out evacutaion point where is located on the flag. ";
+        StartCoroutine(ShowEvacutaionPoint(new Vector3(UIController.playerController._PlatformManager.Stage + 6, UIController.playerController.transform.position.y, UIController.playerController._PlatformManager.Stage + 6), 0));
     }
-    private IEnumerator touchToCountinue(int step)
+    private IEnumerator TouchToCountinue(int step)
     {
-        fullText = "As you can see left bottom of the screen , only, you are able to move cube at the each direction , if the bottom face color of cube mathces with tile color. " +
+        FullText = "As you can see left bottom of the screen , only, you are able to move cube at the each direction , if the bottom face color of cube mathces with tile color. " +
         "The right bottom of the screen is placed map, whenever you want to see where you are , you can check out both you and obstacles. Also you can demand clue , of course if you have" +
         " If everythink is okay , good luck ...";
         while (true)
@@ -74,15 +74,15 @@ public class Tutorial : MonoBehaviour
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 step++;
-                StartCoroutine(UIController.FadeInOut(new Color(0f,0f,0f,0.6f), Color.clear, 1f));
-                StartCoroutine(UIController.scalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _talk));
+                StartCoroutine(UIController.FadeInOut(new Color(0f,0f,0f,0.6f), Color.clear));
+                StartCoroutine(UIController.ScalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _Talk));
                 if (step < 2)
-                    StartCoroutine(showEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
+                    StartCoroutine(ShowEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
                 else
                 {
                     UIController.EventsManager(true);
                     UIController.ButtonsManager(true);
-                    GameObject.Find("Canvas/Close").SetActive(false);
+                    GameObject.Find("Canvas/Close").gameObject.SetActive(false);
                     UIController.playerController.Render(true);
                     UIController.playerController.GetComponent<OverlapBoxNonAllocPoller>().enabled = true;
                 }
@@ -110,7 +110,7 @@ public class Tutorial : MonoBehaviour
         }
 
     }
-    private IEnumerator showEvacutaionPoint(Vector3 camEnd, int step)
+    private IEnumerator ShowEvacutaionPoint(Vector3 camEnd, int step)
     {
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(UIController.playerController.transform.position,camEnd) > 0.01f)
@@ -118,15 +118,15 @@ public class Tutorial : MonoBehaviour
             UIController.playerController.transform.position = Vector3.SmoothDamp(UIController.playerController.transform.position, camEnd, ref velocity, 0.3f);
             yield return null;
         }
-        StartCoroutine(UIController.FadeInOut(Color.clear, new Color(0, 0, 0, 0.6f), 1f));
-        StartCoroutine(UIController.scalerMenu(new Vector3(0f, 0f, 1f), new Vector3(1f, 1f, 1f), 0.8f, _talk));
+        StartCoroutine(UIController.FadeInOut(Color.clear, new Color(0, 0, 0, 0.6f)));
+        StartCoroutine(UIController.ScalerMenu(new Vector3(0f, 0f, 1f), new Vector3(1f, 1f, 1f), 0.8f, _Talk));
         StartCoroutine(PlayTypewriterFade(step));
     }
     private IEnumerator PlayTypewriterFade(int step)
     {
-        int n = fullText.Length;
+        int n = FullText.Length;
         // Total time : Start of the last word + fadeDuration
-        float totalDuration = spawnInterval * (n - 1) + fadeDurationText;
+        float totalDuration = SpawnInterval * (n - 1) + FadeDurationText;
         float time = 0f;
 
         // At the each frame the text regenerate by using only one stringbuilder
@@ -138,9 +138,9 @@ public class Tutorial : MonoBehaviour
 
             for (int i = 0; i < n; i++)
             {
-                char c = fullText[i];
-                float charStart = i * spawnInterval;
-                float t = (time - charStart) / fadeDurationText;
+                char c = FullText[i];
+                float charStart = i * SpawnInterval;
+                float t = (time - charStart) / FadeDurationText;
                 t = Mathf.Clamp01(t);
 
                 // Add either space or new line
@@ -175,15 +175,15 @@ public class Tutorial : MonoBehaviour
                 }
             }
 
-            _talk.GetComponentInChildren<Text>().text = builder.ToString();
+            _Talk.GetComponentInChildren<Text>().text = builder.ToString();
 
             time += Time.deltaTime;
             yield return null;
         }
 
         //The text will be complately black and without tag as soon as complate the animation
-        _talk.GetComponentInChildren<Text>().text = fullText;
-        StartCoroutine(touchToCountinue(step));
+        _Talk.GetComponentInChildren<Text>().text = FullText;
+        StartCoroutine(TouchToCountinue(step));
     }
 
 }

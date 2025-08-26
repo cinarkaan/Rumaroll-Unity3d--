@@ -5,7 +5,9 @@ public class RollingCubeController : MonoBehaviour
 {
 
     [SerializeField]
-    private PlatformManager platformManager;
+    private PlatformManager PlatformManager;
+
+    public PlatformManager _PlatformManager => PlatformManager;
 
     [SerializeField] 
     private Transform[] faceQuads; // The referaces that belongs on faces of cube
@@ -47,8 +49,8 @@ public class RollingCubeController : MonoBehaviour
                 Mathf.RoundToInt(targetPosCandidate.z / 1f)
             );
             // Check out the grid boundaries (Depends on the stage)
-            if (targetCoord.x < 6 || targetCoord.x > platformManager.Stage + 6 ||
-                targetCoord.y < 6 || targetCoord.y > platformManager.Stage + 6)
+            if (targetCoord.x < 6 || targetCoord.x > PlatformManager.Stage + 6 ||
+                targetCoord.y < 6 || targetCoord.y > PlatformManager.Stage + 6)
                 return; 
 
             // if the target position contains grid boundaries , launch rolling operation
@@ -70,7 +72,7 @@ public class RollingCubeController : MonoBehaviour
 
         Material mat = faceQuads[CubeSimulator.faceIndices[0]].GetComponent<Renderer>().sharedMaterial;
 
-        Material tile = platformManager.GetTileMat(GetTileCoordAtPosition());
+        Material tile = PlatformManager.GetTileMat(GetTileCoordAtPosition());
 
         if (!mat.name.Equals(tile.name))
         {
@@ -89,7 +91,7 @@ public class RollingCubeController : MonoBehaviour
     private IEnumerator Move(Vector3 direction)
     {
 
-        _rolling.PlayOneShot(_move_Sfx[0], UIController._volume);
+        _rolling.PlayOneShot(_move_Sfx[0], UIController._Volume);
 
         moving = true;
         Vector3 anchor = transform.position + (Vector3.down + direction) * 1f / 2f;
@@ -110,7 +112,7 @@ public class RollingCubeController : MonoBehaviour
 
             yield return null;
         }
-        _rolling.PlayOneShot(_move_Sfx[1], UIController._volume);
+        _rolling.PlayOneShot(_move_Sfx[1], UIController._Volume);
 
         Vector3 finalPos = transform.position;
 
@@ -135,13 +137,9 @@ public class RollingCubeController : MonoBehaviour
             transform.GetChild(index++).GetComponent<MeshRenderer>().enabled = render;
         transform.GetComponent<MeshRenderer>().enabled = render;
     }
-    public PlatformManager getGridManager ()
-    {
-        return platformManager;
-    }
     private void HasPlayerArrive ()
     {
-        if (GetTileCoordAtPosition().Equals(new Vector2Int(platformManager.Stage + 6, platformManager.Stage + 6)))
+        if (GetTileCoordAtPosition().Equals(new Vector2Int(PlatformManager.Stage + 6, PlatformManager.Stage + 6)))
             StartCoroutine(control.SceneLoader(0, 1, 0.15f, "Day"));
     }
     public IEnumerator ShieldController (bool isActive)
