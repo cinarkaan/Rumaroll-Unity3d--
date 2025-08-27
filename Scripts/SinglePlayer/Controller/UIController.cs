@@ -103,9 +103,9 @@ public class UIController : ExceptionalUI
                 OpenMap();
         }
 
-        if (Input.GetKeyDown(KeyCode.C) && buttons.Find(b => b.name == "Clue").interactable)
+        if (Input.GetKeyDown(KeyCode.C) && Buttons.Find(b => b.name == "Clue").interactable)
             Clue();
-        if (SceneManager.GetActiveScene().buildIndex > 1 && Input.GetKeyDown(KeyCode.R) && buttons.Find(b => b.name == "Shield").interactable)
+        if (SceneManager.GetActiveScene().buildIndex > 1 && Input.GetKeyDown(KeyCode.R) && Buttons.Find(b => b.name == "Shield").interactable)
                 Shield();
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();

@@ -136,7 +136,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
         Blades.ForEach(t => t.transform.GetChild(0).localPosition = new Vector3(0f, -1f, 0f));
     }
     
-    public void Update() 
+    public void LateUpdate() 
     {
         if (Spikes.Count != 0 && ServerManager.Launch.Value)
             for (int i = 0; i < Spikes.Count; i++)

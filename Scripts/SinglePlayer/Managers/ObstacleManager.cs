@@ -359,7 +359,7 @@ public class ObstacleManager : ExceptionalPlacement
         isShooting = false;
         Cannon.ForEach(c => c.transform.GetChild(0).GetChild(0).gameObject.SetActive(false));
     }
-    private void Update()
+    private void LateUpdate()
     {
         if (Spikes.Count != 0)
             for (int i = 0; i < Spikes.Count; i++)

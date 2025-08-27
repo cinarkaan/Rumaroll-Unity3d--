@@ -46,7 +46,7 @@ public class PlatformManager : ExceptionalPlatform
         PlaceFlag();
 
     }
-    private void Update()
+    private void LateUpdate()
     {
         if (Progress && gameMapController.currentIndex == 1)
         {

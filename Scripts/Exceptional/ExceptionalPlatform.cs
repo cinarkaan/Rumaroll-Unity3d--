@@ -109,7 +109,7 @@ public class ExceptionalPlatform : MonoBehaviour
         List<Vector2Int> path = new List<Vector2Int>();
         HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
 
-        bool found = DepthFirstSearch(start, goal, path, visited);
+        DepthFirstSearch(start, goal, path, visited);
         path.Reverse();
 
         return path;

@@ -4622,7 +4622,7 @@ MonoBehaviour:
     type: 3}
   SolutionPath: []
   UnSolution: []
-  Stage: 7
+  Stage: 10
   WeatherSystem:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}

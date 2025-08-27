@@ -56,10 +56,10 @@ public class Tutorial : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 step++;
-                StartCoroutine(UIController.FadeInOut(new Color(0f, 0f, 0f, 0.6f), Color.clear, 1f));
-                StartCoroutine(UIController.scalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _talk));
+                StartCoroutine(UIController.FadeInOut(new Color(0f, 0f, 0f, 0.6f), Color.clear));
+                StartCoroutine(UIController.ScalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _Talk));
                 if (step < 2)
-                    StartCoroutine(showEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
+                    StartCoroutine(ShowEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
                 else
                 {
                     UIController.EventsManager(true);

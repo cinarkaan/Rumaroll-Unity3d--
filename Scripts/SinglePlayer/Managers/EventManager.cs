@@ -82,7 +82,6 @@ public class EventManager : MonoBehaviour
                 break;
         }
         EventManager.progress = true;
-        StartCoroutine(Rotate());
     }
     public void CheckEarned(GameObject eventObject)
     {
@@ -154,11 +153,11 @@ public class EventManager : MonoBehaviour
         }
         GenerateCoins();
         GenerateDims();
-
+        
     }
-    private IEnumerator Rotate()
+    private void LateUpdate()
     {
-        while (true)
+        if (Precious.Count > 0)
         {
             Quaternion precieousRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * coinPrefab.transform.rotation;
             for (int i = 0; i < Precious.Count; i++)
@@ -166,9 +165,7 @@ public class EventManager : MonoBehaviour
                 var t = Precious[i].transform;
                 t.rotation = Quaternion.Lerp(t.rotation, precieousRotation * t.rotation, 0.005f);
             }
-            yield return null;
         }
-
     }
     private IEnumerator WaitForPlatform ()
     {
