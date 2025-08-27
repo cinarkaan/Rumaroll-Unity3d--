@@ -342,9 +342,9 @@ public class ObstacleManager : ExceptionalPlacement
     {
         isShooting = true;
         Cannon.ForEach(c => c.transform.GetChild(0).GetChild(0).gameObject.SetActive(true));
-        Vector3 start = new(-2.5f, 0f, -0.25f);
+        Vector3 start = new(-2f, 0f, -0.25f);
         Vector3 final = start * (2.5f * platformManager.Stage);
-        final.y = -0.1f;
+        final.z = -0.25f;
         float elapsed = 0f;
         Cannon.ForEach(c => c.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>().Play());
         _cannonShoot.ForEach(c => c.PlayOneShot(c.clip, _volume));
@@ -362,42 +362,82 @@ public class ObstacleManager : ExceptionalPlacement
     private void Update()
     {
         if (Spikes.Count != 0)
-            Spikes.ForEach(s => s.transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, spikeSpeed, false));
+            for (int i = 0; i < Spikes.Count; i++)
+                Spikes[i].transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, spikeSpeed, false);
+            
+            
+        //Spikes.ForEach(s => s.transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, spikeSpeed, false)); // To avoid GC Allocation
 
         if (MovedHazardVertical.Count > 0)
         {
             Quaternion hazardRotationVertical = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.right);
-            
-            MovedHazardVertical.ToList().ForEach(m => m.Key.transform.localRotation = Quaternion.Lerp(m.Key.transform.localRotation, hazardRotationVertical * m.Key.transform.localRotation, 10f));
 
-            MovedHazardVertical.ToList().ForEach(m => m.Key.transform.localPosition = MovedParts(m.Value,SetDirectionOfMovedHazard(m.Value,false), distanceOfMovedHazars,movedHazardSpeed,false));
+            for (int i = 0; i < MovedHazardVertical.Count; i++)
+            {
+                var Key = MovedHazardVertical.ElementAt(i).Key;
 
-            MovedHazardVertical.ToList().ForEach(m => m.Key.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(90f, 0f, 90f)));
+                var value = MovedHazardVertical.ElementAt(i).Value;
+
+                Key.transform.SetLocalPositionAndRotation(MovedParts(value, SetDirectionOfMovedHazard(value, false), distanceOfMovedHazars, movedHazardSpeed, false), Quaternion.Lerp(Key.transform.localRotation, hazardRotationVertical * Key.transform.localRotation, 10f));
+                Key.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(90f, 0f, 90f));
+
+            }
+
+            // To avoid GC Allocation
+
+            //MovedHazardVertical.ToList().ForEach(m => m.Key.transform.localRotation = Quaternion.Lerp(m.Key.transform.localRotation, hazardRotationVertical * m.Key.transform.localRotation, 10f));
+
+            //MovedHazardVertical.ToList().ForEach(m => m.Key.transform.localPosition = MovedParts(m.Value,SetDirectionOfMovedHazard(m.Value,false), distanceOfMovedHazars,movedHazardSpeed,false));
+
+            //MovedHazardVertical.ToList().ForEach(m => m.Key.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(90f, 0f, 90f)));
         }
 
         if (MovedHazardHorizontal.Count > 0)
         {
             Quaternion hazardRotationHorizontal = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.forward);
 
-            MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.localRotation = Quaternion.Lerp(m.Key.transform.localRotation, hazardRotationHorizontal * m.Key.transform.localRotation, 10f));
+            for (int i = 0; i < MovedHazardHorizontal.Count; i++)
+            {
+                var Key = MovedHazardHorizontal.ElementAt(i).Key;
 
-            MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.localPosition = MovedParts(m.Value, SetDirectionOfMovedHazard(m.Value,true), distanceOfMovedHazars, movedHazardSpeed, false));
+                var Value = MovedHazardHorizontal.ElementAt(i).Value;
 
-            MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(90f, 0f, 90f)));
+                Key.transform.SetLocalPositionAndRotation(MovedParts(Value, SetDirectionOfMovedHazard(Value, true), distanceOfMovedHazars, movedHazardSpeed, false), Quaternion.Lerp(Key.transform.localRotation, hazardRotationHorizontal * Key.transform.localRotation, 10f));
+                Key.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(90f, 0f, 90f));
+
+            }
+
+            // To Avoid GC Allocation 
+
+            //MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.localRotation = Quaternion.Lerp(m.Key.transform.localRotation, hazardRotationHorizontal * m.Key.transform.localRotation, 10f));
+
+            //MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.localPosition = MovedParts(m.Value, SetDirectionOfMovedHazard(m.Value,true), distanceOfMovedHazars, movedHazardSpeed, false));
+
+            //MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.GetChild(0).rotation = Quaternion.Euler(new Vector3(90f, 0f, 90f)));
         }
 
         if (Blade.Count != 0)
         {
             Quaternion bladeRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * obstacles[1].transform.GetChild(0).localRotation;
 
-            Blade.ToList().ForEach(b => b.transform.GetChild(0).localRotation = Quaternion.Lerp(b.transform.GetChild(0).localRotation, bladeRotation * b.transform.GetChild(0).localRotation, 1.5f));
+            for (int i = 0; i < Blade.Count; i++)
+            {
+                Blade[i].transform.GetChild(0).SetLocalPositionAndRotation(MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f, bladeSpeed, false), Quaternion.Lerp(Blade[i].transform.GetChild(0).localRotation, bladeRotation * Blade[i].transform.GetChild(0).localRotation, 1.5f));
+                Blade[i].transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f);
+            }
 
-            Blade.ToList().ForEach(b => b.transform.GetChild(0).localPosition = MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f,bladeSpeed,false));
+            // To avoid GC Allocation
+            
+            //Blade.ToList().ForEach(b => b.transform.GetChild(0).localRotation = Quaternion.Lerp(b.transform.GetChild(0).localRotation, bladeRotation * b.transform.GetChild(0).localRotation, 1.5f));
 
-            Blade.ToList().ForEach(b => b.transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f));
+            //Blade.ToList().ForEach(b => b.transform.GetChild(0).localPosition = MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f,bladeSpeed,false));
+
+            //Blade.ToList().ForEach(b => b.transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f));
         }
 
         if (Cutters.Count != 0)
-            Cutters.ForEach(c => c.transform.localPosition = MovedParts(c.transform.localPosition, Vector3.down, 1.25f, cutterSpeed, true));
+            for (int i = 0; i < Cutters.Count; i++)
+                Cutters[i].transform.localPosition = MovedParts(Cutters[i].transform.localPosition, Vector3.down, 1.25f, cutterSpeed, true);
+            //Cutters.ForEach(c => c.transform.localPosition = MovedParts(c.transform.localPosition, Vector3.down, 1.25f, cutterSpeed, true));
     }
 }

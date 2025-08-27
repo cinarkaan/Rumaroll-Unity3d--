@@ -139,19 +139,29 @@ public class NetworkObstacleManager : ExceptionalPlacement
     public void Update() 
     {
         if (Spikes.Count != 0 && ServerManager.Launch.Value)
-            Spikes.ForEach(s => s.transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, SpikeSpeed, false));
+            for (int i = 0; i < Spikes.Count; i++)
+                Spikes[i].transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, SpikeSpeed, false);
+    
+        //Spikes.ForEach(s => s.transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, SpikeSpeed, false));
 
         if (Blades.Count != 0 && ServerManager.Launch.Value)
         {
             Quaternion bladeRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * Obstacles[1].transform.GetChild(0).localRotation;
 
-            Blades.ForEach(b => b.transform.GetChild(0).localRotation = Quaternion.Lerp(b.transform.GetChild(0).localRotation, bladeRotation * b.transform.GetChild(0).localRotation, 1.5f));
+            for (int i = 0; i < Blades.Count; i++)
+            {
+                Blades[i].transform.GetChild(0).SetLocalPositionAndRotation(MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f, BladeSpeed, false), Quaternion.Lerp(Blades[i].transform.GetChild(0).localRotation, bladeRotation * Blades[i].transform.GetChild(0).localRotation, 1.5f));
+                Blades[i].transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f);
+            }
 
-            Blades.ForEach(b => b.transform.GetChild(0).localPosition = MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f, BladeSpeed, false));
+            // To Avoid GC Allocation 
 
-            Blades.ForEach(b => b.transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f));
+            //Blades.ForEach(b => b.transform.GetChild(0).localRotation = Quaternion.Lerp(b.transform.GetChild(0).localRotation, bladeRotation * b.transform.GetChild(0).localRotation, 1.5f));
+
+            //Blades.ForEach(b => b.transform.GetChild(0).localPosition = MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f, BladeSpeed, false));
+
+            //Blades.ForEach(b => b.transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f));
         }
-
     }
 }
 

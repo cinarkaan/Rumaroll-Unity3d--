@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class UIController : ExceptionalUI
 {
     
@@ -217,14 +218,15 @@ public class UIController : ExceptionalUI
     public override void Pause ()
     {
         StartCoroutine(ScalerMenu(Vector3.zero, Vector3.one, 1f,Images.Find(f => f.name == "PauseMenu")));
-        Buttons.ForEach(b => b.interactable = false);
+        Buttons.ForEach(b => b.gameObject.SetActive(false));
     }
     public override void Continue()
     {
-        Buttons.ForEach(b => b.interactable = true);
+        Buttons.ForEach(b => b.gameObject.SetActive(true));
+        Buttons.Find(close => close.name == "Close").gameObject.SetActive(false);
         Time.timeScale = 1f;
         StartCoroutine(ScalerMenu(Vector3.one, Vector3.zero, 1f, Images.Find(f => f.name == "PauseMenu")));
-        Images.Find(f => f.name == "PauseMenu").gameObject.SetActive(true);
+        //Images.Find(f => f.name == "PauseMenu").gameObject.SetActive(true);
     }
     public override void Restart ()
     {

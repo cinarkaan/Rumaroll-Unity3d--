@@ -47,13 +47,13 @@ public class MainMenu : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(fadeImage(images.First().color, Color.clear, duration,images.First())); // Launch fade animation only when app start
+        StartCoroutine(FadeImage(images.First().color, Color.clear, duration,images.First())); // Launch fade animation only when app start
 
         MultiPlayerMenu = GetComponent<MultiPlayerMenu>();
 
         CleanUpDestory(); // Clean the network objects that remains from multiplayer
 
-        initialize(); // Adjust save - load system as automatically
+        Initialize(); // Adjust save - load system as automatically
     }
     private void LateUpdate()
     {
@@ -92,7 +92,7 @@ public class MainMenu : MonoBehaviour
         icon.sizeDelta = new Vector2(size, size);
         icon.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
     }
-    private void initialize()
+    private void Initialize()
     {
         if (!PlayerPrefs.HasKey("Stage"))
         {
@@ -125,16 +125,16 @@ public class MainMenu : MonoBehaviour
         PlaySFX();
         Vector3 start = icon.localPosition;
         Vector3 end = new Vector3(-600f, 47f, 0);
-        StartCoroutine(selectedIcon(start,end));
+        StartCoroutine(SelectedIcon(start,end));
         if (PlayerPrefs.GetInt("Stage") > 4)
         {
-            StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-            StartCoroutine(scalerMenu(images[1].rectTransform.localScale, new Vector3(1.5f, 1.5f, 1), images[1]));
+            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
+            StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(1.5f, 1.5f, 1), images[1]));
         }
         else
         {
-            StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-            StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu[3], "Tutorial"));
+            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
+            StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu[3], "Tutorial"));
         }
 
     }
@@ -142,12 +142,12 @@ public class MainMenu : MonoBehaviour
     {
         images[1].rectTransform.localScale = Vector3.zero;
         PlayerPrefs.SetInt("Stage", 4);
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-        StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[3], "Tutorial"));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
+        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[3], "Tutorial"));
     }
     public void no ()
     {
-        StartCoroutine(scalerMenu(images[1].rectTransform.localScale, new Vector3(0, 0, 1),images[1]));
+        StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(0, 0, 1),images[1]));
     }
     public void quitGameButton()
     {
@@ -159,11 +159,11 @@ public class MainMenu : MonoBehaviour
         PlaySFX();
         Vector3 start = icon.localPosition;
         Vector3 end = new Vector3(-600f, -85f, 0);
-        StartCoroutine(selectedIcon(start, end));
+        StartCoroutine(SelectedIcon(start, end));
         if (PlayerPrefs.GetInt("Stage") > 4)
         {
-            StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[2], ""));
-            StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
+            StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[2], ""));
+            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
         }
     }
     public void buyShield ()
@@ -181,24 +181,24 @@ public class MainMenu : MonoBehaviour
     public void backMenu ()
     {
         PlaySFX();
-        StartCoroutine(fadeCanvasGroup(0, 1, uiMenu[2],""));
-        StartCoroutine(fadeCanvasGroup(1f , 1f, uiMenu.Last(), ""));
+        StartCoroutine(FadeCanvasGroup(0, 1, uiMenu[2],""));
+        StartCoroutine(FadeCanvasGroup(1f , 1f, uiMenu.Last(), ""));
     }
     public void startGame ()
     {
         PlaySFX();
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-        StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[3],"Day"));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
+        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[3],"Day"));
     } 
     public void settings ()
     {
         PlaySFX();
         Vector3 start = icon.localPosition;
         Vector3 end = new Vector3(-600f, -310f, 0f);
-        StartCoroutine(selectedIcon(start, end));
-        StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[1], ""));
-        StartCoroutine(fadeCanvasGroup(0, 1, uiMenu.First(), ""));
-        StartCoroutine(fadeCanvasGroup(0, 1, uiMenu.Last(), ""));
+        StartCoroutine(SelectedIcon(start, end));
+        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[1], ""));
+        StartCoroutine(FadeCanvasGroup(0, 1, uiMenu.First(), ""));
+        StartCoroutine(FadeCanvasGroup(0, 1, uiMenu.Last(), ""));
     }
     public void multiplayer ()
     {
@@ -206,22 +206,22 @@ public class MainMenu : MonoBehaviour
         PlaySFX();
         if (!WiFi())
         {
-            StartCoroutine(scalerMenu(images.Last().rectTransform.localScale, new Vector3(1f, 1f, 1f), images.Last()));
+            StartCoroutine(ScalerMenu(images.Last().rectTransform.localScale, new Vector3(1f, 1f, 1f), images.Last()));
             return;
         }
         Vector3 start = icon.localPosition;
         Vector3 end = new Vector3(-600f, -205f, 0f);
-        StartCoroutine(selectedIcon(start, end));
-        StartCoroutine(fadeCanvasGroup(1, 1, uiMenu[4], ""));
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu[0], ""));
+        StartCoroutine(SelectedIcon(start, end));
+        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[4], ""));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu[0], ""));
     }
     public void saveSettings ()
     {
         PlaySFX();
         PlayerPrefs.SetFloat("Touch Sensitivity", _sensitivity);
-        StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu.First(), ""));
-        StartCoroutine(fadeCanvasGroup(0f, 1f, uiMenu[1], ""));
-        StartCoroutine(fadeCanvasGroup(1f, 1f, uiMenu.Last(), ""));
+        StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu.First(), ""));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu[1], ""));
+        StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu.Last(), ""));
     }
     public void checkMusic (bool music)
     {
@@ -252,7 +252,7 @@ public class MainMenu : MonoBehaviour
         postProcessing = toggles[4].isOn;
         PlayerPrefs.SetInt("Post Processing", postProcessing ? 1 : 0);
     }
-    private IEnumerator fadeImage(Color start, Color end, float time,Image image)
+    private IEnumerator FadeImage(Color start, Color end, float time,Image image)
     {
         float elapsed = 0f;
         while (elapsed < time)
@@ -264,7 +264,7 @@ public class MainMenu : MonoBehaviour
         }
         image.color = end;
     }
-    public IEnumerator selectedIcon (Vector3 start , Vector3 End)
+    public IEnumerator SelectedIcon (Vector3 start , Vector3 End)
     {
         float elapsed = 0f;
         while(elapsed < iconDuration)
@@ -275,7 +275,7 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator scalerMenu (Vector3 start , Vector3 end,Image image)
+    private IEnumerator ScalerMenu (Vector3 start , Vector3 end,Image image)
     {
         float elapsed = 0f;
         while(elapsed < 0.5f)
@@ -286,7 +286,7 @@ public class MainMenu : MonoBehaviour
             yield return null;
         }
     }
-    public IEnumerator fadeCanvasGroup(float targetAlpha, float duration, CanvasGroup cv, string name)
+    public IEnumerator FadeCanvasGroup(float targetAlpha, float duration, CanvasGroup cv, string name)
     {
         float startAlpha = cv.alpha;
         float elapsed = 0f;
@@ -327,7 +327,7 @@ public class MainMenu : MonoBehaviour
     }
     public void CloseWarning ()
     {
-        StartCoroutine(scalerMenu(images.Last().rectTransform.localScale, new Vector3(0, 0, 1), images.Last()));
+        StartCoroutine(ScalerMenu(images.Last().rectTransform.localScale, new Vector3(0, 0, 1), images.Last()));
     }
     public void PlaySFX ()
     {

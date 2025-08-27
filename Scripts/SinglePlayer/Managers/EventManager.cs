@@ -161,7 +161,11 @@ public class EventManager : MonoBehaviour
         while (true)
         {
             Quaternion precieousRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * coinPrefab.transform.rotation;
-            Precious.ForEach(p => p.transform.rotation = Quaternion.Lerp(p.transform.rotation, precieousRotation * p.transform.rotation, 0.005f));
+            for (int i = 0; i < Precious.Count; i++)
+            {
+                var t = Precious[i].transform;
+                t.rotation = Quaternion.Lerp(t.rotation, precieousRotation * t.rotation, 0.005f);
+            }
             yield return null;
         }
 

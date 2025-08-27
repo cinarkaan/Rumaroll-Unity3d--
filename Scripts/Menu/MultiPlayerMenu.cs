@@ -76,26 +76,26 @@ public class MultiPlayerMenu : MonoBehaviour
     public void backMenuFromMultiplayer()
     {
         Menu.PlaySFX();
-        StartCoroutine(Menu.fadeCanvasGroup(1f, 1f, Menu.UIMenu[0], ""));
-        StartCoroutine(Menu.fadeCanvasGroup(0, 1, Menu.UIMenu[4], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[0], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(0, 1, Menu.UIMenu[4], ""));
         enabled = false;
     }
     public void CreateGame()
     {
         Menu.PlaySFX();
         broadcast = manager.gameObject.AddComponent<RoomBroadcaster>();
-        StartCoroutine(Menu.selectedIcon(Menu.Icon.localPosition, new Vector3(-600, 40f, 0)));
-        StartCoroutine(Menu.fadeCanvasGroup(1, 1, Menu.UIMenu[5], ""));
-        StartCoroutine(Menu.fadeCanvasGroup(0f, 0.75f, Menu.UIMenu[^1], ""));
+        StartCoroutine(Menu.SelectedIcon(Menu.Icon.localPosition, new Vector3(-600, 40f, 0)));
+        StartCoroutine(Menu.FadeCanvasGroup(1, 1, Menu.UIMenu[5], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(0f, 0.75f, Menu.UIMenu[^1], ""));
     }
     public void JoinGame()
     {
         Menu.PlaySFX();
         roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
         discovery = manager.gameObject.AddComponent<RoomDiscovery>();
-        StartCoroutine(Menu.selectedIcon(Menu.Icon.localPosition, new Vector3(-600, -199f, 0f)));
-        StartCoroutine(Menu.fadeCanvasGroup(1f, 1f, Menu.UIMenu[6], ""));
-        StartCoroutine(Menu.fadeCanvasGroup(0f, 1f, Menu.UIMenu[^1], ""));
+        StartCoroutine(Menu.SelectedIcon(Menu.Icon.localPosition, new Vector3(-600, -199f, 0f)));
+        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[6], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[^1], ""));
     }
     public void getRoomNameInput()
     {
@@ -120,8 +120,8 @@ public class MultiPlayerMenu : MonoBehaviour
     {
         Menu.PlaySFX();
         Destroy(broadcast);
-        StartCoroutine(Menu.fadeCanvasGroup(0f, 1f, Menu.UIMenu[5], ""));
-        StartCoroutine(Menu.fadeCanvasGroup(1f, 1f, Menu.UIMenu.Last(), ""));
+        StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[5], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu.Last(), ""));
     }
     public void BackMultiplayerFromJoin()
     {
@@ -131,8 +131,8 @@ public class MultiPlayerMenu : MonoBehaviour
                 Destroy(obj.gameObject);
         Destroy(discovery);
         roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
-        StartCoroutine(Menu.fadeCanvasGroup(0f, 1f, Menu.UIMenu[6], ""));
-        StartCoroutine(Menu.fadeCanvasGroup(1f, 1f, Menu.UIMenu[^1], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[6], ""));
+        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[^1], ""));
     }
     public void refresh()
     {

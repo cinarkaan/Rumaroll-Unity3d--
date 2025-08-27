@@ -84,7 +84,7 @@ public class NetworkCubeController : NetworkBehaviour
         
         CubeSimulator.Roll(direction);
 
-        StartCoroutine(move(direction));
+        StartCoroutine(Move(direction));
 
         yield return new WaitUntil(() => !moving);
 
@@ -96,7 +96,7 @@ public class NetworkCubeController : NetworkBehaviour
         {
             moving = true;
             CubeSimulator.faceIndices = oldIndices;
-            StartCoroutine(move(direction * (-1)));
+            StartCoroutine(Move(direction * (-1)));
             yield return new WaitUntil(() => !moving);
         }
 
@@ -104,7 +104,7 @@ public class NetworkCubeController : NetworkBehaviour
         cubeTrail.CancelInvoke();
         HasPlayerWon();
     }
-    private IEnumerator move(Vector3 direction)
+    private IEnumerator Move(Vector3 direction)
     {
         _rolling.PlayOneShot(_move_Sfx[0], NetworkUIController._Volume);
 

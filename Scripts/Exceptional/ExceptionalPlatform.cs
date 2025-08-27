@@ -36,6 +36,7 @@ public class ExceptionalPlatform : MonoBehaviour
     protected Material TileMat, FrameMat, SurfacesMat;
 
 
+
     protected void ParallelFrustumCulling()
     {
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
