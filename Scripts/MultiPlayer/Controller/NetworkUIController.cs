@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -17,9 +16,8 @@ public class NetworkUIController : ExceptionalUI
     [SerializeField] private SceneLoader _sceneLoader;
     public SceneLoader SceneLoader => _sceneLoader;
 
-    [SerializeField]
-    private List<TMP_Text> texts = new List<TMP_Text>();
-    public TMP_Text Info => texts[1];
+    public Text Info => texts[1];
+
 
     [SerializeField] 
     private Transform _rivalGPS;  
@@ -299,6 +297,7 @@ public class NetworkUIController : ExceptionalUI
         cubeController.Render(true);
         StartCoroutine(ScalerMenu(Vector3.one, Vector3.zero, 1f, Images.Find(f => f.name == "GameOverMenu")));
         Buttons.ForEach(b => b.gameObject.SetActive(true));
+        Buttons[4].gameObject.SetActive(false);
         cubeController.Origin();
     }
     public void DistributeRewards ()

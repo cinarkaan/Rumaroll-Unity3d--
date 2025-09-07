@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +21,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public SceneLoader Loader => loader;
 
     [SerializeField] 
-    private TMP_Text[] events;
+    private Text[] events;
     [SerializeField] 
     private List<Image> images;
     [SerializeField]
@@ -36,8 +35,6 @@ public class MainMenu : MonoBehaviour
     private float iconDuration = 0.7f;
     [SerializeField]
     private float duration;
-    [SerializeField]
-    private Image frame;
 
     private float _sensitivity = 10f;
 
@@ -57,12 +54,6 @@ public class MainMenu : MonoBehaviour
     }
     private void LateUpdate()
     {
-        t += Time.deltaTime * 0.2f;
-
-        frame.color = Color.HSVToRGB(Mathf.Repeat(t, 1f), 1f, 1f);
-        frame.transform.GetChild(0).GetComponent<Image>().color = frame.color;
-
-
 #if UNITY_STANDALONE_WIN
         if (Input.GetMouseButtonDown(0))
         {
@@ -96,28 +87,26 @@ public class MainMenu : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("Stage"))
         {
-            PlayerPrefs.SetInt("Stage", 4);
+            PlayerPrefs.SetInt("Stage", 5);
             PlayerPrefs.SetFloat("Touch Sensitivity", 30f);
             PlayerPrefs.SetInt("Coin", 0);
             PlayerPrefs.SetInt("Diamond", 0);
             PlayerPrefs.SetInt("Clue", 0);
             PlayerPrefs.SetInt("Shield", 0);
             PlayerPrefs.SetInt("Fps", 1);
-            PlayerPrefs.SetInt("Vfx", 0);
-            PlayerPrefs.SetInt("Post Processing", 0);
-            PlayerPrefs.SetInt("Sfx", 0);
-            PlayerPrefs.SetInt("Music", 0);
+            PlayerPrefs.SetInt("Vfx", 1);
+            PlayerPrefs.SetInt("Post Processing", 1);
+            PlayerPrefs.SetInt("Sfx", 1);
             PlayerPrefs.Save();
         }
 
         events[0].text = ": " + PlayerPrefs.GetInt("Coin").ToString();
         events[1].text = ": " + PlayerPrefs.GetInt("Diamond").ToString();
-        events[2].text = ": " + PlayerPrefs.GetInt("Shield").ToString();
-        events[3].text = ": " + PlayerPrefs.GetInt("Clue").ToString();
-        toggles[2].isOn = PlayerPrefs.GetInt("Sfx") == 1;
-        toggles[1].isOn = PlayerPrefs.GetInt("Music") == 1;
-        toggles[3].isOn = PlayerPrefs.GetInt("Vfx") == 1;
-        toggles[4].isOn = PlayerPrefs.GetInt("Post Processing") == 1;
+        events[2].text = "OWNED : " + PlayerPrefs.GetInt("Shield").ToString();
+        events[3].text = "OWNED : " + PlayerPrefs.GetInt("Clue").ToString();
+        toggles[1].isOn = PlayerPrefs.GetInt("Sfx") == 1;
+        toggles[2].isOn = PlayerPrefs.GetInt("Vfx") == 1;
+        toggles[3].isOn = PlayerPrefs.GetInt("Post Processing") == 1;
         touchSensitivity.value = PlayerPrefs.GetFloat("Touch Sensitivity");
     }
     public void newGameButton ()
@@ -127,22 +116,15 @@ public class MainMenu : MonoBehaviour
         Vector3 end = new Vector3(-600f, 47f, 0);
         StartCoroutine(SelectedIcon(start,end));
         if (PlayerPrefs.GetInt("Stage") > 4)
-        {
-            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
             StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(1.5f, 1.5f, 1), images[1]));
-        }
         else
-        {
-            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
             StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu[3], "Tutorial"));
-        }
 
     }
     public void yes ()
     {
         images[1].rectTransform.localScale = Vector3.zero;
         PlayerPrefs.SetInt("Stage", 4);
-        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
         StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[3], "Tutorial"));
     }
     public void no ()
@@ -170,13 +152,13 @@ public class MainMenu : MonoBehaviour
     {
         int current = PlayerPrefs.GetInt("Shield");
         PlayerPrefs.SetInt("Shield", current + 1);
-        events[2].text = ": " + (current + 1).ToString();
+        events[2].text = "OWNED : " + (current + 1).ToString();
     }
     public void buyClue ()
     {
         int current = PlayerPrefs.GetInt("Clue");
         PlayerPrefs.SetInt("Clue", current + 1);
-        events[3].text = ": " + (current + 1).ToString();
+        events[3].text = "OWNED : " + (current + 1).ToString();
     }
     public void backMenu ()
     {
@@ -230,12 +212,12 @@ public class MainMenu : MonoBehaviour
     }
     public void CheckSfx (bool Sfx)
     {
-        Sfx = toggles[2].isOn;
+        Sfx = toggles[1].isOn;
         PlayerPrefs.SetInt("Sfx", Sfx ? 1 : 0);
     }
     public void CheckVFX (bool vfx)
     {
-        vfx = toggles[3].isOn;
+        vfx = toggles[2].isOn;
         PlayerPrefs.SetInt("Vfx", vfx ? 1 : 0);
     }
     public void checkFPS(bool fps)
@@ -249,8 +231,9 @@ public class MainMenu : MonoBehaviour
     }
     public void postProcessingChecker(bool postProcessing)
     {
-        postProcessing = toggles[4].isOn;
+        postProcessing = toggles[3].isOn;
         PlayerPrefs.SetInt("Post Processing", postProcessing ? 1 : 0);
+        StartCoroutine(GameManager.PostProcessing());
     }
     private IEnumerator FadeImage(Color start, Color end, float time,Image image)
     {

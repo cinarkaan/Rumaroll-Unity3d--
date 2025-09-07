@@ -7,7 +7,7 @@ using UnityEngine;
 public class ExceptionalPlatform : MonoBehaviour
 {
 
-    public int _Stage;
+    protected int _Stage;
 
     public bool Progress = false;
 
@@ -33,17 +33,16 @@ public class ExceptionalPlatform : MonoBehaviour
     protected List<Renderer> Renderers = new();
 
     protected Mesh FrameMesh, TileMesh, SurfacesMesh;
+
     protected Material TileMat, FrameMat, SurfacesMat;
-
-
 
     protected void ParallelFrustumCulling()
     {
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
-        ConcurrentBag<Matrix4x4> visibleTile = new ConcurrentBag<Matrix4x4>();
-        ConcurrentBag<Matrix4x4> visibleFrame = new ConcurrentBag<Matrix4x4>();
-        ConcurrentBag<Matrix4x4> visibleSurfaces = new ConcurrentBag<Matrix4x4>();
+        ConcurrentBag<Matrix4x4> visibleTile = new();
+        ConcurrentBag<Matrix4x4> visibleFrame = new();
+        ConcurrentBag<Matrix4x4> visibleSurfaces = new();
 
         int total = Tile.Count;
 
@@ -70,7 +69,6 @@ public class ExceptionalPlatform : MonoBehaviour
         Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, visibleTile.ToList());
         Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, visibleFrame.ToList());
         Graphics.DrawMeshInstanced(SurfacesMesh, 0, SurfacesMat, visibleSurfaces.ToList());
-
     }
     protected void FrustumCullingForColorfuls()
     {
@@ -161,8 +159,17 @@ public class ExceptionalPlatform : MonoBehaviour
         FrameMesh = Prefabs[0].transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
         FrameMat = Prefabs[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
     }
+    protected void PlaceFlag()
+    {
+        MaterialPropertyBlock Evacuation_Mpb = new();
+        Evacuation_Mpb.SetColor("_ColorBottom", new Color(0.1773585f, 0.1773585f, 0.1773585f));
+        Evacuation_Mpb.SetColor("_ColorTop", new Color(0.3735847f, 0.3735847f, 0.3735847f));
 
-    protected virtual void PlaceFlag() { }
+        GameObject start = Instantiate(Prefabs[1], new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+        GameObject evacuation = Instantiate(Prefabs[1], new Vector3(_Stage + 6 + 0.5f, 0.6f, _Stage + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+        evacuation.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Evacuation_Mpb);
+        Progress = true;
+    }
     protected virtual void InitializeWeather(int status) { }
     protected virtual void InitializeSolution() { }
     protected virtual void RandomMaterialSelection() { }

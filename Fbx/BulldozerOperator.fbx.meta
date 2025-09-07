@@ -20,7 +20,7 @@ ModelImporter:
       name: Wheel
     second: {fileID: 2100000, guid: a0ac0eb70a8ca7842b5fb8d4f446a0cc, type: 2}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -56,8 +56,8 @@ ModelImporter:
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
-    importVisibility: 1
-    importBlendShapes: 1
+    importVisibility: 0
+    importBlendShapes: 0
     importCameras: 0
     importLights: 0
     nodeNameCollisionStrategy: 1
@@ -87,10 +87,10 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 70
     normalImportMode: 0
-    tangentImportMode: 0
-    normalCalculationMode: 0
+    tangentImportMode: 1
+    normalCalculationMode: 1
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
-    blendShapeNormalImportMode: 0
+    blendShapeNormalImportMode: 1
     normalSmoothingSource: 3
   referencedClips: []
   importAnimation: 0

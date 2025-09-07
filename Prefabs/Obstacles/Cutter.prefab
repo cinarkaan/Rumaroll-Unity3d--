@@ -75,23 +75,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
         type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
+        type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
         type: 3}
+      propertyPath: m_ProbeAnchor
+      value: 
+      objectReference: {fileID: 708726631107009588}
+    - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
+        type: 3}
       propertyPath: m_DynamicOccludee
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
         type: 3}
       propertyPath: m_LightProbeUsage
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 09daec6cd19a4cc4d90dc26d9abc83e5, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 91e47fb440083ac4fb7bf8601085c0fd,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a8930dfead5ab9f45b33fafc2ae656f6, type: 2}
     - target: {fileID: 919132149155446097, guid: 91e47fb440083ac4fb7bf8601085c0fd,
         type: 3}
       propertyPath: m_Name
       value: Cutter
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 91e47fb440083ac4fb7bf8601085c0fd,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -189,7 +214,7 @@ PrefabInstance:
     - target: {fileID: 9063842940895951887, guid: f4012af1ce5342b4bb4faf4d238d4328,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

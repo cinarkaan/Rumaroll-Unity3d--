@@ -60,28 +60,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2672745645990903766, guid: 221388f04d5e38e44a30b53755f4ff80,
         type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2672745645990903766, guid: 221388f04d5e38e44a30b53755f4ff80,
+        type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2672745645990903766, guid: 221388f04d5e38e44a30b53755f4ff80,
         type: 3}
+      propertyPath: m_ProbeAnchor
+      value: 
+      objectReference: {fileID: 3996356446472086714}
+    - target: {fileID: -2672745645990903766, guid: 221388f04d5e38e44a30b53755f4ff80,
+        type: 3}
       propertyPath: m_DynamicOccludee
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2672745645990903766, guid: 221388f04d5e38e44a30b53755f4ff80,
         type: 3}
       propertyPath: m_LightProbeUsage
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2672745645990903766, guid: 221388f04d5e38e44a30b53755f4ff80,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6449020fe42c9e0429cb5e273f48bd19, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ba085a60ba72264faad229ab215b5a2, type: 2}
     - target: {fileID: -2012493987491981674, guid: 221388f04d5e38e44a30b53755f4ff80,
         type: 3}
       propertyPath: m_Layer
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: -2012493987491981674, guid: 221388f04d5e38e44a30b53755f4ff80,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 221388f04d5e38e44a30b53755f4ff80,
         type: 3}
@@ -220,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 6690394039315895121, guid: ee839d4cacf5241498b1f04830bf9891,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

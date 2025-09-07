@@ -15,10 +15,7 @@ public class UIController : ExceptionalUI
     private float fadeDurationSpiwe = 0.5f;
 
     [SerializeField]
-    private List<GameObject> objects = new List<GameObject>();
-
-    [SerializeField]
-    private List<Text> texts = new List<Text>();
+    private List<GameObject> objects = new();
 
     [SerializeField]
     private SceneLoader loader;
@@ -78,7 +75,7 @@ public class UIController : ExceptionalUI
     {
         TimeSinceLastUpdate += Time.unscaledDeltaTime;
 
-        if (texts[0].enabled && TimeSinceLastUpdate >= 1f)
+        if (texts[0].enabled && TimeSinceLastUpdate >= 0.45f)
         {
             texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime)).ToString();
             TimeSinceLastUpdate = 0f;
@@ -246,7 +243,7 @@ public class UIController : ExceptionalUI
     {
         objects.First().transform.GetChild(0).GetComponent<ParticleSystem>().Play();
         gameMapController.currentIndex = 0;
-        gameMapController.renderController(RawImages[0]);
+        gameMapController.RenderController(RawImages[0]);
         EventsManager(false);
         ButtonsManager(false);
         Buttons.Find(b => b.gameObject.name == "Close").gameObject.SetActive(true);
@@ -277,7 +274,7 @@ public class UIController : ExceptionalUI
         RawImages[0].color = targetColor;
 
         if (gameMapController.currentIndex == 1)
-            gameMapController.renderController(RawImages[0]);
+            gameMapController.RenderController(RawImages[0]);
     }
     public void Shield () 
     {

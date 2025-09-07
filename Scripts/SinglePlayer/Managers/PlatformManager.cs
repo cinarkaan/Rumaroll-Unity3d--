@@ -12,9 +12,6 @@ public class PlatformManager : ExceptionalPlatform
     private Object[] TileMaterials; // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
 
     [SerializeField]
-    private ParticleSystem[] WeatherSystem;
-
-    [SerializeField]
     private GameMapController gameMapController;
 
     public ParticleSystem Clue;
@@ -65,14 +62,16 @@ public class PlatformManager : ExceptionalPlatform
                         renderer.enabled = true;
             }
         }
-
     }
     protected override void RandomMaterialSelection()
     {
         HashSet<Object> selected = new HashSet<Object>();
 
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+        TileMaterials = Resources.LoadAll("SimpleLit/GradientSimpleLit", typeof(Material));
+#else
         TileMaterials = Resources.LoadAll("Gradient", typeof(Material));
-
+#endif    
         while (selected.Count < 6)
             selected.Add(TileMaterials[Random.Range(0, TileMaterials.Length)]);
 
@@ -90,7 +89,7 @@ public class PlatformManager : ExceptionalPlatform
     }
     protected override void InitializeSolution ()
     {
-        Vector2Int goal = new Vector2Int(6 + Stage, 6 + Stage);
+        Vector2Int goal = new(6 + Stage, 6 + Stage);
         SolutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal);
 
         CubeSimulator cubeSim = new CubeSimulator();
@@ -157,7 +156,7 @@ public class PlatformManager : ExceptionalPlatform
     {
         if (PlayerPrefs.GetInt("Vfx") == 0) return;
 
-        var shape = WeatherSystem[status].shape;
+        var shape = Weather[status].shape;
         shape.enabled = true;
 
         Vector3 pos = Vector3.zero;
@@ -173,18 +172,10 @@ public class PlatformManager : ExceptionalPlatform
         }
 
 
-        WeatherSystem[status].transform.position = pos;
-        ParticleSystem weather = Instantiate(WeatherSystem[status], pos, Quaternion.Euler(0f, 0f, 0f), transform);
+        Weather[status].transform.position = pos;
+        ParticleSystem weather = Instantiate(Weather[status], pos, Quaternion.Euler(0f, 0f, 0f), transform);
         weather.name = "Weather";
 
-    }
-    protected override void PlaceFlag ()
-    {
-        GameObject start = Instantiate(Prefabs[1], new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = GridTiles.First().Value.material;
-        GameObject evacuation = Instantiate(Prefabs[1], new Vector3(Stage + 6 + 0.5f, 0.6f, Stage + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        evacuation.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = GridTiles.Last().Value.material;
-        Progress = true;
     }
     public override Material GetTileMat(Vector2Int pos)
     {

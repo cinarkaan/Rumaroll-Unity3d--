@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 
@@ -16,15 +17,16 @@ public class GameMapController : MonoBehaviour
     [SerializeField]
     private UIController UIController;
 
-    private Vector3 originPos = new Vector3(9, 0, 9);
-    private float ort = 3.5f;
+    private Vector3 originPos = new(9, 0, 9);
+    private readonly float Ort = 3.5f;
 
     private void Start()
     {
-        StartCoroutine(initializeMapCamera());
-        renderController(UIController.RawImage);
+        GetComponent<Camera>().GetUniversalAdditionalCameraData().renderPostProcessing = PlayerPrefs.GetInt("Post Processing") > 0;
+        StartCoroutine(InitializeMapCamera());
+        RenderController(UIController.RawImage);
     }
-    public void renderController (RawImage gameMap)
+    public void RenderController (RawImage gameMap)
     {
         if (currentIndex == 0)
         {
@@ -42,11 +44,11 @@ public class GameMapController : MonoBehaviour
 
         }
     } // Which camera must be activated 
-    private IEnumerator initializeMapCamera () // Init cam positions according to the map
+    private IEnumerator InitializeMapCamera () // Init cam positions according to the map
     {
         yield return new WaitUntil(() => platformManager.Progress);
         float factor = (platformManager.Stage - 6) * 0.5f;
-        transform.GetComponent<Camera>().orthographicSize = ort + factor;
+        transform.GetComponent<Camera>().orthographicSize = Ort + factor;
         transform.position = new Vector3(originPos.x + factor, 0.2f, originPos.z + factor);
         yield return new WaitUntil(() => Camera.main != null);
         OriginalCulllingIndex = Camera.main.cullingMask;

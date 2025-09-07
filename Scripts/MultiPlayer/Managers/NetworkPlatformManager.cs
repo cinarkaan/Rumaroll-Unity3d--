@@ -107,7 +107,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
         MaterialPropertyBlock = new MaterialPropertyBlock();
         StartCoroutine(WaitUntilServer());
     }
-    private void Update()
+    private void LateUpdate()
     {
         if (Progress && NetworkUIController.currentIndex == 1)
         {
@@ -119,8 +119,8 @@ public class NetworkPlatformManager : ExceptionalPlatform
             if (Progress)
             {
                 Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, Tile);
-                Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, Frame);
-                Graphics.DrawMeshInstanced(SurfacesMesh, 0, SurfacesMat, Surface);
+                Graphics.DrawMeshInstanced(FrameMesh, 0, TileMat, Frame);
+                Graphics.DrawMeshInstanced(SurfacesMesh, 0, TileMat, Surface);
                 foreach (var tile in Renderers)
                 {
                     if (!tile.enabled)
@@ -279,14 +279,6 @@ public class NetworkPlatformManager : ExceptionalPlatform
             tile._markAsDynamic = true;
             ServerManager.Tiles[item] = tile;
         }            
-    }
-    protected override void PlaceFlag ()
-    {
-        GameObject start = Instantiate(Prefabs[1], new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        start.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => LocalTiles[new Vector2Int(6, 6)]);
-        GameObject finish = Instantiate(Prefabs[1], new Vector3(ServerManager.Stage.Value + 6 + 0.5f, 0.6f, ServerManager.Stage.Value + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        finish.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => LocalTiles[new Vector2Int(6 + ServerManager.Stage.Value, 6 + ServerManager.Stage.Value)]);
-        Progress = true;
     }
     private void InitializePlatformAsHost()
     {

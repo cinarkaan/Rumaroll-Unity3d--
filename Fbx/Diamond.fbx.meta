@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1f571a32f8ec2ce43804279f2ebe41dc
+guid: 733dc352f169e324aba73803ba61c37e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -10,7 +10,7 @@ ModelImporter:
       name: Diamond
     second: {fileID: 2100000, guid: acbd0f2e0805f6e4eaad7325c5716ce7, type: 2}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -46,8 +46,8 @@ ModelImporter:
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
-    importVisibility: 1
-    importBlendShapes: 1
+    importVisibility: 0
+    importBlendShapes: 0
     importCameras: 0
     importLights: 0
     nodeNameCollisionStrategy: 1
@@ -75,12 +75,12 @@ ModelImporter:
     useFileScale: 1
     strictVertexDataChecks: 0
   tangentSpace:
-    normalSmoothAngle: 50
+    normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 0
+    tangentImportMode: 1
     normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
-    blendShapeNormalImportMode: 0
+    blendShapeNormalImportMode: 1
     normalSmoothingSource: 3
   referencedClips: []
   importAnimation: 0
@@ -106,7 +106,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
-  importBlendShapeDeformPercent: 1
+  importBlendShapeDeformPercent: 0
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 

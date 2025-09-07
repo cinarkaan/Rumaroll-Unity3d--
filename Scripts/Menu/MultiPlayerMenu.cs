@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum Difficulty
 {
@@ -31,10 +31,10 @@ public class MultiPlayerMenu : MonoBehaviour
     private RectTransform roomList;
 
     [SerializeField]
-    private TMP_InputField roomName;
+    private Text roomName;
 
     [SerializeField]
-    private TMP_Dropdown stageMenu;
+    private Dropdown stageMenu;
 
     public GameObject roomPrefab;
 
@@ -91,7 +91,7 @@ public class MultiPlayerMenu : MonoBehaviour
     public void JoinGame()
     {
         Menu.PlaySFX();
-        roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
+        roomList.GetChild(0).GetChild(0).GetComponent<Text>().text = "No available hosts";
         discovery = manager.gameObject.AddComponent<RoomDiscovery>();
         StartCoroutine(Menu.SelectedIcon(Menu.Icon.localPosition, new Vector3(-600, -199f, 0f)));
         StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[6], ""));
@@ -130,7 +130,7 @@ public class MultiPlayerMenu : MonoBehaviour
             if (obj.name != "Information")
                 Destroy(obj.gameObject);
         Destroy(discovery);
-        roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
+        roomList.GetChild(0).GetChild(0).GetComponent<Text>().text = "No available hosts";
         StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[6], ""));
         StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[^1], ""));
     }
@@ -142,29 +142,29 @@ public class MultiPlayerMenu : MonoBehaviour
     }
     public void EasyCheck()
     {
-        if (Menu.Toggles[5].isOn)
+        if (Menu.Toggles[4].isOn)
         {
             broadcast.difficulty = Difficulty.Easy;
+            Menu.Toggles[5].isOn = false;
             Menu.Toggles[6].isOn = false;
-            Menu.Toggles[7].isOn = false;
         }
     }
     public void NormalCheck()
     {
-        if (Menu.Toggles[6].isOn)
+        if (Menu.Toggles[5].isOn)
         {
             broadcast.difficulty = Difficulty.Normal;
-            Menu.Toggles[5].isOn = false;
-            Menu.Toggles[7].isOn = false;
+            Menu.Toggles[4].isOn = false;
+            Menu.Toggles[6].isOn = false;
         }
     }
     public void HardCheck()
     {
-        if (Menu.Toggles[7].isOn)
+        if (Menu.Toggles[6].isOn)
         {
             broadcast.difficulty = Difficulty.Hard;
-            Menu.Toggles[6].isOn = false;
             Menu.Toggles[5].isOn = false;
+            Menu.Toggles[4].isOn = false;
         }
     }
     public void OnEnable()

@@ -241,7 +241,6 @@ public class ObstacleManager : ExceptionalPlacement
             Blade.Add(_Hazard);
             placed.Remove(placed[0]);
         }
-        Blade.ForEach(t => t.transform.GetChild(0).localScale = new Vector3(1.2f, 1.2f, 1.2f));
         Blade.ForEach(t => t.transform.GetChild(0).localPosition = new Vector3(0f, -1f, 0f));
 
         platformManager.CreateDynamics();

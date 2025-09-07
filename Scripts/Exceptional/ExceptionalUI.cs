@@ -23,6 +23,9 @@ public class ExceptionalUI : MonoBehaviour
     protected List<Image> Images = new List<Image>();
     [SerializeField]
     protected List<RawImage> RawImages = new List<RawImage>();
+    [SerializeField]
+    protected List<Text> texts = new List<Text>();
+
     public RawImage RawImage => RawImages.Find(r => r.gameObject.name == "GameMap");
 
     protected bool IsRotating = false;
