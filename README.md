@@ -1,6 +1,6 @@
 # Rumaroll
 
-<h1><p>!!!!The game has been updated with UI. That's why the images about the game where is placed on the following old version. For pc you can download from the following link that is placed bottom of the page!!!!</p></h1>
+<h1><p>!!!!The game largestly has been updated. That's why the images about the game where is placed on the following old version. For pc you can download from the following link that is placed bottom of the page!!!!</p></h1>
 
 <h1>Purpose</h1>
 
@@ -68,5 +68,5 @@
 
 <a href="https://github.com/cinarkaan/Rumaroll-Unity3d--/tree/master">To Review Full Code</a>
 
-<a href="https://drive.google.com/drive/folders/1FfXYrb3WrtOyTDcmSnUNaos2bY7akTlq?usp=drive_link">To Access Download Exe File</a>
+<a href="https://drive.google.com/drive/folders/1nJYuWuPFZ2NC7uXKpBLN3lutJkeDSdiX?usp=drive_link">To Access Download Exe File</a>
 
