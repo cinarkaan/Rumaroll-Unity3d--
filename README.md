@@ -1,5 +1,7 @@
 # Rumaroll
 
+<h1><p>!!!!The game has been updated with UI. That's why the images about the game where is placed on the following old version. For pc you can download from the following link that is placed bottom of the page!!!!</p></h1>
+
 <h1>Purpose</h1>
 
 <p>The cube that is colorful is to reach out evacuation point by rolling on the tile that matches with it's bottom face colors. At the each new stage means more extended platform and more difficult obstacles</p>
