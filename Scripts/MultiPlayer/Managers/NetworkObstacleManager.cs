@@ -66,7 +66,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
     }
     private void PlaceSpikes ()
     {
-        MaterialPropertyBlock spikeMPB = new();
+        MaterialPropertyBlock spikeMPB = new(), SpikeSurfaceMPB = new();
         List<Vector2Int> placed = new();
 
         spikeMPB.SetColor("_ColorBottom", Obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
@@ -91,9 +91,11 @@ public class NetworkObstacleManager : ExceptionalPlacement
             }
             GameObject spike = Instantiate(Obstacles[0], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
             spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(spikeMPB);
-            spike.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = NetworkPlatformManager.GetTileMat(placed[0]);
+            Material Surface =  NetworkPlatformManager.GetTileMat(placed[0]);
+            SpikeSurfaceMPB.SetColor("_ColorBottom", Surface.GetColor("_ColorBottom"));
+            SpikeSurfaceMPB.SetColor("_ColorTop", Surface.GetColor("_ColorTop"));
+            spike.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(SpikeSurfaceMPB);
             Spikes.Add(spike);
-            //platformManager.Replace(placed[0], spike.transform.GetChild(0).gameObject);
             placed.Remove(placed[0]);
         }
     }

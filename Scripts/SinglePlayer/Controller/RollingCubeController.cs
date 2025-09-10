@@ -9,7 +9,7 @@ public class RollingCubeController : MonoBehaviour
 
     public PlatformManager _PlatformManager => PlatformManager;
 
-    [SerializeField] 
+    [SerializeField]
     private Transform[] faceQuads; // The referaces that belongs on faces of cube
 
     [SerializeField]
@@ -21,7 +21,7 @@ public class RollingCubeController : MonoBehaviour
     [SerializeField]
     private AudioSource _rolling;
 
-    private CubeSimulator CubeSimulator = new();
+    private readonly CubeSimulator CubeSimulator = new();
     public ParticleSystem shield { get; private set; }
 
     private Vector3 _shieldVelocity = Vector3.zero;
@@ -32,6 +32,7 @@ public class RollingCubeController : MonoBehaviour
     private bool moving = true;
 
     public float rollDuration = 0.6f;
+
     private void Start()
     {
         shield = transform.GetChild(7).GetComponent<ParticleSystem>();
@@ -51,7 +52,7 @@ public class RollingCubeController : MonoBehaviour
             // Check out the grid boundaries (Depends on the stage)
             if (targetCoord.x < 6 || targetCoord.x > PlatformManager.Stage + 6 ||
                 targetCoord.y < 6 || targetCoord.y > PlatformManager.Stage + 6)
-                return; 
+                return;
 
             // if the target position contains grid boundaries , launch rolling operation
             StartCoroutine(Roll(dir));
@@ -86,7 +87,6 @@ public class RollingCubeController : MonoBehaviour
         isRolling = false;
         control.UpdateGps(transform.position);
         HasPlayerArrive();
-        
     }
     private IEnumerator Move(Vector3 direction)
     {
@@ -101,7 +101,7 @@ public class RollingCubeController : MonoBehaviour
         float speed = 90f / rollDuration;
 
         cubeTrail.InvokeRepeating("Trail", 0.1f, 0.1f);
-        
+
         while (angle < 90f)
         {
             float step = speed * Time.deltaTime;
@@ -126,39 +126,49 @@ public class RollingCubeController : MonoBehaviour
     }
     public Vector2Int GetTileCoordAtPosition()
     {
-    	int x = Mathf.RoundToInt(transform.position.x / 1f);
-    	int z = Mathf.RoundToInt(transform.position.z / 1f);
-    	return new Vector2Int(x, z);
+        int x = Mathf.RoundToInt(transform.position.x / 1f);
+        int z = Mathf.RoundToInt(transform.position.z / 1f);
+        return new Vector2Int(x, z);
     }
-    public void Render (bool render)
+    public void Render(bool render)
     {
         int index = 0;
         while (index < 6)
             transform.GetChild(index++).GetComponent<MeshRenderer>().enabled = render;
         transform.GetComponent<MeshRenderer>().enabled = render;
     }
-    private void HasPlayerArrive ()
+    private void HasPlayerArrive()
     {
         if (GetTileCoordAtPosition().Equals(new Vector2Int(PlatformManager.Stage + 6, PlatformManager.Stage + 6)))
             StartCoroutine(control.SceneLoader(0, 1, 0.15f, "Day"));
     }
-    public IEnumerator ShieldController (bool isActive)
+    public IEnumerator ShieldController(bool isActive)
     {
         float _smoothTime = 0.3f;
         Vector3 target = new Vector3(3.3f, 3.3f, 3.3f);
         transform.GetChild(6).localScale = Vector3.zero;
         transform.GetChild(6).gameObject.SetActive(isActive);
 
-        while (Vector3.Distance(transform.localScale , target) > 0.01f && isActive)
+        while (Vector3.Distance(transform.localScale, target) > 0.01f && isActive)
         {
             transform.GetChild(6).localScale = Vector3.SmoothDamp
-                (transform.GetChild(6).localScale, 
-                target, 
-                ref _shieldVelocity , 
+                (transform.GetChild(6).localScale,
+                target,
+                ref _shieldVelocity,
                 _smoothTime);
             yield return null;
         }
     }
-
+    public void LinearToGamma()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            Material material = transform.GetChild(i).GetComponent<Renderer>().sharedMaterial;
+            MaterialPropertyBlock materialPropertyBlock = new();
+            materialPropertyBlock.SetColor("_ColorBottom", material.GetColor("_ColorBottom").gamma);
+            materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop").gamma);
+            transform.GetChild(i).GetComponent<Renderer>().SetPropertyBlock(materialPropertyBlock);
+        }
+    }
 }
 

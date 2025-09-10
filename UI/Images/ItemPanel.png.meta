@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a284eabbe8133244bbdb5796a28abb88
+guid: 1c28de3268fd62c4b90f603bf1aa52b1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +21,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -95,7 +95,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 1024
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: 47
     textureCompression: 1

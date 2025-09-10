@@ -163,7 +163,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     protected override void RandomMaterialSelection ()
     {
-        AllMaterials = Resources.LoadAll("Gradient", typeof(Material)).ToList();
+        AllMaterials = Resources.LoadAll("Lit/GradientLit", typeof(Material)).ToList();
 
         if (ServerManager.Manager.IsHost)
         {
@@ -181,16 +181,17 @@ public class NetworkPlatformManager : ExceptionalPlatform
                     ServerManager.CubeMaterials.Add(materials);
                 }
             }
-            if (ServerManager.Manager.IsHost)
-            {
-                Player.transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[0];
-                Player.transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[1];
-                Player.transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[2];
-                Player.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[3];
-                Player.transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[4];
-                Player.transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[5];
-            }
+
+            var SelectedArr = selected.ToArray();
             selected.Clear();
+
+            Player.transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[0];
+            Player.transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[1];
+            Player.transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[2];
+            Player.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[3];
+            Player.transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[4];
+            Player.transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[5];
+
         } else
         {
             for (int index = 0; index < 6; index++)
@@ -208,6 +209,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 
             }
         }
+        LinearToGamma(ref Player);
 
     }
     protected override void CreateSolutionPath()
@@ -293,20 +295,20 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(0f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
                 }
                 else
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.29f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0]   .transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(0f, 0f, 0f), transform);
                     Renderers.Add(colorfulTile.GetComponent<Renderer>());
                     var _colorfulTile = HasAtTile(new Vector2Int(x, z), ref colorfulTile);
                     if (_colorfulTile != null)
                     {
                         temp = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(_colorfulTile.Value.material.ToString()));
-                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom"));
-                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop"));
+                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom").gamma);
+                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop").gamma);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(MaterialPropertyBlock);
                     }
                     else
@@ -318,8 +320,8 @@ public class NetworkPlatformManager : ExceptionalPlatform
                             onSolution = false
                         };
                         temp = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(t.material.ToString()));
-                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom"));
-                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop"));
+                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom").gamma);
+                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop").gamma);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(MaterialPropertyBlock);
                         ServerManager.Tiles.Add(t);
                         UnSolution.Add(new Vector2Int(x, z));
@@ -340,17 +342,17 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(0f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
                 }
                 else
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.29f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(0f, 0f, 0f), transform);
                     Renderers.Add(colorfulTile.GetComponent<Renderer>());
                     Material _tileMat = GetTileMat(new Vector2Int(x, z), ref colorfulTile);
-                    MaterialPropertyBlock.SetColor("_ColorBottom", _tileMat.GetColor("_ColorBottom"));
-                    MaterialPropertyBlock.SetColor("_ColorTop", _tileMat.GetColor("_ColorTop"));
+                    MaterialPropertyBlock.SetColor("_ColorBottom", _tileMat.GetColor("_ColorBottom").gamma);
+                    MaterialPropertyBlock.SetColor("_ColorTop", _tileMat.GetColor("_ColorTop").gamma);
                     colorfulTile.GetComponent<Renderer>().SetPropertyBlock(MaterialPropertyBlock);
                     LocalTiles[new Vector2Int(x, z)] = _tileMat;
                 }
@@ -415,6 +417,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 else
                     client.transform.GetChild(index).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientCube[index]._material.ToString()));
             }
+            LinearToGamma(ref client);
         } else
         {
             GameObject host = GameObject.Find("Host");
@@ -424,6 +427,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
             host.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.CubeMaterials[3]._surfaceMat.ToString()));
             host.transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.CubeMaterials[4]._surfaceMat.ToString()));
             host.transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.CubeMaterials[5]._surfaceMat.ToString()));
+            LinearToGamma(ref host);
         }
     }
     private void SetMaterialForEach (ulong clientID)
@@ -479,5 +483,15 @@ public class NetworkPlatformManager : ExceptionalPlatform
         ParticleSystem weather = Instantiate(Weather[ServerManager.WeatherCode.Value], pos, Quaternion.Euler(0f, 0f, 0f), transform);
         weather.name = "Weather";
     }
-
+    public void LinearToGamma(ref GameObject Player)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            Material material = Player.transform.GetChild(i).GetComponent<Renderer>().sharedMaterial;
+            MaterialPropertyBlock materialPropertyBlock = new();
+            materialPropertyBlock.SetColor("_ColorBottom", material.GetColor("_ColorBottom").gamma);
+            materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop").gamma);
+            Player.transform.GetChild(i).GetComponent<Renderer>().SetPropertyBlock(materialPropertyBlock);
+        }
+    }
 }

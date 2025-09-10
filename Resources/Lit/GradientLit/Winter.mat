@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Winter
-  m_Shader: {fileID: 4800000, guid: 0ccfc7076335a8e4ea5ae04c2dee2a9c, type: 3}
+  m_Shader: {fileID: 4800000, guid: b35306e39be37b64f8a1147630a6bbda, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -29,7 +29,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -130,8 +130,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBottom: {r: 0.89433956, g: 0.5517906, b: 0.5517906, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorBottom: {r: 0.9169811, g: 0.4965539, b: 0.4965539, a: 1}
     - _ColorTop: {r: 0.49881804, g: 0.689652, b: 0.7283019, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MetallicSmooth: {r: 0, g: 0.5, b: 0, a: 0}

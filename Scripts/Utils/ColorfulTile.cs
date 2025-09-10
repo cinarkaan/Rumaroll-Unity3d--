@@ -23,14 +23,14 @@ public class ColorfulTile : MonoBehaviour
     {
         while (true)
         {
-            propertyBlock.SetColor("_ColorBottom", dummy.GetColor("_ColorBottom"));
-            propertyBlock.SetColor("_ColorTop", dummy.GetColor("_ColorTop"));
+            propertyBlock.SetColor("_ColorBottom", dummy.GetColor("_ColorBottom").gamma);
+            propertyBlock.SetColor("_ColorTop", dummy.GetColor("_ColorTop").gamma);
             Renderer.SetPropertyBlock(propertyBlock);
             ExchangeMaterials(dummy);
             if (smoke != null) smoke.Play();
             yield return new WaitForSeconds(3.5f);
-            propertyBlock.SetColor("_ColorBottom", original.GetColor("_ColorBottom"));
-            propertyBlock.SetColor("_ColorTop", original.GetColor("_ColorTop"));
+            propertyBlock.SetColor("_ColorBottom", original.GetColor("_ColorBottom").gamma);
+            propertyBlock.SetColor("_ColorTop", original.GetColor("_ColorTop").gamma);
             Renderer.SetPropertyBlock(propertyBlock);
             ExchangeMaterials(original);
             if (smoke != null) smoke.Play();
@@ -82,6 +82,7 @@ public class ColorfulTile : MonoBehaviour
     }
     private void ExchangeMaterials (Material mat)
     {
+        // The var attribute where is on the following must be defined as global which is used with polymorphism to avoid gc allocation. The metod takes same args both side.
         if (SceneLoader.CurrentScene == "Day")
         {
             var obj = GetComponentInParent<PlatformManager>();

@@ -48,14 +48,14 @@ public class RoomDiscovery : MonoBehaviour
         IPEndPoint remoteEP = null;
         IPAddress current = startIP;
         bool got = false;
-        list.GetChild(0).GetChild(0).GetComponent<Text>().text = "Scanning hosts...";
+        list.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "Scanning hosts...";
         while (CompareIP(current, endIP) && isScanning)
         {
             client.Send(request, request.Length, current.ToString(), discoveryPort);
             float start = Time.realtimeSinceStartup;
             while (Time.realtimeSinceStartup - start < timeoutSeconds)
             {
-                //list.GetChild(0).GetChild(0).GetComponent<Text>().text = current.ToString();
+                //list.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = current.ToString();
                 if (client.Available > 0)
                 {
                     byte[] data = client.Receive(ref remoteEP);
@@ -63,10 +63,10 @@ public class RoomDiscovery : MonoBehaviour
                     string[] parts = resp.Split('|');
                     if (parts.Length >= 4)
                     {
-                        list.GetChild(0).GetChild(0).GetComponent<Text>().text = "";
+                        list.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "";
                         GameObject findedRoom = Instantiate(pref);
                         findedRoom.transform.SetParent(list, false);
-                        findedRoom.transform.GetChild(0).GetComponent<Text>().text = parts[0] + " (" + parts[1] + "|" + parts[2] + ")";
+                        findedRoom.transform.GetChild(0).GetComponent<TMP_Text>().text = parts[0] + " (" + parts[1] + "|" + parts[2] + ")";
                         findedRoom.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => ConnectToRoom(parts[3]));
                         got = true;
                         isScanning = false;

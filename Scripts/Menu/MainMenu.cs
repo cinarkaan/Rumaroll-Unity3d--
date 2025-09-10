@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public SceneLoader Loader => loader;
 
     [SerializeField] 
-    private Text[] events;
+    private TMP_Text[] events;
     [SerializeField] 
     private List<Image> images;
     [SerializeField]
@@ -116,7 +117,10 @@ public class MainMenu : MonoBehaviour
         Vector3 end = new Vector3(-600f, 47f, 0);
         StartCoroutine(SelectedIcon(start,end));
         if (PlayerPrefs.GetInt("Stage") > 4)
+        {
+            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
             StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(1.5f, 1.5f, 1), images[1]));
+        }
         else
             StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu[3], "Tutorial"));
 
@@ -129,6 +133,7 @@ public class MainMenu : MonoBehaviour
     }
     public void no ()
     {
+        StartCoroutine(FadeCanvasGroup(1f, 0f, uiMenu.Last(), ""));
         StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(0, 0, 1),images[1]));
     }
     public void quitGameButton()
@@ -233,7 +238,6 @@ public class MainMenu : MonoBehaviour
     {
         postProcessing = toggles[3].isOn;
         PlayerPrefs.SetInt("Post Processing", postProcessing ? 1 : 0);
-        StartCoroutine(GameManager.PostProcessing());
     }
     private IEnumerator FadeImage(Color start, Color end, float time,Image image)
     {

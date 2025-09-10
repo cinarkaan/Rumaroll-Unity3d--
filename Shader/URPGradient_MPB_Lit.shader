@@ -73,8 +73,8 @@
                 half3 viewDirWS = normalize(_WorldSpaceCameraPos - IN.worldPos);
 
                 Light mainLight = GetMainLight();
-                half3 lightDir = normalize(mainLight.direction);
-                half NdotL = max(dot(normalWS, lightDir), 0.0);
+                float3 lightDir = normalize(mainLight.direction);
+                float NdotL = max(dot(normalWS, lightDir), 0.0);
 
                 // Gradient albedo
                 half3 colorBottom = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorBottom).rgb;
@@ -92,7 +92,7 @@
                 float3 specular = pow(NdotH, 32.0) * smoothness * mainLight.color.rgb;
 
                 // Ambient
-                half3 ambient = albedo * 0.2;
+                float3 ambient = albedo * 0.2;
 
                 half metallic = UNITY_ACCESS_INSTANCED_PROP(Props, _Metallic);
                 float3 finalColor = float3(ambient) + diffuse + specular * metallic;

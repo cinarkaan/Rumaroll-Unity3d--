@@ -311,9 +311,10 @@ public class ObstacleManager : ExceptionalPlacement
     }
     private void PlaceSpikes (int firstCount,int secondCount, int thirdCount, int fourthCount) 
     {
-        MaterialPropertyBlock spikeMPB = new();
-        spikeMPB.SetColor("_ColorBottom", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        spikeMPB.SetColor("_ColorTop", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        MaterialPropertyBlock _SpikeMPB = new(), SpikeFace = new();
+        _SpikeMPB.SetColor("_ColorBottom", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        _SpikeMPB.SetColor("_ColorTop", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        
 
         List<Vector2Int> placed = ExceptionalPlacementOfSpike(platformManager.SolutionPath, null, firstCount, secondCount, thirdCount, fourthCount);
         while (placed.Count > 0)
@@ -324,11 +325,15 @@ public class ObstacleManager : ExceptionalPlacement
                 continue;
             }
             GameObject spike = Instantiate(obstacles[4], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
-            spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(spikeMPB);
-            spike.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = platformManager.GetTileMat(placed[0]);
+            spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(_SpikeMPB);
+            Material SurfaceMat = platformManager.GetTileMat(placed[0]);
+            SpikeFace.SetColor("_ColorBottom", SurfaceMat.GetColor("_ColorBottom").gamma);
+            SpikeFace.SetColor("_ColorTop", SurfaceMat.GetColor("_ColorTop").gamma);
+            spike.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(SpikeFace);
             Spikes.Add(spike);
             platformManager.Replace(placed[0],spike.transform.GetChild(0).gameObject);
             placed.Remove(placed[0]);
+            SpikeFace.Clear();
         }
         platformManager.CreateDynamics();
     }

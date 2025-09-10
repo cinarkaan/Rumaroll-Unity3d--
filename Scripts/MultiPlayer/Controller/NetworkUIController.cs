@@ -369,9 +369,9 @@ public class NetworkUIController : ExceptionalUI
 
         Winning.rectTransform.GetChild(reward.FirstRewardIndex).GetChild(0).GetComponent<TMP_Text>().text = "X" + reward.AmountOfFirst;
 
-        startRect.localPosition = new Vector3(-250f, 0f, 0f);
+        startRect.localPosition = new Vector3(-260f, 0f, 0f);
 
-        Vector2 target = new(200f, 300f);
+        Vector2 target = new(300f, 300f);
 
         while (Vector2.Distance(startRect.sizeDelta, target) > 0.01f)
         {
@@ -403,7 +403,7 @@ public class NetworkUIController : ExceptionalUI
 
         Winning.rectTransform.GetChild(reward.SecondRewardIndex).GetChild(0).GetComponent<TMP_Text>().text = "X" + reward.AmountOfSecond;
 
-        startRect.localPosition = new Vector3(250f, 0f, 0f);
+        startRect.localPosition = new Vector3(-260f, 0f, 0f);
 
         while (Vector2.Distance(startRect.sizeDelta, target) > 0.01f)
         {

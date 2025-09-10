@@ -169,5 +169,6 @@ public class NetworkCubeController : NetworkBehaviour
         transform.rotation = Quaternion.identity;
         CubeSimulator.Reset();
     }
+  
 }
 

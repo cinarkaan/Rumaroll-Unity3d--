@@ -52,7 +52,7 @@ Material:
     - _CastShadows: 0
     - _Cull: 2
     - _DstBlend: 1
-    - _MainTexPower: 1
+    - _MainTexPower: 1.5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5

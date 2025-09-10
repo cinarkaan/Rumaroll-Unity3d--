@@ -6,10 +6,9 @@ using UnityEngine;
 
 public class ExceptionalPlatform : MonoBehaviour
 {
+    public bool Progress = false;
 
     protected int _Stage;
-
-    public bool Progress = false;
 
     [SerializeField]
     protected GameObject[] Prefabs;
@@ -19,11 +18,8 @@ public class ExceptionalPlatform : MonoBehaviour
 
     [SerializeField]
     protected ParticleSystem Smoke_Burst;
-
-    protected List<Object> AllMaterials = new();
-
+    
     public List<Vector2Int> SolutionPath = new();
-
     public List<Vector2Int> UnSolution = new();
 
     protected List<Matrix4x4> Tile = new();
@@ -31,6 +27,9 @@ public class ExceptionalPlatform : MonoBehaviour
     protected List<Matrix4x4> Surface = new();
 
     protected List<Renderer> Renderers = new();
+
+    protected List<Object> AllMaterials = new(); // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
+
 
     protected Mesh FrameMesh, TileMesh, SurfacesMesh;
 
@@ -151,10 +150,10 @@ public class ExceptionalPlatform : MonoBehaviour
     protected void InitializeEnvironment()
     {
         TileMesh = Prefabs[0].GetComponent<MeshFilter>().sharedMesh;
-        TileMat = Prefabs[0].GetComponent<MeshRenderer>().sharedMaterial;
+        TileMat = Prefabs[0].GetComponent<Renderer>().sharedMaterial;
 
         SurfacesMesh = Prefabs[0].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
-        SurfacesMat = Prefabs[0].transform.GetChild(0).GetComponent<MeshRenderer>().sharedMaterial;
+        SurfacesMat = Prefabs[0].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;
 
         FrameMesh = Prefabs[0].transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
         FrameMat = Prefabs[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;

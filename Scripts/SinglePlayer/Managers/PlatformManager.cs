@@ -9,10 +9,11 @@ public class PlatformManager : ExceptionalPlatform
     [Range(4, 13)]
     public int Stage = 5;    
 
-    private Object[] TileMaterials; // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
-
     [SerializeField]
     private GameMapController gameMapController;
+
+    [SerializeField]
+    private Transform Water;
 
     public ParticleSystem Clue;
 
@@ -42,6 +43,7 @@ public class PlatformManager : ExceptionalPlatform
 
         PlaceFlag();
 
+        Water.position = new Vector3((Stage + 12) / 2, 0.3f, (Stage + 12) / 2);
     }
     private void LateUpdate()
     {
@@ -65,25 +67,25 @@ public class PlatformManager : ExceptionalPlatform
     }
     protected override void RandomMaterialSelection()
     {
-        HashSet<Object> selected = new HashSet<Object>();
+        HashSet<Object> selected = new();
 
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        TileMaterials = Resources.LoadAll("SimpleLit/GradientSimpleLit", typeof(Material));
-#else
-        TileMaterials = Resources.LoadAll("Gradient", typeof(Material));
-#endif    
+        AllMaterials = Resources.LoadAll("Lit/GradientLit", typeof(Material)).ToList();
+  
         while (selected.Count < 6)
-            selected.Add(TileMaterials[Random.Range(0, TileMaterials.Length)]);
+            selected.Add(AllMaterials[Random.Range(0, AllMaterials.Count)]);
 
+        var Selected = selected.ToArray();
 
-        Prefabs[2].transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[0];
-        Prefabs[2].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[1];
-        Prefabs[2].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[2];
-        Prefabs[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[3];
-        Prefabs[2].transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[4];
-        Prefabs[2].transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)selected.ToArray()[5];
+        Prefabs[2].transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)Selected[0];
+        Prefabs[2].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)Selected[1];
+        Prefabs[2].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)Selected[2];
+        Prefabs[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)Selected[3];
+        Prefabs[2].transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)Selected[4];
+        Prefabs[2].transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)Selected[5];
 
-        TileMaterials = selected.ToArray();
+        Prefabs[2].GetComponent<RollingCubeController>().LinearToGamma();
+
+        AllMaterials = Selected.ToList();
 
         selected.Clear();
     }
@@ -93,7 +95,7 @@ public class PlatformManager : ExceptionalPlatform
         SolutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal);
 
         CubeSimulator cubeSim = new CubeSimulator();
-        GridTiles[new Vector2Int(6, 6)] = new PlatformTile((Material)TileMaterials[0], true);
+        GridTiles[new Vector2Int(6, 6)] = new PlatformTile((Material)AllMaterials[0], true);
 
         for (int i = 1; i < SolutionPath.Count; i++)
         {
@@ -103,7 +105,7 @@ public class PlatformManager : ExceptionalPlatform
 
             cubeSim.Roll(moveDir);
             int bottomFace = cubeSim.faceIndices[0];
-            GridTiles[SolutionPath[i]] = new PlatformTile((Material)TileMaterials[bottomFace], true);
+            GridTiles[SolutionPath[i]] = new PlatformTile((Material)AllMaterials[bottomFace], true);
         }
     }
     private void CreateGrid()
@@ -117,28 +119,29 @@ public class PlatformManager : ExceptionalPlatform
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, 0, 0)), Prefabs[0].transform.GetChild(0).localScale));
                 }
                 else
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.29f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
+                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.3f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
                     GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
                     Vector2Int pos = new(x, z);
                     if (GridTiles.ContainsKey(pos))
                     {
-                        mpb.SetColor("_ColorBottom", AdjustColorAccordingToTile(pos)._bottom);
-                        mpb.SetColor("_ColorTop", AdjustColorAccordingToTile(pos)._top);
+                        mpb.SetColor("_ColorBottom", AdjustColorAccordingToTile(pos)._bottom.gamma);
+                        mpb.SetColor("_ColorTop", AdjustColorAccordingToTile(pos)._top.gamma);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
                         colorfulTile.AddComponent<ColorfulTile>();
                         GridTiles[pos].tile = colorfulTile;
                         GridTiles[pos].OnSolution = true;
                         colorfulTile.name = "OnSolution";
 
-                    } else
+                    }
+                    else
                     {
-                        mpb.SetColor("_ColorBottom", ((Material)TileMaterials[Random.Range(0, TileMaterials.Length)]).GetColor("_ColorBottom"));
-                        mpb.SetColor("_ColorTop", ((Material)TileMaterials[Random.Range(0, TileMaterials.Length)]).GetColor("_ColorTop"));
+                        mpb.SetColor("_ColorBottom", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorBottom").gamma);
+                        mpb.SetColor("_ColorTop", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorTop").gamma);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
                         GridTiles[pos] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false);
                         GridTiles[pos].tile = colorfulTile;
@@ -179,12 +182,13 @@ public class PlatformManager : ExceptionalPlatform
     }
     public override Material GetTileMat(Vector2Int pos)
     {
-        return GridTiles.ContainsKey(pos) ? GridTiles[pos].material : (Material)TileMaterials[6];
+        return GridTiles.ContainsKey(pos) ? GridTiles[pos].material : (Material)AllMaterials[6];
     }
     public void Replace(Vector2Int pos, GameObject spike)
     {
         Destroy(GridTiles[pos].tile);
         GridTiles[pos].tile = spike;
+        
         Renderers = GridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
     }
     public override void CreateDynamics()
@@ -324,7 +328,7 @@ public class PlatformManager : ExceptionalPlatform
     private void LaunchDynamicPath()
     {
         foreach (var pos in DynamicPath)
-            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)TileMaterials[Random.Range(0, TileMaterials.Length)], GridTiles[pos].material);
+            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)AllMaterials[Random.Range(0, AllMaterials.Count)], GridTiles[pos].material);
     }
     public override void SetTileMat(Material dynamic , Vector2Int pos)
     {

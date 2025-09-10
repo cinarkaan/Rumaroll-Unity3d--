@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jupiter
-  m_Shader: {fileID: 4800000, guid: 0ccfc7076335a8e4ea5ae04c2dee2a9c, type: 3}
+  m_Shader: {fileID: 4800000, guid: b35306e39be37b64f8a1147630a6bbda, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -117,9 +117,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
     - _ColorBottom: {r: 1, g: 0.77548754, b: 0.4433962, a: 1}
-    - _ColorTop: {r: 0.37350652, g: 0.6255757, b: 0.78867924, a: 1}
+    - _ColorTop: {r: 0.5355998, g: 0.79723364, b: 0.9622642, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MetallicSmooth: {r: 0, g: 0.5, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

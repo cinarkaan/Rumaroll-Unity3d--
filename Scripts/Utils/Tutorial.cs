@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public class Tutorial : MonoBehaviour
 
     public bool Tap;
 
+    private float TextSize = 20f;
+
     private Image _Talk;
     private string FullText;
 
@@ -42,14 +45,15 @@ public class Tutorial : MonoBehaviour
         UIController.EventsManager(false);
         UIController.ButtonsManager(false);
         UIController.playerController.Render(false);
-        FullText = "Welcome to the world of cube. The magical colorful cube needs to reach out evacutaion point where is located on the flag. ";
+        FullText = "Welcome to the world of cube. The magIcal colorful cube needs to reach out evacutaIon poInt where Is located on the flag. ";
         StartCoroutine(ShowEvacutaionPoint(new Vector3(UIController.playerController._PlatformManager.Stage + 6, UIController.playerController.transform.position.y, UIController.playerController._PlatformManager.Stage + 6), 0));
     }
     private IEnumerator TouchToCountinue(int step)
     {
-        FullText = "As you can see left bottom of the screen , only, you are able to move cube at the each direction , if the bottom face color of cube mathces with tile color. " +
-        "The right bottom of the screen is placed map, whenever you want to see where you are , you can check out both you and obstacles. Also you can demand clue , of course if you have" +
-        " If everythink is okay , good luck ...";
+        TextSize = 19f;
+        FullText = "As you can see left bottom of the screen , only, you are able to move cube at the each dIrectIon , If the bottom face color of cube mathces wIth tIle color. " +
+        "The rIght bottom of the screen Is placed map, whenever you want to see where you are , you can check out both you and obstacles. Also you can demand clue , of course If you have." +
+        " If everythInk Is okay , good luck ...";
         while (true)
         {
 #if UNITY_STANDALONE_WIN
@@ -132,6 +136,10 @@ public class Tutorial : MonoBehaviour
         // At the each frame the text regenerate by using only one stringbuilder
         StringBuilder builder = new StringBuilder();
 
+        TMP_Text temp = _Talk.GetComponentInChildren<TMP_Text>();
+
+        temp.fontSize = TextSize;
+
         while (time < totalDuration)
         {
             builder.Length = 0;
@@ -175,14 +183,14 @@ public class Tutorial : MonoBehaviour
                 }
             }
 
-            _Talk.GetComponentInChildren<Text>().text = builder.ToString();
+            temp.text = builder.ToString();
 
             time += Time.deltaTime;
             yield return null;
         }
 
         //The text will be complately black and without tag as soon as complate the animation
-        _Talk.GetComponentInChildren<Text>().text = FullText;
+        _Talk.GetComponentInChildren<TMP_Text>().text = FullText;
         StartCoroutine(TouchToCountinue(step));
     }
 
