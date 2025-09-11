@@ -69,7 +69,7 @@
 
 <p>It's part of the platform manager. It makes to change colors of tile at the runtime within sync way. It is launched end of the obstacle manager to be indicated dynamic tiles.</p>
 
-<h2>MobileTrail/h2>
+<h2>MobileTrail</h2>
 
 <p>It's part of the cube controller. It responses from ghost trail effect by using mesh component of player.At the each move of player it is triggered.</p>
 
