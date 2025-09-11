@@ -91,7 +91,7 @@
 
 <h2>Exceptionals</h2>
 
-<p>To implemented OOP prencibles into game , the exceptional classes has been created.</p>
+<p>To implement OOP principles into game , the exceptional classes has been created. At the both side singleplayer and multiplayer the exceptionals was used to avoid code repeat</p>
 
 
 
