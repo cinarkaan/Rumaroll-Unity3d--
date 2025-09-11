@@ -89,8 +89,9 @@
 <h2>Menu & Multiplayer</h2>
 <p>It is only responsive the UI task on the main menu and multiplayer.(E.g Settings , Store , Multiplayer)/p>
 
+<h2>Exceptionals</h2>
 
-
+<p>To implemented OOP prencibles into game , the exceptional classes has been created.</p>
 
 
 
