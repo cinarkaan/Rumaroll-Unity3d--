@@ -295,13 +295,13 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(0f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
                 }
                 else
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.29f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0]   .transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(0f, 0f, 0f), transform);
+                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.28f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
+                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.0105f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0]   .transform.GetChild(1).localScale));
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.0105f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
                     Renderers.Add(colorfulTile.GetComponent<Renderer>());
                     var _colorfulTile = HasAtTile(new Vector2Int(x, z), ref colorfulTile);
                     if (_colorfulTile != null)
@@ -342,13 +342,13 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 {
                     Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(0f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
                 }
                 else
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.29f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(0f, 0f, 0f), transform);
+                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.28f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
+                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.0105f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.0105f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
                     Renderers.Add(colorfulTile.GetComponent<Renderer>());
                     Material _tileMat = GetTileMat(new Vector2Int(x, z), ref colorfulTile);
                     MaterialPropertyBlock.SetColor("_ColorBottom", _tileMat.GetColor("_ColorBottom").gamma);

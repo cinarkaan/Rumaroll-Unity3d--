@@ -3,7 +3,22 @@ guid: a71ee284e20a5b64998d80c778a44729
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Colorfulface
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Frame
+    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tile
+    second: {fileID: 2100000, guid: 31d0aaa8a71500149aa6fa4cdde240fa, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -73,7 +88,7 @@ ModelImporter:
     normalSmoothAngle: 75
     normalImportMode: 0
     tangentImportMode: 1
-    normalCalculationMode: 1
+    normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 3

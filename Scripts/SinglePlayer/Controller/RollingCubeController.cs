@@ -117,7 +117,7 @@ public class RollingCubeController : MonoBehaviour
         Vector3 finalPos = transform.position;
 
         finalPos.x = Mathf.Round(finalPos.x / 1f) * 1f;
-        finalPos.y = 0.99f;
+        finalPos.y = 0.98f;
         finalPos.z = Mathf.Round(finalPos.z / 1f) * 1f;
         transform.position = finalPos;
 

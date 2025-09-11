@@ -17,6 +17,13 @@ Shader "Custom/URPGradient_MPB_Lit_X_Y"
             Name "ForwardLit"
             Tags { "LightMode"="UniversalForward" }
 
+            Stencil
+            {
+                Ref 1        // Stencil Value
+                Comp Always  // Always write
+                Pass Replace // Write buffer with stencil
+            }
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag

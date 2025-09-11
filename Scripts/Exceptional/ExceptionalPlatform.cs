@@ -18,18 +18,21 @@ public class ExceptionalPlatform : MonoBehaviour
 
     [SerializeField]
     protected ParticleSystem Smoke_Burst;
-    
+
+    [SerializeField]
+    protected Transform Water;
+
+
     public List<Vector2Int> SolutionPath = new();
     public List<Vector2Int> UnSolution = new();
 
-    protected List<Matrix4x4> Tile = new();
-    protected List<Matrix4x4> Frame = new();
+    protected List<Matrix4x4> Tile = new(), PlatformTile = new ();
+    protected List<Matrix4x4> Frame = new(), PlatformFrame = new();
     protected List<Matrix4x4> Surface = new();
 
     protected List<Renderer> Renderers = new();
 
     protected List<Object> AllMaterials = new(); // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
-
 
     protected Mesh FrameMesh, TileMesh, SurfacesMesh;
 
@@ -157,6 +160,8 @@ public class ExceptionalPlatform : MonoBehaviour
 
         FrameMesh = Prefabs[0].transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
         FrameMat = Prefabs[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
+
+        Water.position = new Vector3((_Stage + 12) / 2, Water.position.y, (_Stage + 12) / 2);
     }
     protected void PlaceFlag()
     {

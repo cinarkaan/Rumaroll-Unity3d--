@@ -1171,11 +1171,11 @@
     },
     "m_AllowMaterialOverride": false,
     "m_SurfaceType": 1,
-    "m_ZTestMode": 2,
-    "m_ZWriteControl": 0,
+    "m_ZTestMode": 4,
+    "m_ZWriteControl": 1,
     "m_AlphaMode": 1,
     "m_RenderFace": 2,
-    "m_AlphaClip": true,
+    "m_AlphaClip": false,
     "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_SupportsLODCrossFade": false,
@@ -2246,9 +2246,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -289.5998229980469,
-            "y": 340.7998352050781,
-            "width": 138.39987182617188,
+            "x": -239.20005798339845,
+            "y": 180.79998779296876,
+            "width": 138.40000915527345,
             "height": 76.80001831054688
         }
     },

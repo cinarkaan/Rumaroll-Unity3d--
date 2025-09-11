@@ -12,9 +12,6 @@ public class PlatformManager : ExceptionalPlatform
     [SerializeField]
     private GameMapController gameMapController;
 
-    [SerializeField]
-    private Transform Water;
-
     public ParticleSystem Clue;
 
     private Dictionary<Vector2Int, PlatformTile> GridTiles = new Dictionary<Vector2Int, PlatformTile>();
@@ -25,7 +22,7 @@ public class PlatformManager : ExceptionalPlatform
     {
         Progress = false;
 
-        Prefabs[2].transform.position = new Vector3(6, 0.99f, 6);
+        Prefabs[2].transform.position = new Vector3(6, 0.98f, 6);
 
         Stage = PlayerPrefs.GetInt("Stage");
 
@@ -42,8 +39,6 @@ public class PlatformManager : ExceptionalPlatform
         CreateGrid();
 
         PlaceFlag();
-
-        Water.position = new Vector3((Stage + 12) / 2, 0.3f, (Stage + 12) / 2);
     }
     private void LateUpdate()
     {
@@ -123,9 +118,9 @@ public class PlatformManager : ExceptionalPlatform
                 }
                 else
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.3f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.01f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.01f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
+                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.28f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
+                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.0105f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.0105f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
                     Vector2Int pos = new(x, z);
                     if (GridTiles.ContainsKey(pos))
                     {
@@ -381,7 +376,6 @@ public struct MaterialProperties
         this._top = _top;
     }
 }
-
 public class PlatformTile
 {
     public Vector2Int position;
