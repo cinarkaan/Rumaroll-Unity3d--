@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DeepSpace
-  m_Shader: {fileID: 4800000, guid: b35306e39be37b64f8a1147630a6bbda, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2fcf366c9269d264da10d97b3e566200, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

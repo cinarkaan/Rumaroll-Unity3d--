@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e3bcc3337c7b825458a9d1618179fc40
+guid: e3d6dc1aec017dc4aa93ff1ef14db72c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Boat
+    second: {fileID: 2100000, guid: cc964136fe2b79c41a97471e9de7a7eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Cannon
-    second: {fileID: 2100000, guid: 9fdabdb4d1ef52c418dd9a8ce360c30f, type: 2}
+    second: {fileID: 2100000, guid: 5892f0732946c1b4d9db97051ed244ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sail
+    second: {fileID: 2100000, guid: 1af84b7baa6202741bace21e9fc984ea, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Wooden
     second: {fileID: 2100000, guid: dc9464c634a46364c96ae1f3a08f7ca8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Yelps
+    second: {fileID: 2100000, guid: 2e1e8e0acb0501048a6d48e7c1d3e1b1, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -83,7 +98,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 1
-    normalCalculationMode: 1
+    normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 3

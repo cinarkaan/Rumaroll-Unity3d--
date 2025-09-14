@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ExceptionalPlatform : MonoBehaviour
 {
-    public bool Progress = false;
+    public bool Progress { get; private set; }
 
     protected int _Stage;
 
@@ -26,11 +26,19 @@ public class ExceptionalPlatform : MonoBehaviour
     public List<Vector2Int> SolutionPath = new();
     public List<Vector2Int> UnSolution = new();
 
-    protected List<Matrix4x4> Tile = new(), PlatformTile = new ();
-    protected List<Matrix4x4> Frame = new(), PlatformFrame = new();
+    protected List<Matrix4x4> Tile = new();
+    protected List<Matrix4x4> Frame = new();
     protected List<Matrix4x4> Surface = new();
 
+    protected ConcurrentBag<Matrix4x4> visibleTile = new();
+    protected ConcurrentBag<Matrix4x4> visibleFrame = new();
+    protected ConcurrentBag<Matrix4x4> visibleSurfaces = new();
+
     protected List<Renderer> Renderers = new();
+
+    protected readonly Dictionary<Vector2Int, PlatformTile> GridTiles = new();
+
+    protected readonly HashSet<Vector2Int> DynamicPath = new();
 
     protected List<Object> AllMaterials = new(); // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
 
@@ -38,15 +46,17 @@ public class ExceptionalPlatform : MonoBehaviour
 
     protected Material TileMat, FrameMat, SurfacesMat;
 
+    protected bool AllActivated = false;
+
     protected void ParallelFrustumCulling()
     {
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
-        ConcurrentBag<Matrix4x4> visibleTile = new();
-        ConcurrentBag<Matrix4x4> visibleFrame = new();
-        ConcurrentBag<Matrix4x4> visibleSurfaces = new();
-
         int total = Tile.Count;
+
+        visibleTile.Clear();
+        visibleFrame.Clear();
+        visibleSurfaces.Clear();
 
         Parallel.For(0, total, index =>
         {
@@ -76,8 +86,8 @@ public class ExceptionalPlatform : MonoBehaviour
     {
         Plane[] Frustum = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
-        foreach (var renderer in Renderers)
-            renderer.enabled = GeometryUtility.TestPlanesAABB(Frustum, renderer.bounds);
+        for(int i = 0; i < Renderers.Count; i++)
+            Renderers[i].enabled = GeometryUtility.TestPlanesAABB(Frustum, Renderers[i].bounds);
     }
     protected bool IsBoundsInsideFrustum(Bounds bounds, Plane[] planes)
     {
@@ -165,22 +175,69 @@ public class ExceptionalPlatform : MonoBehaviour
     }
     protected void PlaceFlag()
     {
-        MaterialPropertyBlock Evacuation_Mpb = new();
-        Evacuation_Mpb.SetColor("_ColorBottom", new Color(0.1773585f, 0.1773585f, 0.1773585f));
-        Evacuation_Mpb.SetColor("_ColorTop", new Color(0.3735847f, 0.3735847f, 0.3735847f));
-
+        MaterialPropertyBlock FlagMPB = new();
         GameObject start = Instantiate(Prefabs[1], new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+        FlagMPB.SetColor("_ColorBottom", new Color(0.8415094f, 0.8415094f, 0.8415094f));
+        FlagMPB.SetColor("_ColorTop", new Color(0.5924529f, 0.5924529f, 0.5924529f));
+        start.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(FlagMPB);
         GameObject evacuation = Instantiate(Prefabs[1], new Vector3(_Stage + 6 + 0.5f, 0.6f, _Stage + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
-        evacuation.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Evacuation_Mpb);
+        FlagMPB.SetColor("_ColorBottom", new Color(0.1773585f, 0.1773585f, 0.1773585f));
+        FlagMPB.SetColor("_ColorTop", new Color(0.3735847f, 0.3735847f, 0.3735847f));
+        evacuation.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(FlagMPB);
         Progress = true;
+    }
+    public Material GetTileMat(Vector2Int pos)
+    {
+        return GridTiles.ContainsKey(pos) ? GridTiles[pos].material : (Material)AllMaterials[6];
+    }
+    public void SetTileMat(Material dynamic, Vector2Int pos)
+    {
+        GridTiles[pos].material = dynamic;
+    }
+    public MaterialProperties AdjustColorAccordingToTile(Vector2Int pos)
+    {
+        Color _bottomColor = GridTiles[pos].material.GetColor("_ColorBottom");
+        Color _topColor = GridTiles[pos].material.GetColor("_ColorTop");
+
+        MaterialProperties _properties = new MaterialProperties(_bottomColor, _topColor);
+
+        return _properties;
+    }
+    public void Replace(Vector2Int pos, GameObject spike)
+    {
+        Destroy(GridTiles[pos].tile);
+        GridTiles[pos].tile = spike;
+        Renderers = GridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
     }
     protected virtual void InitializeWeather(int status) { }
     protected virtual void InitializeSolution() { }
     protected virtual void RandomMaterialSelection() { }
-    protected virtual void CreateSolutionPath() { }
+    protected virtual void CreateGrid() { }
     public virtual void CreateDynamics() { }
-    public virtual Material GetTileMat(Vector2Int Position) { return null; }
-    public virtual void SetTileMat(Material Mat, Vector2Int Position) { }
-    public virtual MaterialProperties AdjustColorAccordingToTile(Vector2Int pos) { return new MaterialProperties(); }
+
+}
+public struct MaterialProperties
+{
+    public Color _bottom { get; private set; }
+    public Color _top { get; private set; }
+
+    public MaterialProperties(Color _bottom, Color _top)
+    {
+        this._bottom = _bottom;
+        this._top = _top;
+    }
+}
+public class PlatformTile
+{
+    public Vector2Int position;
+    public Material material;
+    public GameObject tile;
+    public bool OnSolution;
+
+    public PlatformTile(Material material, bool OnSolution)
+    {
+        this.material = material;
+        this.OnSolution = OnSolution;
+    }
 
 }

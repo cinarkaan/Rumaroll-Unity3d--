@@ -245,5 +245,8 @@ public class ExceptionalPath : MonoBehaviour
     }
 
 
-
+    protected virtual IEnumerator InitializeManager() { yield return null; }
+    protected virtual void PathFinding() { }
+    protected virtual void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved) { }
+    protected virtual HashSet<Vector2Int> ResolvePath(List<Vector2Int> CloseList) { return null; }
 }

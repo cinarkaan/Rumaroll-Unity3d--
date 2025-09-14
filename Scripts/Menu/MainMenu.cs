@@ -39,8 +39,6 @@ public class MainMenu : MonoBehaviour
 
     private float _sensitivity = 10f;
 
-    private float t = 0f;
-
     private MultiPlayerMenu MultiPlayerMenu;
 
     public void Start()

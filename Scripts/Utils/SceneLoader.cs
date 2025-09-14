@@ -9,7 +9,7 @@ public class SceneLoader : MonoBehaviour
     public static string CurrentScene { get; private set; } // Current index when it run
     public TMP_Text LoadingText { get; private set; } // Child text of this script
     private AsyncOperation AsyncLoad; 
-    private List<GameObject> Root = new(); // Root objects that in the tutorial scene
+    private readonly List<GameObject> Root = new(); // Root objects that in the tutorial scene
 
     // it will be use remowe the waiting screen to be notificated by either host or client from server side on multiplayer
     public int Operation = 1;

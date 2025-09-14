@@ -1,22 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class FlagWaver : MonoBehaviour
 {
     [Header("Wave Parameters")]
-    [Tooltip("Dalga amplitude (Height)")]
-    public float Amplitude = 0.5f;
-    [Tooltip("Wave Lenght")]
-    public float Wavelength = 2f;
-    [Tooltip("Wave Speed")]
-    public float Speed = 1f;
 
+    [Tooltip("Dalga amplitude (Height)")]
+    [SerializeField]
+    private float Amplitude = 0.5f;
+    [Tooltip("Wave Lenght")]
+    [SerializeField]
+    private float Wavelength = 2f;
+    [Tooltip("Wave Speed")]
+    [SerializeField]
+    private float Speed = 1f;
+    
     private MeshFilter MeshFilter;
     private Mesh Mesh;
-    private Vector3[] OriginalVerts;
-    private Vector3[] DisplacedVerts;
-
-    void Start()
+    private Vector3[] OriginalVerts, DisplacedVerts;
+    private float MixX, MaxX;
+    
+    private void Start()
     {
         MeshFilter = GetComponent<MeshFilter>();
         Mesh = MeshFilter.mesh;
@@ -26,21 +32,47 @@ public class FlagWaver : MonoBehaviour
         OriginalVerts = Mesh.vertices;
         DisplacedVerts = new Vector3[OriginalVerts.Length];
         OriginalVerts.CopyTo(DisplacedVerts, 0);
+
+        MixX = OriginalVerts.Min(v => v.x);
+        MaxX = OriginalVerts.Max(v => v.x);
     }
-    void Update()
+    
+    private void Update()
     {
-        // Wave offset by the time
         float time = Time.time * Speed;
 
-        for (int i = 0; i < DisplacedVerts.Length; i++)
+        /*for (int i = 0; i < DisplacedVerts.Length; i++)
         {
             Vector3 orig = OriginalVerts[i];
-            // Wave function: sin( (x / λ) + t ) * A
+
+            // Normal wave
             float wave = Mathf.Sin((orig.x / Wavelength) + time) * Amplitude;
-            DisplacedVerts[i] = new Vector3(orig.x, orig.y + wave, orig.z);
-        }
+
+            // Decrease the wave effect according to the x coordinate.
+            // The wave effect must be nearly zero at the nearest of the pole.
+            float factor = Mathf.InverseLerp(MixX, MaxX, orig.x);
+
+            // Update the vertexes
+            DisplacedVerts[i] = new Vector3(orig.x, orig.y + wave * factor, orig.z);
+        }*/
+
+        Parallel.For(0, DisplacedVerts.Length, index =>
+        {
+            Vector3 orig = OriginalVerts[index];
+
+            // Normal wave
+            float wave = Mathf.Sin((orig.x / Wavelength) + time) * Amplitude;
+
+            // Decrease the wave effect according to the x coordinate.
+            // The wave effect must be nearly zero at the nearest of the pole.
+            float factor = Mathf.InverseLerp(MixX, MaxX, orig.x);
+
+            // Update the vertexes
+            DisplacedVerts[index] = new Vector3(orig.x, orig.y + wave * factor, orig.z);
+        });
 
         Mesh.vertices = DisplacedVerts;
-        Mesh.RecalculateNormals();  // To be proper the lighting so it works as seamless
+        Mesh.RecalculateNormals();
     }
+
 }

@@ -10,11 +10,6 @@ public class UIController : ExceptionalUI
     
     [Header("Screen control")]
     [SerializeField]
-    private int counterDurationMin = 10;
-    [SerializeField]
-    private float fadeDurationSpiwe = 0.5f;
-
-    [SerializeField]
     private List<GameObject> objects = new();
 
     [SerializeField]
@@ -77,7 +72,7 @@ public class UIController : ExceptionalUI
 
         if (texts[0].enabled && TimeSinceLastUpdate >= 0.45f)
         {
-            texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime)).ToString();
+            texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime));
             TimeSinceLastUpdate = 0f;
         }
 
@@ -110,12 +105,12 @@ public class UIController : ExceptionalUI
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
-            Aspect.leftSwipe();
+            Aspect.LeftSwipe();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
-            Aspect.rightSwipe();
+            Aspect.RightSwipe();
         }
 
 #else
@@ -148,7 +143,7 @@ public class UIController : ExceptionalUI
             }
         }
 #endif
-        Aspect.pivotAspect();
+        Aspect.PivotAspect();
     }
     public IEnumerator PlaceFlag ()
     {
@@ -235,10 +230,10 @@ public class UIController : ExceptionalUI
         Time.timeScale = 1f;
         StartCoroutine(SceneLoader(0f, 1f, 0.5f, "MainMenu"));
     } 
-    public override void Forward() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[0]); }
-    public override void Right() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[1]); }
-    public override void Backward() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[2]); }
-    public override void Left() { if (IsRotating) return; playerController.TryMove(Aspect.dirs[3]); }
+    public override void Forward() { if (IsRotating) return; playerController.TryMove(Aspect.Dirs[0]); }
+    public override void Right() { if (IsRotating) return; playerController.TryMove(Aspect.Dirs[1]); }
+    public override void Backward() { if (IsRotating) return; playerController.TryMove(Aspect.Dirs[2]); }
+    public override void Left() { if (IsRotating) return; playerController.TryMove(Aspect.Dirs[3]); }
     public override void OpenMap ()
     {
         objects.First().transform.GetChild(0).GetComponent<ParticleSystem>().Play();
@@ -278,7 +273,6 @@ public class UIController : ExceptionalUI
     }
     public void Shield () 
     {
-
         AudioSource.PlayOneShot(AudioClips[1], _Volume);
         int currentAmount = PlayerPrefs.GetInt("Shield");
         PlayerPrefs.SetInt("Shield", currentAmount - 1);
@@ -296,9 +290,9 @@ public class UIController : ExceptionalUI
         Vector2Int current = playerController.GetTileCoordAtPosition();
         int currentIndex = platformManager.SolutionPath.IndexOf(current);
         Vector2Int cluePos = platformManager.SolutionPath[currentIndex + 1];
-        platformManager.Clue.transform.localPosition = new Vector3(cluePos.x, 2.5f, cluePos.y);
+        platformManager.Clue_.transform.localPosition = new Vector3(cluePos.x, 2.5f, cluePos.y);
         platformManager.AdjustColorOfClue(cluePos);
-        platformManager.Clue.Play();
+        platformManager.Clue_.Play();
         if (PlayerPrefs.GetInt("Clue") == 0)
             Buttons.Find(b => b.name == "Clue").interactable = false;
         else

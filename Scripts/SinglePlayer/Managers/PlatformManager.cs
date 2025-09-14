@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlatformManager : ExceptionalPlatform
 {
-
     [Header("Grid Settings")]
     [Range(4, 13)]
     public int Stage = 5;    
@@ -12,16 +11,13 @@ public class PlatformManager : ExceptionalPlatform
     [SerializeField]
     private GameMapController gameMapController;
 
-    public ParticleSystem Clue;
+    [SerializeField]
+    private ParticleSystem Clue;
 
-    private Dictionary<Vector2Int, PlatformTile> GridTiles = new Dictionary<Vector2Int, PlatformTile>();
-
-    public HashSet<Vector2Int> DynamicPath = new();
+    public ParticleSystem Clue_ => Clue;
 
     private void Awake()
     {
-        Progress = false;
-
         Prefabs[2].transform.position = new Vector3(6, 0.98f, 6);
 
         Stage = PlayerPrefs.GetInt("Stage");
@@ -46,6 +42,7 @@ public class PlatformManager : ExceptionalPlatform
         {
             ParallelFrustumCulling();
             FrustumCullingForColorfuls();
+            AllActivated = false;
         }
         else
         {
@@ -54,9 +51,9 @@ public class PlatformManager : ExceptionalPlatform
                 Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, Tile);
                 Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, Frame);
                 Graphics.DrawMeshInstanced(SurfacesMesh, 0, SurfacesMat, Surface);
-                foreach (var renderer in Renderers)
-                    if (!renderer.enabled)
-                        renderer.enabled = true;
+                for (int i = 0; i < Renderers.Count && !AllActivated; i++)
+                    if (!Renderers[i].enabled) Renderers[i].enabled = true;
+                AllActivated = true;
             }
         }
     }
@@ -89,7 +86,7 @@ public class PlatformManager : ExceptionalPlatform
         Vector2Int goal = new(6 + Stage, 6 + Stage);
         SolutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal);
 
-        CubeSimulator cubeSim = new CubeSimulator();
+        CubeSimulator cubeSim = new();
         GridTiles[new Vector2Int(6, 6)] = new PlatformTile((Material)AllMaterials[0], true);
 
         for (int i = 1; i < SolutionPath.Count; i++)
@@ -103,7 +100,7 @@ public class PlatformManager : ExceptionalPlatform
             GridTiles[SolutionPath[i]] = new PlatformTile((Material)AllMaterials[bottomFace], true);
         }
     }
-    private void CreateGrid()
+    protected override void CreateGrid()
     {
         MaterialPropertyBlock mpb = new();
         for (int x = 0; x < 12 + Stage; x++)
@@ -174,17 +171,6 @@ public class PlatformManager : ExceptionalPlatform
         ParticleSystem weather = Instantiate(Weather[status], pos, Quaternion.Euler(0f, 0f, 0f), transform);
         weather.name = "Weather";
 
-    }
-    public override Material GetTileMat(Vector2Int pos)
-    {
-        return GridTiles.ContainsKey(pos) ? GridTiles[pos].material : (Material)AllMaterials[6];
-    }
-    public void Replace(Vector2Int pos, GameObject spike)
-    {
-        Destroy(GridTiles[pos].tile);
-        GridTiles[pos].tile = spike;
-        
-        Renderers = GridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
     }
     public override void CreateDynamics()
     {
@@ -325,19 +311,6 @@ public class PlatformManager : ExceptionalPlatform
         foreach (var pos in DynamicPath)
             GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)AllMaterials[Random.Range(0, AllMaterials.Count)], GridTiles[pos].material);
     }
-    public override void SetTileMat(Material dynamic , Vector2Int pos)
-    {
-        GridTiles[pos].material = dynamic;
-    } 
-    public override MaterialProperties AdjustColorAccordingToTile (Vector2Int pos)
-    {
-        Color _bottomColor = GridTiles[pos].material.GetColor("_ColorBottom");
-        Color _topColor = GridTiles[pos].material.GetColor("_ColorTop");
-
-        MaterialProperties _properties = new MaterialProperties(_bottomColor, _topColor);
-
-        return _properties;
-    }
     public void AdjustColorOfClue (Vector2Int pos)
     {
         Gradient _arrows = new Gradient();
@@ -361,32 +334,4 @@ public class PlatformManager : ExceptionalPlatform
         _arrowsColorModule.color = new ParticleSystem.MinMaxGradient(_arrows);
         glowColorModule.color = new ParticleSystem.MinMaxGradient(_glow);
     }
-
-
-}
-
-public struct MaterialProperties
-{
-    public Color _bottom { get; private set; }
-    public Color _top { get; private set; }
-
-    public MaterialProperties (Color _bottom, Color _top)
-    {
-        this._bottom = _bottom;
-        this._top = _top;
-    }
-}
-public class PlatformTile
-{
-    public Vector2Int position;
-    public Material material;
-    public GameObject tile;
-    public bool OnSolution;
-
-    public PlatformTile (Material material, bool OnSolution)
-    {
-        this.material = material;
-        this.OnSolution = OnSolution;
-    }
-
 }

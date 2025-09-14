@@ -2776,6 +2776,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 233369305844610657, guid: 7bb703f380180524e8e0775ef97d6255,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 1882998312307894098, guid: 7bb703f380180524e8e0775ef97d6255,
         type: 3}
       propertyPath: m_Name
@@ -2856,6 +2861,11 @@ PrefabInstance:
       propertyPath: m_MinParticleSize
       value: 0.185
       objectReference: {fileID: 0}
+    - target: {fileID: 3702784451068087962, guid: 7bb703f380180524e8e0775ef97d6255,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 5313798340698289725, guid: 7bb703f380180524e8e0775ef97d6255,
         type: 3}
       propertyPath: playOnAwake
@@ -3433,13 +3443,12 @@ MonoBehaviour:
     type: 3}
   _collideDiamond: {fileID: 526935715062068854, guid: 148fc1aa3498d5a498da4c9c42168b41,
     type: 3}
-  rotateSpeed: 10
   platformManager: {fileID: 1750448861}
   UIController: {fileID: 1590028057}
   _lootSfx: {fileID: 1222619374}
   coinPrefab: {fileID: 1685060784220916288, guid: 68aaa1bbf9f1279439f6fc77e5945acb,
     type: 3}
-  diamondPrefab: {fileID: 8752397433820876086, guid: 290ad9a5c93226e479d7d7763594400f,
+  diamondPrefab: {fileID: 2362562384704126082, guid: 3c3df9a5b2f72144584356ed08895877,
     type: 3}
 --- !u!4 &1222619373
 Transform:
@@ -4388,8 +4397,6 @@ MonoBehaviour:
   - {fileID: 85223368}
   - {fileID: 685285301}
   _GameOver: 0
-  counterDurationMin: 10
-  fadeDurationSpiwe: 0.5
   objects:
   - {fileID: 1317997094}
   - {fileID: 1693777329}
@@ -4525,6 +4532,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bulldozer: {fileID: 1690800258453965176, guid: 9197838d2fc62214b8c4a83427b82173,
     type: 3}
+  SailBoat: {fileID: 4097451707686038329, guid: a53b46684f0d21e4dbb902f686e04259,
+    type: 3}
   platformManager: {fileID: 1750448861}
   eventManager: {fileID: 1222619372}
   obstacleManager: {fileID: 1666209822}
@@ -4598,15 +4607,12 @@ MonoBehaviour:
   cutterSpeed: 0.7
   spikeSpeed: 0.4
   movedHazardSpeed: 0.55
-  cannonShootSpeed: 1
   distanceOfMovedHazars: 2
-  repeatRateCannonShoot: 4.3
   obstacles:
-  - {fileID: 4827751313563130, guid: 288cce2e78803e942b5875515470a017, type: 3}
+  - {fileID: 765335620488423633, guid: 29736a16321ea71489d0c368bb091523, type: 3}
+  - {fileID: 7770310922161338979, guid: 0a0d907c2b4e8b54aad62678c6a6157f, type: 3}
   - {fileID: 714673351758261072, guid: a961a13caaf18bb42902b59dbf1baacb, type: 3}
   - {fileID: 188649468471428750, guid: e4a6d6755c73d9f418b9933ac640bb69, type: 3}
-  - {fileID: 7770310922161338979, guid: 0a0d907c2b4e8b54aad62678c6a6157f, type: 3}
-  - {fileID: 765335620488423633, guid: 29736a16321ea71489d0c368bb091523, type: 3}
   platformManager: {fileID: 1750448861}
   eventManager: {fileID: 1222619372}
   _obstacles_Sfx:
@@ -4740,7 +4746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb2234be90aa0b47bb5a3d7252019fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Progress: 0
   Prefabs:
   - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
   - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
@@ -4751,11 +4756,11 @@ MonoBehaviour:
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
   Smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
     type: 3}
+  Water: {fileID: 1152494763}
   SolutionPath: []
   UnSolution: []
-  Stage: 7
+  Stage: 5
   gameMapController: {fileID: 928945329}
-  Water: {fileID: 1152494763}
   Clue: {fileID: 1617006618}
 --- !u!1 &1785057814
 GameObject:
@@ -5565,10 +5570,30 @@ PrefabInstance:
       objectReference: {fileID: 1222619372}
     - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
+      propertyPath: CheckInterval
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
       propertyPath: DestroyedCube
       value: 
       objectReference: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
         type: 3}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: HalfExtents.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: HalfExtents.y
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: HalfExtents.z
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 2876208166243213028, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
       propertyPath: shieldIsActive
@@ -5648,6 +5673,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639692150677055320, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639692150677055320, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639692150677055320, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 6832089687474934204, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
@@ -5751,7 +5791,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9203242227484082096, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
+      propertyPath: Frame
+      value: 
+      objectReference: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
+        type: 3}
+    - target: {fileID: 9203242227484082096, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
       propertyPath: Duration
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203242227484082096, guid: a9e7dbcd937893a48a3ec74185e300bf,
+        type: 3}
+      propertyPath: Frequency
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 9203242227484082096, guid: a9e7dbcd937893a48a3ec74185e300bf,

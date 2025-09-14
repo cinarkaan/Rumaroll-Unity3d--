@@ -34,7 +34,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
     private IEnumerator WaitUntilPlatform()
     {
         yield return new WaitUntil(() => NetworkPlatformManager.Progress);
-        Stage = NetworkPlatformManager._ServerManager.Stage.Value;
+        Stage = NetworkPlatformManager.Stage;
         UnSolutionCount = NetworkPlatformManager.UnSolution.Count;
         AdjustObstacles();
     }
@@ -63,6 +63,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
                 break;
         }
         Progress = true;
+        NetworkPlatformManager.UnSolution.Clear();
     }
     private void PlaceSpikes ()
     {
@@ -96,6 +97,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
             SpikeSurfaceMPB.SetColor("_ColorTop", Surface.GetColor("_ColorTop"));
             spike.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(SpikeSurfaceMPB);
             Spikes.Add(spike);
+            NetworkPlatformManager.Replace(placed[0], spike.transform.GetChild(0).gameObject);
             placed.Remove(placed[0]);
         }
     }

@@ -48,7 +48,6 @@ public class ExceptionalUI : MonoBehaviour
     public virtual void Pause() { }
     public virtual void Continue() { }
     protected virtual void InitializeUserPrefs() { }
-
     public void ButtonsManager(bool interactable)
     {
         Buttons.ForEach(b => b.gameObject.SetActive(interactable));

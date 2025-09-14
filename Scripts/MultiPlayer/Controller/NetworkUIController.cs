@@ -32,15 +32,13 @@ public class NetworkUIController : ExceptionalUI
     private Camera mapCamera;
 
     [SerializeField]
-    private Image _pauseMenu, Winning;
+    private Image _pauseMenu, Winning, Fade;
 
     private Vector2 touchStart;
 
     private int OriginalCameraCulling;
 
     private readonly int[] events = { 3, 10, 3, 5 }; // 0 : Diamonds, 1: Coins, 2 : Shields, 3 : Clues. It shows events count.
-
-
     private void Start()
     {
         InitializeUserPrefs();
@@ -61,7 +59,7 @@ public class NetworkUIController : ExceptionalUI
 
         if (texts[0].enabled && TimeSinceLastUpdate >= 1f)
         {
-            texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime)).ToString();
+            texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime));
             TimeSinceLastUpdate = 0f;
         }
 
@@ -90,16 +88,16 @@ public class NetworkUIController : ExceptionalUI
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
-            Aspect.leftSwipe();
+            Aspect.LeftSwipe();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
-            Aspect.rightSwipe();
+            Aspect.RightSwipe();
         }
 
         if (Aspect.target != null)
-            Aspect.pivotAspect();
+            Aspect.PivotAspect();
 
 #else
         if (Input.touchCount == 1)
@@ -154,7 +152,7 @@ public class NetworkUIController : ExceptionalUI
     public override void Forward ()
     {
         if (!IsRotating)
-            cubeController.TryMove(Aspect.dirs[0]);
+            cubeController.TryMove(Aspect.Dirs[0]);
     }
     public override void GameOver(int SoundIndex, string name)
     {
@@ -163,25 +161,24 @@ public class NetworkUIController : ExceptionalUI
             AudioSource.PlayOneShot(AudioClips[0], _Volume);
         else if (SoundIndex == 3)
             AudioSource.PlayOneShot(AudioClips[1], _Volume);
-
-        StartCoroutine(ScalerMenu(Vector3.zero, Vector3.one, 1f, Images.Find(f => f.name == "GameOverMenu")));
+        StartCoroutine(ScalerMenu(Vector3.zero, Vector3.one, 0.5f, Images.Find(f => f.name == "GameOverMenu")));
         cubeController.Render(false);
         Buttons.ForEach(b => b.gameObject.SetActive(false));
     }
     public override void Backward()
     {
         if (!IsRotating)
-            cubeController.TryMove(Aspect.dirs[2]);
+            cubeController.TryMove(Aspect.Dirs[2]);
     }
     public override void Left()
     {
         if (!IsRotating)
-            cubeController.TryMove(Aspect.dirs[3]);
+            cubeController.TryMove(Aspect.Dirs[3]);
     }
     public override void Right()
     {
         if (!IsRotating)
-            cubeController.TryMove(Aspect.dirs[1]);
+            cubeController.TryMove(Aspect.Dirs[1]);
     }
     public override void OpenMap ()
     {
@@ -289,16 +286,18 @@ public class NetworkUIController : ExceptionalUI
     }
     public override void Restart () 
     {
+        StartCoroutine(FadeInOut(Color.clear, Color.black));
         if (manager.IsHost)
             cubeController.transform.position = new Vector3(6f, 0.99f, 6f);
         else
             cubeController.transform.position = new Vector3(manager.Stage.Value + 6f, 0.99f, manager.Stage.Value + 6f);
 
         cubeController.Render(true);
-        StartCoroutine(ScalerMenu(Vector3.one, Vector3.zero, 1f, Images.Find(f => f.name == "GameOverMenu")));
+        Images.Find(f => f.name == "GameOverMenu").rectTransform.localScale = Vector3.zero;
         Buttons.ForEach(b => b.gameObject.SetActive(true));
         Buttons[4].gameObject.SetActive(false);
         cubeController.Origin();
+        StartCoroutine(FadeInOut(Color.black, Color.clear));
     }
     public void DistributeRewards ()
     {
@@ -403,7 +402,7 @@ public class NetworkUIController : ExceptionalUI
 
         Winning.rectTransform.GetChild(reward.SecondRewardIndex).GetChild(0).GetComponent<TMP_Text>().text = "X" + reward.AmountOfSecond;
 
-        startRect.localPosition = new Vector3(-260f, 0f, 0f);
+        startRect.localPosition = new Vector3(260f, 0f, 0f);
 
         while (Vector2.Distance(startRect.sizeDelta, target) > 0.01f)
         {
@@ -430,6 +429,17 @@ public class NetworkUIController : ExceptionalUI
         int secondRewardsIndex = Random.Range(0, 4); // Indicating whether it has the rewards at that index.
 
         return new Reward(firstRewardsIndex, secondRewardsIndex, events[firstRewardsIndex], events[secondRewardsIndex]);
+    }
+    public IEnumerator FadeInOut (Color from , Color to)
+    {
+        float time = 0f;
+
+        while (time < 0.75)
+        {
+            time += Time.deltaTime;
+            Fade.GetComponent<Image>().color = Color.Lerp(from, to, time / 0.75f);
+            yield return null;
+        }
     }
 }
 

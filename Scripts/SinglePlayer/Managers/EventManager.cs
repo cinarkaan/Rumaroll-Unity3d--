@@ -9,9 +9,6 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     private ParticleSystem _collideCoin, _collideDiamond;
 
-    [SerializeField]
-    private float rotateSpeed = 60f;
-
     private int earnedCoin,earnedDiamond;
 
     [SerializeField]
@@ -27,8 +24,8 @@ public class EventManager : MonoBehaviour
 
     public GameObject coinPrefab, diamondPrefab;
 
-    public int _CoinCount { get; private set; }
-    public int _DiamondCount { get; private set; }
+    public int CoinCount { get; private set; }
+    public int DiamondCount { get; private set; }
 
     public static bool progress = false;
 
@@ -48,7 +45,7 @@ public class EventManager : MonoBehaviour
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
         uniqueRandomGenerator.Min = 0;
         uniqueRandomGenerator.Max = platformManager.SolutionPath.Count;
-        uniqueRandomGenerator.Count = _CoinCount;
+        uniqueRandomGenerator.Count = CoinCount;
         uniqueRandomGenerator.Generate();
         foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
@@ -66,12 +63,12 @@ public class EventManager : MonoBehaviour
         UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
         uniqueRandomGenerator.Min = 0;
         uniqueRandomGenerator.Max = platformManager.UnSolution.Count;
-        uniqueRandomGenerator.Count = _DiamondCount;
+        uniqueRandomGenerator.Count = DiamondCount;
         uniqueRandomGenerator.GenerateBySolutions(platformManager.SolutionPath, platformManager.UnSolution);
 
         foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
-            if ((_DiamondCount--) > 0)
+            if ((DiamondCount--) > 0)
             {
                 Vector3 pos = new Vector3(platformManager.UnSolution[item].x, 0.75f, platformManager.UnSolution[item].y);
                 GameObject dim = Instantiate(diamondPrefab, pos, Quaternion.Euler(0, 0, 0), transform);
@@ -113,40 +110,40 @@ public class EventManager : MonoBehaviour
         switch (platformManager.Stage)
         {
             case 4:
-                _CoinCount = 3;
-                _DiamondCount = 0;
+                CoinCount = 3;
+                DiamondCount = 0;
                 break;
             case 5:
-                _CoinCount = 4;
-                _DiamondCount = 2;
+                CoinCount = 4;
+                DiamondCount = 2;
                 break;
             case 6:
-                _CoinCount = 5;
-                _DiamondCount = 2;
+                CoinCount = 5;
+                DiamondCount = 2;
                 break;
             case 7:
-                _CoinCount = 6;
-                _DiamondCount = 3;
+                CoinCount = 6;
+                DiamondCount = 3;
                 break;
             case 8:
-                _CoinCount = 8;
-                _DiamondCount = 3;
+                CoinCount = 8;
+                DiamondCount = 3;
                 break;
             case 9:
-                _CoinCount = 9;
-                _DiamondCount = 4;
+                CoinCount = 9;
+                DiamondCount = 4;
                 break;
             case 10:
-                _CoinCount = 10;
-                _DiamondCount = 5;
+                CoinCount = 10;
+                DiamondCount = 5;
                 break;
             case 11:
-                _CoinCount = 11;
-                _DiamondCount = 6;
+                CoinCount = 11;
+                DiamondCount = 6;
                 break;
             case 12:
-                _CoinCount = 12;
-                _DiamondCount = 7;
+                CoinCount = 12;
+                DiamondCount = 7;
                 break;
             default:
                 break;

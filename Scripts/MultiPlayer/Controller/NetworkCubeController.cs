@@ -17,8 +17,9 @@ public class NetworkCubeController : NetworkBehaviour
 
     private NetworkPlatformManager platformManager;
 
-    private CubeSimulator CubeSimulator = new();
+    private readonly CubeSimulator CubeSimulator = new();
 
+    [SerializeField]
     private MobileTrail cubeTrail;
 
     [SerializeField]
@@ -47,16 +48,14 @@ public class NetworkCubeController : NetworkBehaviour
         }
         else
         {
-            transform.position = new Vector3(platformManager._ServerManager.Stage.Value + 6, 0.99f, platformManager._ServerManager.Stage.Value + 6);
+            transform.position = new Vector3(platformManager.ServerManager_.Stage.Value + 6, 0.99f, platformManager.ServerManager_.Stage.Value + 6);
             transform.gameObject.name = "Client";
             target = new Vector2Int(6, 6);
         }
 
-        cubeTrail = GetComponent<MobileTrail>();
+        yield return new WaitUntil(() => platformManager.ServerManager_.Progress);
 
-        yield return new WaitUntil(() => platformManager._ServerManager.Progress);
-
-        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager._ServerManager.Difficulty.Value > 0 ) ? platformManager._ServerManager._UIController : null;
+        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager.ServerManager_.Difficulty.Value > 0 ) ? platformManager.ServerManager_._UIController : null;
     }
     public void TryMove(Vector3 dir)
     {
@@ -70,8 +69,8 @@ public class NetworkCubeController : NetworkBehaviour
                 Mathf.RoundToInt(targetPosCandidate.z / 1f)
             );
             // Check out platform boundaries depends on platform manager
-            if (targetCoord.x < 6 || targetCoord.x > platformManager._ServerManager.Stage.Value+ 6 ||
-                targetCoord.y < 6 || targetCoord.y > platformManager._ServerManager.Stage.Value + 6)
+            if (targetCoord.x < 6 || targetCoord.x > platformManager.Stage + 6 ||
+                targetCoord.y < 6 || targetCoord.y > platformManager.Stage + 6)
                 return;
             StartCoroutine(Roll(dir));
         }
@@ -115,7 +114,7 @@ public class NetworkCubeController : NetworkBehaviour
         float angle = 0f;
         float speed = 90f / rollDuration;
 
-        cubeTrail.InvokeRepeating("Trail", 0.1f, 0.1f);
+        cubeTrail.InvokeRepeating("CreateTrail", 0.1f, 0.1f);
 
         while (angle < 90f)
         {
@@ -151,7 +150,7 @@ public class NetworkCubeController : NetworkBehaviour
         if (target.Equals(GetTileCoordAtPosition()))
         {
             isRolling = true;
-            platformManager._ServerManager.NoticationWonPlayerServerRpc(transform.gameObject.name);
+            platformManager.ServerManager_.NoticationWonPlayerServerRpc(transform.gameObject.name);
             var manager = GameObject.Find("UIManager").GetComponent<NetworkUIController>();
             manager.DistributeRewards();
         }

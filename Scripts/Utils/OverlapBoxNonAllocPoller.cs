@@ -21,7 +21,7 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
     [Header("Box volume settings")]
     [Tooltip("Half-extents of the box. For example, (1, 1, 1) means a 2×2×2 volume in world space.")]
-    public Vector3 HalfExtents = new Vector3(1f, 1f, 1f);
+    public Vector3 HalfExtents = new(1f, 1f, 1f);
 
     [Tooltip("The center offset of the box relative to the local pivot. For example, (0, 1, 0) means look 1 unit above the pivot.")]
     public Vector3 CenterOffset = Vector3.zero;
@@ -47,12 +47,6 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
     private Collider[] _Results = new Collider[8];
 
     public bool GameOver = false;
-
-    private void Start()
-    {
-       if (SceneLoader.CurrentScene.Equals("Day"))
-            Sparks.collision.SetPlane(0, GameObject.Find("PlatformManager").transform);
-    }
 
     private void Update()
     {
@@ -129,6 +123,21 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
         // • e.g.
     }
 
-    
+    /*private void OnDrawGizmos()
+    {
+        // Kutunun dünya uzayýndaki merkezini hesapla
+        Vector3 worldCenter = transform.TransformPoint(CenterOffset);
+
+        // Kutunun dönüþünü al
+        Quaternion worldRot = transform.rotation;
+
+        // Çizim için matrix ayarla
+        Gizmos.color = new Color(1f, 0f, 0f, 0.4f); // Kýrmýzý, yarý saydam
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(worldCenter, worldRot, Vector3.one);
+        Gizmos.matrix = rotationMatrix;
+
+        // Box çiz (Gizmos.DrawWireCube çerçeve, DrawCube dolu þekil çizer)
+        Gizmos.DrawWireCube(Vector3.zero, HalfExtents * 2);
+    }*/
 
 }

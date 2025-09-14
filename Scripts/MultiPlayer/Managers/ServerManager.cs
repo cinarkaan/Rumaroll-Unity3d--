@@ -22,16 +22,15 @@ public class ServerManager : NetworkBehaviour
     public NetworkVariable<bool> Launch = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // If the game was stated , the update methods will be run.
 
     // Obstacle & Enemy
-    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Spikes position in the obstacle
+    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner); // Spikes position in the obstacle
     public NetworkList<Vector2Int> _Blades = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // // Blades position in the obstacle
     public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Paths in the enemy
 
     // Platform
-    public NetworkList<CubeMaterials> CubeMaterials = new NetworkList<CubeMaterials>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The materials face of the cube 
-    public NetworkList<Tiles> Tiles = new NetworkList<Tiles>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The informations about the platform
-    public NetworkList<ClientFaceIndicates> ClientCube = new NetworkList<ClientFaceIndicates>(null, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The client's cube faces of materials
-    public NetworkVariable<int> WeatherCode = new NetworkVariable<int>(0); // Weather status
-
+    public NetworkList<HostMaterials> HostMaterials = new(new List<HostMaterials>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The materials face of the cube 
+    public NetworkList<Tiles> Tiles = new(new List<Tiles>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The informations about the platform
+    public NetworkList<ClientMaterials> ClientMaterials = new(new List<ClientMaterials>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The client's cube faces of materials
+    public NetworkVariable<int> WeatherCode = new(0); // Weather status
 
     public NetworkManager Manager { get; private set; }
     
@@ -55,6 +54,14 @@ public class ServerManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         StartCoroutine(WaitForScene());
+    }
+    public override void OnNetworkDespawn()
+    {
+        if (Manager.IsServer)
+        {
+            Manager.OnClientConnectedCallback -= OnClientConnected;
+            Manager.OnClientDisconnectCallback -= OnClientDisconnected;
+        }
     }
     private IEnumerator WaitForScene ()
     {
@@ -112,7 +119,7 @@ public class ServerManager : NetworkBehaviour
         {
             if (!Manager.IsConnectedClient && !EndGame)
             {
-                UIControler.Info.rectTransform.localPosition = new Vector3(-272f, 65f, 0f);
+                UIControler.Info.rectTransform.localPosition = new Vector3(-233.5f, 65f, 0f);
                 UIControler.Info.text = "THE HOST HAS BEEN DISCONNECTED!!!";
                 yield return new WaitForSeconds(1.2f);
                 Manager.Shutdown();
@@ -171,27 +178,25 @@ public class ServerManager : NetworkBehaviour
         if (!hasWon)
             StartCoroutine(DisconnectFromGame(2.5f));
     }
-
     [ServerRpc(RequireOwnership = false)]
     public void RequestClearServerRpc()
     {
         UIControler.SceneLoader.Operation = 2; // Client is ready , remove waiting screen for host
         Launch.Value = true;
-        //Stage.Dispose();
+        Stage.Dispose();
         Difficulty.Dispose();
         _Spikes.Clear();
         _Blades.Clear();
         _Path.Clear();
-
     }
-
     [ServerRpc(RequireOwnership = false)]
     public void RequestClearPlatformListServerRpc()
     {
         Tiles.Clear();
-        ClientCube.Clear();
-        //CubeMaterials.Dispose();
+        ClientMaterials.Clear();
+        HostMaterials.Clear();
         WeatherCode.Dispose();
     }
+
 
 }

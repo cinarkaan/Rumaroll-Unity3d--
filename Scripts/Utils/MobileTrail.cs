@@ -3,33 +3,28 @@ using UnityEngine;
 
 public class MobileTrail : MonoBehaviour
 {
-    public float Duration;
-    public GameObject TrailPrefab;
+    public float Frequency;
+    public GameObject Frame;
 
-    public void Trail ()
+    public void CreateTrail()
     {
-        CreateTrail();
-    }
-    private void CreateTrail()
-    {
-        GameObject trail = Instantiate(TrailPrefab, transform.position, transform.rotation);
-        trail.transform.position = transform.position;
-        trail.transform.rotation = transform.rotation;
+        GameObject trail = Instantiate(Frame, transform.position, transform.rotation);
+        trail.transform.SetPositionAndRotation(transform.position, transform.rotation);
         trail.transform.localScale = transform.localScale;
-        StartCoroutine(FadeOut(trail));
+        StartCoroutine(Ghost(trail));
     }
-    private IEnumerator FadeOut(GameObject trail)
+    private IEnumerator Ghost(GameObject trail)
     {
         float elapsed = 0f;
-        while (elapsed < Duration)
+        while (elapsed < Frequency)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / Duration);
+            float t = Mathf.Clamp01(elapsed / Frequency);
             float alpha = Mathf.Lerp(1f, 0f, t);
             trail.GetComponent<Renderer>().material.SetFloat("_Power", alpha);
             yield return null;
         }
-        trail.GetComponent<Renderer>().material.SetFloat("_Power", 0);
+        //trail.GetComponent<Renderer>().material.SetFloat("_Power", 0);
         Destroy(trail);
     }
 

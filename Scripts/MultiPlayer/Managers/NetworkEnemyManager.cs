@@ -31,11 +31,11 @@ public class NetworkEnemyManager : ExceptionalPath
         _sound.PlayOneShot(_sound.clip, 1);
         StartCoroutine(InitializeManager());
     }
-    private IEnumerator InitializeManager()
+    protected override IEnumerator InitializeManager()
     {
         yield return new WaitUntil(() => ObstacleManager.Progress);
 
-        if (ServerManager.Stage.Value == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
+        if (PlatformManager.Stage == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
         {
             if (ServerManager.IsHost)
                 PathFinding();
@@ -56,7 +56,7 @@ public class NetworkEnemyManager : ExceptionalPath
 
         yield return null;
     }
-    private void PathFinding()
+    protected override void PathFinding()
     {
         // Adding obstacles in to the map
         for (int i = 0; i < ObstacleManager.Spikes.Count; i++)
@@ -106,7 +106,7 @@ public class NetworkEnemyManager : ExceptionalPath
 
         _pathprogress = true;
     }
-    private void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved)
+    protected override void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved)
     {
         if (location == new Vector2Int(12, 12)) // If was arrived target point , return back
         {
@@ -144,7 +144,7 @@ public class NetworkEnemyManager : ExceptionalPath
         // Recursive the method for the next steps
         AStar(OpenList.First().Coord, OpenList, ref CloseList, resolved);
     }
-    private HashSet<Vector2Int> ResolvePath(List<Vector2Int> CloseList)
+    protected override HashSet<Vector2Int> ResolvePath(List<Vector2Int> CloseList)
     {
         List<Vector2Int> _resolved = new List<Vector2Int>(); // New list to adding resolution
 
@@ -185,8 +185,9 @@ public class NetworkEnemyManager : ExceptionalPath
     }
     private void Free()
     {
-        ServerManager.RequestClearPlatformListServerRpc();
         ServerManager.RequestClearServerRpc();
+        ServerManager.RequestClearPlatformListServerRpc();
         ServerManager._UIController.SceneLoader.Operation = 2;
+        PlatformManager.SolutionPath.Clear();
     }
 }

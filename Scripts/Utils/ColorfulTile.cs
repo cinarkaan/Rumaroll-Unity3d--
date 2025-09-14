@@ -3,36 +3,43 @@ using UnityEngine;
 
 public class ColorfulTile : MonoBehaviour
 {
+    private ExceptionalPlatform ExceptionalPlatform;
     private ParticleSystem smoke;
-    private MaterialPropertyBlock propertyBlock;
-    private Renderer Renderer; // It might be null beacuse of the frustum culling operation
+    private MaterialPropertyBlock DummyProperty, OriginalProperty;
+    private Renderer Renderer;
     public Vector2Int Position { get; private set; }
-    private Coroutine dynamics;
 
     private void Awake()
     {
-        propertyBlock = new MaterialPropertyBlock();
+        DummyProperty = new MaterialPropertyBlock();
+        OriginalProperty = new MaterialPropertyBlock();
         Renderer = transform.GetComponent<Renderer>();
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
     }
+
+    private void Start()
+    {
+        ExceptionalPlatform = SceneLoader.CurrentScene == "Day" ? GetComponentInParent<PlatformManager>() : GetComponentInParent<NetworkPlatformManager>();
+    }
+
     public void RepeatColor (Material dummy,Material original)
     {
-        dynamics = StartCoroutine(DynamicColor(dummy, original));
+        DummyProperty.SetColor("_ColorBottom", dummy.GetColor("_ColorBottom").gamma);
+        DummyProperty.SetColor("_ColorTop", dummy.GetColor("_ColorTop").gamma);
+        OriginalProperty.SetColor("_ColorBottom", original.GetColor("_ColorBottom").gamma);
+        OriginalProperty.SetColor("_ColorTop", original.GetColor("_ColorTop").gamma);
+        StartCoroutine(DynamicColor(dummy, original));
     }
     private IEnumerator DynamicColor(Material dummy, Material original)
     {
         while (true)
         {
-            propertyBlock.SetColor("_ColorBottom", dummy.GetColor("_ColorBottom").gamma);
-            propertyBlock.SetColor("_ColorTop", dummy.GetColor("_ColorTop").gamma);
-            Renderer.SetPropertyBlock(propertyBlock);
-            ExchangeMaterials(dummy);
+            Renderer.SetPropertyBlock(DummyProperty);
+            ExceptionalPlatform.SetTileMat(dummy, Position);
             if (smoke != null) smoke.Play();
             yield return new WaitForSeconds(3.5f);
-            propertyBlock.SetColor("_ColorBottom", original.GetColor("_ColorBottom").gamma);
-            propertyBlock.SetColor("_ColorTop", original.GetColor("_ColorTop").gamma);
-            Renderer.SetPropertyBlock(propertyBlock);
-            ExchangeMaterials(original);
+            Renderer.SetPropertyBlock(OriginalProperty);
+            ExceptionalPlatform.SetTileMat(original, Position);
             if (smoke != null) smoke.Play();
             yield return new WaitForSeconds(3f);
         }
@@ -80,20 +87,4 @@ public class ColorfulTile : MonoBehaviour
         colorModuleSmoke.color = new ParticleSystem.MinMaxGradient(smokeGradient);
         colorModuleScattered.color = new ParticleSystem.MinMaxGradient(scatteredGradient);
     }
-    private void ExchangeMaterials (Material mat)
-    {
-        // The var attribute where is on the following must be defined as global which is used with polymorphism to avoid gc allocation. The metod takes same args both side.
-        if (SceneLoader.CurrentScene == "Day")
-        {
-            var obj = GetComponentInParent<PlatformManager>();
-            obj.SetTileMat(mat, Position);
-        } else if (SceneLoader.CurrentScene == "Multiplayer")
-        {
-            var obj = GetComponentInParent<NetworkPlatformManager>();
-            obj.SetTileMat(mat, Position);
-        }
-        else
-            StopCoroutine(dynamics);
-    }
-
 }

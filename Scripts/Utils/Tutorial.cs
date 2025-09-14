@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour
 {
 
-    [Header("Settings of Animations")]
+    [Header("Settings of Tutorials")]
+
     [Tooltip("Her bir karakterin fade?in süresi (saniye)")]
     [Range(0.01f, 1f)]
     public float FadeDurationText = 0.3f;

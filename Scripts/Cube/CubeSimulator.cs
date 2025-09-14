@@ -49,7 +49,6 @@ public class CubeSimulator
         }
         faceIndices = newOrder;
     }
-
     public void Reset ()
     {
         faceIndices = new int[] { 0, 1, 2, 3, 4, 5};

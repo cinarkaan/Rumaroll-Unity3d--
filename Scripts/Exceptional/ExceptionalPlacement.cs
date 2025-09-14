@@ -14,17 +14,6 @@ public class ExceptionalPlacement : MonoBehaviour
         this.UnSolutionCount = UnSolutionCount;
     }
 
-    protected List<Vector2Int> ExceptionalPlacementOfCannon(bool First, bool Second)
-    {
-        List<Vector2Int> place = new List<Vector2Int>();
-
-        if (First) // 45 Angle
-            place.Add(new Vector2Int(5, Stage + 7));
-        if (Second) // 225 Angle
-            place.Add(new Vector2Int(Stage + 7, 5));
-
-        return place;
-    }
     protected List<Vector2> ExceptionalPlacementOfHazard(bool vertical, bool horizontal, int verticalCount, int horizontalCount)
     {
         List<Vector2> pos = new List<Vector2>();

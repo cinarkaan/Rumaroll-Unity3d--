@@ -7,10 +7,9 @@ public class AspectController : MonoBehaviour
     public Transform target; // Player cube
     public float distance = 1.74f; // Range with the player
 
-
     private List<Vector3> offsets;
 
-    public Vector3[] dirs { get; private set; }
+    public Vector3[] Dirs { get; private set; }
 
     public Vector3 targetOffset;
 
@@ -30,14 +29,14 @@ public class AspectController : MonoBehaviour
             new Vector3(-distance, 2.42f, distance)
         };
 
-        dirs = new Vector3[4];
+        Dirs = new Vector3[4];
 
-        dirs[0] = Vector3.forward;
-        dirs[1] = Vector3.right;
-        dirs[2] = Vector3.back;
-        dirs[3] = Vector3.left;
+        Dirs[0] = Vector3.forward;
+        Dirs[1] = Vector3.right;
+        Dirs[2] = Vector3.back;
+        Dirs[3] = Vector3.left;
     }
-    public void pivotAspect ()
+    public void PivotAspect ()
     {
         targetOffset = offsets[index];
 
@@ -45,21 +44,21 @@ public class AspectController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position),
             1 - Mathf.Exp(-10f * Time.deltaTime));
     }
-    public void rightSwipe()
+    public void RightSwipe()
     {
-        Vector3 temp = dirs[3];
+        Vector3 temp = Dirs[3];
         for (int i = 2; i >= 0; i--)
-            dirs[i + 1] = dirs[i];
+            Dirs[i + 1] = Dirs[i];
 
-        dirs[0] = temp;
+        Dirs[0] = temp;
     }
-    public void leftSwipe ()
+    public void LeftSwipe ()
     {
-        Vector3 temp = dirs[0];
+        Vector3 temp = Dirs[0];
         for (int i = 0; i <= 2; i++)
-            dirs[i] = dirs[i + 1];
+            Dirs[i] = Dirs[i + 1];
 
-        dirs[3] = temp;
+        Dirs[3] = temp;
     }
 
 }

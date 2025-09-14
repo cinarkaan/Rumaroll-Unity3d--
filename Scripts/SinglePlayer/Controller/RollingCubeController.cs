@@ -100,7 +100,7 @@ public class RollingCubeController : MonoBehaviour
         float angle = 0f;
         float speed = 90f / rollDuration;
 
-        cubeTrail.InvokeRepeating("Trail", 0.1f, 0.1f);
+        cubeTrail.InvokeRepeating("CreateTrail", 0.1f, 0.1f);
 
         while (angle < 90f)
         {

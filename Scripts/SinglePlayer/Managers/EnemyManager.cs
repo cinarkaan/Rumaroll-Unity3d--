@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class EnemyManager : ExceptionalPath
 {
-
+    [Header("Enemies")]
     [SerializeField]
-    private GameObject Bulldozer;
+    private GameObject Bulldozer, SailBoat;
 
+    [Header("Linked Managers")]
     [SerializeField]
     private PlatformManager platformManager;
 
@@ -24,26 +25,39 @@ public class EnemyManager : ExceptionalPath
 
     private int[,] Map;
 
+
+    private float ShootInterval = 0, ShootStartTime = 0f;  
+
+    private bool IsShooting = false;
+
+    private readonly List<Transform> Sails = new();
+    private readonly List<Transform> Bullet = new();
+    private readonly List<ParticleSystem> Explosive = new();
+
+    private AudioSource CannonExplode;
+
     private void Start()
     {
-        Map = new int[13, 13];
-        var _sound = Bulldozer.GetComponent<AudioSource>();
-        _sound.PlayOneShot(_sound.clip, UIController._Volume);
-        StartCoroutine(InitializeManager());
-    }
-    private IEnumerator InitializeManager ()
-    {
-        yield return new WaitUntil(() => ObstacleManager.progress);
-
         if (platformManager.Stage == 12) // The manager only must be worked at the stage 12 
         {
-            PathFinding();
-            StartCoroutine(AdjustRouteDirsEnemy(Bulldozer));
+            Map = new int[13, 13];
+            var _sound = Bulldozer.GetComponent<AudioSource>();
+            _sound.PlayOneShot(_sound.clip, UIController._Volume);
+            StartCoroutine(InitializeManager());
         }
-
+        else if (platformManager.Stage == 7 || platformManager.Stage == 8)
+        {
+            PlaceSailBoat(platformManager.Stage % 2, platformManager.Stage % 2);
+        }
+    }
+    protected override IEnumerator InitializeManager ()
+    {
+        yield return new WaitUntil(() => ObstacleManager.progress);
+        PathFinding();
+        StartCoroutine(AdjustRouteDirsEnemy(Bulldozer));
         yield return null;
     }
-    private void PathFinding ()
+    protected override void PathFinding ()
     {
         // First evulation of map without obstacles , with events
         for (int i = 0; i < eventManager.Precious.Count; i++)
@@ -90,7 +104,7 @@ public class EnemyManager : ExceptionalPath
         
         _pathprogress = true;
     }
-    private void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved)
+    protected override void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved)
     {
         if (location == new Vector2Int(12, 12)) // If was arrived target point , return back
         {
@@ -128,7 +142,7 @@ public class EnemyManager : ExceptionalPath
         // Recursive the method for the next steps
         AStar(OpenList.First().Coord, OpenList, ref CloseList, resolved);
     }
-    private HashSet<Vector2Int> ResolvePath(List<Vector2Int> CloseList)
+    protected override HashSet<Vector2Int> ResolvePath(List<Vector2Int> CloseList)
     {
         List<Vector2Int> _resolved = new List<Vector2Int>(); // New list to adding resolution
 
@@ -168,6 +182,73 @@ public class EnemyManager : ExceptionalPath
         return _resolved.ToHashSet(); // Return HasSet<Vector2Int>()
     }
 
+    private void PlaceSailBoat (int SecondRegion , int ThirdRegion)
+    {
+        SailBoat.transform.GetChild(1).GetChild(1).gameObject.SetActive(PlayerPrefs.GetInt("Vfx") > 0);
+        CannonExplode = SailBoat.GetComponent<AudioSource>();
+        if (SecondRegion == 1 || SecondRegion == 0)
+        {
+            CannonExplode.spread = 0f;
+            var _SailBoat = Instantiate(SailBoat, new Vector3(4.5f, 0.16f, 14.5f), Quaternion.Euler(0f, 225f, 0f), transform);
+            Sails.Add(_SailBoat.transform);
+            Bullet.Add(_SailBoat.transform.GetChild(1).GetChild(0).transform);
+            Explosive.Add(_SailBoat.transform.GetChild(1).GetChild(1).GetComponent<ParticleSystem>());
+        }
+        if (ThirdRegion == 0)
+        {
+            CannonExplode.spread = 360f;
+            var _SailBoat = Instantiate(SailBoat, new Vector3(15.5f, 0.16f, 5f), Quaternion.Euler(0f, 45f, 0f), transform);
+            Sails.Add(_SailBoat.transform);
+            Bullet.Add(_SailBoat.transform.GetChild(1).GetChild(0).transform);
+            Explosive.Add(_SailBoat.transform.GetChild(1).GetChild(1).GetComponent<ParticleSystem>());
+        }
+    }
+    private void Shooting()
+    {
+        // Get Ready to Shooting
+        ShootStartTime = Time.time;
+        IsShooting = true;
+        for (int i = 0; i < Sails.Count; i++)
+        {
+            Explosive[i].Play();
+            Sails[i].GetComponent<AudioSource>().PlayOneShot(CannonExplode.clip, UIController._Volume);
+            Bullet[i].gameObject.SetActive(true);
+        }
+    }
+    private void Update()
+    {
+        if (Sails.Count > 0)
+        {
+            // Fire rate interval
+            ShootInterval += Time.deltaTime;
+
+            float offset = Mathf.PingPong(Time.time * 2.5f, 8f) - 4f;
+            Sails.ForEach(S => S.transform.localEulerAngles = new Vector3(offset, S.transform.localEulerAngles.y, offset * (-1)));
+
+            // At the Each 3 seconds will be shooted
+            if (ShootInterval > 3f)
+            {
+                Shooting(); // Shooting
+                ShootInterval = 0f; // Reset fire interval
+            }
+
+            if (IsShooting)
+            {
+                float t = Mathf.Clamp01((Time.time - ShootStartTime) * 2f); // Calculate animation time
+                Vector3 start = new(-0.11f, 0.18f, -0.09f); // From where is shooting
+                Vector3 final = new(start.x * 5f * platformManager.Stage, start.y, start.z); // Target point
+
+                Bullet.ForEach(B => B.localPosition = Vector3.Lerp(start, final, t));
+
+                // End of the shooting animation
+                if (t >= 1f)
+                {
+                    IsShooting = false;
+                    Bullet.ForEach(B => B.gameObject.SetActive(false));
+                }
+            }
+        }
+    }
 }
 
 public struct Node : IEquatable<Node>, IComparable<Node>

@@ -5,7 +5,6 @@ public class CubeExplosion : MonoBehaviour
 
     [SerializeField]
     private float _minForce, _maxForce, _radious, _delay;
-
     private void Start()
     {
         Explode();

@@ -15,18 +15,15 @@ public class ObstacleManager : ExceptionalPlacement
     private float spikeSpeed = 0.5f;
     [SerializeField]
     private float movedHazardSpeed = 0.5f;
-    [SerializeField]
-    private float cannonShootSpeed = 1f;
 
     [Header("Rates of obstacles")]
     [SerializeField]
     private float distanceOfMovedHazars = 2f;
-    [SerializeField]
-    private float repeatRateCannonShoot = 4.3f;
 
     [Header("Obstacles prefabs")]
-    public GameObject[] obstacles; // Cannon = 0, Blade = 1, Cutter = 2, MovedHazard = 3, Spike = 4
+    public GameObject[] obstacles; //  Blade = 2, Cutter = 3, MovedHazard = 1, Spike = 0
 
+    [Header("Linked Managers")]
     [SerializeField]
     private PlatformManager platformManager;
     [SerializeField]
@@ -35,21 +32,16 @@ public class ObstacleManager : ExceptionalPlacement
     [SerializeField]
     private AudioClip[] _obstacles_Sfx;
 
-    private List<AudioSource> _cannonShoot;
-
     public List<GameObject> Blade { get; private set; }  // The dynamic colorfulface can be placed one cell that is surrounded center of blade. Should it be public , get and private set method must be activated   
     public List<GameObject> Spikes { get; private set; }
     public List<GameObject> Cutters { get; private set; }
 
-    private List<GameObject> Cannon;
     private Dictionary<GameObject, Vector3> MovedHazardVertical;
     private Dictionary<GameObject, Vector3> MovedHazardHorizontal;
 
     private float _volume = 0f;
 
     public static bool progress = false;
-
-    private bool isShooting = false;
 
     public ObstacleManager(int Stage, int UnSolutionCount) : base(Stage, UnSolutionCount)
     {
@@ -61,10 +53,8 @@ public class ObstacleManager : ExceptionalPlacement
         Blade = new List<GameObject>();
         Spikes = new List<GameObject>();
         Cutters = new List<GameObject>();
-        Cannon = new List<GameObject>();
         MovedHazardVertical = new Dictionary<GameObject, Vector3>();
         MovedHazardHorizontal = new Dictionary<GameObject, Vector3>();
-        _cannonShoot = new List<AudioSource>();
         _volume = PlayerPrefs.GetInt("Sfx");
 
         StartCoroutine(AdjustObstacles());
@@ -80,13 +70,13 @@ public class ObstacleManager : ExceptionalPlacement
         switch (platformManager.Stage)
         {
             case 5:
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.5f;
                 PlaceSpikes(1, 1, 1, 1);
                 break;
             case 6:
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.5f;
                 distanceOfMovedHazars = 2f;
                 movedHazardSpeed = 0.37f;
@@ -97,41 +87,33 @@ public class ObstacleManager : ExceptionalPlacement
                 PlaceSpikes(1, 1, 1, 1);
                 break;
             case 7:
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[0].transform.GetChild(0).GetChild(2).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.5f;
                 distanceOfMovedHazars = 3f;
                 movedHazardSpeed = 3f;
-                repeatRateCannonShoot = 4.25f;
-                cannonShootSpeed = 1f;
                 if (Random.Range(0, 2) == 0)
                     PlaceMovedHazardVertical(2);
                 else
                     PlaceMovedHazardHorizontal(2);
                 PlaceSpikes(1, 1, 1, 1);
-                PlaceCannon(true, false);
                 break;
             case 8:
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[0].transform.GetChild(0).GetChild(2).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.5f;
                 distanceOfMovedHazars = 4f;
                 movedHazardSpeed = 4f;
-                repeatRateCannonShoot = 4.25f;
-                cannonShootSpeed = 1f;
                 if (Random.Range(0, 2) == 0)
                     PlaceMovedHazardVertical(2);
                 else
                     PlaceMovedHazardHorizontal(2);
                 PlaceSpikes(1, 1, 1, 1);
-                PlaceCannon(true, true);
                 break;
             case 9:
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[1].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.5f;
                 distanceOfMovedHazars = 4.5f;
                 movedHazardSpeed = 4.45f;
@@ -143,9 +125,9 @@ public class ObstacleManager : ExceptionalPlacement
                 PlaceBlade(false,false,1,1,1,1);
                 break;
             case 10:
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[1].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.51f;
                 cutterSpeed = 1f;
                 distanceOfMovedHazars = 4.5f;
@@ -162,9 +144,9 @@ public class ObstacleManager : ExceptionalPlacement
                 distanceOfMovedHazars = 5f;
                 movedHazardSpeed = 4.8f;
                 bladeSpeed = 1.15f;
-                obstacles[4].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
-                obstacles[1].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 PlaceSpikes(1, 1, 1, 1);
                 PlaceMovedHazardVertical(2);
                 PlaceMovedHazardHorizontal(2);
@@ -172,7 +154,7 @@ public class ObstacleManager : ExceptionalPlacement
                 break;
             case 12:
                 cutterSpeed = 0.95f;
-                obstacles[2].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[3].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 PlaceCutters(true, false, false);
                 platformManager.CreateDynamics();
                 break;
@@ -182,50 +164,15 @@ public class ObstacleManager : ExceptionalPlacement
         ObstacleManager.progress = true;
         platformManager.UnSolution.Clear();
     }
-    private void PlaceCannon(bool First, bool Second)
-    {
-        List<Vector2Int> locations = ExceptionalPlacementOfCannon(First, Second);
-
-        int _clipIndex = 0;
-        float _Angle = -135f;
-
-        while(locations.Count > 0)
-        {
-            Cannon.Add(Instantiate(obstacles[0], new Vector3(locations[0].x - 0.05f, 0.55f, locations[0].y + 0.05f), Quaternion.Euler(new Vector3(0f, _Angle, 0f)), transform));
-            var last = Cannon.Last();
-            CannonSetMPB(ref last);
-            _cannonShoot.Add(last.GetComponent<AudioSource>());
-            _cannonShoot[_clipIndex].clip = _obstacles_Sfx[_clipIndex];
-            _cannonShoot.Last().minDistance = Vector3.Distance(last.transform.position, new Vector3(6f, 0.99f, 6f));
-            _cannonShoot.Last().maxDistance = _cannonShoot.Last().minDistance + 4.2f;
-            locations.Remove(locations[0]);
-            _clipIndex++;
-            _Angle = 45f;
-        }
-
-        if (Cannon.Count > 0)
-            InvokeRepeating("CannonShoot", 1f, repeatRateCannonShoot);
-    }
-    private void CannonSetMPB (ref GameObject _cannon)
-    {
-        MaterialPropertyBlock Cannon = new(), Wheel = new(), Wooden = new();
-        Cannon.SetColor("_ColorBottom", obstacles[0].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        Cannon.SetColor("_ColorTop", obstacles[0].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-        Wheel.SetColor("_ColorBottom", obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        Wheel.SetColor("_ColorTop", obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-
-        _cannon.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Cannon);
-        _cannon.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(Wheel);
-    }
     private void PlaceBlade(bool verticalM, bool horizontalM,int firstRegion, int secondRegion, int thirdRegion, int fourthRegion) 
     {
         MaterialPropertyBlock Hazard = new(), Head = new(), Rod = new();
-        Hazard.SetColor("_ColorBottom", obstacles[1].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        Hazard.SetColor("_ColorTop", obstacles[1].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-        Head.SetColor("_ColorBottom", obstacles[1].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        Head.SetColor("_ColorTop", obstacles[1].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-        Rod.SetColor("_ColorBottom", obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        Rod.SetColor("_ColorTop", obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        Hazard.SetColor("_ColorBottom", obstacles[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        Hazard.SetColor("_ColorTop", obstacles[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        Head.SetColor("_ColorBottom", obstacles[2].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        Head.SetColor("_ColorTop", obstacles[2].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        Rod.SetColor("_ColorBottom", obstacles[2].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        Rod.SetColor("_ColorTop", obstacles[2].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         List<Vector2Int> placed = ExceptionalPlacementOfBlade(platformManager.UnSolution, platformManager.SolutionPath ,verticalM, horizontalM, firstRegion, secondRegion, thirdRegion, fourthRegion);
         while(placed.Count > 0) // If placable blade was found or not
         {
@@ -234,7 +181,7 @@ public class ObstacleManager : ExceptionalPlacement
                 placed.Remove(placed[0]);
                 continue;
             }
-            var _Hazard = Instantiate(obstacles[1], new Vector3(placed[0].x, 1.55f, placed[0].y), Quaternion.identity, transform);
+            var _Hazard = Instantiate(obstacles[2], new Vector3(placed[0].x, 1.55f, placed[0].y), Quaternion.identity, transform);
             _Hazard.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Hazard);
             _Hazard.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(Head);
             _Hazard.transform.GetChild(2).GetComponent<Renderer>().SetPropertyBlock(Rod);
@@ -249,15 +196,15 @@ public class ObstacleManager : ExceptionalPlacement
     {
         MaterialPropertyBlock _cutterInner = new(), _cutterKnife = new();
 
-        _cutterInner.SetColor("_ColorBottom", obstacles[2].GetComponent<Renderer>().sharedMaterials[0].GetColor("_ColorBottom"));
-        _cutterInner.SetColor("_ColorTop", obstacles[2].GetComponent<Renderer>().sharedMaterials[1].GetColor("_ColorTop"));
+        _cutterInner.SetColor("_ColorBottom", obstacles[3].GetComponent<Renderer>().sharedMaterials[0].GetColor("_ColorBottom"));
+        _cutterInner.SetColor("_ColorTop", obstacles[3].GetComponent<Renderer>().sharedMaterials[1].GetColor("_ColorTop"));
 
-        _cutterKnife.SetColor("_ColorBottom", obstacles[2].GetComponent<Renderer>().sharedMaterials[0].GetColor("_ColorBottom"));
-        _cutterKnife.SetColor("_ColorTop", obstacles[2].GetComponent<Renderer>().sharedMaterials[1].GetColor("_ColorTop"));
+        _cutterKnife.SetColor("_ColorBottom", obstacles[3].GetComponent<Renderer>().sharedMaterials[0].GetColor("_ColorBottom"));
+        _cutterKnife.SetColor("_ColorTop", obstacles[3].GetComponent<Renderer>().sharedMaterials[1].GetColor("_ColorTop"));
         List<Vector2Int> placed = ExceptionalPlacementOfCutter(final,start,diamonds);
         while (placed.Count > 0)
         {
-            var _cutter = Instantiate(obstacles[2], new Vector3(placed[0].x, -1f, placed[0].y), Quaternion.Euler(0f, 0f, 0f), transform);
+            var _cutter = Instantiate(obstacles[3], new Vector3(placed[0].x, -1f, placed[0].y), Quaternion.Euler(0f, 0f, 0f), transform);
             _cutter.GetComponent<Renderer>().SetPropertyBlock(_cutterInner, 0);
             _cutter.GetComponent<Renderer>().SetPropertyBlock(_cutterKnife, 1);
             Cutters.Add(_cutter);
@@ -267,13 +214,13 @@ public class ObstacleManager : ExceptionalPlacement
     private void PlaceMovedHazardHorizontal (int count)
     {
         MaterialPropertyBlock MovedHazardMPB = new();
-        MovedHazardMPB.SetColor("_ColorBottom", obstacles[3].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        MovedHazardMPB.SetColor("_ColorTop", obstacles[3].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        MovedHazardMPB.SetColor("_ColorBottom", obstacles[1].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        MovedHazardMPB.SetColor("_ColorTop", obstacles[1].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
 
         List<Vector2> placed = ExceptionalPlacementOfHazard(false,true,0,count);
         while(placed.Count > 0)
         {
-            var _MHH = Instantiate(obstacles[3], new Vector3(placed[0].x, 0.5f, placed[0].y), Quaternion.identity, transform);
+            var _MHH = Instantiate(obstacles[1], new Vector3(placed[0].x, 0.5f, placed[0].y), Quaternion.identity, transform);
             _MHH.transform.GetComponent<Renderer>().SetPropertyBlock(MovedHazardMPB);
             MovedHazardHorizontal.Add(_MHH, new Vector3(placed[0].x, 0.5f, placed[0].y));
             placed.Remove(placed[0]);
@@ -284,13 +231,13 @@ public class ObstacleManager : ExceptionalPlacement
     private void PlaceMovedHazardVertical (int count)
     {
         MaterialPropertyBlock MovedHazardMPB = new();
-        MovedHazardMPB.SetColor("_ColorBottom", obstacles[3].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        MovedHazardMPB.SetColor("_ColorTop", obstacles[3].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        MovedHazardMPB.SetColor("_ColorBottom", obstacles[1].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        MovedHazardMPB.SetColor("_ColorTop", obstacles[1].transform.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
 
         List<Vector2> placed = ExceptionalPlacementOfHazard(true,false,count,0);
         while (placed.Count > 0)
         {
-            var _MHV = Instantiate(obstacles[3], new Vector3(placed[0].x, 0.5f, placed[0].y), Quaternion.Euler(0, 90f, 0), transform);
+            var _MHV = Instantiate(obstacles[1], new Vector3(placed[0].x, 0.5f, placed[0].y), Quaternion.Euler(0, 90f, 0), transform);
             _MHV.transform.GetComponent<Renderer>().SetPropertyBlock(MovedHazardMPB);
             MovedHazardVertical.Add(_MHV, new Vector3(placed[0].x, 0.5f, placed[0].y));
             placed.Remove(placed[0]);
@@ -312,8 +259,8 @@ public class ObstacleManager : ExceptionalPlacement
     private void PlaceSpikes (int firstCount,int secondCount, int thirdCount, int fourthCount) 
     {
         MaterialPropertyBlock _SpikeMPB = new(), SpikeFace = new();
-        _SpikeMPB.SetColor("_ColorBottom", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        _SpikeMPB.SetColor("_ColorTop", obstacles[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        _SpikeMPB.SetColor("_ColorBottom", obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        _SpikeMPB.SetColor("_ColorTop", obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         
 
         List<Vector2Int> placed = ExceptionalPlacementOfSpike(platformManager.SolutionPath, null, firstCount, secondCount, thirdCount, fourthCount);
@@ -324,7 +271,7 @@ public class ObstacleManager : ExceptionalPlacement
                 placed.Remove(placed[0]);
                 continue;
             }
-            GameObject spike = Instantiate(obstacles[4], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
+            GameObject spike = Instantiate(obstacles[0], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
             spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(_SpikeMPB);
             Material SurfaceMat = platformManager.GetTileMat(placed[0]);
             SpikeFace.SetColor("_ColorBottom", SurfaceMat.GetColor("_ColorBottom").gamma);
@@ -336,32 +283,6 @@ public class ObstacleManager : ExceptionalPlacement
             SpikeFace.Clear();
         }
         platformManager.CreateDynamics();
-    }
-    private void CannonShoot()
-    {
-        if (!isShooting)
-            StartCoroutine(Shoot(cannonShootSpeed));
-    }
-    private IEnumerator Shoot(float duration)
-    {
-        isShooting = true;
-        Cannon.ForEach(c => c.transform.GetChild(0).GetChild(0).gameObject.SetActive(true));
-        Vector3 start = new(-2f, 0f, -0.25f);
-        Vector3 final = start * (2.5f * platformManager.Stage);
-        final.z = -0.25f;
-        float elapsed = 0f;
-        Cannon.ForEach(c => c.transform.GetChild(0).GetChild(2).GetComponent<ParticleSystem>().Play());
-        _cannonShoot.ForEach(c => c.PlayOneShot(c.clip, _volume));
-        while (elapsed < duration)
-        {
-            float time = elapsed / duration;
-            Vector3 pos = Vector3.Lerp(start, final, time);
-            Cannon.ForEach(c => c.transform.GetChild(0).GetChild(0).localPosition = pos);
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        isShooting = false;
-        Cannon.ForEach(c => c.transform.GetChild(0).GetChild(0).gameObject.SetActive(false));
     }
     private void LateUpdate()
     {
@@ -422,7 +343,7 @@ public class ObstacleManager : ExceptionalPlacement
 
         if (Blade.Count != 0)
         {
-            Quaternion bladeRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * obstacles[1].transform.GetChild(0).localRotation;
+            Quaternion bladeRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * obstacles[2].transform.GetChild(0).localRotation;
 
             for (int i = 0; i < Blade.Count; i++)
             {
