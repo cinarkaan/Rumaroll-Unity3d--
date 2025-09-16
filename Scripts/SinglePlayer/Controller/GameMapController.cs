@@ -49,10 +49,8 @@ public class GameMapController : MonoBehaviour
         yield return new WaitUntil(() => platformManager.Progress);
         float factor = (platformManager.Stage - 6) * 0.5f;
         transform.GetComponent<Camera>().orthographicSize = Ort + factor;
-        transform.position = new Vector3(originPos.x + factor, 0.2f, originPos.z + factor);
+        transform.position = new Vector3(originPos.x + factor, 0f, originPos.z + factor);
         yield return new WaitUntil(() => Camera.main != null);
         OriginalCulllingIndex = Camera.main.cullingMask;
     }  
-
-
 }

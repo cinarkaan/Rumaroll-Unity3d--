@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a71ee284e20a5b64998d80c778a44729,
         type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a71ee284e20a5b64998d80c778a44729,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -127,7 +132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: cadfa5121a4dbfc4ea567ee6484a4975, type: 2}
+      objectReference: {fileID: 2100000, guid: 849f72fcca5d41a4f86da53023c67e5c, type: 2}
     - target: {fileID: -3111565609762313623, guid: a71ee284e20a5b64998d80c778a44729,
         type: 3}
       propertyPath: m_Layer

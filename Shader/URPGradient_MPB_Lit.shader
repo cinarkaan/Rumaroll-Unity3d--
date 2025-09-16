@@ -1,11 +1,13 @@
-﻿Shader "Custom/URPGradient_MPB_Lit"
+Shader "Custom/URPGradient_MPB_Lit"
 {
     Properties
     {
         _ColorBottom ("Bottom Color", Color) = (1, 0.5, 0.4, 1)
-        _ColorTop ("Top Color", Color) = (0.2, 0.9, 0.8, 1)
-        _Metallic ("Metallic", Range(0, 1)) = 0.0
-        _Smoothness ("Smoothness", Range(0, 1)) = 0.5
+        _ColorTop    ("Top Color", Color)    = (0.2, 0.9, 0.8, 1)
+        _Metallic    ("Metallic", Range(0, 1)) = 0.0
+        _Smoothness  ("Smoothness", Range(0, 1)) = 0.5
+        _StencilRef  ("Stencil Ref", Int) = 2   // Stencil Referance Parameter
+   
     }
 
     SubShader
@@ -16,6 +18,13 @@
         {
             Name "ForwardLit"
             Tags { "LightMode"="UniversalForward" }
+
+            Stencil
+            {
+                Ref [_StencilRef]   // Control with the property 
+                Comp Always  // Always write
+                Pass Replace // Write buffer with stencil
+            }
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -57,10 +66,7 @@
 
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS);
                 OUT.worldPos = TransformObjectToWorld(IN.positionOS);
-
-                // Normal vertex shader’da normalize edildi (half precision)
                 OUT.normalWS = normalize(TransformObjectToWorldNormal(IN.normalOS));
-
                 OUT.uv = IN.uv;
                 return OUT;
             }
@@ -69,33 +75,38 @@
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
 
-                half3 normalWS = normalize(IN.normalWS);
-                half3 viewDirWS = normalize(_WorldSpaceCameraPos - IN.worldPos);
+                float3 normalWS = normalize(IN.normalWS);
+                float3 viewDirWS = normalize(_WorldSpaceCameraPos - IN.worldPos);
 
                 Light mainLight = GetMainLight();
                 float3 lightDir = normalize(mainLight.direction);
                 float NdotL = max(dot(normalWS, lightDir), 0.0);
 
-                // Gradient albedo
-                half3 colorBottom = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorBottom).rgb;
-                half3 colorTop = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTop).rgb;
-                half t = saturate(IN.uv.y);
-                half3 albedo = lerp(colorBottom, colorTop, t);
+                // Gradient albedo (X ve Y ayr� ayr�)
+                float3 colorBottom = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorBottom).rgb;
+                float3 colorTop    = UNITY_ACCESS_INSTANCED_PROP(Props, _ColorTop).rgb;
 
-                // Lambert diffuse (ışık rengi + intensity dahil)
+                float tx = saturate(IN.uv.x);
+                float ty = saturate(IN.uv.y);
+
+                float3 gradX = lerp(colorBottom, colorTop, tx);
+                float3 gradY = lerp(colorBottom, colorTop, ty);
+                float3 albedo = (gradX + gradY) * 0.5;
+
+                // Lambert diffuse
                 float3 diffuse = albedo * mainLight.color.rgb * NdotL;
 
                 // Specular
-                float3 halfVec = normalize(float3(lightDir + viewDirWS));
-                float NdotH = max(dot(float3(normalWS), halfVec), 0.0);
-                half smoothness = UNITY_ACCESS_INSTANCED_PROP(Props, _Smoothness);
+                float3 halfVec = normalize(lightDir + viewDirWS);
+                float NdotH = max(dot(normalWS, halfVec), 0.0);
+                float smoothness = UNITY_ACCESS_INSTANCED_PROP(Props, _Smoothness);
                 float3 specular = pow(NdotH, 32.0) * smoothness * mainLight.color.rgb;
 
                 // Ambient
                 float3 ambient = albedo * 0.2;
 
-                half metallic = UNITY_ACCESS_INSTANCED_PROP(Props, _Metallic);
-                float3 finalColor = float3(ambient) + diffuse + specular * metallic;
+                float metallic = UNITY_ACCESS_INSTANCED_PROP(Props, _Metallic);
+                float3 finalColor = ambient + diffuse + specular * metallic;
 
                 return float4(finalColor, 1.0);
             }

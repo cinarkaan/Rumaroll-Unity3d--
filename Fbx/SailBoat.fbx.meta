@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Boat
-    second: {fileID: 2100000, guid: cc964136fe2b79c41a97471e9de7a7eb, type: 2}
+    second: {fileID: 2100000, guid: 042153bec9d1ea24eb4e13edcb071d73, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -18,7 +18,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Sail
-    second: {fileID: 2100000, guid: 1af84b7baa6202741bace21e9fc984ea, type: 2}
+    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

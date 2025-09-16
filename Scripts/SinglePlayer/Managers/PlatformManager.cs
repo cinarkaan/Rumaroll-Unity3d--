@@ -18,7 +18,8 @@ public class PlatformManager : ExceptionalPlatform
 
     private void Awake()
     {
-        Prefabs[2].transform.position = new Vector3(6, 0.98f, 6);
+    
+        Prefabs[2].transform.position = new Vector3(6, 0.815f, 6);
 
         Stage = PlayerPrefs.GetInt("Stage");
 
@@ -48,9 +49,10 @@ public class PlatformManager : ExceptionalPlatform
         {
             if (Progress)
             {
-                Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, Tile);
-                Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, Frame);
-                Graphics.DrawMeshInstanced(SurfacesMesh, 0, SurfacesMat, Surface);
+                Graphics.DrawMeshInstanced(CurvedTileMesh, 0, CurvedTileMat, CurvedTile);
+                Graphics.DrawMeshInstanced(CurvedFrameMesh, 0, CurvedFrameMat, CurvedFrame);
+                Graphics.DrawMeshInstanced(CurvedWhiteMesh, 0, WhiteMat, CurvedWhite);
+                Graphics.DrawMeshInstanced(FenceMesh, 0, FenceMat, Fence);
                 for (int i = 0; i < Renderers.Count && !AllActivated; i++)
                     if (!Renderers[i].enabled) Renderers[i].enabled = true;
                 AllActivated = true;
@@ -107,17 +109,19 @@ public class PlatformManager : ExceptionalPlatform
         {
             for (int z = 0; z < 12 + Stage; z++)
             {
+                PlaceFence(x, z);
                 if (x < 6 || z < 6 || x > 6 + Stage || z > 6 + Stage)
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, 0, 0)), Prefabs[0].transform.GetChild(0).localScale));
+                    Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[4].transform.localRotation, Prefabs[4].transform.localScale));
+                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[4].transform.GetChild(1).localRotation, Prefabs[4].transform.GetChild(1).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
                 }
                 else
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.28f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.0105f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.0105f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
+                    CurvedTile.Add(Matrix4x4.TRS(new Vector3(x, 0.26f, z), Prefabs[0].transform.localRotation, Prefabs[0].transform.localScale));
+                    CurvedFrame.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
+                    CurvedWhite.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[0].transform.GetChild(2).localScale));
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.025f, z), Quaternion.Euler(0f, 0f, 0f), transform);
                     Vector2Int pos = new(x, z);
                     if (GridTiles.ContainsKey(pos))
                     {
@@ -135,8 +139,10 @@ public class PlatformManager : ExceptionalPlatform
                         mpb.SetColor("_ColorBottom", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorBottom").gamma);
                         mpb.SetColor("_ColorTop", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorTop").gamma);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
-                        GridTiles[pos] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false);
-                        GridTiles[pos].tile = colorfulTile;
+                        GridTiles[pos] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false)
+                        {
+                            tile = colorfulTile
+                        };
                         colorfulTile.name = "UnSolution";
                     }
                 }
@@ -313,25 +319,31 @@ public class PlatformManager : ExceptionalPlatform
     }
     public void AdjustColorOfClue (Vector2Int pos)
     {
-        Gradient _arrows = new Gradient();
-        Gradient _glow = new Gradient();
-
-        var _arrowsColorModule = Clue.colorOverLifetime;
-        var glowColorModule = Clue.transform.GetChild(0).GetComponent<ParticleSystem>().colorOverLifetime;
+        Gradient _arrows = new();
+        Gradient _glow = new();
 
         _arrows.colorKeys = new GradientColorKey[]
-        {
-            new GradientColorKey(AdjustColorAccordingToTile(pos)._bottom,0f),
-            new GradientColorKey(AdjustColorAccordingToTile(pos)._top , 1f)
-        };
+{
+            new(AdjustColorAccordingToTile(pos)._bottom,0f),
+            new(AdjustColorAccordingToTile(pos)._top , 1f)
+};
 
         _glow.colorKeys = new GradientColorKey[]
         {
-            new GradientColorKey(AdjustColorAccordingToTile(pos)._bottom, 0f),
-            new GradientColorKey(AdjustColorAccordingToTile(pos)._top, 1f)
+            new(AdjustColorAccordingToTile(pos)._bottom, 0f),
+            new(AdjustColorAccordingToTile(pos)._top, 1f)
         };
 
-        _arrowsColorModule.color = new ParticleSystem.MinMaxGradient(_arrows);
-        glowColorModule.color = new ParticleSystem.MinMaxGradient(_glow);
+        var _arrowsColorModule = Clue.main;
+        var glowColorModule = Clue.transform.GetChild(0).GetComponent<ParticleSystem>().main;
+
+        Clue.GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor",_arrows.colorKeys.First().color * 1.75f);
+        Clue.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material.SetColor("_EmissionColor", _glow.colorKeys.First().color * 1.75f);
+
+        _arrowsColorModule.startColor = new ParticleSystem.MinMaxGradient(_arrows);
+        glowColorModule.startColor = new ParticleSystem.MinMaxGradient(_glow);
+
+
     }
+
 }

@@ -18,7 +18,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Frame.001
-    second: {fileID: 2100000, guid: cadfa5121a4dbfc4ea567ee6484a4975, type: 2}
+    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

@@ -22,31 +22,35 @@ public class ExceptionalPlatform : MonoBehaviour
     [SerializeField]
     protected Transform Water;
 
-
+    
     public List<Vector2Int> SolutionPath = new();
     public List<Vector2Int> UnSolution = new();
 
-    protected List<Matrix4x4> Tile = new();
-    protected List<Matrix4x4> Frame = new();
-    protected List<Matrix4x4> Surface = new();
+    protected List<Object> AllMaterials = new(); // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
 
-    protected ConcurrentBag<Matrix4x4> visibleTile = new();
-    protected ConcurrentBag<Matrix4x4> visibleFrame = new();
-    protected ConcurrentBag<Matrix4x4> visibleSurfaces = new();
+    protected List<Matrix4x4> CurvedTile = new(), CurvedFrame = new(), CurvedWhite = new();
+    protected List<Matrix4x4> Tile = new(), Frame = new(), Surface = new();
+
+    protected List<Matrix4x4> Fence = new();
+
+    protected ConcurrentBag<Matrix4x4> VisibleCurvedTile = new(), VisibleCurvedFrame = new(), VisibleCurvedWhite = new();
+    protected ConcurrentBag<Matrix4x4> VisibleTile = new(), VisibleFrame = new(), VisibleSurfaces = new();
+
+    protected ConcurrentBag<Matrix4x4> VisibleFence = new();
 
     protected List<Renderer> Renderers = new();
 
     protected readonly Dictionary<Vector2Int, PlatformTile> GridTiles = new();
 
     protected readonly HashSet<Vector2Int> DynamicPath = new();
+    
+    protected Mesh CurvedFrameMesh, CurvedTileMesh, CurvedWhiteMesh, TileMesh, FrameMesh, SurfaceMesh, FenceMesh;
 
-    protected List<Object> AllMaterials = new(); // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
-
-    protected Mesh FrameMesh, TileMesh, SurfacesMesh;
-
-    protected Material TileMat, FrameMat, SurfacesMat;
+    protected Material CurvedTileMat, CurvedFrameMat, WhiteMat, TileMat, FrameMat, SurfaceMat, FenceMat;
 
     protected bool AllActivated = false;
+
+    protected int Bound = 0;
 
     protected void ParallelFrustumCulling()
     {
@@ -54,33 +58,65 @@ public class ExceptionalPlatform : MonoBehaviour
 
         int total = Tile.Count;
 
-        visibleTile.Clear();
-        visibleFrame.Clear();
-        visibleSurfaces.Clear();
+        VisibleCurvedTile.Clear();
+        VisibleCurvedFrame.Clear();
+        VisibleCurvedWhite.Clear();
+
+        VisibleFence.Clear();
+        
+        VisibleTile.Clear();
+        VisibleFrame.Clear();
+        VisibleSurfaces.Clear();
 
         Parallel.For(0, total, index =>
         {
-            if (index < Surface.Count)
+            if (index < CurvedTile.Count)
             {
-                Vector3 pos = Surface[index].GetColumn(3);
-                Bounds bounds = new(pos, Vector3.one);
-                if (IsBoundsInsideFrustum(bounds, frustumPlanes))
-                    visibleSurfaces.Add(Surface[index]);
+
+                Vector3 curvedtilepos = CurvedTile[index].GetColumn(3);
+                Vector3 curvedframepos = CurvedFrame[index].GetColumn(3);
+                Vector3 curvedwhitepos = CurvedWhite[index].GetColumn(3);
+                
+                if (IsBoundsInsideFrustum(new Bounds(curvedtilepos, Vector3.one), frustumPlanes))
+                    VisibleCurvedTile.Add(CurvedTile[index]);
+                if (IsBoundsInsideFrustum(new Bounds(curvedframepos, Vector3.one), frustumPlanes))
+                    VisibleCurvedFrame.Add(CurvedFrame[index]);
+                if (IsBoundsInsideFrustum(new Bounds(curvedwhitepos, Vector3.one), frustumPlanes))
+                    VisibleCurvedWhite.Add(CurvedWhite[index]);
+            }
+
+            if (index < Fence.Count)
+            {
+                Vector3 fencepos = Fence[index].GetColumn(3);
+                if (IsBoundsInsideFrustum(new Bounds(fencepos, Vector3.one), frustumPlanes))
+                    VisibleFence.Add(Fence[index]);
             }
 
             Vector3 tilepos = Tile[index].GetColumn(3);
             Vector3 framepos = Frame[index].GetColumn(3);
+            Vector3 surfacepos = Surface[index].GetColumn(3);
+
 
             if (IsBoundsInsideFrustum(new Bounds(tilepos, Vector3.one), frustumPlanes))
-                visibleTile.Add(Tile[index]);
-
+                VisibleTile.Add(Tile[index]);
             if (IsBoundsInsideFrustum(new Bounds(framepos, Vector3.one), frustumPlanes))
-                visibleFrame.Add(Frame[index]);
+                VisibleFrame.Add(Frame[index]);
+            if (IsBoundsInsideFrustum(new Bounds(surfacepos, Vector3.one), frustumPlanes))
+                VisibleSurfaces.Add(Surface[index]);
+
+
+
         });
 
-        Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, visibleTile.ToList());
-        Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, visibleFrame.ToList());
-        Graphics.DrawMeshInstanced(SurfacesMesh, 0, SurfacesMat, visibleSurfaces.ToList());
+        Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, VisibleTile.ToList());
+        Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, VisibleFrame.ToList());
+        Graphics.DrawMeshInstanced(SurfaceMesh, 0, SurfaceMat, VisibleSurfaces.ToList());
+
+        Graphics.DrawMeshInstanced(CurvedTileMesh, 0, CurvedTileMat, VisibleCurvedTile.ToList());
+        Graphics.DrawMeshInstanced(CurvedFrameMesh, 0, CurvedFrameMat, VisibleCurvedFrame.ToList());
+        Graphics.DrawMeshInstanced(CurvedWhiteMesh, 0, WhiteMat, VisibleCurvedWhite.ToList());
+        
+        Graphics.DrawMeshInstanced(FenceMesh, 0, FenceMat, VisibleFence.ToList());
     }
     protected void FrustumCullingForColorfuls()
     {
@@ -160,18 +196,36 @@ public class ExceptionalPlatform : MonoBehaviour
 
         return false;
     }
-    protected void InitializeEnvironment()
+    protected void InitializeEnvironment() // Surrounded of the platform and platfrom 
     {
-        TileMesh = Prefabs[0].GetComponent<MeshFilter>().sharedMesh;
-        TileMat = Prefabs[0].GetComponent<Renderer>().sharedMaterial;
+        
+        CurvedTileMesh = Prefabs[0].GetComponent<MeshFilter>().sharedMesh;
+        CurvedTileMat = Prefabs[0].GetComponent<Renderer>().sharedMaterial;
 
-        SurfacesMesh = Prefabs[0].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
-        SurfacesMat = Prefabs[0].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;
+        CurvedFrameMesh = Prefabs[0].transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
+        CurvedFrameMat = Prefabs[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
 
-        FrameMesh = Prefabs[0].transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
-        FrameMat = Prefabs[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
+        CurvedWhiteMesh = Prefabs[0].transform.GetChild(2).GetComponent<MeshFilter>().sharedMesh;
+        WhiteMat = Prefabs[0].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial;
 
-        Water.position = new Vector3((_Stage + 12) / 2, Water.position.y, (_Stage + 12) / 2);
+        TileMesh = Prefabs[4].GetComponent<MeshFilter>().sharedMesh;
+        TileMat = Prefabs[4].GetComponent<Renderer>().sharedMaterial;
+
+        SurfaceMesh = Prefabs[4].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
+        SurfaceMat = Prefabs[4].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;
+
+        FrameMesh = Prefabs[4].transform.GetChild(1).GetComponent<MeshFilter>().sharedMesh;
+        FrameMat = Prefabs[4].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial;
+
+
+        FenceMesh = Prefabs[3].GetComponent<MeshFilter>().sharedMesh;
+        FenceMat = Prefabs[3].GetComponent<Renderer>().sharedMaterial;
+
+        Bound = _Stage + 6;
+
+        var _offest = (_Stage % 2 == 0) ? ((_Stage + 12) / 2) - 0.5f : (_Stage + 12) / 2;
+
+        Water.position = new Vector3(_offest, Water.position.y, _offest);
     }
     protected void PlaceFlag()
     {
@@ -185,6 +239,19 @@ public class ExceptionalPlatform : MonoBehaviour
         FlagMPB.SetColor("_ColorTop", new Color(0.3735847f, 0.3735847f, 0.3735847f));
         evacuation.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(FlagMPB);
         Progress = true;
+    }
+    protected void PlaceFence(int x, int z)
+    {
+        if (x > Bound || z > Bound) return;
+
+        if (x == 5 && z >= 6)
+            Fence.Add(Matrix4x4.TRS(new Vector3(6 - 0.44f, 0.43f, z), Quaternion.Euler(new Vector3(0f, 90f, 0)), Vector3.one));
+        else if (z == 5 && x >= 6)
+            Fence.Add(Matrix4x4.TRS(new Vector3(x, 0.43f, 6 - 0.44f), Quaternion.Euler(new Vector3(0f, 180f, 0)), Vector3.one));
+        if (x == Bound && z >= 6)
+            Fence.Add(Matrix4x4.TRS(new Vector3(Bound + 0.44f, 0.43f, z), Quaternion.Euler(new Vector3(0f, 90f, 0)), Vector3.one));
+        if (z == Bound && x >= 6)
+            Fence.Add(Matrix4x4.TRS(new Vector3(x, 0.43f, Bound + 0.44f), Quaternion.Euler(new Vector3(0f, 180f, 0)), Vector3.one));
     }
     public Material GetTileMat(Vector2Int pos)
     {

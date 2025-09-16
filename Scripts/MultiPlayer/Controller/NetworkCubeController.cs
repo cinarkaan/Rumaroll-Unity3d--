@@ -43,12 +43,12 @@ public class NetworkCubeController : NetworkBehaviour
 
         if (transform.GetComponent<NetworkObject>().OwnerClientId == 0)
         {
-            transform.position = new Vector3(6f, 0.99f, 6f);
+            transform.position = new Vector3(6f, 0.815f, 6f);
             transform.gameObject.name = "Host";
         }
         else
         {
-            transform.position = new Vector3(platformManager.ServerManager_.Stage.Value + 6, 0.99f, platformManager.ServerManager_.Stage.Value + 6);
+            transform.position = new Vector3(platformManager.ServerManager_.Stage.Value + 6, 0.815f, platformManager.ServerManager_.Stage.Value + 6);
             transform.gameObject.name = "Client";
             target = new Vector2Int(6, 6);
         }
@@ -131,7 +131,7 @@ public class NetworkCubeController : NetworkBehaviour
         
         Vector3 finalPos = transform.position;
         finalPos.x = Mathf.Round(finalPos.x / 1f) * 1f;
-        finalPos.y = 0.99f;
+        finalPos.y = 0.815f;
         finalPos.z = Mathf.Round(finalPos.z / 1f) * 1f;
         transform.position = finalPos;
 

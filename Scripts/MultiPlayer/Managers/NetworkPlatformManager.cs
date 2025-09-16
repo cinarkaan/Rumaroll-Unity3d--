@@ -95,9 +95,10 @@ public class NetworkPlatformManager : ExceptionalPlatform
         {
             if (Progress)
             {
-                Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, Tile);
-                Graphics.DrawMeshInstanced(FrameMesh, 0, TileMat, Frame);
-                Graphics.DrawMeshInstanced(SurfacesMesh, 0, TileMat, Surface);
+                Graphics.DrawMeshInstanced(CurvedTileMesh, 0, CurvedTileMat, CurvedTile);
+                Graphics.DrawMeshInstanced(CurvedFrameMesh, 0, CurvedFrameMat, CurvedFrame);
+                Graphics.DrawMeshInstanced(CurvedWhiteMesh, 0, WhiteMat, CurvedWhite);
+                Graphics.DrawMeshInstanced(FenceMesh, 0, FenceMat, Fence);
                 for (int i = 0; i < Renderers.Count && !AllActivated; i++)
                     if (!Renderers[i].enabled) Renderers[i].enabled = true;
                 AllActivated = true;
@@ -273,21 +274,22 @@ public class NetworkPlatformManager : ExceptionalPlatform
 
         if (!ServerManager.IsHost && ServerManager.IsClient)
             FromNetworkToLocal();
-
         for (int x = 0; x < _Stage + 12; x++)
             for (int z = 0; z < _Stage + 12; z++)
             {
+                PlaceFence(x, z);
                 if (x < 6 || z < 6 || x > 6 + _Stage || z > 6 + _Stage) // Build surround of the platform
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, Prefabs[0].transform.GetChild(0).localRotation.y, Prefabs[0].transform.GetChild(0).localRotation.z)), Prefabs[0].transform.GetChild(0).localScale));
+                    Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[4].transform.localRotation, Prefabs[4].transform.localScale));
+                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[4].transform.GetChild(1).localRotation, Prefabs[4].transform.GetChild(1).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
                 }
                 else // Build colorfultiles of the platform
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, 0.28f, z), Prefabs[0].transform.localRotation, new Vector3(1f, 0.4f, 1f)));
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.0105f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0]   .transform.GetChild(1).localScale));
-                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.0105f, z), Quaternion.Euler(-90f, 0f, 0f), transform);
+                    CurvedTile.Add(Matrix4x4.TRS(new Vector3(x, 0.26f, z), Prefabs[0].transform.localRotation, Prefabs[0].transform.localScale));
+                    CurvedFrame.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
+                    CurvedWhite.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[0].transform.GetChild(2).localScale));
+                    GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.025f, z), Quaternion.Euler(0f, 0f, 0f), transform);
                     Renderers.Add(colorfulTile.GetComponent<Renderer>()); // We will use it frustum culling 
                     Vector2Int position = new(x, z); // Temp vector2int to avoid GC allocation
                     if (GridTiles.ContainsKey(position)) // On Solution tile
@@ -420,7 +422,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
             if (PlayerPrefs.GetInt("Vfx") == 1)
                 GridTiles[pos].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(pos), Smoke_Burst);
 
-            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor(SurfacesMat, GridTiles[pos].material);
+            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor(FrameMat, GridTiles[pos].material);
         }
     }
     public void LinearToGamma(ref GameObject Player)

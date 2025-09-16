@@ -123,7 +123,8 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
         // • e.g.
     }
 
-    /*private void OnDrawGizmos()
+    /*
+    private void OnDrawGizmos()
     {
         // Kutunun dünya uzayýndaki merkezini hesapla
         Vector3 worldCenter = transform.TransformPoint(CenterOffset);
@@ -138,6 +139,7 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
         // Box çiz (Gizmos.DrawWireCube çerçeve, DrawCube dolu þekil çizer)
         Gizmos.DrawWireCube(Vector3.zero, HalfExtents * 2);
-    }*/
+    }
+    */
 
 }

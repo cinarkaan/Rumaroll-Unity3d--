@@ -211,22 +211,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb2234be90aa0b47bb5a3d7252019fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Progress: 0
   Prefabs:
-  - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
+  - {fileID: 6120338876196788886, guid: 5c38ae90ebe060643aa2b34145af2699, type: 3}
   - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
   - {fileID: 1653454530}
+  - {fileID: 919132149155446097, guid: 2c10f6f0158c860438df61618815d80f, type: 3}
+  - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
   Weather:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
   - {fileID: 2344737870502237115, guid: c45b56ff7a1461f40a65f30ae2e29be6, type: 3}
   Smoke_Burst: {fileID: 6851867063758366529, guid: 80deac942d4d0f2429042668b3912f17,
     type: 3}
+  Water: {fileID: 173328479}
   SolutionPath: []
   UnSolution: []
   Stage: 4
   gameMapController: {fileID: 1986244303}
-  Water: {fileID: 173328479}
   Clue: {fileID: 1649303930}
 --- !u!1 &85577101
 GameObject:
@@ -644,7 +645,7 @@ Transform:
   m_GameObject: {fileID: 173328475}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 2.3, y: 1, z: 2.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1147,7 +1148,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3a0289f29c454f64b81b688db126ef88, type: 3}
-  m_Color: {r: 0.41960785, g: 0.41960785, b: 0.41960785, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0
@@ -1392,8 +1393,8 @@ Transform:
   m_GameObject: {fileID: 1002468617}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 6, y: 0.7, z: 6}
-  m_LocalScale: {x: 0.125, y: 0.2, z: 1}
+  m_LocalPosition: {x: 6, y: 0.815, z: 6}
+  m_LocalScale: {x: 0.08, y: 0.14, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2095603744}
@@ -1441,7 +1442,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: eaea3b58dd40dd042a5eeafdf4f78ed6, type: 3}
-  m_Color: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0
@@ -1881,8 +1882,6 @@ MonoBehaviour:
   - {fileID: 1134570855}
   - {fileID: 1992863026}
   _GameOver: 0
-  counterDurationMin: 10
-  fadeDurationSpiwe: 0.5
   objects:
   - {fileID: 1002468617}
   - {fileID: 842007544}
@@ -2547,17 +2546,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.53
+      value: 0.385
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.53
+      value: 0.385
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.53
+      value: 0.385
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
@@ -2632,7 +2631,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
       propertyPath: m_DynamicOccludee
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 429a728421108e0498b4571acc0c889d,
         type: 3}
@@ -2812,7 +2811,7 @@ MonoBehaviour:
   Sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
   DestroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
     type: 3}
-  HalfExtents: {x: 0.4, y: 0.4, z: 0.4}
+  HalfExtents: {x: 0.366, y: 0.366, z: 0.366}
   CenterOffset: {x: 0, y: 0, z: 0}
   CheckInterval: 0.1
   TargetLayers:
@@ -2853,9 +2852,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3113526eac7f3f14e9a89fdb69e046a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.7
-  TrailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
-    type: 3}
+  Frequency: 0.7
+  Frame: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044, type: 3}
 --- !u!114 &1653454541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2881,7 +2879,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1466307decae96648bcaf59e48c20694, type: 3}
   - {fileID: 8300000, guid: dda19bdfcee50084f9790b95f4f63ce4, type: 3}
   _rolling: {fileID: 1653454542}
-  rollDuration: 0.5
 --- !u!82 &1653454542
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3827,14 +3824,14 @@ Camera:
     width: 1
     height: 1
   near clip plane: 2
-  far clip plane: 10.2
+  far clip plane: 10
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 1.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 15487
+    m_Bits: 15423
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -4010,13 +4007,12 @@ MonoBehaviour:
     type: 3}
   _collideDiamond: {fileID: 526935715062068854, guid: 148fc1aa3498d5a498da4c9c42168b41,
     type: 3}
-  rotateSpeed: 10
   platformManager: {fileID: 58574696}
   UIController: {fileID: 1174211545}
   _lootSfx: {fileID: 1981511961}
-  coinPrefab: {fileID: 1685060784220916288, guid: 68aaa1bbf9f1279439f6fc77e5945acb,
+  coinPrefab: {fileID: 2258328829472742188, guid: 68aaa1bbf9f1279439f6fc77e5945acb,
     type: 3}
-  diamondPrefab: {fileID: 8752397433820876086, guid: 290ad9a5c93226e479d7d7763594400f,
+  diamondPrefab: {fileID: 4020819555829446467, guid: 3c3df9a5b2f72144584356ed08895877,
     type: 3}
 --- !u!4 &1981511960
 Transform:

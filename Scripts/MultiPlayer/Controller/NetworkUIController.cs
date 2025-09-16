@@ -237,7 +237,7 @@ public class NetworkUIController : ExceptionalUI
     }
     private IEnumerator InitializeMapCamera()
     {
-        Vector3 originPos = new Vector3(9, 0, 9);
+        Vector3 originPos = new(9, 0, 9);
         float ort = 5.36f;
         yield return new WaitUntil(() => manager.Stage.Value != 0);
         float factor = (manager.Stage.Value - 6) * 0.5f;
@@ -288,9 +288,9 @@ public class NetworkUIController : ExceptionalUI
     {
         StartCoroutine(FadeInOut(Color.clear, Color.black));
         if (manager.IsHost)
-            cubeController.transform.position = new Vector3(6f, 0.99f, 6f);
+            cubeController.transform.position = new Vector3(6f, 0.815f, 6f);
         else
-            cubeController.transform.position = new Vector3(manager.Stage.Value + 6f, 0.99f, manager.Stage.Value + 6f);
+            cubeController.transform.position = new Vector3(manager.Stage.Value + 6f, 0.815f, manager.Stage.Value + 6f);
 
         cubeController.Render(true);
         Images.Find(f => f.name == "GameOverMenu").rectTransform.localScale = Vector3.zero;

@@ -39,19 +39,21 @@ public class EventManager : MonoBehaviour
     }
     private void GenerateCoins()
     {
-        MaterialPropertyBlock CoinMPB = new();
-        CoinMPB.SetColor("_ColorBottom", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
-        CoinMPB.SetColor("_ColorTop", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-        UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
-        uniqueRandomGenerator.Min = 0;
-        uniqueRandomGenerator.Max = platformManager.SolutionPath.Count;
-        uniqueRandomGenerator.Count = CoinCount;
+        MaterialPropertyBlock Gold = new(), Gold_Coin = new();
+        Gold.SetColor("_ColorBottom", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
+        Gold.SetColor("_ColorTop", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        UniqueRandomGenerator uniqueRandomGenerator = new()
+        {
+            Min = 0,
+            Max = platformManager.SolutionPath.Count,
+            Count = CoinCount
+        };
         uniqueRandomGenerator.Generate();
         foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
             Vector3 pos = new(platformManager.SolutionPath[item].x, 1f, platformManager.SolutionPath[item].y);
             GameObject coin = Instantiate(coinPrefab, pos, coinPrefab.transform.rotation, transform);
-            coin.GetComponent<Renderer>().SetPropertyBlock(CoinMPB);
+            coin.GetComponent<Renderer>().SetPropertyBlock(Gold);
             Precious.Add(coin);
         }
     }
@@ -160,7 +162,7 @@ public class EventManager : MonoBehaviour
             for (int i = 0; i < Precious.Count; i++)
             {
                 var t = Precious[i].transform;
-                t.rotation = Quaternion.Lerp(t.rotation, precieousRotation * t.rotation, 0.005f);
+                t.rotation = Quaternion.Lerp(t.rotation, precieousRotation * t.rotation, 0.25f);
             }
         }
     }

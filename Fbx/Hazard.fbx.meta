@@ -13,12 +13,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Rod
-    second: {fileID: 2100000, guid: 1af84b7baa6202741bace21e9fc984ea, type: 2}
+    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: RodHead
-    second: {fileID: 2100000, guid: 1af84b7baa6202741bace21e9fc984ea, type: 2}
+    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

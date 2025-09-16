@@ -22,6 +22,9 @@ public class RollingCubeController : MonoBehaviour
     private AudioSource _rolling;
 
     private readonly CubeSimulator CubeSimulator = new();
+
+    private readonly float RollDuration = 0.5f;
+
     public ParticleSystem shield { get; private set; }
 
     private Vector3 _shieldVelocity = Vector3.zero;
@@ -31,7 +34,6 @@ public class RollingCubeController : MonoBehaviour
     private bool isRolling = false;
     private bool moving = true;
 
-    public float rollDuration = 0.6f;
 
     private void Start()
     {
@@ -98,7 +100,7 @@ public class RollingCubeController : MonoBehaviour
         Vector3 axis = Vector3.Cross(Vector3.up, direction);
 
         float angle = 0f;
-        float speed = 90f / rollDuration;
+        float speed = 90f / RollDuration;
 
         cubeTrail.InvokeRepeating("CreateTrail", 0.1f, 0.1f);
 
@@ -117,7 +119,7 @@ public class RollingCubeController : MonoBehaviour
         Vector3 finalPos = transform.position;
 
         finalPos.x = Mathf.Round(finalPos.x / 1f) * 1f;
-        finalPos.y = 0.98f;
+        finalPos.y = 0.815f;
         finalPos.z = Mathf.Round(finalPos.z / 1f) * 1f;
         transform.position = finalPos;
 

@@ -2286,7 +2286,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 455
+    m_Bits: 961
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 9d046f5076ee5784c9cd4719d8a15259, type: 2}
   m_TargetDisplay: 0
@@ -2678,7 +2678,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: eaea3b58dd40dd042a5eeafdf4f78ed6, type: 3}
-  m_Color: {r: 0.690566, g: 0.67623353, b: 0.67623353, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0
@@ -2697,8 +2697,8 @@ Transform:
   m_GameObject: {fileID: 984198092}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.2, z: 1}
+  m_LocalPosition: {x: 6, y: 1.2, z: 6}
+  m_LocalScale: {x: 0.08, y: 0.14, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 470858438}
@@ -3701,7 +3701,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3a0289f29c454f64b81b688db126ef88, type: 3}
-  m_Color: {r: 0.41960785, g: 0.41960785, b: 0.41960785, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0
@@ -3771,9 +3771,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefabs:
-  - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
+  - {fileID: 6120338876196788886, guid: 5c38ae90ebe060643aa2b34145af2699, type: 3}
   - {fileID: 4427096278673507193, guid: 08bee7e31f8d6b64aaf4b45b7ddf0584, type: 3}
   - {fileID: 0}
+  - {fileID: 919132149155446097, guid: 26bb7b12af6f7904b8cbf6a24b5cac88, type: 3}
+  - {fileID: 5636420170080328986, guid: 122e829cb6b99c740bff667c1cc5560b, type: 3}
   Weather:
   - {fileID: 6257791101424254597, guid: abd7a2b435058c54eaabf1256eae6fc7, type: 3}
   - {fileID: 43482929687516582, guid: ac0b572e311b4a240a9f46c945835064, type: 3}
@@ -4207,7 +4209,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11, y: 0.2, z: 11}
-  m_LocalScale: {x: 2.3, y: 1, z: 2.3}
+  m_LocalScale: {x: 2.4, y: 1, z: 2.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5132,11 +5134,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 2.3
-  far clip plane: 10.2
+  near clip plane: 2
+  far clip plane: 10
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 2
+  orthographic size: 1.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

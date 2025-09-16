@@ -4959,7 +4959,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7111064324564848117
 Transform:
   m_ObjectHideFlags: 0
@@ -19780,7 +19780,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c0ffd76cd50676140b7744aa40f449fb, type: 2}
+      objectReference: {fileID: 2100000, guid: 042153bec9d1ea24eb4e13edcb071d73, type: 2}
     - target: {fileID: -7494865925130787428, guid: e3d6dc1aec017dc4aa93ff1ef14db72c,
         type: 3}
       propertyPath: m_ReceiveGI
@@ -19977,7 +19977,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
