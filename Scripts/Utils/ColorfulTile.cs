@@ -17,17 +17,13 @@ public class ColorfulTile : MonoBehaviour
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
     }
 
-    private void Start()
-    {
-        ExceptionalPlatform = SceneLoader.CurrentScene == "Day" ? GetComponentInParent<PlatformManager>() : GetComponentInParent<NetworkPlatformManager>();
-    }
-
     public void RepeatColor (Material dummy,Material original)
     {
         DummyProperty.SetColor("_ColorBottom", dummy.GetColor("_ColorBottom").gamma);
         DummyProperty.SetColor("_ColorTop", dummy.GetColor("_ColorTop").gamma);
         OriginalProperty.SetColor("_ColorBottom", original.GetColor("_ColorBottom").gamma);
         OriginalProperty.SetColor("_ColorTop", original.GetColor("_ColorTop").gamma);
+        ExceptionalPlatform = SceneLoader.CurrentScene == "Day" ? GetComponentInParent<PlatformManager>() : GetComponentInParent<NetworkPlatformManager>();
         StartCoroutine(DynamicColor(dummy, original));
     }
     private IEnumerator DynamicColor(Material dummy, Material original)

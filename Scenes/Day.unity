@@ -2968,6 +2968,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6720591677308999729, guid: 7bb703f380180524e8e0775ef97d6255,
         type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720591677308999729, guid: 7bb703f380180524e8e0775ef97d6255,
+        type: 3}
       propertyPath: ColorModule.enabled
       value: 1
       objectReference: {fileID: 0}
@@ -4740,9 +4745,6 @@ MonoBehaviour:
   - {fileID: 188649468471428750, guid: e4a6d6755c73d9f418b9933ac640bb69, type: 3}
   platformManager: {fileID: 1750448861}
   eventManager: {fileID: 1222619372}
-  _obstacles_Sfx:
-  - {fileID: 8300000, guid: cef28ac045cce43499b8ad3a60994227, type: 3}
-  - {fileID: 8300000, guid: 8db0b6d8a0a81f243a05539f4a5f6b90, type: 3}
 --- !u!1 &1693777329
 GameObject:
   m_ObjectHideFlags: 0
@@ -4886,8 +4888,9 @@ MonoBehaviour:
   Water: {fileID: 1152494763}
   SolutionPath: []
   UnSolution: []
-  Stage: 10
+  Stage: 7
   gameMapController: {fileID: 928945329}
+  MainLight: {fileID: 2021335509}
   Clue: {fileID: 1617006618}
 --- !u!1 &1785057814
 GameObject:
@@ -5375,8 +5378,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8037735, g: 0.8037735, b: 0.7142968, a: 1}
-  m_Intensity: 0.55
+  m_Color: {r: 0.82641506, g: 0.82641506, b: 0.73441786, a: 1}
+  m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5804,17 +5807,17 @@ PrefabInstance:
     - target: {fileID: 6639692150677055320, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
       propertyPath: m_Size.x
-      value: 1.93
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 6639692150677055320, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
       propertyPath: m_Size.y
-      value: 1.93
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 6639692150677055320, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}
       propertyPath: m_Size.z
-      value: 1.93
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 6832089687474934204, guid: a9e7dbcd937893a48a3ec74185e300bf,
         type: 3}

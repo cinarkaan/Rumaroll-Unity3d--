@@ -7,7 +7,7 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
     [Header("The managers that will conduct what will be happened after collide")]
     public ExceptionalUI UIController;
-    
+
     [SerializeField]
     private EventManager EventManager;
 
@@ -21,22 +21,24 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
     [Header("Box volume settings")]
     [Tooltip("Half-extents of the box. For example, (1, 1, 1) means a 2×2×2 volume in world space.")]
-    public Vector3 HalfExtents = new(1f, 1f, 1f);
+    [SerializeField]
+    private Vector3 HalfExtents = new(0.366f, 0.366f, 0.366f);
 
     [Tooltip("The center offset of the box relative to the local pivot. For example, (0, 1, 0) means look 1 unit above the pivot.")]
-    public Vector3 CenterOffset = Vector3.zero;
+    [SerializeField]
+    private Vector3 CenterOffset = Vector3.zero;
 
     [Header("Range of control")]
     [Tooltip("How often should it perform overlap checks? For mobile devices, a range of 0.1–0.2 is appropriate.")]
     [Range(0.01f, 1f)]
-    public float CheckInterval = 0.1f;
+    [SerializeField]
+    private float CheckInterval = 0.1f;
 
     [Header("Target Layers")]
     [Tooltip("Which Layers' colliders do you want to detect?")]
-    public LayerMask TargetLayers;
+    [SerializeField]
+    private LayerMask TargetLayers;
 
-    public bool ShieldIsActive = false;
-    
     // Timer count to use in update
     private float _Timer = 0f;
 
@@ -44,10 +46,16 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
 
     // OverlapBoxNonAlloc result array (it had been allocated before)
     // How many colliders detect at the same time , it increases as that as.
-    private Collider[] _Results = new Collider[8];
+    private readonly Collider[] _Results = new Collider[8];
 
+    public bool ShieldIsActive = false;
+    
     public bool GameOver = false;
 
+    private void Start()
+    {
+        DestroyedCube.GetComponent<CubeStates>().CubeState = State.Scatter;
+    }
     private void Update()
     {
         if (!GameOver)
@@ -85,12 +93,10 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// It calls every objects that in the overlasps. 
     /// Write as you wish.
-    /// </summary>
     /// <param name="other">The another object that in the box</param>
-    void HandleOverlapWith(GameObject other)
+    private void HandleOverlapWith(GameObject other)
     {
         //Debug.Log($"[OverlapBoxNonAllocPoller] '{gameObject.name}' with '{other.name}' overlap has been founded.");
 
@@ -107,12 +113,14 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
             if (other.name.Contains("Hazard"))
             {
                 SoundIndex = 3;
+                DestroyedCube.GetComponent<CubeStates>().CubeState = State.Cutter;
                 Instantiate(Sparks, new Vector3(other.transform.position.x, 1.2f, other.transform.position.z), Quaternion.Euler(-90f, 0f, 0f), other.transform.root);
             }
 
             if (other.name.Equals("Bullet"))
-                Instantiate(DestroyedCube, new Vector3(transform.position.x, 1.5f, transform.position.z), Quaternion.Euler(Vector3.zero), null);
-
+                DestroyedCube.GetComponent<CubeStates>().CubeState = State.Explosive;
+            
+            Instantiate(DestroyedCube, transform.position, Quaternion.Euler(Vector3.zero), null);
             UIController.GameOver(SoundIndex, transform.root.gameObject.name);
             GameOver = true;
         }
@@ -121,6 +129,11 @@ public class OverlapBoxNonAllocPoller : MonoBehaviour
         // • add score
         // • play effects
         // • e.g.
+    }
+    public void AssignMaterialsShattered(Object[] Selected)
+    {
+        for (int i = 0; i < 6; i++)
+            DestroyedCube.transform.GetChild(i).GetComponent<Renderer>().sharedMaterial = (Material)Selected[i];
     }
 
     /*

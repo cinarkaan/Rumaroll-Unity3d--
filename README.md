@@ -81,15 +81,16 @@
 <p>At the scene named as the "Tutorial" , this script is called to be showed instructions to the player. What is the purpose of game ? How is played ?  e.g</p>
 
 <h2>FlagWaver</h2>
-<p>It just the small flag wave effect through by using mesh renderer of gameobject./p>
+<p>It just the small flag wave effect through by using mesh renderer of gameobject.</p>
 
 <h2>UniqueRandomGenerator</h2>
-<p>It is used to place dynamics on the multiplayer and events where are placed at the singleplayer scenes. They must not placed same position. Because of that this script execute this task./p>
+<p>It is used to place dynamics on the multiplayer and events where are placed at the singleplayer scenes. They must not placed same position. Because of that this script execute this task.</p>
 
 <h2>Menu & Multiplayer</h2>
-<p>It is only responsive the UI task on the main menu and multiplayer.(E.g Settings , Store , Multiplayer)/p>
+<p>It is only responsive the UI task on the main menu and multiplayer.(E.g Settings , Store , Multiplayer)</p>
 
-
+<h2>Exceptional</h2>
+<p>To avoid code repeat and obey the OOP standards the exceptional class implements cross inheritances common parts of both singleplayer and multiplayer side./p></p>
 
 
 

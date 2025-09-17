@@ -53,6 +53,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
             case 2: // Spikes , Blades , MovedBlades (Enemy is only placed at the stage 12
                 Obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 Obstacles[1].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                Obstacles[1].transform.GetChild(3).gameObject.SetActive(IsEnableVfx == 1);
                 PlaceSpikes();
                 if (Stage == 12 || Stage == 10)
                     PlaceBlades(true, true, 0, 0, 0, 0);
@@ -104,14 +105,13 @@ public class NetworkObstacleManager : ExceptionalPlacement
     private void PlaceBlades (bool Vertical, bool Horizontal, int FirstRegion, int SecondRegion, int ThirdRegion, int FourthRegion)
     {
         MaterialPropertyBlock Hazard = new(), Head = new(), Rod = new();
-        List<Vector2Int> placed = new List<Vector2Int> ();
+        List<Vector2Int> placed = new();
         Hazard.SetColor("_ColorBottom", Obstacles[1].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         Hazard.SetColor("_ColorTop", Obstacles[1].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         Head.SetColor("_ColorBottom", Obstacles[1].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         Head.SetColor("_ColorTop", Obstacles[1].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         Rod.SetColor("_ColorBottom", Obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         Rod.SetColor("_ColorTop", Obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-
         if (ServerManager.IsHost)
         {
             placed = ExceptionalPlacementOfBlade(NetworkPlatformManager.UnSolution, NetworkPlatformManager.SolutionPath, Vertical, Horizontal, FirstRegion, SecondRegion, ThirdRegion, FourthRegion);
@@ -128,16 +128,13 @@ public class NetworkObstacleManager : ExceptionalPlacement
                 placed.Remove(placed[0]);
                 continue;
             }
-            var _Hazard = Instantiate(Obstacles[1], new Vector3(placed[0].x, 1.55f, placed[0].y), Quaternion.identity, transform);
+            var _Hazard = Instantiate(Obstacles[1], new Vector3(placed[0].x, Obstacles[1].transform.position.y, placed[0].y), Quaternion.identity, transform);
             _Hazard.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Hazard);
             _Hazard.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(Head);
             _Hazard.transform.GetChild(2).GetComponent<Renderer>().SetPropertyBlock(Rod);
             Blades.Add(_Hazard);
             placed.Remove(placed[0]);
         }
-
-        Blades.ForEach(t => t.transform.GetChild(0).localScale = new Vector3(1.2f, 1.2f, 1.2f));
-        Blades.ForEach(t => t.transform.GetChild(0).localPosition = new Vector3(0f, -1f, 0f));
     }
     
     public void LateUpdate() 

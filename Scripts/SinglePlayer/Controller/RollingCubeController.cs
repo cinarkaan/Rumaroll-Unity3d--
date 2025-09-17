@@ -7,8 +7,6 @@ public class RollingCubeController : MonoBehaviour
     [SerializeField]
     private PlatformManager PlatformManager;
 
-    public PlatformManager _PlatformManager => PlatformManager;
-
     [SerializeField]
     private Transform[] faceQuads; // The referaces that belongs on faces of cube
 
@@ -25,14 +23,15 @@ public class RollingCubeController : MonoBehaviour
 
     private readonly float RollDuration = 0.5f;
 
-    public ParticleSystem shield { get; private set; }
-
     private Vector3 _shieldVelocity = Vector3.zero;
 
     private MobileTrail cubeTrail;
 
     private bool isRolling = false;
     private bool moving = true;
+
+    public ParticleSystem shield { get; private set; }
+    public PlatformManager PlatformManager_ => PlatformManager;
 
 
     private void Start()
@@ -171,6 +170,17 @@ public class RollingCubeController : MonoBehaviour
             materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop").gamma);
             transform.GetChild(i).GetComponent<Renderer>().SetPropertyBlock(materialPropertyBlock);
         }
+    }
+    public void AssignMaterials (Object[] Selected)
+    {
+        transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)Selected[0];
+        transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)Selected[1];
+        transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)Selected[2];
+        transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)Selected[3];
+        transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)Selected[4];
+        transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)Selected[5];
+
+        GetComponent<OverlapBoxNonAllocPoller>().AssignMaterialsShattered(Selected);
     }
 }
 

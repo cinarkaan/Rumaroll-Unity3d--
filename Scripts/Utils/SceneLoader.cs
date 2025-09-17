@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public static string CurrentScene { get; private set; } // Current index when it run
+    
     public TMP_Text LoadingText { get; private set; } // Child text of this script
     private AsyncOperation AsyncLoad; 
     private readonly List<GameObject> Root = new(); // Root objects that in the tutorial scene
@@ -16,7 +17,7 @@ public class SceneLoader : MonoBehaviour
 
     private void Start()
     {
-        SceneLoader.CurrentScene = SceneManager.GetActiveScene().name;
+        CurrentScene = SceneManager.GetActiveScene().name;
         LoadingText = transform.GetChild(1).GetComponent<TMP_Text>();
     }
     private IEnumerator FadeText ()
@@ -31,7 +32,7 @@ public class SceneLoader : MonoBehaviour
         }
     }
     public IEnumerator LoadSceneWithPreparation(string targetSceneName)
-    {
+    {  
         AsyncLoad = SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Additive);   
      
         AsyncLoad.allowSceneActivation = false;
@@ -59,7 +60,7 @@ public class SceneLoader : MonoBehaviour
         AsyncLoad.allowSceneActivation = true;
 
         yield return new WaitUntil(() => !AsyncLoad.isDone);
-        
+
         Scene loaded = SceneManager.GetSceneByName(targetSceneName);
 
         SceneManager.SetActiveScene(loaded);
@@ -69,9 +70,10 @@ public class SceneLoader : MonoBehaviour
         if (targetSceneName == "Tutorial")
             Root.Find(o => o.name == "UIManager").GetComponent<Tutorial>().Tap = true;
 
-        SceneManager.UnloadSceneAsync(SceneLoader.CurrentScene);
+        SceneManager.UnloadSceneAsync(CurrentScene);
 
-        SceneLoader.CurrentScene = targetSceneName;
+        CurrentScene = targetSceneName;
+
     }
     public IEnumerator LoadSceneMultiplayer(AsyncOperation asyncOperation)
     {
@@ -90,6 +92,8 @@ public class SceneLoader : MonoBehaviour
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = (1f > 0f);
         canvasGroup.blocksRaycasts = (1f> 0f);
+
+        CurrentScene = "Multiplayer";
 
         while (asyncOperation.progress < 0.9f)
         {

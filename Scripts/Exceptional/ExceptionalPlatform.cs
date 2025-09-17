@@ -230,11 +230,13 @@ public class ExceptionalPlatform : MonoBehaviour
     protected void PlaceFlag()
     {
         MaterialPropertyBlock FlagMPB = new();
-        GameObject start = Instantiate(Prefabs[1], new Vector3(5.5f, 0.4f, 5.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+
+        GameObject start = Instantiate(Prefabs[1], new Vector3(5.55f, 1.3f, 5.55f), Quaternion.Euler(0f, 45f, 0f), transform);
         FlagMPB.SetColor("_ColorBottom", new Color(0.8415094f, 0.8415094f, 0.8415094f));
         FlagMPB.SetColor("_ColorTop", new Color(0.5924529f, 0.5924529f, 0.5924529f));
         start.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(FlagMPB);
-        GameObject evacuation = Instantiate(Prefabs[1], new Vector3(_Stage + 6 + 0.5f, 0.6f, _Stage + 6 + 0.5f), Quaternion.Euler(0f, 45f, 0f), transform);
+        
+        GameObject evacuation = Instantiate(Prefabs[1], new Vector3(_Stage + 6 + 0.45f, 1.3f, _Stage + 6 + 0.45f), Quaternion.Euler(0f, 45f, 0f), transform);
         FlagMPB.SetColor("_ColorBottom", new Color(0.1773585f, 0.1773585f, 0.1773585f));
         FlagMPB.SetColor("_ColorTop", new Color(0.3735847f, 0.3735847f, 0.3735847f));
         evacuation.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(FlagMPB);

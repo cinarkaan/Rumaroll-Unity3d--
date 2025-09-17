@@ -27,8 +27,7 @@ public class NetworkCubeController : NetworkBehaviour
 
     [SerializeField]
     private AudioSource _rolling;
-
-    public Vector2Int target { private get; set; }
+    public Vector2Int Target { private get; set; }
     public override void OnNetworkSpawn()
     {
         StartCoroutine(WaitUntilPlatform());
@@ -50,7 +49,7 @@ public class NetworkCubeController : NetworkBehaviour
         {
             transform.position = new Vector3(platformManager.ServerManager_.Stage.Value + 6, 0.815f, platformManager.ServerManager_.Stage.Value + 6);
             transform.gameObject.name = "Client";
-            target = new Vector2Int(6, 6);
+            Target = new Vector2Int(6, 6);
         }
 
         yield return new WaitUntil(() => platformManager.ServerManager_.Progress);
@@ -147,7 +146,7 @@ public class NetworkCubeController : NetworkBehaviour
     }
     private void HasPlayerWon ()
     {
-        if (target.Equals(GetTileCoordAtPosition()))
+        if (Target.Equals(GetTileCoordAtPosition()))
         {
             isRolling = true;
             platformManager.ServerManager_.NoticationWonPlayerServerRpc(transform.gameObject.name);

@@ -7,7 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 [Serializable]
-public struct HostMaterials : INetworkSerializable, IEquatable<HostMaterials>
+public struct CubeMaterials : INetworkSerializable, IEquatable<CubeMaterials>
 {
     public FixedString64Bytes _surfaceMat;
 
@@ -15,13 +15,13 @@ public struct HostMaterials : INetworkSerializable, IEquatable<HostMaterials>
     {
         serializer.SerializeValue(ref _surfaceMat);
     }
-    public bool Equals(HostMaterials other)
+    public bool Equals(CubeMaterials other)
     {
         return _surfaceMat.Equals(other._surfaceMat);
     }
     public override bool Equals(object obj)
     {
-        return obj is HostMaterials other && Equals(other);
+        return obj is CubeMaterials other && Equals(other);
     }
     public override int GetHashCode()
     {
@@ -57,20 +57,7 @@ public struct Tiles : INetworkSerializable, IEquatable<Tiles>
     }
 }
 [Serializable]
-public struct ClientMaterials : INetworkSerializable, IEquatable<ClientMaterials>
-{
-    public FixedString64Bytes _material;
 
-    public bool Equals(ClientMaterials other)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref _material);
-    }
-}
 
 public class NetworkPlatformManager : ExceptionalPlatform
 {
@@ -116,7 +103,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
         if (ServerManager.Manager.IsHost)
         {
             Prefabs[2] = GameObject.Find("Host");
-            Prefabs[2].GetComponent<NetworkCubeController>().target = new Vector2Int(_Stage + 6, _Stage + 6);
+            Prefabs[2].GetComponent<NetworkCubeController>().Target = new Vector2Int(_Stage + 6, _Stage + 6);
         }
         else
         {
@@ -149,7 +136,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 bool isAdded = selected.Add(AllMaterials[UnityEngine.Random.Range(0, AllMaterials.Count)]);
                 if (isAdded)
                 {
-                    HostMaterials materials = new()
+                    CubeMaterials materials = new()
                     {
                         _surfaceMat = ((Material)selected.Last()).name
                     };
@@ -157,33 +144,14 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 }
             }
 
-            var SelectedArr = selected.ToArray();
+            AllMaterials = selected.ToList();
             selected.Clear();
 
-            Prefabs[2].transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[0];
-            Prefabs[2].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[1];
-            Prefabs[2].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[2];
-            Prefabs[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[3];
-            Prefabs[2].transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[4];
-            Prefabs[2].transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)SelectedArr[5];
+            ServerManager.SetMaterials(ref Prefabs[2], ServerManager.HostMaterials, AllMaterials);
+        } else    
+            ServerManager.SetMaterials(ref Prefabs[2], ServerManager.ClientMaterials, AllMaterials);
 
-        } else
-        {
-            for (int index = 0; index < 6; index++)
-            {
-                if (index == 0)
-                    Prefabs[2].transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else if (index == 4)
-                    Prefabs[2].transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else if (index == 3)
-                    Prefabs[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else if (index == 5)
-                    Prefabs[2].transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else
-                    Prefabs[2].transform.GetChild(index).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                
-            }
-        }
+        Prefabs[2].GetComponent<OverlapBoxNonAllocPoller>().AssignMaterialsShattered(AllMaterials.ToArray());
         LinearToGamma(ref Prefabs[2]);
 
     }
@@ -230,9 +198,9 @@ public class NetworkPlatformManager : ExceptionalPlatform
             {
                 for (int index = 0; index < 6; index++)
                 {
-                    ClientMaterials clientFaceMaterials = new() 
+                    CubeMaterials clientFaceMaterials = new() 
                     {
-                        _material = ServerManager.HostMaterials[cubeSim.faceIndices[index]]._surfaceMat
+                        _surfaceMat = ServerManager.HostMaterials[cubeSim.faceIndices[index]]._surfaceMat
                     };
                     ServerManager.ClientMaterials.Add(clientFaceMaterials);
                 }
@@ -365,29 +333,12 @@ public class NetworkPlatformManager : ExceptionalPlatform
         if (ServerManager.IsHost)
         {
             GameObject client = GameObject.Find("Client");
-            for (int index = 0; index < 6; index++)
-            {
-                if (index == 0)
-                    client.transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else if (index == 4)
-                    client.transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else if (index == 3)
-                    client.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else if (index == 5)
-                    client.transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-                else
-                    client.transform.GetChild(index).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.ClientMaterials[index]._material.ToString()));
-            }
+            ServerManager.SetMaterials(ref client, ServerManager.ClientMaterials, AllMaterials);
             LinearToGamma(ref client);
         } else
         {
             GameObject host = GameObject.Find("Host");
-            host.transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.HostMaterials[0]._surfaceMat.ToString()));
-            host.transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.HostMaterials[1]._surfaceMat.ToString()));
-            host.transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.HostMaterials[2]._surfaceMat.ToString()));
-            host.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.HostMaterials[3]._surfaceMat.ToString()));
-            host.transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.HostMaterials[4]._surfaceMat.ToString()));
-            host.transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(ServerManager.HostMaterials[5]._surfaceMat.ToString()));
+            ServerManager.SetMaterials(ref host, ServerManager.HostMaterials, AllMaterials);
             LinearToGamma(ref host);
         }
     }

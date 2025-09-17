@@ -47,7 +47,7 @@ public class Tutorial : MonoBehaviour
         UIController.ButtonsManager(false);
         UIController.playerController.Render(false);
         FullText = "Welcome to the world of cube. The magIcal colorful cube needs to reach out evacutaIon poInt where Is located on the flag. ";
-        StartCoroutine(ShowEvacutaionPoint(new Vector3(UIController.playerController._PlatformManager.Stage + 6, UIController.playerController.transform.position.y, UIController.playerController._PlatformManager.Stage + 6), 0));
+        StartCoroutine(ShowEvacutaionPoint(new Vector3(UIController.playerController.PlatformManager_.Stage + 6, UIController.playerController.transform.position.y, UIController.playerController.PlatformManager_.Stage + 6), 0));
     }
     private IEnumerator TouchToCountinue(int step)
     {

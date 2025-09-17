@@ -12,6 +12,9 @@ public class PlatformManager : ExceptionalPlatform
     private GameMapController gameMapController;
 
     [SerializeField]
+    private Light MainLight;
+
+    [SerializeField]
     private ParticleSystem Clue;
 
     public ParticleSystem Clue_ => Clue;
@@ -70,16 +73,10 @@ public class PlatformManager : ExceptionalPlatform
 
         var Selected = selected.ToArray();
 
-        Prefabs[2].transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)Selected[0];
-        Prefabs[2].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)Selected[1];
-        Prefabs[2].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)Selected[2];
-        Prefabs[2].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)Selected[3];
-        Prefabs[2].transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)Selected[4];
-        Prefabs[2].transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)Selected[5];
-
-        Prefabs[2].GetComponent<RollingCubeController>().LinearToGamma();
-
         AllMaterials = Selected.ToList();
+
+        Prefabs[2].GetComponent<RollingCubeController>().AssignMaterials(Selected);
+        Prefabs[2].GetComponent<RollingCubeController>().LinearToGamma();
 
         selected.Clear();
     }
@@ -130,7 +127,6 @@ public class PlatformManager : ExceptionalPlatform
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
                         colorfulTile.AddComponent<ColorfulTile>();
                         GridTiles[pos].tile = colorfulTile;
-                        GridTiles[pos].OnSolution = true;
                         colorfulTile.name = "OnSolution";
 
                     }
@@ -160,15 +156,21 @@ public class PlatformManager : ExceptionalPlatform
         var shape = Weather[status].shape;
         shape.enabled = true;
 
+        if (status == 1 || status == 2)
+        {
+            MainLight.intensity = 1f;
+            MainLight.color = new Color(0.45f, 0.45f, 0.45f);
+        }
+
         Vector3 pos = Vector3.zero;
         if (status == 0 || status == 2)
         {
-            shape.scale = new Vector3(Stage + 12f, Stage + 12f, 1f);
+            shape.scale = new Vector3(Stage + 6f, Stage + 6f, 1f);
             pos = new Vector3((Stage + 12) / 2f, 2.5f, (Stage + 12) / 2f);
         }
         else if (status == 1)
         {
-            shape.scale = new Vector3(Stage + 12f, 1f, Stage + 12f);
+            shape.scale = new Vector3(Stage + 2f, 1f, Stage + 2f);
             pos = new Vector3((Stage + 12) / 2f, 1.8f, (Stage + 12) / 2f);
         }
 
@@ -211,7 +213,7 @@ public class PlatformManager : ExceptionalPlatform
                     List<GameObject> placed = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
                     while (placed.Count > 0)
                     {
-                        Vector2Int pos = new Vector2Int((int)placed[0].transform.position.x, (int)placed[0].transform.position.z);
+                        Vector2Int pos = new((int)placed[0].transform.position.x, (int)placed[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left))
                             DynamicPath.Add(pos + Vector2Int.left);
                         if (SolutionPath.Contains(pos + Vector2Int.right))
@@ -248,7 +250,7 @@ public class PlatformManager : ExceptionalPlatform
                     while (referanced.Count > 0)
                     {
                         int regionCount = 1;
-                        Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
+                        Vector2Int pos = new((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left) && regionCount > 0)
                         {
                             DynamicPath.Add(pos + Vector2Int.left);
@@ -276,7 +278,7 @@ public class PlatformManager : ExceptionalPlatform
                     referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
                     while (referanced.Count > 0)
                     {
-                        Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
+                        Vector2Int pos = new((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
                         if (SolutionPath.Contains(pos + Vector2Int.left))
                             DynamicPath.Add(pos + Vector2Int.left);
                         if (SolutionPath.Contains(pos + Vector2Int.right))
@@ -315,7 +317,8 @@ public class PlatformManager : ExceptionalPlatform
     private void LaunchDynamicPath()
     {
         foreach (var pos in DynamicPath)
-            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)AllMaterials[Random.Range(0, AllMaterials.Count)], GridTiles[pos].material);
+            if (GridTiles[pos].tile.GetComponent<ColorfulTile>() != null)
+                GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor((Material)AllMaterials[Random.Range(0, AllMaterials.Count)], GridTiles[pos].material);
     }
     public void AdjustColorOfClue (Vector2Int pos)
     {

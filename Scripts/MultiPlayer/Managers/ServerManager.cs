@@ -27,9 +27,9 @@ public class ServerManager : NetworkBehaviour
     public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Paths in the enemy
 
     // Platform
-    public NetworkList<HostMaterials> HostMaterials = new(new List<HostMaterials>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The materials face of the cube 
+    public NetworkList<CubeMaterials> HostMaterials = new(new List<CubeMaterials>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The materials face of the cube 
+    public NetworkList<CubeMaterials> ClientMaterials = new(new List<CubeMaterials>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The client's cube faces of materials
     public NetworkList<Tiles> Tiles = new(new List<Tiles>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The informations about the platform
-    public NetworkList<ClientMaterials> ClientMaterials = new(new List<ClientMaterials>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // The client's cube faces of materials
     public NetworkVariable<int> WeatherCode = new(0); // Weather status
 
     public NetworkManager Manager { get; private set; }
@@ -138,6 +138,16 @@ public class ServerManager : NetworkBehaviour
         Destroy(Manager.gameObject);
         SceneManager.LoadScene("MainMenu");
     }
+    public void SetMaterials(ref GameObject Player, NetworkList<CubeMaterials> Materials, List<Object> AllMaterials)
+    {
+        Player.transform.GetChild(5).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(Materials[0]._surfaceMat.ToString()));
+        Player.transform.GetChild(1).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(Materials[1]._surfaceMat.ToString()));
+        Player.transform.GetChild(2).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(Materials[2]._surfaceMat.ToString()));
+        Player.transform.GetChild(0).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(Materials[3]._surfaceMat.ToString()));
+        Player.transform.GetChild(3).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(Materials[4]._surfaceMat.ToString()));
+        Player.transform.GetChild(4).GetComponent<Renderer>().sharedMaterial = (Material)AllMaterials.Find(m => ((Material)m).name.Equals(Materials[5]._surfaceMat.ToString()));
+
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void NoticationWonPlayerServerRpc (string name)
@@ -197,6 +207,5 @@ public class ServerManager : NetworkBehaviour
         HostMaterials.Clear();
         WeatherCode.Dispose();
     }
-
 
 }

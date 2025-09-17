@@ -8,37 +8,37 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Back
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bottom
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Frame
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Front
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Left
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Right
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Top
-    second: {fileID: 2100000, guid: 791c138cdb7025249a5225faca854e77, type: 2}
+    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -105,10 +105,10 @@ ModelImporter:
     useFileScale: 1
     strictVertexDataChecks: 0
   tangentSpace:
-    normalSmoothAngle: 75
+    normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 1
-    normalCalculationMode: 1
+    normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 3

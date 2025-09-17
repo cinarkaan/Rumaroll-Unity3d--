@@ -29,9 +29,6 @@ public class ObstacleManager : ExceptionalPlacement
     [SerializeField]
     private EventManager eventManager;
 
-    [SerializeField]
-    private AudioClip[] _obstacles_Sfx;
-
     public List<GameObject> Blade { get; private set; }  // The dynamic colorfulface can be placed one cell that is surrounded center of blade. Should it be public , get and private set method must be activated   
     public List<GameObject> Spikes { get; private set; }
     public List<GameObject> Cutters { get; private set; }
@@ -114,6 +111,7 @@ public class ObstacleManager : ExceptionalPlacement
                 obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[2].transform.GetChild(3).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.5f;
                 distanceOfMovedHazars = 4.5f;
                 movedHazardSpeed = 4.45f;
@@ -128,6 +126,7 @@ public class ObstacleManager : ExceptionalPlacement
                 obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[2].transform.GetChild(3).gameObject.SetActive(IsEnableVfx == 1);
                 spikeSpeed = 0.51f;
                 cutterSpeed = 1f;
                 distanceOfMovedHazars = 4.5f;
@@ -147,6 +146,7 @@ public class ObstacleManager : ExceptionalPlacement
                 obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
+                obstacles[2].transform.GetChild(3).gameObject.SetActive(IsEnableVfx == 1);
                 PlaceSpikes(1, 1, 1, 1);
                 PlaceMovedHazardVertical(2);
                 PlaceMovedHazardHorizontal(2);
@@ -181,15 +181,13 @@ public class ObstacleManager : ExceptionalPlacement
                 placed.Remove(placed[0]);
                 continue;
             }
-            var _Hazard = Instantiate(obstacles[2], new Vector3(placed[0].x, 1.55f, placed[0].y), Quaternion.identity, transform);
+            var _Hazard = Instantiate(obstacles[2], new Vector3(placed[0].x, obstacles[2].transform.position.y, placed[0].y), Quaternion.identity, transform);
             _Hazard.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Hazard);
             _Hazard.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(Head);
             _Hazard.transform.GetChild(2).GetComponent<Renderer>().SetPropertyBlock(Rod);
             Blade.Add(_Hazard);
             placed.Remove(placed[0]);
         }
-        Blade.ForEach(t => t.transform.GetChild(0).localPosition = new Vector3(0f, -1f, 0f));
-
         platformManager.CreateDynamics();
     }
     private void PlaceCutters (bool final, bool start , bool diamonds)
