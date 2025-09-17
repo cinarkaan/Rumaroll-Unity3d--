@@ -1,6 +1,6 @@
 # RUMAROLL
 
-<h1><p>!!!!The game largestly has been updated. That's why the images about the game where is placed on the following is old version. For pc you can download from the following link that is placed bottom of the page!!!!</p></h1>
+<h1><p>!!!!THE GAME LARGESTLY HAS BEEN UPDATED. THAT'S WHY THE IMAGES ABOUT THE GAME WHERE IS PLACED ON THE FOLLOWING IS OLD VERSION. FOR PC YOU CAN DOWNLOAD FROM THE FOLLOWING LINK THAT IS PLACED BOTTOM OF THE PAGE!!!!</p></h1>
 
 <h1>Purpose</h1>
 
