@@ -40,9 +40,9 @@ public class AspectController : MonoBehaviour
     {
         targetOffset = offsets[index];
 
-        transform.position = Vector3.SmoothDamp(transform.position, targetOffset + target.position, ref currentVelocity, 0.25f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position),
-            1 - Mathf.Exp(-10f * Time.deltaTime));
+        transform.SetPositionAndRotation(Vector3.SmoothDamp(transform.position, targetOffset + target.position, ref currentVelocity, 0.25f), 
+            Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position),
+            1 - Mathf.Exp(-10f * Time.deltaTime)));
     }
     public void RightSwipe()
     {
@@ -59,6 +59,27 @@ public class AspectController : MonoBehaviour
             Dirs[i] = Dirs[i + 1];
 
         Dirs[3] = temp;
+    }
+    public Vector3 GetAngleAccordingToPlayerAspect ()
+    {
+        Vector3 Rotations = Vector3.zero;
+        switch (index)
+        {
+            case 0:
+                Rotations = new Vector3(30f, -135f, 0);
+                return Rotations;
+            case 1:
+                Rotations = new Vector3(30f, 135f, 0);
+                return Rotations;
+            case 2:
+                Rotations = new Vector3(30f, 45f, 0);
+                return Rotations;
+            case 3:
+                Rotations = new Vector3(30f, -45f, 0);
+                return Rotations;
+            default:
+                return Rotations;
+        }
     }
 
 }

@@ -76,8 +76,7 @@ public class UIController : ExceptionalUI
             TimeSinceLastUpdate = 0f;
         }
 
-#if UNITY_STANDALONE_WIN
-        
+#if UNITY_STANDALONE_WIN     
         if (Input.GetKeyDown(KeyCode.A))
             Left();
         else if (Input.GetKeyDown(KeyCode.D))
@@ -106,13 +105,14 @@ public class UIController : ExceptionalUI
         {
             Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
             Aspect.LeftSwipe();
+            platformManager.MainLight_.transform.eulerAngles = Aspect.GetAngleAccordingToPlayerAspect(); 
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
             Aspect.RightSwipe();
+            platformManager.MainLight_.transform.eulerAngles = Aspect.GetAngleAccordingToPlayerAspect();
         }
-
 #else
         if (Input.touchCount == 1)
         {

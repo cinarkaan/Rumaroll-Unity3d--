@@ -14,6 +14,8 @@ public class PlatformManager : ExceptionalPlatform
     [SerializeField]
     private Light MainLight;
 
+    public Light MainLight_ => MainLight;
+
     [SerializeField]
     private ParticleSystem Clue;
 
@@ -159,7 +161,7 @@ public class PlatformManager : ExceptionalPlatform
         if (status == 1 || status == 2)
         {
             MainLight.intensity = 1f;
-            MainLight.color = new Color(0.45f, 0.45f, 0.45f);
+            MainLight.color = new Color(0.5f, 0.5f, 0.5f);
         }
 
         Vector3 pos = Vector3.zero;

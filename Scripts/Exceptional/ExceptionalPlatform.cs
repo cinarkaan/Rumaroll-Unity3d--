@@ -226,6 +226,10 @@ public class ExceptionalPlatform : MonoBehaviour
         var _offest = (_Stage % 2 == 0) ? ((_Stage + 12) / 2) - 0.5f : (_Stage + 12) / 2;
 
         Water.position = new Vector3(_offest, Water.position.y, _offest);
+
+        if (PlayerPrefs.GetInt("Sfx") == 0)
+            foreach (Transform transform in Water.transform)
+                transform.gameObject.SetActive(false);
     }
     protected void PlaceFlag()
     {
