@@ -69,7 +69,7 @@
 
 <p>It's part of the platform manager. It makes to change colors of tile at the runtime within sync way. It is launched end of the obstacle manager to be indicated dynamic tiles.</p>
 
-<h2>MobileTrail/h2>
+<h2>MobileTrail</h2>
 
 <p>It's part of the cube controller. It responses from ghost trail effect by using mesh component of player.At the each move of player it is triggered.</p>
 
@@ -90,7 +90,7 @@
 <p>It is only responsive the UI task on the main menu and multiplayer.(E.g Settings , Store , Multiplayer)</p>
 
 <h2>Exceptional</h2>
-<p>To avoid code repeat and obey the OOP standards the exceptional class implements cross inheritances common parts of both singleplayer and multiplayer side./p></p>
+<p>To avoid code repeat and obey the OOP standards the exceptional class implements cross inheritances common parts of both singleplayer and multiplayer side.</p>
 
 
 
