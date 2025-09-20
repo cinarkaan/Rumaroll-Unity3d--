@@ -12,18 +12,12 @@ public class PlatformManager : ExceptionalPlatform
     private GameMapController gameMapController;
 
     [SerializeField]
-    private Light MainLight;
-
-    public Light MainLight_ => MainLight;
-
-    [SerializeField]
     private ParticleSystem Clue;
 
     public ParticleSystem Clue_ => Clue;
 
     private void Awake()
     {
-    
         Prefabs[2].transform.position = new Vector3(6, 0.815f, 6);
 
         Stage = PlayerPrefs.GetInt("Stage");
@@ -347,8 +341,6 @@ public class PlatformManager : ExceptionalPlatform
 
         _arrowsColorModule.startColor = new ParticleSystem.MinMaxGradient(_arrows);
         glowColorModule.startColor = new ParticleSystem.MinMaxGradient(_glow);
-
-
     }
 
 }

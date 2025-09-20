@@ -187,7 +187,7 @@ public class NetworkEnemyManager : ExceptionalPath
     {
         ServerManager.RequestClearServerRpc();
         ServerManager.RequestClearPlatformListServerRpc();
-        ServerManager._UIController.SceneLoader.Operation = 2;
+        ServerManager.UIController_.SceneLoader.Operation = 2;
         PlatformManager.SolutionPath.Clear();
     }
 }

@@ -8,7 +8,7 @@ public class ExceptionalPlatform : MonoBehaviour
 {
     public bool Progress { get; private set; }
 
-    protected int _Stage;
+    public int _Stage { get; protected set; }
 
     [SerializeField]
     protected GameObject[] Prefabs;
@@ -22,7 +22,10 @@ public class ExceptionalPlatform : MonoBehaviour
     [SerializeField]
     protected Transform Water;
 
-    
+    [SerializeField]
+    protected Light MainLight;
+    public Light MainLight_ => MainLight;
+
     public List<Vector2Int> SolutionPath = new();
     public List<Vector2Int> UnSolution = new();
 

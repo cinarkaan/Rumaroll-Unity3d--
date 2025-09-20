@@ -631,7 +631,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _rolling: {fileID: 0}
-  rollDuration: 0.5
+  Confetie: {fileID: 0}
 --- !u!114 &9203242227484082096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,9 +644,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3113526eac7f3f14e9a89fdb69e046a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.7
-  TrailPrefab: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044,
-    type: 3}
+  Frequency: 0.7
+  Frame: {fileID: 1939817422367692882, guid: b75b2dcd6ff3dd44cb4748d753a8f044, type: 3}
 --- !u!65 &6639692150677055320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -685,9 +684,9 @@ MonoBehaviour:
   Sparks: {fileID: 7440191685052868192, guid: de74805a666a36641aac62afba401ab7, type: 3}
   DestroyedCube: {fileID: 584714055939877299, guid: cced93fd3f4f06b49b5557e783779c1d,
     type: 3}
-  HalfExtents: {x: 0.4, y: 0.4, z: 0.4}
+  HalfExtents: {x: 0.366, y: 0.366, z: 0.366}
   CenterOffset: {x: 0, y: 0, z: 0}
-  CheckInterval: 0.1
+  CheckInterval: 0.01
   TargetLayers:
     serializedVersion: 2
     m_Bits: 16392

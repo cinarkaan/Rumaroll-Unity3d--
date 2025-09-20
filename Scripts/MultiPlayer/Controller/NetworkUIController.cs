@@ -18,21 +18,17 @@ public class NetworkUIController : ExceptionalUI
 
     public Text Info => texts[1];
 
+    [SerializeField] private Transform _rivalGPS;  
 
-    [SerializeField] 
-    private Transform _rivalGPS;  
+    [SerializeField] private Transform target;
 
-    [SerializeField]
-    private Transform target;
+    [SerializeField] private ServerManager manager;
 
-    [SerializeField]
-    private ServerManager manager;
+    [SerializeField] private Camera mapCamera;
 
-    [SerializeField]
-    private Camera mapCamera;
+    [SerializeField] private Image _pauseMenu, Winning, Fade;
 
-    [SerializeField]
-    private Image _pauseMenu, Winning, Fade;
+    [SerializeField] private ParticleSystem Confetie;
 
     private Vector2 touchStart;
 
@@ -42,9 +38,10 @@ public class NetworkUIController : ExceptionalUI
     private void Start()
     {
         InitializeUserPrefs();
+        InitializeScoreTimes();
         Buttons.Find(c => c.name == "CloseMap").gameObject.SetActive(false);
         StartCoroutine(InitializeMapCamera());
-        MapCamController(RawImages.Find(r => r.name == "GameMap"));
+        MapCamController(RawImage);
         if (manager.IsHost)
             StartCoroutine(WaitAndPlayer("Host"));
         else
@@ -89,16 +86,17 @@ public class NetworkUIController : ExceptionalUI
         {
             Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
             Aspect.LeftSwipe();
+            Platform.MainLight_.transform.eulerAngles = Aspect.GetAngleAccordingToPlayerAspect();
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
             Aspect.RightSwipe();
+            Platform.MainLight_.transform.eulerAngles = Aspect.GetAngleAccordingToPlayerAspect();
         }
 
         if (Aspect.target != null)
             Aspect.PivotAspect();
-
 #else
         if (Input.touchCount == 1)
         {
@@ -183,7 +181,7 @@ public class NetworkUIController : ExceptionalUI
     public override void OpenMap ()
     {
         NetworkUIController.currentIndex = 0;
-        MapCamController(RawImages.Find(r => r.name == "GameMap"));
+        MapCamController(RawImage);
         ButtonsManager(false);
         Buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(true);
         StartCoroutine(MapFade(new Color(1f ,1f ,1f ,1f)));
@@ -197,26 +195,26 @@ public class NetworkUIController : ExceptionalUI
         Buttons.Find(b => b.gameObject.name == "CloseMap").gameObject.SetActive(false);
         Camera.main.cullingMask = OriginalCameraCulling;
         StartCoroutine(MapFade(new Color(1f, 1f, 1f, 0f)));
-        MapCamController(RawImages.Find(r => r.name == "GameMap"));
+        MapCamController(RawImage);
         cubeController._gps.GetChild(0).GetComponent<ParticleSystem>().Stop();
         _rivalGPS.GetChild(0).GetComponent<ParticleSystem>().Stop();
     }
     protected override IEnumerator MapFade(Color targetColor)
     {
-        Color startColor = RawImages[0].color;
+        Color startColor = RawImage.color;
         float time = 0f;
 
         while (time < FadeDuration)
         {
             time += Time.deltaTime;
-            RawImages[0].color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / FadeDuration));
+            RawImage.color = Color.Lerp(startColor, targetColor, Mathf.Clamp01(time / FadeDuration));
             yield return null;
         }
 
-        RawImages[0].color = targetColor;
+        RawImage.color = targetColor;
 
         if (NetworkUIController.currentIndex == 1)
-            MapCamController(RawImages.Find(r => r.name == "GameMap"));
+            MapCamController(RawImage);
     }
     public void MapCamController(RawImage gameMap)
     {
@@ -301,6 +299,7 @@ public class NetworkUIController : ExceptionalUI
     }
     public void DistributeRewards ()
     {
+        Images.Last().transform.localScale = Vector3.zero;
         StartCoroutine(OpenChest());
     }
     private IEnumerator PauseMenu (Vector3 target)
@@ -317,10 +316,13 @@ public class NetworkUIController : ExceptionalUI
     }
     public IEnumerator OpenChest ()
     {
+        Info.rectTransform.localPosition = new Vector3(-280f, 60f, 0f); // Set the localPositions of information => -113f , 140f
+        Info.text = "YOUR REWARDS WILL BE READY AT 2 SECONDS"; // Write it "TAP TO OPEN CHEST"
+        Info.fontSize = 30;
+        
         yield return new WaitForSeconds(2f);
 
-        Info.rectTransform.localPosition = new Vector3(-299f, 161f, 0f); // Set the localPositions of information => -113f , 140f
-        Info.text = "YOUR REWARDS WILL BE READY AT 2 SECONDS"; // Write it "TAP TO OPEN CHEST"
+        Info.text = "";
 
         Winning.gameObject.SetActive(true);
 
@@ -328,7 +330,7 @@ public class NetworkUIController : ExceptionalUI
 
         RectTransform startRect = Winning.rectTransform.GetChild(4).GetComponent<RectTransform>();
 
-        Vector2 target = new Vector2(350f, 350f);
+        Vector2 target = new(350f, 350f);
 
         while (Vector2.Distance(startRect.sizeDelta, target) > 0.01f)
         {
@@ -346,14 +348,14 @@ public class NetworkUIController : ExceptionalUI
 
         Winning.rectTransform.GetChild(5).gameObject.SetActive(true);
 
-        StartCoroutine(GatherRewards());
+        texts.First().gameObject.SetActive(false);
 
+        StartCoroutine(GatherRewards());
     }
     private IEnumerator GatherRewards ()
     {
-
-        Info.rectTransform.localPosition = new Vector3(-220, 161f, 0f); // Set the localPositions of information => -113f , 140f
-
+        Info.rectTransform.localPosition = new Vector3(-185f, 170f, 0f); // Set the localPositions of information => -113f , 140f
+        Info.fontSize = 32;
         Info.text = "YOUR REWARDS HAS BEEN READY"; // Write it "TAP TO OPEN CHEST"
 
         Reward reward = Rewards();
@@ -421,7 +423,6 @@ public class NetworkUIController : ExceptionalUI
         }
 
         StartCoroutine(manager.DisconnectFromGame(2.5f));
-
     }
     public Reward Rewards()
     {

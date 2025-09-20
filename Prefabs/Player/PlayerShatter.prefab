@@ -97,7 +97,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f5e059a9fa9fde549a287a622d2ca2f0, type: 2}
+      objectReference: {fileID: 2100000, guid: 9e67b2da30d44b1458a36eb72c563fa3, type: 2}
     - target: {fileID: -7118718547738887145, guid: 2c6991e2c5edad0488f5c03e4fab4c60,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -127,7 +127,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: d4d6dcbe09eb88743bc673e486b43797, type: 2}
+      objectReference: {fileID: 2100000, guid: 28182c6af071d6543a22078a5c8577ff, type: 2}
     - target: {fileID: -6484467716382650495, guid: 2c6991e2c5edad0488f5c03e4fab4c60,
         type: 3}
       propertyPath: m_ReceiveGI
@@ -482,7 +482,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9e67b2da30d44b1458a36eb72c563fa3, type: 2}
+      objectReference: {fileID: 2100000, guid: 7f3342509d4239246814eb55678f9e4e, type: 2}
     - target: {fileID: 5325404870481453298, guid: 2c6991e2c5edad0488f5c03e4fab4c60,
         type: 3}
       propertyPath: m_ReceiveGI
@@ -507,7 +507,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c23a8dbfd745fc343b7431131135a116, type: 2}
+      objectReference: {fileID: 2100000, guid: dbfce456e6ed195439aa8fd7074bea4c, type: 2}
     - target: {fileID: 5654868427181580848, guid: 2c6991e2c5edad0488f5c03e4fab4c60,
         type: 3}
       propertyPath: m_ReceiveGI
@@ -562,7 +562,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7a37bf0bb2b428e42a042435a50ee427, type: 2}
+      objectReference: {fileID: 2100000, guid: f5e059a9fa9fde549a287a622d2ca2f0, type: 2}
     - target: {fileID: 6471496338278676438, guid: 2c6991e2c5edad0488f5c03e4fab4c60,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -617,7 +617,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: fbd73492be970154baaa581e31455c79, type: 2}
+      objectReference: {fileID: 2100000, guid: 76d5957807f76e343914fdb6194f75b1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

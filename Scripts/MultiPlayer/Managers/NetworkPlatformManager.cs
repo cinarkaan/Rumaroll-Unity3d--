@@ -62,10 +62,14 @@ public struct Tiles : INetworkSerializable, IEquatable<Tiles>
 public class NetworkPlatformManager : ExceptionalPlatform
 {
     [SerializeField]
+    private ParticleSystem Confetie;
+
+    [SerializeField]
     private ServerManager ServerManager;
     public ServerManager ServerManager_ => ServerManager;
     public int Stage => _Stage;
-    
+    public ParticleSystem Confetie_ => Confetie;
+
     private void Start()
     {
         StartCoroutine(WaitUntilServer());
@@ -312,15 +316,21 @@ public class NetworkPlatformManager : ExceptionalPlatform
         var shape = Weather[ServerManager.WeatherCode.Value].shape;
         shape.enabled = true;
 
+        if (status == 1 || status == 2)
+        {
+            MainLight.intensity = 1f;
+            MainLight.color = new Color(0.5f, 0.5f, 0.5f);
+        }
+
         Vector3 pos = Vector3.zero;
         if (ServerManager.WeatherCode.Value == 0 || ServerManager.WeatherCode.Value == 2)
         {
-            shape.scale = new Vector3(_stage + 12f, _stage + 12f, 1f);
+            shape.scale = new Vector3(_stage + 6f, _stage + 6f, 1f);
             pos = new Vector3((_stage + 12) / 2f, 2.5f, (_stage + 12) / 2f);
         }
         else if (ServerManager.WeatherCode.Value == 1)
         {
-            shape.scale = new Vector3(_stage + 12f, 1f, _stage + 12f);
+            shape.scale = new Vector3(_stage + 2f, 1f, _stage + 2f);
             pos = new Vector3((_stage + 12) / 2f, 1.8f, (_stage + 12) / 2f);
         }
 

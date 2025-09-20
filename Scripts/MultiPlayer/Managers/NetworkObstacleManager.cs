@@ -56,9 +56,15 @@ public class NetworkObstacleManager : ExceptionalPlacement
                 Obstacles[1].transform.GetChild(3).gameObject.SetActive(IsEnableVfx == 1);
                 PlaceSpikes();
                 if (Stage == 12 || Stage == 10)
+                {
+                    BladeSpeed = (Stage == 12) ? 1.55f : 1.35f;
                     PlaceBlades(true, true, 0, 0, 0, 0);
+                }
                 else
+                {
+                    BladeSpeed = 1.5f;
                     PlaceBlades(false, false, 1, 1, 1, 1);
+                }
                 break;
             default:
                 break;

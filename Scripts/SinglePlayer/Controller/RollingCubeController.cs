@@ -30,6 +30,9 @@ public class RollingCubeController : MonoBehaviour
     private bool isRolling = false;
     private bool moving = true;
 
+    [SerializeField]
+    private ParticleSystem Confetie;
+
     public ParticleSystem shield { get; private set; }
     public PlatformManager PlatformManager_ => PlatformManager;
 
@@ -87,7 +90,7 @@ public class RollingCubeController : MonoBehaviour
         cubeTrail.CancelInvoke();
         isRolling = false;
         control.UpdateGps(transform.position);
-        HasPlayerArrive();
+        HasPlayerWon();
     }
     private IEnumerator Move(Vector3 direction)
     {
@@ -138,15 +141,19 @@ public class RollingCubeController : MonoBehaviour
             transform.GetChild(index++).GetComponent<MeshRenderer>().enabled = render;
         transform.GetComponent<MeshRenderer>().enabled = render;
     }
-    private void HasPlayerArrive()
+    private void HasPlayerWon()
     {
         if (GetTileCoordAtPosition().Equals(new Vector2Int(PlatformManager.Stage + 6, PlatformManager.Stage + 6)))
-            StartCoroutine(control.SceneLoader(0, 1, 0.15f, "Day"));
+        {
+            Confetie.transform.rotation = Quaternion.identity;
+            Confetie.Play();
+            control.GetScore(Confetie);
+        }
     }
     public IEnumerator ShieldController(bool isActive)
     {
         float _smoothTime = 0.3f;
-        Vector3 target = new Vector3(3.3f, 3.3f, 3.3f);
+        Vector3 target = new(3.3f, 3.3f, 3.3f);
         transform.GetChild(6).localScale = Vector3.zero;
         transform.GetChild(6).gameObject.SetActive(isActive);
 

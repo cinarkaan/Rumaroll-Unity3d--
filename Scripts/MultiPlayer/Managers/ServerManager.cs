@@ -8,9 +8,8 @@ using UnityEngine.SceneManagement;
 public class ServerManager : NetworkBehaviour
 {
 
-    [SerializeField]
-    private NetworkUIController UIControler;
-    public NetworkUIController _UIController => UIControler;
+    [SerializeField] private NetworkUIController UIControler;
+    public NetworkUIController UIController_ => UIControler;
 
     public Transform Rival;
     
@@ -33,12 +32,10 @@ public class ServerManager : NetworkBehaviour
     public NetworkVariable<int> WeatherCode = new(0); // Weather status
 
     public NetworkManager Manager { get; private set; }
-    
     public bool Progress { get; private set; }
 
     private List<ulong> Clients;
     private ulong HostLocalId;
-    
     private void Start()
     {
         Application.targetFrameRate = -1;
@@ -94,7 +91,7 @@ public class ServerManager : NetworkBehaviour
         Manager.GetComponent<RoomBroadcaster>().StopBroadcast();
         Rival = GameObject.Find("Client").transform;
     }
-    private void OnClientDisconnected(ulong clientId)
+    private void OnClientDisconnected(ulong clientId) // If the client exit from game , then the host will be kicked off itself from ther server.
     {
         if (NetworkManager.Singleton.IsHost && NetworkManager.Singleton.ConnectedClients.Count <= 1 && !EndGame)
         {
@@ -113,8 +110,9 @@ public class ServerManager : NetworkBehaviour
                 KickClientRpc(client);
         }
     }
-    private IEnumerator CheckHostConnection ()
-    { 
+    private IEnumerator CheckHostConnection () // Check out whether the host is exist on the server or not
+    {
+        Debug.Log("CheckHostConnection");
         while (true)
         {
             if (!Manager.IsConnectedClient && !EndGame)
@@ -154,19 +152,16 @@ public class ServerManager : NetworkBehaviour
     {
         if (name.Equals("Host"))
         {
-            UIControler.Info.rectTransform.localPosition = new Vector3(-225f, 65f, 0f);
-            UIControler.Info.text = "CONGRATULATIONS , YOU WON !!!";
             EndGame = true;
             NotificateClientRpc("YOU LOST !!!", false ,new Vector3(-14, 65f, 0f));
         }
         else
         {
+            AllowServerToContinueClientRpc();
             UIControler.Info.rectTransform.localPosition = new Vector3(-14, 65f, 0f);
             UIControler.Info.text = "YOU LOST !!!";
-            NotificateClientRpc("CONGRATULATIONS , YOU WON !!!", true, new Vector3(-225f, 65f, 0f));
             StartCoroutine(DisconnectFromGame(2.5f));
         }
-
     }
     [ClientRpc]
     private void KickClientRpc(ulong cliendID)
@@ -187,6 +182,11 @@ public class ServerManager : NetworkBehaviour
         UIControler.Info.text = clientMessage;
         if (!hasWon)
             StartCoroutine(DisconnectFromGame(2.5f));
+    }
+    [ClientRpc]
+    private void AllowServerToContinueClientRpc()
+    {
+        EndGame = true;
     }
     [ServerRpc(RequireOwnership = false)]
     public void RequestClearServerRpc()

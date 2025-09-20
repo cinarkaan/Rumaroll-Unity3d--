@@ -86,7 +86,7 @@ public class MainMenu : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("Stage"))
         {
-            PlayerPrefs.SetInt("Stage", 5);
+            PlayerPrefs.SetInt("Stage", 4);
             PlayerPrefs.SetFloat("Touch Sensitivity", 30f);
             PlayerPrefs.SetInt("Coin", 0);
             PlayerPrefs.SetInt("Diamond", 0);

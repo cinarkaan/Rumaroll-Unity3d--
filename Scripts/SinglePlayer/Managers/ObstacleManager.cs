@@ -116,7 +116,7 @@ public class ObstacleManager : ExceptionalPlacement
                 distanceOfMovedHazars = 4.5f;
                 movedHazardSpeed = 4.45f;
                 cutterSpeed = 1f;
-                bladeSpeed = 1.15f;
+                bladeSpeed = 1.325f;
                 PlaceSpikes(1, 1, 1, 1);
                 PlaceMovedHazardVertical(2);
                 PlaceMovedHazardHorizontal(2);
@@ -131,7 +131,7 @@ public class ObstacleManager : ExceptionalPlacement
                 cutterSpeed = 1f;
                 distanceOfMovedHazars = 4.5f;
                 movedHazardSpeed = 4.65f;
-                bladeSpeed = 1.15f;
+                bladeSpeed = 1.3f;
                 PlaceSpikes(1, 1, 1, 1);
                 PlaceMovedHazardVertical(2);
                 PlaceMovedHazardHorizontal(2);
@@ -142,7 +142,7 @@ public class ObstacleManager : ExceptionalPlacement
                 cutterSpeed = 1f;
                 distanceOfMovedHazars = 5f;
                 movedHazardSpeed = 4.8f;
-                bladeSpeed = 1.15f;
+                bladeSpeed = 1.75f;
                 obstacles[0].transform.GetChild(1).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[1].transform.GetChild(0).gameObject.SetActive(IsEnableVfx == 1);
                 obstacles[2].transform.GetChild(0).GetChild(0).gameObject.SetActive(IsEnableVfx == 1);

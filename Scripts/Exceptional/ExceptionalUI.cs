@@ -1,6 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,25 +13,30 @@ public class ExceptionalUI : MonoBehaviour
     protected float FadeDuration = 0.5f;
 
     [SerializeField]
-    protected AspectController Aspect;
-    [SerializeField]
     protected AudioClip[] AudioClips;
+    [SerializeField]
+    protected List<Button> Buttons = new();
+    [SerializeField]
+    protected List<Image> Images = new();
+    [SerializeField]
+    protected List<Text> texts = new();
+
+    [SerializeField]
+    protected RawImage Map;
     [SerializeField]
     protected AudioSource AudioSource;
     [SerializeField]
-    protected List<Button> Buttons = new List<Button>();
+    protected AspectController Aspect;
     [SerializeField]
-    protected List<Image> Images = new List<Image>();
-    [SerializeField]
-    protected List<RawImage> RawImages = new List<RawImage>();
-    [SerializeField]
-    protected List<Text> texts = new List<Text>();
+    protected ExceptionalPlatform Platform;
 
-    public RawImage RawImage => RawImages.Find(r => r.gameObject.name == "GameMap");
+    public RawImage RawImage => Map;
 
-    protected bool IsRotating = false;
+    protected bool IsRotating = false, IsClicked = false;
 
     protected float TimeSinceLastUpdate = 0;
+    protected float MinTime, AverageTime, MaxTime;
+    protected float PassedTime = 0.0f;
 
     public static float _Volume = 0f;
 
@@ -52,6 +58,31 @@ public class ExceptionalUI : MonoBehaviour
     {
         Buttons.ForEach(b => b.gameObject.SetActive(interactable));
     }
+    protected void InitializeScoreTimes()
+    {
+        int Stage = Platform._Stage;
+
+        if (Stage >= 4 && Stage <= 7)
+        {
+            MinTime = 4f * 60f;
+            AverageTime = 5.5f * 60f;
+            MaxTime = 7f * 60f;
+        }
+        else if (Stage >= 7 && Stage <= 9)
+        {
+            MinTime = 6.5f * 60f;
+            AverageTime = 7.5f * 60f;
+            MaxTime = 8.5f * 60f;
+        }
+        else if (Stage >= 10 && Stage <= 12)
+        {
+            MinTime = 9f * 60f;
+            AverageTime = 10f * 60f;
+            MaxTime = 12f * 60f;
+        }
+        else
+            return;
+    }
     protected virtual IEnumerator MapFade(Color targetColor){ yield return null; }
     public IEnumerator ScalerMenu(Vector3 from, Vector3 to, float time, Image image)
     {
@@ -66,7 +97,82 @@ public class ExceptionalUI : MonoBehaviour
 
         image.GetComponent<RectTransform>().localScale = to;
     }
+    public IEnumerator ScalerMenu (Image menu, Vector3 Target)
+    {
 
+        float _smoothTime = 0.3f;
+        Vector3 velocity = Vector3.zero;
 
+        while (Vector3.Distance(menu.transform.localScale, Target) > 0.01f)
+        {
+            menu.transform.localScale = Vector3.SmoothDamp
+                (menu.transform.localScale,
+                Target,
+                ref velocity,
+                _smoothTime);
+            yield return null;
+        }
+
+        menu.transform.localScale = Target;
+
+        IsClicked = false;
+    }
+    protected IEnumerator Score(ParticleSystem confettie)
+    {
+        yield return new WaitUntil(() => !confettie.isPlaying);
+
+        texts.Last().text = "";
+
+        TypeWriter TypeWriter = new(0.1f, 0.3f);
+
+        string Message;
+
+        int Score = 0, Index = 0;
+
+        float Point;
+
+        if (PassedTime <= MinTime)
+            Score = 3;
+        else if (PassedTime <= AverageTime)
+            Score = 2;
+        else if (PassedTime <= MaxTime)
+            Score = 1;
+
+        Point = (int)Mathf.Floor((100 / 3) * Score);
+
+        Message = "TOTAL SCORE : " + Point;
+
+        var Stars = Images.Last().transform.GetChild(1);
+
+        ButtonsManager(false);
+
+        foreach (Transform star in Stars)
+            star.GetComponent<Image>().material.SetFloat("_Reveal", 0f);
+
+        yield return StartCoroutine(ScalerMenu(Images.Last(), Vector3.one));
+
+        while (Index < Score)
+        {
+            float time = 0;
+            float Duration = 1f;
+            while (time < Duration)
+            {
+                Stars.GetChild(Index).GetComponent<Image>().material.SetFloat("_Reveal", time);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            Index++;
+            yield return null;
+        }
+
+        StartCoroutine(TypeWriter.PlayTypeWriterFade(Message, 30, Images.Last().transform.GetChild(2).GetComponent<TMP_Text>()));
+    }
+    public void GetScore (ParticleSystem confettie)
+    {
+        AudioSource.PlayOneShot(AudioClips.Last(), _Volume);
+        TypeWriter typeWriter = new(0.05f, 0.3f);
+        StartCoroutine(typeWriter.PlayTypeWriterFade("CONGRATULATIONS , YOU WON !!!", 32, texts.Last()));
+        StartCoroutine(Score(confettie));
+    }
 }
 

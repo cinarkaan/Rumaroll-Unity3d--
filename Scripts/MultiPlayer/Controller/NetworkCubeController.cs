@@ -4,13 +4,12 @@ using System.Collections;
 
 public class NetworkCubeController : NetworkBehaviour
 {
-
     public float rollDuration = 0.6f;
 
-    private bool isRolling = false;
-    private bool moving = true;
+    private bool isRolling = false; // Whether is rolling or do not
+    private bool moving = true; // Whether is moving or do not
 
-    public Transform _gps;
+    public Transform _gps; // The position of cube on the map
 
     [SerializeField]
     private Transform[] faceQuads; // The referances that belongs on face of cube
@@ -54,7 +53,7 @@ public class NetworkCubeController : NetworkBehaviour
 
         yield return new WaitUntil(() => platformManager.ServerManager_.Progress);
 
-        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager.ServerManager_.Difficulty.Value > 0 ) ? platformManager.ServerManager_._UIController : null;
+        GetComponent<OverlapBoxNonAllocPoller>().UIController = (platformManager.ServerManager_.Difficulty.Value > 0 ) ? platformManager.ServerManager_.UIController_ : null;
     }
     public void TryMove(Vector3 dir)
     {
@@ -146,12 +145,14 @@ public class NetworkCubeController : NetworkBehaviour
     }
     private void HasPlayerWon ()
     {
-        if (Target.Equals(GetTileCoordAtPosition()))
+        if (Target.Equals(GetTileCoordAtPosition())) 
         {
             isRolling = true;
+            platformManager.Confetie_.transform.position = transform.position;
             platformManager.ServerManager_.NoticationWonPlayerServerRpc(transform.gameObject.name);
             var manager = GameObject.Find("UIManager").GetComponent<NetworkUIController>();
-            manager.DistributeRewards();
+            platformManager.Confetie_.Play();
+            manager.GetScore(platformManager.Confetie_);
         }
     }
     public void Render(bool render)
@@ -167,6 +168,5 @@ public class NetworkCubeController : NetworkBehaviour
         transform.rotation = Quaternion.identity;
         CubeSimulator.Reset();
     }
-  
 }
 
