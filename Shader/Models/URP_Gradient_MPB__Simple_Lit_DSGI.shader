@@ -52,7 +52,7 @@ Shader "Custom/URP_Gradient_MPB__Simple_Lit_DSGI"
                 float3 worldPos = TransformObjectToWorld(IN.positionOS);
                 float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
 
-                // Double sided normal (ön yüz + arka yüz GI). 
+                // Double sided normal (DSG). 
                 //normalWS = normalize(abs(normalWS)); // It implements Light and GI both side
 
                 // Main light

@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = -1;
 #elif UNITY_ANDROID && !UNITY_EDITOR
         ScreenRefreshRate = (int)Screen.currentResolution.refreshRateRatio.value + 10;
-        Debug.Log("The target frame rate has been setted as : " + ScreenRefreshRate);
         Application.targetFrameRate = ScreenRefreshRate;
 #endif
     }

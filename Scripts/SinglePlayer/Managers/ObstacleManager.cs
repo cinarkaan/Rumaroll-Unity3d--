@@ -218,12 +218,11 @@ public class ObstacleManager : ExceptionalPlacement
         List<Vector2> placed = ExceptionalPlacementOfHazard(false,true,0,count);
         while(placed.Count > 0)
         {
-            var _MHH = Instantiate(obstacles[1], new Vector3(placed[0].x, 0.5f, placed[0].y), Quaternion.identity, transform);
+            var _MHH = Instantiate(obstacles[1], new Vector3(placed[0].x, 0.425f, placed[0].y), Quaternion.identity, transform);
             _MHH.transform.GetComponent<Renderer>().SetPropertyBlock(MovedHazardMPB);
-            MovedHazardHorizontal.Add(_MHH, new Vector3(placed[0].x, 0.5f, placed[0].y));
+            MovedHazardHorizontal.Add(_MHH, new Vector3(placed[0].x, 0.425f, placed[0].y));
             placed.Remove(placed[0]);
         }
-        MovedHazardHorizontal.ToList().ForEach(m => m.Key.transform.localScale = new Vector3(1f, 1f, 1f));
         AdjustSpinTrail(MovedHazardHorizontal,new Vector3(0f, 90f, 90f));
     }
     private void PlaceMovedHazardVertical (int count)
@@ -235,13 +234,11 @@ public class ObstacleManager : ExceptionalPlacement
         List<Vector2> placed = ExceptionalPlacementOfHazard(true,false,count,0);
         while (placed.Count > 0)
         {
-            var _MHV = Instantiate(obstacles[1], new Vector3(placed[0].x, 0.5f, placed[0].y), Quaternion.Euler(0, 90f, 0), transform);
+            var _MHV = Instantiate(obstacles[1], new Vector3(placed[0].x, 0.425f, placed[0].y), Quaternion.Euler(0, 90f, 0), transform);
             _MHV.transform.GetComponent<Renderer>().SetPropertyBlock(MovedHazardMPB);
-            MovedHazardVertical.Add(_MHV, new Vector3(placed[0].x, 0.5f, placed[0].y));
+            MovedHazardVertical.Add(_MHV, new Vector3(placed[0].x, 0.425f, placed[0].y));
             placed.Remove(placed[0]);
         }
-        MovedHazardHorizontal.ToList().ForEach(m => m.Key.GetComponent<Renderer>().SetPropertyBlock(MovedHazardMPB));
-        MovedHazardVertical.ToList().ForEach(m => m.Key.transform.localScale = new Vector3(1f, 1f, 1f));
         AdjustSpinTrail(MovedHazardVertical,new Vector3(90f, 0f, 90f));
 
     }

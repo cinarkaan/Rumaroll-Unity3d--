@@ -1,4 +1,4 @@
-Shader "Custom/URPGradient_MPB_Lit"
+Shader "Custom/URP_Gradient_MPB_Lit"
 {
     Properties
     {

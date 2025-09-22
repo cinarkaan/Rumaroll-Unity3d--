@@ -18,6 +18,8 @@ public class NetworkCubeController : NetworkBehaviour
 
     private readonly CubeSimulator CubeSimulator = new();
 
+    private ParticleSystem Match;
+
     [SerializeField]
     private MobileTrail cubeTrail;
 
@@ -27,15 +29,19 @@ public class NetworkCubeController : NetworkBehaviour
     [SerializeField]
     private AudioSource _rolling;
     public Vector2Int Target { private get; set; }
+    
     public override void OnNetworkSpawn()
     {
         StartCoroutine(WaitUntilPlatform());
     }
+
     private IEnumerator WaitUntilPlatform ()
     {
         yield return new WaitUntil(() => GameObject.Find("PlatformManager") != null);
 
         platformManager = GameObject.Find("PlatformManager").GetComponent<NetworkPlatformManager>();
+
+        Match = GameObject.Find("Cube_Match").GetComponent<ParticleSystem>();
 
         _gps = GameObject.Find("Gps").GetComponent<Transform>();
 
@@ -95,6 +101,11 @@ public class NetworkCubeController : NetworkBehaviour
             CubeSimulator.faceIndices = oldIndices;
             StartCoroutine(Move(direction * (-1)));
             yield return new WaitUntil(() => !moving);
+        }
+        else
+        {
+            Match.transform.SetPositionAndRotation(new Vector3(transform.position.x, 0.48f, transform.position.z), Quaternion.identity);
+            Match.Play();
         }
 
         isRolling = false;

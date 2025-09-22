@@ -8,37 +8,37 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Back.001
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bottom.001
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Frame.001
-    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
+    second: {fileID: 2100000, guid: 770a7966edccfd749be3297382a3be9d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Front.001
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Left.001
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Right.001
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Top.001
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

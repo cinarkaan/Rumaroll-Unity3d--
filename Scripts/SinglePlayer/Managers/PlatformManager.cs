@@ -8,11 +8,9 @@ public class PlatformManager : ExceptionalPlatform
     [Range(4, 13)]
     public int Stage = 5;    
 
-    [SerializeField]
-    private GameMapController gameMapController;
+    [SerializeField] private GameMapController gameMapController;
 
-    [SerializeField]
-    private ParticleSystem Clue;
+    [SerializeField] private ParticleSystem Clue;
 
     public ParticleSystem Clue_ => Clue;
 
@@ -105,9 +103,8 @@ public class PlatformManager : ExceptionalPlatform
                 PlaceFence(x, z);
                 if (x < 6 || z < 6 || x > 6 + Stage || z > 6 + Stage)
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[4].transform.localRotation, Prefabs[4].transform.localScale));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[4].transform.GetChild(1).localRotation, Prefabs[4].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, 0.1f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
                 }
                 else
                 {

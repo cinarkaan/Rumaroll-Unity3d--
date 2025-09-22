@@ -10,20 +10,15 @@ public class ExceptionalPlatform : MonoBehaviour
 
     public int _Stage { get; protected set; }
 
-    [SerializeField]
-    protected GameObject[] Prefabs;
+    [SerializeField] protected GameObject[] Prefabs;
 
-    [SerializeField]
-    protected ParticleSystem[] Weather;
+    [SerializeField] protected ParticleSystem[] Weather;
 
-    [SerializeField]
-    protected ParticleSystem Smoke_Burst;
+    [SerializeField] protected ParticleSystem Smoke_Burst;
 
-    [SerializeField]
-    protected Transform Water;
+    [SerializeField] protected Transform Water;
 
-    [SerializeField]
-    protected Light MainLight;
+    [SerializeField] protected Light MainLight;
     public Light MainLight_ => MainLight;
 
     public List<Vector2Int> SolutionPath = new();
@@ -32,12 +27,12 @@ public class ExceptionalPlatform : MonoBehaviour
     protected List<Object> AllMaterials = new(); // [0]=Bottom, [1]=Top, [2]=Front, [3]=Back, [4]=Left, [5]=Right
 
     protected List<Matrix4x4> CurvedTile = new(), CurvedFrame = new(), CurvedWhite = new();
-    protected List<Matrix4x4> Tile = new(), Frame = new(), Surface = new();
+    protected List<Matrix4x4> Frame = new(), Surface = new();
 
     protected List<Matrix4x4> Fence = new();
 
     protected ConcurrentBag<Matrix4x4> VisibleCurvedTile = new(), VisibleCurvedFrame = new(), VisibleCurvedWhite = new();
-    protected ConcurrentBag<Matrix4x4> VisibleTile = new(), VisibleFrame = new(), VisibleSurfaces = new();
+    protected ConcurrentBag<Matrix4x4> VisibleFrame = new(), VisibleSurfaces = new();
 
     protected ConcurrentBag<Matrix4x4> VisibleFence = new();
 
@@ -47,9 +42,9 @@ public class ExceptionalPlatform : MonoBehaviour
 
     protected readonly HashSet<Vector2Int> DynamicPath = new();
     
-    protected Mesh CurvedFrameMesh, CurvedTileMesh, CurvedWhiteMesh, TileMesh, FrameMesh, SurfaceMesh, FenceMesh;
+    protected Mesh CurvedFrameMesh, CurvedTileMesh, CurvedWhiteMesh, FrameMesh, SurfaceMesh, FenceMesh;
 
-    protected Material CurvedTileMat, CurvedFrameMat, WhiteMat, TileMat, FrameMat, SurfaceMat, FenceMat;
+    protected Material CurvedTileMat, CurvedFrameMat, WhiteMat, FrameMat, SurfaceMat, FenceMat;
 
     protected bool AllActivated = false;
 
@@ -59,7 +54,7 @@ public class ExceptionalPlatform : MonoBehaviour
     {
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
-        int total = Tile.Count;
+        int total = Surface.Count;
 
         VisibleCurvedTile.Clear();
         VisibleCurvedFrame.Clear();
@@ -67,7 +62,6 @@ public class ExceptionalPlatform : MonoBehaviour
 
         VisibleFence.Clear();
         
-        VisibleTile.Clear();
         VisibleFrame.Clear();
         VisibleSurfaces.Clear();
 
@@ -95,13 +89,10 @@ public class ExceptionalPlatform : MonoBehaviour
                     VisibleFence.Add(Fence[index]);
             }
 
-            Vector3 tilepos = Tile[index].GetColumn(3);
             Vector3 framepos = Frame[index].GetColumn(3);
             Vector3 surfacepos = Surface[index].GetColumn(3);
 
 
-            if (IsBoundsInsideFrustum(new Bounds(tilepos, Vector3.one), frustumPlanes))
-                VisibleTile.Add(Tile[index]);
             if (IsBoundsInsideFrustum(new Bounds(framepos, Vector3.one), frustumPlanes))
                 VisibleFrame.Add(Frame[index]);
             if (IsBoundsInsideFrustum(new Bounds(surfacepos, Vector3.one), frustumPlanes))
@@ -111,7 +102,6 @@ public class ExceptionalPlatform : MonoBehaviour
 
         });
 
-        Graphics.DrawMeshInstanced(TileMesh, 0, TileMat, VisibleTile.ToList());
         Graphics.DrawMeshInstanced(FrameMesh, 0, FrameMat, VisibleFrame.ToList());
         Graphics.DrawMeshInstanced(SurfaceMesh, 0, SurfaceMat, VisibleSurfaces.ToList());
 
@@ -210,9 +200,6 @@ public class ExceptionalPlatform : MonoBehaviour
 
         CurvedWhiteMesh = Prefabs[0].transform.GetChild(2).GetComponent<MeshFilter>().sharedMesh;
         WhiteMat = Prefabs[0].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial;
-
-        TileMesh = Prefabs[4].GetComponent<MeshFilter>().sharedMesh;
-        TileMat = Prefabs[4].GetComponent<Renderer>().sharedMaterial;
 
         SurfaceMesh = Prefabs[4].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh;
         SurfaceMat = Prefabs[4].transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;

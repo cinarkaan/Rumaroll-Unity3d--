@@ -1568,7 +1568,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -1730,7 +1730,7 @@ ParticleSystem:
         m_RotationOrder: 4
     orbitalX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -1783,7 +1783,7 @@ ParticleSystem:
         m_RotationOrder: 4
     orbitalY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -1836,9 +1836,9 @@ ParticleSystem:
         m_RotationOrder: 4
     orbitalZ:
       serializedVersion: 2
-      minMaxState: 0
-      scalar: 0
-      minScalar: 0
+      minMaxState: 3
+      scalar: -3
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2102,7 +2102,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4918,7 +4918,52 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: ColorModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
       propertyPath: EmissionModule.m_BurstCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationModule.curve.scalar
+      value: 1.0471976
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationModule.separateAxes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.range.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.x.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.y.scalar
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
@@ -4935,6 +4980,61 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.curve.scalar
+      value: 0.017453292
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.x.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.y.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.curve.minMaxState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.g
+      value: 0.5943396
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxGradient.key0.r
+      value: 0.7145352
       objectReference: {fileID: 0}
     - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
@@ -4985,6 +5085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[1].countCurve.minScalar
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
+        type: 3}
+      propertyPath: RotationBySpeedModule.curve.maxCurve.m_Curve.Array.data[1].value
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 611309333776685854, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
@@ -5134,18 +5239,18 @@ PrefabInstance:
     - target: {fileID: 6197657023300515150, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
       propertyPath: m_MaxParticleSize
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6197657023300515150, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
       propertyPath: m_MinParticleSize
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6197657023300515150, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5bcdb103ad3a76a44ad9e6a7947ceb8d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6596568364471242015, guid: 173f8c5b5f1c90946b832bde53aa66d7,
         type: 3}
       propertyPath: m_LocalPosition.x

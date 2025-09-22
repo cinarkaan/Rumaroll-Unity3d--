@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Back
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bottom
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -23,22 +23,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Front
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Left
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Right
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Top
-    second: {fileID: 2100000, guid: 52fd5e0a916b8dc4d87b13ac453d1072, type: 2}
+    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

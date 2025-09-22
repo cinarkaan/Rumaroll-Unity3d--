@@ -138,7 +138,7 @@ public class ExceptionalUI : MonoBehaviour
         else if (PassedTime <= MaxTime)
             Score = 1;
 
-        Point = (int)Mathf.Floor((100 / 3) * Score);
+        Point = Mathf.CeilToInt((100.0f / 3.0f) * Score);
 
         Message = "TOTAL SCORE : " + Point;
 

@@ -252,9 +252,8 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 PlaceFence(x, z);
                 if (x < 6 || z < 6 || x > 6 + _Stage || z > 6 + _Stage) // Build surround of the platform
                 {
-                    Tile.Add(Matrix4x4.TRS(new Vector3(x, -0.1f, z), Prefabs[4].transform.localRotation, Prefabs[4].transform.localScale));
                     Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[4].transform.GetChild(1).localRotation, Prefabs[4].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Quaternion.Euler(new Vector3(-90f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
+                    Surface.Add(Matrix4x4.TRS(new Vector3(x, 0.1f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
                 }
                 else // Build colorfultiles of the platform
                 {

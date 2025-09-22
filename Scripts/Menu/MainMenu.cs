@@ -21,25 +21,23 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private SceneLoader loader;
     [SerializeField] public SceneLoader Loader => loader;
 
-    [SerializeField] 
-    private TMP_Text[] events;
-    [SerializeField] 
-    private List<Image> images;
-    [SerializeField]
-    private AudioSource _click_Sfx;
+    [SerializeField] private TMP_Text[] events;
 
-    public ParticleSystem Vfx_Mystical_Scatter;
+    [SerializeField] private List<Image> images;
 
-    [SerializeField]
-    private Slider touchSensitivity;
-    [SerializeField]
-    private float iconDuration = 0.7f;
-    [SerializeField]
-    private float duration;
+    [SerializeField] private AudioSource _click_Sfx;
+
+    [SerializeField] private Slider touchSensitivity;
+    
+    [SerializeField] private float iconDuration = 0.7f;
+    
+    [SerializeField] private float duration;
 
     private float _sensitivity = 10f;
 
     private MultiPlayerMenu MultiPlayerMenu;
+
+    public ParticleSystem Vfx_Mystical_Scatter;
 
     public void Start()
     {

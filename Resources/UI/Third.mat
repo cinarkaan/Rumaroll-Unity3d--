@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fade: 0
-    - _Reveal: 0.99669516
+    - _Reveal: 0.99884397
     m_Colors:
     - _Color: {r: 0.7056604, g: 0.7056604, b: 0.7056604, a: 1}
   m_BuildTextureStacks: []

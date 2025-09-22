@@ -31,11 +31,10 @@ public class RollingCubeController : MonoBehaviour
     private bool moving = true;
 
     [SerializeField]
-    private ParticleSystem Confetie;
+    private ParticleSystem Confetie, Match;
 
     public ParticleSystem shield { get; private set; }
     public PlatformManager PlatformManager_ => PlatformManager;
-
 
     private void Start()
     {
@@ -86,7 +85,11 @@ public class RollingCubeController : MonoBehaviour
             StartCoroutine(Move(direction * (-1)));
             yield return new WaitUntil(() => !moving);
         }
-
+        else
+        {
+            Match.transform.SetPositionAndRotation(new Vector3(transform.position.x, 0.48f, transform.position.z), Quaternion.identity);
+            Match.Play();
+        }
         cubeTrail.CancelInvoke();
         isRolling = false;
         control.UpdateGps(transform.position);
