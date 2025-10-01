@@ -28,8 +28,6 @@ public class NetworkUIController : ExceptionalUI
 
     [SerializeField] private Image _pauseMenu, Winning, Fade;
 
-    [SerializeField] private ParticleSystem Confetie;
-
     private Vector2 touchStart;
 
     private int OriginalCameraCulling;
@@ -115,21 +113,21 @@ public class NetworkUIController : ExceptionalUI
                     if (deltaX > 0)
                     {
                         Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
-                        Aspect.rightSwipe();
+                        Aspect.RightSwipe();
                     }
                     else if (deltaX < 0)
                     {
                         Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
-                        Aspect.leftSwipe();
+                        Aspect.LeftSwipe();
                     }
+                    Platform.MainLight_.transform.eulerAngles = Aspect.GetAngleAccordingToPlayerAspect();
                 }
                 IsRotating = false;
             }
         }
         if (Aspect.target != null)
-            Aspect.pivotAspect();
+            Aspect.PivotAspect();
 #endif
-
     }
     protected override void InitializeUserPrefs()
     {

@@ -10,9 +10,6 @@ public class NetworkEnemyManager : ExceptionalPath
     private GameObject Bulldozer;
 
     [SerializeField]
-    private NetworkPlatformManager PlatformManager;
-
-    [SerializeField]
     private NetworkObstacleManager ObstacleManager;
 
     [SerializeField]
@@ -20,9 +17,6 @@ public class NetworkEnemyManager : ExceptionalPath
 
     [SerializeField]
     private ServerManager ServerManager;
-
-    
-    private int[,] Map;
 
     private void Start()
     {
@@ -33,9 +27,9 @@ public class NetworkEnemyManager : ExceptionalPath
     }
     protected override IEnumerator InitializeManager()
     {
-        yield return new WaitUntil(() => ObstacleManager.Progress);
+        yield return new WaitUntil(() => ObstacleManager.Progress_);
 
-        if (PlatformManager.Stage == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
+        if (PlatformManager.Stage_ == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
         {
             if (ServerManager.IsHost)
                 PathFinding();
@@ -190,4 +184,11 @@ public class NetworkEnemyManager : ExceptionalPath
         ServerManager.UIController_.SceneLoader.Operation = 2;
         PlatformManager.SolutionPath.Clear();
     }
+
+    private void LateUpdate()
+    {
+        for (int i = 0; i < EnemyRenderers.Count; i++)
+            EnemyRenderers[i].enabled = GeometryUtility.TestPlanesAABB(PlatformManager.Frustum_, EnemyRenderers[i].bounds);
+    }
+
 }

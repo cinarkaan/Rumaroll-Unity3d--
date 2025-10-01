@@ -8,37 +8,37 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Back.001
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Bottom.001
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Frame.001
-    second: {fileID: 2100000, guid: 770a7966edccfd749be3297382a3be9d, type: 2}
+    second: {fileID: 2100000, guid: 2eb0d3bc7c7f01b4aa65f10ff3e50af6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Front.001
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Left.001
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Right.001
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Top.001
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -107,7 +107,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 75
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 2
     normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1

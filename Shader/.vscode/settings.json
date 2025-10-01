@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+    "*.shader": "cpp",
+    "*.cginc": "cpp",
+    "*.hlsl": "cpp",
+    "*.glsl": "cpp"
+    }
+}

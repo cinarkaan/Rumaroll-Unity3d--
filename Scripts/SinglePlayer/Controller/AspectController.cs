@@ -23,10 +23,10 @@ public class AspectController : MonoBehaviour
     {
         offsets = new List<Vector3>
         {
-            new Vector3(-distance, 2.42f, -distance),
-            new Vector3(distance, 2.42f, -distance),
-            new Vector3(distance, 2.42f, distance),
-            new Vector3(-distance, 2.42f, distance)
+            new(-distance, 2.42f, -distance),
+            new(distance, 2.42f, -distance),
+            new(distance, 2.42f, distance),
+            new(-distance, 2.42f, distance)
         };
 
         Dirs = new Vector3[4];
@@ -66,16 +66,16 @@ public class AspectController : MonoBehaviour
         switch (index)
         {
             case 0:
-                Rotations = new Vector3(30f, -135f, 0);
+                Rotations = new Vector3(60f, 30f, 0);
                 return Rotations;
             case 1:
-                Rotations = new Vector3(30f, 135f, 0);
+                Rotations = new Vector3(45f, -45f, 0);
                 return Rotations;
             case 2:
-                Rotations = new Vector3(30f, 45f, 0);
+                Rotations = new Vector3(135f, 30f, 0);
                 return Rotations;
             case 3:
-                Rotations = new Vector3(30f, -45f, 0);
+                Rotations = new Vector3(45f, 135f, 0);
                 return Rotations;
             default:
                 return Rotations;

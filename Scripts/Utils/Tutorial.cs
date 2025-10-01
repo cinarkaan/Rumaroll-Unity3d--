@@ -16,20 +16,17 @@ public class Tutorial : MonoBehaviour
 
     private float TextSize = 20f;
     private string FullText;
-    public bool Tap;
-
+    
     private void Start()
     {
-        Tap = false;
         TalkImage = GameObject.Find("Canvas/Talk").GetComponent<Image>();
         Talking = TalkImage.GetComponentInChildren<TMP_Text>();
         UIController = transform.GetComponent<UIController>();
         UIController.playerController.GetComponent<OverlapBoxNonAllocPoller>().enabled = false;
-        StartCoroutine(Talk());
+        Talk();
     }
-    private IEnumerator Talk()
+    private void Talk()
     {
-        yield return new WaitUntil(() => !Tap); 
         UIController.EventsManager(false);
         UIController.ButtonsManager(false);
         UIController.playerController.Render(false);
@@ -68,7 +65,7 @@ public class Tutorial : MonoBehaviour
             {
                 step++;
                 StartCoroutine(UIController.FadeInOut(new Color(0f,0f,0f,0.6f), Color.clear));
-                StartCoroutine(UIController.ScalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, _Talk));
+                StartCoroutine(UIController.ScalerMenu(new Vector3(1f, 1f, 1f), new Vector3(0f, 0f, 1f), 0.8f, TalkImage));
                 if (step < 2)
                     StartCoroutine(ShowEvacutaionPoint(new Vector3(6f, UIController.playerController.transform.position.y, 6f), step));
                 else
@@ -133,7 +130,6 @@ public class TypeWriter
         this.SpawnInterval = SpawnInterval;
         this.FadeDurationText = FadeDurationText;
     }
-
     public IEnumerator PlayTypeWriterFade(string Text, float TextSize, TMP_Text TMP_Text)
     {
         int n = Text.Length;
@@ -198,7 +194,6 @@ public class TypeWriter
 
         TMP_Text.text = Text;
     }
-
     public IEnumerator PlayTypeWriterFade(string Text, int TextSize, Text text)
     {
         int n = Text.Length;

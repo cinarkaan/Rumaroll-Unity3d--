@@ -9,25 +9,16 @@ public class NetworkObstacleManager : ExceptionalPlacement
 
     [SerializeField]
     private ServerManager ServerManager;
- 
-    [SerializeField]
-    private float SpikeSpeed = 0.52f;
-    [SerializeField]
-    private float BladeSpeed = 1f;
 
-    public bool Progress { get; private set; }
-
-    public GameObject[] Obstacles; // Spike : 0 , Blade : 1, MovedBlade : 2
-    public List<GameObject> Spikes { get; private set; }
-    public List<GameObject> Blades { get; private set; }
     public NetworkObstacleManager(int Stage, int UnSolutionCount) : base(Stage, UnSolutionCount)
     {
     }
+    public bool Progress_ => progress;
 
-    private void Start()
+    protected override void Awake()
     {
-        Spikes = new List<GameObject>();
-        Blades = new List<GameObject>();
+        base.Awake();
+        ObstacleRenderers = new(20);
         StartCoroutine(WaitUntilPlatform());
     }
 
@@ -69,13 +60,14 @@ public class NetworkObstacleManager : ExceptionalPlacement
             default:
                 break;
         }
-        Progress = true;
+        progress = true;
         NetworkPlatformManager.UnSolution.Clear();
     }
     private void PlaceSpikes ()
     {
         MaterialPropertyBlock spikeMPB = new(), SpikeSurfaceMPB = new();
-        List<Vector2Int> placed = new();
+        List<Vector2Int> Placed = new();
+        List<Vector2Int> FacePos = new();
 
         spikeMPB.SetColor("_ColorBottom", Obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         spikeMPB.SetColor("_ColorTop", Obstacles[0].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
@@ -83,32 +75,35 @@ public class NetworkObstacleManager : ExceptionalPlacement
         // Only host is able to initialize for placements
         if (ServerManager.IsHost)
         {
-            placed = ExceptionalPlacementOfSpike(NetworkPlatformManager.SolutionPath, null, 1, 1, 1, 1);
-            placed.ForEach(p => ServerManager._Spikes.Add(p));
+            Placed = ExceptionalPlacementOfSpike(NetworkPlatformManager.SolutionPath, null, 1, 1, 1, 1);
+            Placed.ForEach(p => ServerManager._Spikes.Add(p));
         }
         else
             foreach (Vector2Int pos in ServerManager._Spikes)
-                placed.Add(pos);
+                Placed.Add(pos);
 
-        while (placed.Count > 0)
+        while (Placed.Count > 0)
         {
-            if (placed[0] == Vector2Int.zero)
+            if (Placed[0] == Vector2Int.zero)
             {
-                placed.Remove(placed[0]);
+                Placed.Remove(Placed[0]);
                 continue;
             }
-            GameObject spike = Instantiate(Obstacles[0], new Vector3(placed[0].x, 0.29f, placed[0].y), Quaternion.identity, transform);
+            GameObject spike = Instantiate(Obstacles[0], new Vector3(Placed[0].x, 0.29f, Placed[0].y), Quaternion.identity, transform);
             spike.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(spikeMPB);
-            Material Surface =  NetworkPlatformManager.GetTileMat(placed[0]);
+            Material Surface =  NetworkPlatformManager.GetTileMat(Placed[0]);
             SpikeSurfaceMPB.SetColor("_ColorBottom", Surface.GetColor("_ColorBottom"));
             SpikeSurfaceMPB.SetColor("_ColorTop", Surface.GetColor("_ColorTop"));
             spike.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(SpikeSurfaceMPB);
+            ObstacleRenderers.Add(spike.transform.GetChild(1).GetComponent<Renderer>());
             Spikes.Add(spike);
-            NetworkPlatformManager.Replace(placed[0], spike.transform.GetChild(0).gameObject);
-            placed.Remove(placed[0]);
+            FacePos.Add(Placed[0]);
+            Placed.Remove(Placed[0]);
         }
+        NetworkPlatformManager.Replace(FacePos, Spikes);
+        FacePos.Clear();
     }
-    private void PlaceBlades (bool Vertical, bool Horizontal, int FirstRegion, int SecondRegion, int ThirdRegion, int FourthRegion)
+    protected override void PlaceBlades (bool Vertical, bool Horizontal, int FirstRegion, int SecondRegion, int ThirdRegion, int FourthRegion)
     {
         MaterialPropertyBlock Hazard = new(), Head = new(), Rod = new();
         List<Vector2Int> placed = new();
@@ -118,6 +113,7 @@ public class NetworkObstacleManager : ExceptionalPlacement
         Head.SetColor("_ColorTop", Obstacles[1].transform.GetChild(1).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         Rod.SetColor("_ColorBottom", Obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         Rod.SetColor("_ColorTop", Obstacles[1].transform.GetChild(2).GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
+        BladeOffset = Spikes.Count;
         if (ServerManager.IsHost)
         {
             placed = ExceptionalPlacementOfBlade(NetworkPlatformManager.UnSolution, NetworkPlatformManager.SolutionPath, Vertical, Horizontal, FirstRegion, SecondRegion, ThirdRegion, FourthRegion);
@@ -138,6 +134,9 @@ public class NetworkObstacleManager : ExceptionalPlacement
             _Hazard.transform.GetChild(0).GetComponent<Renderer>().SetPropertyBlock(Hazard);
             _Hazard.transform.GetChild(1).GetComponent<Renderer>().SetPropertyBlock(Head);
             _Hazard.transform.GetChild(2).GetComponent<Renderer>().SetPropertyBlock(Rod);
+            ObstacleRenderers.Add(_Hazard.transform.GetChild(0).GetComponent<Renderer>());
+            ObstacleRenderers.Add(_Hazard.transform.GetChild(1).GetComponent<Renderer>());
+            ObstacleRenderers.Add(_Hazard.transform.GetChild(2).GetComponent<Renderer>());
             Blades.Add(_Hazard);
             placed.Remove(placed[0]);
         }
@@ -145,13 +144,13 @@ public class NetworkObstacleManager : ExceptionalPlacement
     
     public void LateUpdate() 
     {
-        if (Spikes.Count != 0 && ServerManager.Launch.Value)
-            for (int i = 0; i < Spikes.Count; i++)
-                Spikes[i].transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, SpikeSpeed, false);
-    
-        //Spikes.ForEach(s => s.transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, SpikeSpeed, false));
-
-        if (Blades.Count != 0 && ServerManager.Launch.Value)
+        if (!ServerManager.Launch.Value) return;
+        for (int i = 0; i < Spikes.Count; i++)
+        {
+            Spikes[i].transform.GetChild(1).localPosition = MovedParts(Vector3.zero, Vector3.down, 1f, SpikeSpeed, false);
+            ObstacleRenderers[i].enabled = GeometryUtility.TestPlanesAABB(NetworkPlatformManager.Frustum_, ObstacleRenderers[i].bounds);
+        }
+        if (Blades.Count != 0)
         {
             Quaternion bladeRotation = Quaternion.AngleAxis(360f * Time.deltaTime, Vector3.up) * Obstacles[1].transform.GetChild(0).localRotation;
 
@@ -159,15 +158,11 @@ public class NetworkObstacleManager : ExceptionalPlacement
             {
                 Blades[i].transform.GetChild(0).SetLocalPositionAndRotation(MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f, BladeSpeed, false), Quaternion.Lerp(Blades[i].transform.GetChild(0).localRotation, bladeRotation * Blades[i].transform.GetChild(0).localRotation, 1.5f));
                 Blades[i].transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f);
+                ObstacleRenderers[i * 3 + BladeOffset + 0].enabled = GeometryUtility.TestPlanesAABB(NetworkPlatformManager.Frustum_, ObstacleRenderers[i * 3 + BladeOffset + 0].bounds);
+                ObstacleRenderers[i * 3 + BladeOffset + 1].enabled = GeometryUtility.TestPlanesAABB(NetworkPlatformManager.Frustum_, ObstacleRenderers[i * 3 + BladeOffset + 1].bounds);
+                ObstacleRenderers[i * 3 + BladeOffset + 2].enabled = GeometryUtility.TestPlanesAABB(NetworkPlatformManager.Frustum_, ObstacleRenderers[i * 3 + BladeOffset + 2].bounds);
+
             }
-
-            // To Avoid GC Allocation 
-
-            //Blades.ForEach(b => b.transform.GetChild(0).localRotation = Quaternion.Lerp(b.transform.GetChild(0).localRotation, bladeRotation * b.transform.GetChild(0).localRotation, 1.5f));
-
-            //Blades.ForEach(b => b.transform.GetChild(0).localPosition = MovedParts(new Vector3(0f, -1f, 0f), Vector3.up, 2f, BladeSpeed, false));
-
-            //Blades.ForEach(b => b.transform.GetChild(0).GetChild(0).rotation = Quaternion.Euler(90f, 0f, 90f));
         }
     }
 }

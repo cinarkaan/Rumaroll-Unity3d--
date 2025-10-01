@@ -12,9 +12,6 @@ public class EnemyManager : ExceptionalPath
 
     [Header("Linked Managers")]
     [SerializeField]
-    private PlatformManager platformManager;
-
-    [SerializeField]
     private EventManager eventManager;
 
     [SerializeField]
@@ -22,10 +19,7 @@ public class EnemyManager : ExceptionalPath
 
     [SerializeField]
     private UIController controller;
-
-    private int[,] Map;
-
-
+    
     private float ShootInterval = 0, ShootStartTime = 0f;  
 
     private bool IsShooting = false;
@@ -38,21 +32,21 @@ public class EnemyManager : ExceptionalPath
 
     private void Start()
     {
-        if (platformManager.Stage == 12) // The manager only must be worked at the stage 12 
+        if (PlatformManager.Stage_ == 12) // The manager only must be worked at the stage 12 
         {
             Map = new int[13, 13];
             var _sound = Bulldozer.GetComponent<AudioSource>();
             _sound.PlayOneShot(_sound.clip, UIController._Volume);
             StartCoroutine(InitializeManager());
         }
-        else if (platformManager.Stage == 7 || platformManager.Stage == 8)
+        else if (PlatformManager.Stage_ == 7 || PlatformManager.Stage_ == 8)
         {
-            PlaceSailBoat(platformManager.Stage % 2, platformManager.Stage % 2);
+            PlaceSailBoat(PlatformManager.Stage_ % 2, PlatformManager.Stage_ % 2);
         }
     }
     protected override IEnumerator InitializeManager ()
     {
-        yield return new WaitUntil(() => ObstacleManager.progress);
+        yield return new WaitUntil(() => obstacleManager.Progress_);
         PathFinding();
         StartCoroutine(AdjustRouteDirsEnemy(Bulldozer));
         yield return null;
@@ -62,7 +56,7 @@ public class EnemyManager : ExceptionalPath
         // First evulation of map without obstacles , with events
         for (int i = 0; i < eventManager.Precious.Count; i++)
         {
-            Vector2Int coord = new Vector2Int()
+            Vector2Int coord = new()
             {
                 x = Mathf.Abs(6 - ((int)eventManager.Precious[i].transform.position.x)),
                 y = Mathf.Abs(18 - ((int)eventManager.Precious[i].transform.position.z))
@@ -87,7 +81,7 @@ public class EnemyManager : ExceptionalPath
         //Exception case : The bulldozer might be moved to arrive point , even if there has been loot(coins or diamond) at this point. Other wise the recursive method will be throwed exception
         Map[12, 12] = 0;
 
-        HashSet<Vector2Int> CloseList = new HashSet<Vector2Int>(); // Initialize visited nodes
+        HashSet<Vector2Int> CloseList = new(); // Initialize visited nodes
 
         // Find a solution path by using A* 
         AStar(new Vector2Int(0, 0), new HashSet<Node>(), ref CloseList, false);
@@ -144,7 +138,7 @@ public class EnemyManager : ExceptionalPath
     }
     protected override HashSet<Vector2Int> ResolvePath(List<Vector2Int> CloseList)
     {
-        List<Vector2Int> _resolved = new List<Vector2Int>(); // New list to adding resolution
+        List<Vector2Int> _resolved = new(); // New list to adding resolution
 
         int last = CloseList.Count - 1; // Get last index of closelist so we have to reproccess all progress from last
 
@@ -193,6 +187,8 @@ public class EnemyManager : ExceptionalPath
             Sails.Add(_SailBoat.transform);
             Bullet.Add(_SailBoat.transform.GetChild(1).GetChild(0).transform);
             Explosive.Add(_SailBoat.transform.GetChild(1).GetChild(1).GetComponent<ParticleSystem>());
+            foreach (Transform transform in _SailBoat.transform)
+                EnemyRenderers.Add(transform.GetComponent<Renderer>());
         }
         if (ThirdRegion == 0)
         {
@@ -201,6 +197,8 @@ public class EnemyManager : ExceptionalPath
             Sails.Add(_SailBoat.transform);
             Bullet.Add(_SailBoat.transform.GetChild(1).GetChild(0).transform);
             Explosive.Add(_SailBoat.transform.GetChild(1).GetChild(1).GetComponent<ParticleSystem>());
+            foreach (Transform transform in _SailBoat.transform)
+                EnemyRenderers.Add(transform.GetComponent<Renderer>());
         }
     }
     private void Shooting()
@@ -215,15 +213,19 @@ public class EnemyManager : ExceptionalPath
             Bullet[i].gameObject.SetActive(true);
         }
     }
-    private void Update()
+    private void LateUpdate()
     {
         if (Sails.Count > 0)
         {
+            for (int i = 0; i < EnemyRenderers.Count; i++)
+                EnemyRenderers[i].enabled = GeometryUtility.TestPlanesAABB(PlatformManager.Frustum_, EnemyRenderers[i].bounds);
+
             // Fire rate interval
             ShootInterval += Time.deltaTime;
 
             float offset = Mathf.PingPong(Time.time * 2.5f, 8f) - 4f;
-            Sails.ForEach(S => S.transform.localEulerAngles = new Vector3(offset, S.transform.localEulerAngles.y, offset * (-1)));
+            for (int i = 0; i < Sails.Count; i++)
+                Sails[i].transform.localEulerAngles = new Vector3(offset, Sails[i].transform.localEulerAngles.y, offset * (-1));
 
             // At the Each 3 seconds will be shooted
             if (ShootInterval > 3f)
@@ -236,18 +238,23 @@ public class EnemyManager : ExceptionalPath
             {
                 float t = Mathf.Clamp01((Time.time - ShootStartTime) * 2f); // Calculate animation time
                 Vector3 start = new(-0.11f, 0.18f, -0.09f); // From where is shooting
-                Vector3 final = new(start.x * 5f * platformManager.Stage, start.y, start.z); // Target point
+                Vector3 final = new(start.x * 5f * PlatformManager.Stage_, start.y, start.z); // Target point
 
-                Bullet.ForEach(B => B.localPosition = Vector3.Lerp(start, final, t));
+                for (int i = 0; i < Bullet.Count; i++)
+                    Bullet[i].localPosition = Vector3.Lerp(start, final, t);
 
                 // End of the shooting animation
                 if (t >= 1f)
                 {
                     IsShooting = false;
-                    Bullet.ForEach(B => B.gameObject.SetActive(false));
+                    for (int i = 0; i < Bullet.Count; i++)
+                        Bullet[i].gameObject.SetActive(false);
                 }
             }
         }
+        else
+            for (int i = 0; i < EnemyRenderers.Count; i++)
+                EnemyRenderers[i].enabled = GeometryUtility.TestPlanesAABB(PlatformManager.Frustum_, EnemyRenderers[i].bounds);
     }
 }
 

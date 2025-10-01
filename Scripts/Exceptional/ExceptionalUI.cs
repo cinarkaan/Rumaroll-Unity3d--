@@ -56,11 +56,14 @@ public class ExceptionalUI : MonoBehaviour
     protected virtual void InitializeUserPrefs() { }
     public void ButtonsManager(bool interactable)
     {
-        Buttons.ForEach(b => b.gameObject.SetActive(interactable));
+        for (int i = 0; i < Buttons.Count; i++)
+        {
+            Buttons[i].gameObject.SetActive(interactable);
+        }
     }
     protected void InitializeScoreTimes()
     {
-        int Stage = Platform._Stage;
+        int Stage = Platform.Stage_;
 
         if (Stage >= 4 && Stage <= 7)
         {
@@ -144,8 +147,7 @@ public class ExceptionalUI : MonoBehaviour
 
         var Stars = Images.Last().transform.GetChild(1);
 
-        ButtonsManager(false);
-
+        
         foreach (Transform star in Stars)
             star.GetComponent<Image>().material.SetFloat("_Reveal", 0f);
 
@@ -169,6 +171,7 @@ public class ExceptionalUI : MonoBehaviour
     }
     public void GetScore (ParticleSystem confettie)
     {
+        ButtonsManager(false);
         AudioSource.PlayOneShot(AudioClips.Last(), _Volume);
         TypeWriter typeWriter = new(0.05f, 0.3f);
         StartCoroutine(typeWriter.PlayTypeWriterFade("CONGRATULATIONS , YOU WON !!!", 32, texts.Last()));

@@ -118,8 +118,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBottom: {r: 0.7660377, g: 0.4032538, b: 0.5520882, a: 1}
-    - _ColorTop: {r: 0.47193468, g: 0.22981124, b: 0.5999999, a: 1}
+    - _ColorBottom: {r: 0.93207544, g: 0.5258312, b: 0.6936278, a: 1}
+    - _ColorTop: {r: 0.7851107, g: 0.57878953, b: 0.89433956, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecParams: {r: 0.23, g: 0.41, b: 0, a: 0}

@@ -7,16 +7,37 @@ public class ExceptionalPlacement : MonoBehaviour
     protected int Stage = 0;
 
     protected int UnSolutionCount = 0;
+    public List<GameObject> Blades { get; private set; }  // The dynamic colorfulface can be placed one cell that is surrounded center of blade. Should it be public , get and private set method must be activated   
+    public List<GameObject> Spikes { get; private set; }
 
+    protected List<Renderer> ObstacleRenderers;
+
+    [SerializeField]
+    protected float SpikeSpeed = 0.52f;
+    [SerializeField]
+    protected float BladeSpeed = 1f;
+
+    [Header("Obstacles prefabs")]
+    [SerializeField]
+    protected GameObject[] Obstacles; // Spike : 0 , Blade : 1 (Multiplayer), //  Blade = 2, Cutter = 3, MovedHazard = 1, Spike = 0 (SinglePlayer)
+
+    protected bool progress;
+    protected int BladeOffset;
+
+    protected virtual void Awake()
+    {
+        Blades = new List<GameObject>(4);
+        Spikes = new List<GameObject>(4);    
+    }
     public ExceptionalPlacement (int Stage, int UnSolutionCount)
     {
         this.Stage = Stage;
         this.UnSolutionCount = UnSolutionCount;
     }
-
+    protected virtual void PlaceBlades(bool Vertical, bool Horizontal, int FirstRegion, int SecondRegion, int ThirdRegion, int FourthRegion) { }
     protected List<Vector2> ExceptionalPlacementOfHazard(bool vertical, bool horizontal, int verticalCount, int horizontalCount)
     {
-        List<Vector2> pos = new List<Vector2>();
+        List<Vector2> pos = new();
 
         float middle = Stage / 2 + 6 + 0.5f;
         middle -= (Stage % 2 != 0) ? 0 : Random.Range(0, 2); // Exact the middle of grid
@@ -142,8 +163,8 @@ public class ExceptionalPlacement : MonoBehaviour
     }
     protected List<Vector2Int> ExceptionalPlacementOfBlade(List<Vector2Int> path, List<Vector2Int> Solution, bool vertical, bool horizontal, int firstRegion, int secondRegion, int thirdRegion, int fourthRegion)
     {
-        List<Vector2Int> placed = new List<Vector2Int>(); // To be placed hazards list
-        List<Vector2Int> finded = new List<Vector2Int>(); // the coordinates that scanned in the place whether it is appropriate or not as relative(if it include solution next to tile or not) 
+        List<Vector2Int> placed = new(); // To be placed hazards list
+        List<Vector2Int> finded = new(); // the coordinates that scanned in the place whether it is appropriate or not as relative(if it include solution next to tile or not) 
         if (Stage % 2 == 0)
         { // If the stage is even , just place it acoording to the vertical or horizontal at the middle of
             int middlePoint = Stage / 2 + 6;
@@ -224,5 +245,4 @@ public class ExceptionalPlacement : MonoBehaviour
         Vector3 final = pos + dir * offset;
         return final;
     }
-
 }

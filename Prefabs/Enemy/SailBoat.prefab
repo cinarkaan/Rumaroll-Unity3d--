@@ -6303,7 +6303,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       minMaxState: 1
@@ -19672,11 +19672,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireBall_Vfx
       objectReference: {fileID: 0}
+    - target: {fileID: 6508203148378831390, guid: c24c81d0ccd60884c9827ef0cfc4be9c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6508203148378831390, guid: c24c81d0ccd60884c9827ef0cfc4be9c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6508203148378831390, guid: c24c81d0ccd60884c9827ef0cfc4be9c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 6532666374930401313, guid: c24c81d0ccd60884c9827ef0cfc4be9c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 9fdabdb4d1ef52c418dd9a8ce360c30f, type: 2}
+      objectReference: {fileID: 2100000, guid: 9faeaf7df3e6fef43ba82c3a854bef2c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19846,6 +19861,11 @@ PrefabInstance:
       propertyPath: m_ProbeAnchor
       value: 
       objectReference: {fileID: 5933412885018789017}
+    - target: {fileID: 3246886623032906774, guid: e3d6dc1aec017dc4aa93ff1ef14db72c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2eb0d3bc7c7f01b4aa65f10ff3e50af6, type: 2}
     - target: {fileID: 7396654156298469847, guid: e3d6dc1aec017dc4aa93ff1ef14db72c,
         type: 3}
       propertyPath: m_StaticEditorFlags

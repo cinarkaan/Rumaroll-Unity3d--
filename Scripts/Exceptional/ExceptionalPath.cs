@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ExceptionalPath : MonoBehaviour
 {
-    protected Vector3 StartPos = new Vector3(6f, 1f, 18f);
+    protected Vector3 StartPos = new(6f, 0.75f, 18f);
 
     protected Quaternion StartRotation;
 
@@ -13,9 +13,16 @@ public class ExceptionalPath : MonoBehaviour
 
     protected List<float> RotDirs = new();
 
+    protected readonly List<Renderer> EnemyRenderers = new();
+
     protected bool IsRotate = false, IsMoving = false, _pathprogress = false;
 
     protected float WheelRotationSpeed = 360f;
+    
+    protected int[,] Map;
+
+    [SerializeField]
+    protected ExceptionalPlatform PlatformManager;
 
     protected IEnumerator AdjustRouteDirsEnemy(GameObject Bulldozer)
     {
@@ -57,7 +64,7 @@ public class ExceptionalPath : MonoBehaviour
     }
     protected List<Vector3> CalculateDirectionOfRotate()
     {
-        List<Vector3> dirs = new List<Vector3>(); // The list that is recorded rotation angle values
+        List<Vector3> dirs = new(); // The list that is recorded rotation angle values
 
         for (int i = 0; i < Path.Count - 1; i++) // Turn into primitive Vector3 values
         {
@@ -143,6 +150,8 @@ public class ExceptionalPath : MonoBehaviour
     protected void AdjustEnemy(GameObject _Bulldozer)
     {
         GameObject _bulldozer = Instantiate(_Bulldozer, StartPos, StartRotation, transform); // Spawing the enemy object (Bulldozer)
+        for (int i = 0; i < 6; i++)
+            EnemyRenderers.Add(_bulldozer.transform.GetChild(i).GetComponent<Renderer>());
         StartCoroutine(Move(_bulldozer)); // Launch the periodic moves
 
     }
@@ -243,8 +252,6 @@ public class ExceptionalPath : MonoBehaviour
         IsRotate = true; // Turn on the rotation control
         IsMoving = false; // End of the moving
     }
-
-
     protected virtual IEnumerator InitializeManager() { yield return null; }
     protected virtual void PathFinding() { }
     protected virtual void AStar(Vector2Int location, HashSet<Node> OpenList, ref HashSet<Vector2Int> CloseList, bool resolved) { }

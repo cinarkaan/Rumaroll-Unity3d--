@@ -54,7 +54,6 @@ public class SceneLoader : MonoBehaviour
 #else
         yield return new WaitUntil(() => Input.touchCount != 0);
 #endif
-
         yield return new WaitForSeconds(0.5f);
 
         AsyncLoad.allowSceneActivation = true;
@@ -66,9 +65,6 @@ public class SceneLoader : MonoBehaviour
         SceneManager.SetActiveScene(loaded);
 
         loaded.GetRootGameObjects(Root);
-
-        if (targetSceneName == "Tutorial")
-            Root.Find(o => o.name == "UIManager").GetComponent<Tutorial>().Tap = true;
 
         SceneManager.UnloadSceneAsync(CurrentScene);
 

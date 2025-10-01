@@ -9,7 +9,7 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     private ParticleSystem _collideCoin, _collideDiamond;
 
-    private int earnedCoin,earnedDiamond;
+    private int EarnedCoin,EarnedDiamond;
 
     [SerializeField]
     private PlatformManager platformManager;
@@ -19,6 +19,8 @@ public class EventManager : MonoBehaviour
 
     [SerializeField]
     private AudioSource _lootSfx;
+
+    private readonly List<Renderer> EventObjects = new(25);
 
     public List<GameObject> Precious { get; private set; }
 
@@ -31,15 +33,15 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
-        Precious = new List<GameObject>();
-        earnedCoin = PlayerPrefs.GetInt("Coin");
-        earnedDiamond = PlayerPrefs.GetInt("Diamond");
+        Precious = new List<GameObject>(25);
+        EarnedCoin = PlayerPrefs.GetInt("Coin");
+        EarnedDiamond = PlayerPrefs.GetInt("Diamond");
         EventManager.progress = false;
         StartCoroutine(WaitForPlatform());
     }
     private void GenerateCoins()
     {
-        MaterialPropertyBlock Gold = new(), Gold_Coin = new();
+        MaterialPropertyBlock Gold = new();
         Gold.SetColor("_ColorBottom", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         Gold.SetColor("_ColorTop", coinPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
         UniqueRandomGenerator uniqueRandomGenerator = new()
@@ -54,6 +56,7 @@ public class EventManager : MonoBehaviour
             Vector3 pos = new(platformManager.SolutionPath[item].x, 1f, platformManager.SolutionPath[item].y);
             GameObject coin = Instantiate(coinPrefab, pos, coinPrefab.transform.rotation, transform);
             coin.GetComponent<Renderer>().SetPropertyBlock(Gold);
+            EventObjects.Add(coin.GetComponent<Renderer>());
             Precious.Add(coin);
         }
     }
@@ -62,19 +65,22 @@ public class EventManager : MonoBehaviour
         MaterialPropertyBlock DiamondMPB = new();
         DiamondMPB.SetColor("_ColorBottom", diamondPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorBottom"));
         DiamondMPB.SetColor("_ColorTop", diamondPrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_ColorTop"));
-        UniqueRandomGenerator uniqueRandomGenerator = new UniqueRandomGenerator();
-        uniqueRandomGenerator.Min = 0;
-        uniqueRandomGenerator.Max = platformManager.UnSolution.Count;
-        uniqueRandomGenerator.Count = DiamondCount;
+        UniqueRandomGenerator uniqueRandomGenerator = new()
+        {
+            Min = 0,
+            Max = platformManager.UnSolution.Count,
+            Count = DiamondCount
+        };
         uniqueRandomGenerator.GenerateBySolutions(platformManager.SolutionPath, platformManager.UnSolution);
 
         foreach (var item in uniqueRandomGenerator.UniqueRandoms)
         {
             if ((DiamondCount--) > 0)
             {
-                Vector3 pos = new Vector3(platformManager.UnSolution[item].x, 0.75f, platformManager.UnSolution[item].y);
+                Vector3 pos = new(platformManager.UnSolution[item].x, 0.75f, platformManager.UnSolution[item].y);
                 GameObject dim = Instantiate(diamondPrefab, pos, Quaternion.Euler(0, 0, 0), transform);
                 dim.GetComponent<Renderer>().SetPropertyBlock(DiamondMPB);
+                EventObjects.Add(dim.GetComponent<Renderer>());
                 Precious.Add(dim);
             }
             else
@@ -90,17 +96,18 @@ public class EventManager : MonoBehaviour
             if (eventObject.layer == 10)
             {
                 StartCoroutine(PlayEndDestroy(_collideCoin,eventObject.transform.position));
-                earnedCoin++;
-                UIController.UpdateCoinCount(earnedCoin);
-                PlayerPrefs.SetInt("Coin", earnedCoin);
+                EarnedCoin++;
+                UIController.UpdateCoinCount(EarnedCoin);
+                PlayerPrefs.SetInt("Coin", EarnedCoin);
             }
             else if (eventObject.layer == 13)
             {
                 StartCoroutine(PlayEndDestroy(_collideDiamond, eventObject.transform.position));
-                earnedDiamond++;
-                UIController.UpdateDiamondCount(earnedDiamond);
-                PlayerPrefs.SetInt("Diamond", earnedDiamond);
+                EarnedDiamond++;
+                UIController.UpdateDiamondCount(EarnedDiamond);
+                PlayerPrefs.SetInt("Diamond", EarnedDiamond);
             }
+            EventObjects.RemoveAt(Precious.IndexOf(eventObject));
             Precious.Remove(eventObject);
             Destroy(eventObject);
             PlayerPrefs.Save();
@@ -152,7 +159,6 @@ public class EventManager : MonoBehaviour
         }
         GenerateCoins();
         GenerateDims();
-        
     }
     private void LateUpdate()
     {
@@ -163,6 +169,7 @@ public class EventManager : MonoBehaviour
             {
                 var t = Precious[i].transform;
                 t.rotation = Quaternion.Lerp(t.rotation, precieousRotation * t.rotation, 0.25f);
+                EventObjects[i].enabled = GeometryUtility.TestPlanesAABB(platformManager.Frustum_, EventObjects[i].bounds);
             }
         }
     }

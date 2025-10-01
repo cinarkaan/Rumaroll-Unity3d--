@@ -8,22 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ColurfulFace
-    second: {fileID: 2100000, guid: 1bda2534679d0094fbe00a4d7ac54423, type: 2}
+    second: {fileID: 2100000, guid: cfe20e7152c19c449b60d8e267d7d36f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Frame
-    second: {fileID: 2100000, guid: 849f72fcca5d41a4f86da53023c67e5c, type: 2}
+    second: {fileID: 2100000, guid: 69801bd73fb70bf42bbe7c0e90ae2899, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Tile
-    second: {fileID: 2100000, guid: a4e4fc9a250a4fd429740e2fbfe0afda, type: 2}
+    second: {fileID: 2100000, guid: 31d0aaa8a71500149aa6fa4cdde240fa, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WhiteFrame
-    second: {fileID: 2100000, guid: 13bd66342ceac8c43b0390a6e1f8c1e7, type: 2}
+    second: {fileID: 2100000, guid: 2eb0d3bc7c7f01b4aa65f10ff3e50af6, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -92,7 +92,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 2
     normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1

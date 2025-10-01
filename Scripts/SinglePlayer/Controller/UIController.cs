@@ -126,13 +126,14 @@ public class UIController : ExceptionalUI
                     if (deltaX > 0)
                     {
                         Aspect.index = Aspect.index == 3 ? 0 : ++Aspect.index;
-                        Aspect.rightSwipe();
+                        Aspect.RightSwipe();
                     }
                     else if (deltaX < 0)
                     {
                         Aspect.index = Aspect.index == 0 ? 3 : --Aspect.index;
-                        Aspect.leftSwipe();
+                        Aspect.LeftSwipe();
                     }
+                    Platform.MainLight_.transform.eulerAngles = Aspect.GetAngleAccordingToPlayerAspect();
                 }
                 IsRotating = false;
             }
@@ -220,6 +221,8 @@ public class UIController : ExceptionalUI
     }
     public void Next ()
     {
+        if (IsClicked) return;
+        IsClicked = true;
         Images.Last().transform.localScale = Vector3.zero;
         StartCoroutine(SceneLoader(0f, 1f, 0.5f, "Day"));
     }

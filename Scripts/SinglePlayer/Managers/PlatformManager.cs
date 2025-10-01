@@ -11,7 +11,7 @@ public class PlatformManager : ExceptionalPlatform
     [SerializeField] private GameMapController gameMapController;
 
     [SerializeField] private ParticleSystem Clue;
-
+    
     public ParticleSystem Clue_ => Clue;
 
     private void Awake()
@@ -20,7 +20,7 @@ public class PlatformManager : ExceptionalPlatform
 
         Stage = PlayerPrefs.GetInt("Stage");
 
-        _Stage = Stage;
+        Stage_ = Stage;
 
         InitializeWeather(Random.Range(0, 3));
 
@@ -38,6 +38,7 @@ public class PlatformManager : ExceptionalPlatform
     {
         if (Progress && gameMapController.currentIndex == 1)
         {
+            Frustum = GeometryUtility.CalculateFrustumPlanes(Camera.main);
             ParallelFrustumCulling();
             FrustumCullingForColorfuls();
             AllActivated = false;
@@ -50,17 +51,17 @@ public class PlatformManager : ExceptionalPlatform
                 Graphics.DrawMeshInstanced(CurvedFrameMesh, 0, CurvedFrameMat, CurvedFrame);
                 Graphics.DrawMeshInstanced(CurvedWhiteMesh, 0, WhiteMat, CurvedWhite);
                 Graphics.DrawMeshInstanced(FenceMesh, 0, FenceMat, Fence);
-                for (int i = 0; i < Renderers.Count && !AllActivated; i++)
-                    if (!Renderers[i].enabled) Renderers[i].enabled = true;
+                for (int i = 0; i < PlatformObjects.Count && !AllActivated; i++)
+                    if (!PlatformObjects[i].enabled) PlatformObjects[i].enabled = true;
                 AllActivated = true;
             }
         }
     }
     protected override void RandomMaterialSelection()
     {
-        HashSet<Object> selected = new();
+        HashSet<Object> selected = new(6);
 
-        AllMaterials = Resources.LoadAll("Lit/GradientLit", typeof(Material)).ToList();
+        AllMaterials = Resources.LoadAll("SimpleLit/GradientSimpleLit", typeof(Material)).ToList();
   
         while (selected.Count < 6)
             selected.Add(AllMaterials[Random.Range(0, AllMaterials.Count)]);
@@ -96,51 +97,48 @@ public class PlatformManager : ExceptionalPlatform
     protected override void CreateGrid()
     {
         MaterialPropertyBlock mpb = new();
-        for (int x = 0; x < 12 + Stage; x++)
+        for (int x = 5; x <= 6 + Stage; x++)
         {
-            for (int z = 0; z < 12 + Stage; z++)
+            for (int z = 5; z <= 6 + Stage; z++)
             {
                 PlaceFence(x, z);
                 if (x < 6 || z < 6 || x > 6 + Stage || z > 6 + Stage)
-                {
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[4].transform.GetChild(1).localRotation, Prefabs[4].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, 0.1f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
-                }
+                    continue;
                 else
                 {
-                    CurvedTile.Add(Matrix4x4.TRS(new Vector3(x, 0.26f, z), Prefabs[0].transform.localRotation, Prefabs[0].transform.localScale));
+                    if (x == 6 || z == 6 || x == 6 + Stage || z == 6 + Stage)
+                        CurvedTile.Add(Matrix4x4.TRS(new Vector3(x, 0.26f, z), Prefabs[0].transform.localRotation, Prefabs[0].transform.localScale));
                     CurvedFrame.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
                     CurvedWhite.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[0].transform.GetChild(2).localScale));
                     GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.025f, z), Quaternion.Euler(0f, 0f, 0f), transform);
-                    Vector2Int pos = new(x, z);
+                    Vector2Int pos = new(x, z);  
                     if (GridTiles.ContainsKey(pos))
                     {
-                        mpb.SetColor("_ColorBottom", AdjustColorAccordingToTile(pos)._bottom.gamma);
-                        mpb.SetColor("_ColorTop", AdjustColorAccordingToTile(pos)._top.gamma);
+                        mpb.SetColor("_ColorBottom", AdjustColorAccordingToTile(pos)._bottom);
+                        mpb.SetColor("_ColorTop", AdjustColorAccordingToTile(pos)._top);
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
                         colorfulTile.AddComponent<ColorfulTile>();
                         GridTiles[pos].tile = colorfulTile;
                         colorfulTile.name = "OnSolution";
-
+                        SolutionPath.Add(pos);
                     }
                     else
                     {
-                        mpb.SetColor("_ColorBottom", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorBottom").gamma);
-                        mpb.SetColor("_ColorTop", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorTop").gamma);
+                        mpb.SetColor("_ColorBottom", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorBottom"));
+                        mpb.SetColor("_ColorTop", ((Material)AllMaterials[Random.Range(0, AllMaterials.Count)]).GetColor("_ColorTop"));
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(mpb);
                         GridTiles[pos] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false)
                         {
                             tile = colorfulTile
                         };
                         colorfulTile.name = "UnSolution";
+                        UnSolution.Add(pos);
                     }
+                    PlatformObjects.Add(colorfulTile.GetComponent<Renderer>());
                 }
                 mpb.Clear();
             }
         }
-        SolutionPath = GridTiles.Where(value => value.Value.OnSolution).Select(key => key.Key).ToList();
-        UnSolution = GridTiles.Where(value => !value.Value.OnSolution).Select(key => key.Key).ToList();
-        Renderers = GridTiles.Select(value => value.Value.tile.GetComponent<Renderer>()).ToList();
     }
     protected override void InitializeWeather(int status)
     {
@@ -176,9 +174,7 @@ public class PlatformManager : ExceptionalPlatform
     public override void CreateDynamics()
     {
         // If the stage is even , it can be placed both vertical and horizontal. It will be implemented at the Stage 6
-
         // One cell that is surrounded the center of blade. At the Stage 10 will be inmplemented
-
         // According to the stage , it can be placed each region but it must not be conflict with spike. At the odd stage will be implemented (7,9)
         if (Stage % 2 == 0)
         {
@@ -203,7 +199,9 @@ public class PlatformManager : ExceptionalPlatform
                             DynamicPath.Add(new Vector2Int(middlePoint, y));
                     break;
                 case 10:
-                    List<GameObject> placed = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
+                    var temp = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blades;
+                    List<GameObject> placed = new(temp.Count);
+                    placed.AddRange(temp);
                     while (placed.Count > 0)
                     {
                         Vector2Int pos = new((int)placed[0].transform.position.x, (int)placed[0].transform.position.z);
@@ -229,9 +227,6 @@ public class PlatformManager : ExceptionalPlatform
                 default:
                     return;
             }
-            if (PlayerPrefs.GetInt("Vfx") == 1)
-                DynamicPath.Where(d => GridTiles[d].tile.GetComponent<ColorfulTile>() != null).ToList().ForEach(d => GridTiles[d].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(d),Smoke_Burst));
-            LaunchDynamicPath();
         }
         else
         {
@@ -239,7 +234,9 @@ public class PlatformManager : ExceptionalPlatform
             switch (Stage)
             {
                 case 7:
-                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Spikes.ToList();
+                    var Case_7 = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Spikes;
+                    referanced = new(Case_7.Count);
+                    referanced.AddRange(Case_7);
                     while (referanced.Count > 0)
                     {
                         int regionCount = 1;
@@ -268,7 +265,9 @@ public class PlatformManager : ExceptionalPlatform
                     }
                     break;
                 case 9:
-                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
+                    var Case_9 = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blades;
+                    referanced = new(Case_9.Count);
+                    referanced.AddRange(Case_9);
                     while (referanced.Count > 0)
                     {
                         Vector2Int pos = new((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
@@ -284,7 +283,9 @@ public class PlatformManager : ExceptionalPlatform
                     }
                     break;
                 case 11:
-                    referanced = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blade.ToList();
+                    var temp = GameObject.Find("ObstacleManager").GetComponent<ObstacleManager>().Blades;
+                    referanced = new(temp.Count);
+                    referanced.AddRange(temp);
                     while (referanced.Count > 0)
                     {
                         Vector2Int pos = new Vector2Int((int)referanced[0].transform.position.x, (int)referanced[0].transform.position.z);
@@ -302,10 +303,12 @@ public class PlatformManager : ExceptionalPlatform
                 default:
                     return;
             }
-            if (PlayerPrefs.GetInt("Vfx") == 1)
-                DynamicPath.Where(d => GridTiles[d].tile.GetComponent<ColorfulTile>() != null).ToList().ForEach(d => GridTiles[d].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(d),Smoke_Burst));
-            LaunchDynamicPath();
         }
+        if (PlayerPrefs.GetInt("Vfx") == 1)
+            foreach (Vector2Int pos in DynamicPath)
+                if (GridTiles[pos].tile.GetComponent<ColorfulTile>() != null)
+                    GridTiles[pos].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(pos), Smoke_Burst);
+        LaunchDynamicPath();
     }
     private void LaunchDynamicPath()
     {

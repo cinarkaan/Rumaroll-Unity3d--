@@ -176,8 +176,8 @@ public class RollingCubeController : MonoBehaviour
         {
             Material material = transform.GetChild(i).GetComponent<Renderer>().sharedMaterial;
             MaterialPropertyBlock materialPropertyBlock = new();
-            materialPropertyBlock.SetColor("_ColorBottom", material.GetColor("_ColorBottom").gamma);
-            materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop").gamma);
+            materialPropertyBlock.SetColor("_ColorBottom", material.GetColor("_ColorBottom"));
+            materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop"));
             transform.GetChild(i).GetComponent<Renderer>().SetPropertyBlock(materialPropertyBlock);
         }
     }

@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+#if UNITY_STANDALONE_WIN
         Application.targetFrameRate = -1;
-#elif UNITY_ANDROID && !UNITY_EDITOR
+#elif UNITY_ANDROID
         ScreenRefreshRate = (int)Screen.currentResolution.refreshRateRatio.value + 10;
         Application.targetFrameRate = ScreenRefreshRate;
 #endif

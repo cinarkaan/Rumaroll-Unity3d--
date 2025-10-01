@@ -49,8 +49,8 @@ public class ColorfulTile : MonoBehaviour
     }
     private void AdjustColor (MaterialProperties materialProperties)
     {
-        Gradient smokeGradient = new Gradient();
-        Gradient scatteredGradient = new Gradient();
+        Gradient smokeGradient = new();
+        Gradient scatteredGradient = new();
         
 
         var colorModuleSmoke = smoke.colorOverLifetime;
@@ -66,16 +66,16 @@ public class ColorfulTile : MonoBehaviour
 
         smokeGradient.colorKeys = new GradientColorKey[]
         {
-            new GradientColorKey(materialProperties._bottom,0f),
-            new GradientColorKey(materialProperties._top , 1f)
+            new(materialProperties._bottom,0f),
+            new(materialProperties._top , 1f)
         };
 
         smokeGradient.alphaKeys = _alphaKeys;
 
         scatteredGradient.colorKeys = new GradientColorKey[]
         {
-            new GradientColorKey(materialProperties._bottom, 0f),
-            new GradientColorKey(materialProperties._top, 1f)
+            new(materialProperties._bottom, 0f),
+            new(materialProperties._top, 1f)
         };
 
         scatteredGradient.alphaKeys = _alphaKeys;

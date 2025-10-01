@@ -56,18 +56,13 @@ public struct Tiles : INetworkSerializable, IEquatable<Tiles>
         return HashCode.Combine(positon, material, onSolution, _markAsDynamic);
     }
 }
-[Serializable]
-
-
 public class NetworkPlatformManager : ExceptionalPlatform
 {
-    [SerializeField]
-    private ParticleSystem Confetie;
+    [SerializeField] private ParticleSystem Confetie;
 
-    [SerializeField]
-    private ServerManager ServerManager;
+    [SerializeField] private ServerManager ServerManager;
     public ServerManager ServerManager_ => ServerManager;
-    public int Stage => _Stage;
+    public int Stage => Stage_;
     public ParticleSystem Confetie_ => Confetie;
 
     private void Start()
@@ -78,6 +73,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     {
         if (Progress && NetworkUIController.currentIndex == 1)
         {
+            Frustum = GeometryUtility.CalculateFrustumPlanes(Camera.main);
             ParallelFrustumCulling();
             FrustumCullingForColorfuls();
             AllActivated = false;
@@ -90,8 +86,8 @@ public class NetworkPlatformManager : ExceptionalPlatform
                 Graphics.DrawMeshInstanced(CurvedFrameMesh, 0, CurvedFrameMat, CurvedFrame);
                 Graphics.DrawMeshInstanced(CurvedWhiteMesh, 0, WhiteMat, CurvedWhite);
                 Graphics.DrawMeshInstanced(FenceMesh, 0, FenceMat, Fence);
-                for (int i = 0; i < Renderers.Count && !AllActivated; i++)
-                    if (!Renderers[i].enabled) Renderers[i].enabled = true;
+                for (int i = 0; i < PlatformObjects.Count && !AllActivated; i++)
+                    if (!PlatformObjects[i].enabled) PlatformObjects[i].enabled = true;
                 AllActivated = true;
             } 
         }
@@ -100,14 +96,14 @@ public class NetworkPlatformManager : ExceptionalPlatform
     {
         yield return new WaitUntil(() => ServerManager != null && ServerManager.Stage.Value != 0);
 
-        _Stage = ServerManager.Stage.Value;
+        Stage_ = ServerManager.Stage.Value;
 
         InitializeWeather(0);
 
         if (ServerManager.Manager.IsHost)
         {
             Prefabs[2] = GameObject.Find("Host");
-            Prefabs[2].GetComponent<NetworkCubeController>().Target = new Vector2Int(_Stage + 6, _Stage + 6);
+            Prefabs[2].GetComponent<NetworkCubeController>().Target = new Vector2Int(Stage_ + 6, Stage_ + 6);
         }
         else
         {
@@ -129,11 +125,11 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     protected override void RandomMaterialSelection ()
     {
-        AllMaterials = Resources.LoadAll("Lit/GradientLit", typeof(Material)).ToList();
+        AllMaterials = Resources.LoadAll("SimpleLit/GradientSimpleLit", typeof(Material)).ToList();
 
         if (ServerManager.Manager.IsHost)
         {
-            HashSet<UnityEngine.Object> selected = new();
+            HashSet<UnityEngine.Object> selected = new(16);
 
             while (selected.Count < 6)
             {
@@ -161,7 +157,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     }
     protected override void InitializeSolution()
     {
-        Vector2Int goal = new(6 + _Stage, 6 + _Stage); // Evacuation point
+        Vector2Int goal = new(6 + Stage_, 6 + Stage_); // Evacuation point
         SolutionPath = GenerateSolutionPath(new Vector2Int(6, 6), goal); // Build valid solution
 
         CubeSimulator cubeSim = new(); // Cube simulator to stimulation the materials that is placed suitable
@@ -214,7 +210,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     public override void CreateDynamics()
     {
         UniqueRandomGenerator uniqueRandomGenerator = new (); // Zero index is the origin point that's why we can not started it from this as well as tiles.count is shown evacuation point with exceed.
-        switch (_Stage)
+        switch (Stage_)
         {
             case 10:
                 uniqueRandomGenerator = new UniqueRandomGenerator(1, ServerManager.Tiles.Count - 1, 4); // Get pos of dynamics tile's for the stage 10
@@ -246,28 +242,26 @@ public class NetworkPlatformManager : ExceptionalPlatform
 
         if (!ServerManager.IsHost && ServerManager.IsClient)
             FromNetworkToLocal();
-        for (int x = 0; x < _Stage + 12; x++)
-            for (int z = 0; z < _Stage + 12; z++)
+        for (int x = 5; x <= Stage_ + 6; x++)
+            for (int z = 5; z <= Stage_ + 6; z++)
             {
                 PlaceFence(x, z);
-                if (x < 6 || z < 6 || x > 6 + _Stage || z > 6 + _Stage) // Build surround of the platform
-                {
-                    Frame.Add(Matrix4x4.TRS(new Vector3(x, -0.4f, z), Prefabs[4].transform.GetChild(1).localRotation, Prefabs[4].transform.GetChild(1).localScale));
-                    Surface.Add(Matrix4x4.TRS(new Vector3(x, 0.1f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[4].transform.GetChild(0).localScale));
-                }
+                if (x < 6 || z < 6 || x > 6 + Stage_ || z > 6 + Stage_) // Build surround of the platform
+                    continue;
                 else // Build colorfultiles of the platform
                 {
-                    CurvedTile.Add(Matrix4x4.TRS(new Vector3(x, 0.26f, z), Prefabs[0].transform.localRotation, Prefabs[0].transform.localScale));
+                    if (x == 6 || z == 6 || x == 6 + Stage || z == 6 + Stage)
+                        CurvedTile.Add(Matrix4x4.TRS(new Vector3(x, 0.26f, z), Prefabs[0].transform.localRotation, Prefabs[0].transform.localScale));
                     CurvedFrame.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Prefabs[0].transform.GetChild(1).localRotation, Prefabs[0].transform.GetChild(1).localScale));
                     CurvedWhite.Add(Matrix4x4.TRS(new Vector3(x, -0.025f, z), Quaternion.Euler(new Vector3(0f, 0, 0)), Prefabs[0].transform.GetChild(2).localScale));
                     GameObject colorfulTile = Instantiate(Prefabs[0].transform.GetChild(0).gameObject, new Vector3(x, -0.025f, z), Quaternion.Euler(0f, 0f, 0f), transform);
-                    Renderers.Add(colorfulTile.GetComponent<Renderer>()); // We will use it frustum culling 
+                    PlatformObjects.Add(colorfulTile.GetComponent<Renderer>()); // We will use it frustum culling 
                     Vector2Int position = new(x, z); // Temp vector2int to avoid GC allocation
                     if (GridTiles.ContainsKey(position)) // On Solution tile
                     {
                         temp = GridTiles[position].material;
-                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom").gamma);
-                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop").gamma);
+                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom"));
+                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop"));
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(MaterialPropertyBlock);
                         GridTiles[position].tile = colorfulTile;
                         if (DynamicPath.Contains(position)) // If it dynamic , we will add component that is managed dynamic tiles
@@ -281,8 +275,8 @@ public class NetworkPlatformManager : ExceptionalPlatform
                         }
                         else
                             temp = GridTiles[position].material;
-                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom").gamma);
-                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop").gamma);
+                        MaterialPropertyBlock.SetColor("_ColorBottom", temp.GetColor("_ColorBottom"));
+                        MaterialPropertyBlock.SetColor("_ColorTop", temp.GetColor("_ColorTop"));
                         colorfulTile.GetComponent<Renderer>().SetPropertyBlock(MaterialPropertyBlock);
                         GridTiles[position] = new PlatformTile(colorfulTile.GetComponent<Renderer>().sharedMaterial, false);
                         UnSolution.Add(position);
@@ -307,7 +301,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
     {
         if (PlayerPrefs.GetInt("Vfx") == 0) return;
 
-        int _stage = _Stage;
+        int _stage = Stage_;
 
         if (ServerManager.IsHost)
             ServerManager.WeatherCode.Value = UnityEngine.Random.Range(0, 3);
@@ -382,7 +376,7 @@ public class NetworkPlatformManager : ExceptionalPlatform
             if (PlayerPrefs.GetInt("Vfx") == 1)
                 GridTiles[pos].tile.GetComponent<ColorfulTile>().AddSmokeVfx(AdjustColorAccordingToTile(pos), Smoke_Burst);
 
-            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor(FrameMat, GridTiles[pos].material);
+            GridTiles[pos].tile.GetComponent<ColorfulTile>().RepeatColor(CurvedFrameMat, GridTiles[pos].material);
         }
     }
     public void LinearToGamma(ref GameObject Player)
@@ -391,8 +385,8 @@ public class NetworkPlatformManager : ExceptionalPlatform
         for (int i = 0; i < 6; i++)
         {
             Material material = Player.transform.GetChild(i).GetComponent<Renderer>().sharedMaterial;
-            materialPropertyBlock.SetColor("_ColorBottom", material.GetColor("_ColorBottom").gamma);
-            materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop").gamma);
+            materialPropertyBlock.SetColor("_ColorBottom", material.GetColor("_ColorBottom"));
+            materialPropertyBlock.SetColor("_ColorTop", material.GetColor("_ColorTop"));
             Player.transform.GetChild(i).GetComponent<Renderer>().SetPropertyBlock(materialPropertyBlock);
         }
     }

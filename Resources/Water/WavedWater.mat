@@ -77,7 +77,47 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleReflectedCubemap_8edacb263cad4a9b9b414707755d750c_Cube_1_Cubemap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_347b5018d9464102902479f86cdf1ea6_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 1c2980f0f4b5478488435a9243ab6db7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3ba6bbecc6e94e708185c7bb3402ffc8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 273df67c200cb194ea7ae2e846c184d5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_512e4529ebd54dbf9c56285f9c791622_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: bc5d9ef9a5823074481a3871ab0089a1, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_73083da8e112461a9c775a27bee21ffb_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 30068e5b079a23c4799440c9dc4def8b, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7a1f9ca1163b4f3e9a62ef9f9a3a0c67_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 39618a473ee82d54aadb969c98824708, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7fc3b365d1434870823416fbabbbc3b0_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 1c2980f0f4b5478488435a9243ab6db7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_b60e5167c2814104a6da0fe927a4d590_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8aea2d2753b9dbb419ada48d27edf9ea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_cb11a1dcfda642c9b225a61867d11d4b_Texture_1_Texture2D:
+        m_Texture: {fileID: 8400000, guid: 39618a473ee82d54aadb969c98824708, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterReflection:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -125,9 +165,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReflactionScale: 1.45
-    - _ReflactionSpeed: 0.06
-    - _ReflactionStrength: 0.045
+    - _ReflactionScale: 1.5
+    - _ReflactionSpeed: 0.05
+    - _ReflactionStrength: 0.05
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _Spectular: 0
@@ -135,7 +175,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WaterDepth: 25
+    - _WaterDepth: 20
     - _WorkflowMode: 1
     - _ZTest: 2
     - _ZWrite: 1

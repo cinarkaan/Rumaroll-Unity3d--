@@ -26,6 +26,7 @@ public class FlagWaver : MonoBehaviour
     {
         MeshFilter = GetComponent<MeshFilter>();
         Mesh = MeshFilter.mesh;
+
         // For the performance , the mesh is signed as dynamic
         Mesh.MarkDynamic();
 
@@ -40,21 +41,6 @@ public class FlagWaver : MonoBehaviour
     private void Update()
     {
         float time = Time.time * Speed;
-
-        /*for (int i = 0; i < DisplacedVerts.Length; i++)
-        {
-            Vector3 orig = OriginalVerts[i];
-
-            // Normal wave
-            float wave = Mathf.Sin((orig.x / Wavelength) + time) * Amplitude;
-
-            // Decrease the wave effect according to the x coordinate.
-            // The wave effect must be nearly zero at the nearest of the pole.
-            float factor = Mathf.InverseLerp(MixX, MaxX, orig.x);
-
-            // Update the vertexes
-            DisplacedVerts[i] = new Vector3(orig.x, orig.y + wave * factor, orig.z);
-        }*/
 
         Parallel.For(0, DisplacedVerts.Length, index =>
         {
@@ -71,7 +57,7 @@ public class FlagWaver : MonoBehaviour
             DisplacedVerts[index] = new Vector3(orig.x, orig.y + wave * factor, orig.z);
         });
 
-        Mesh.vertices = DisplacedVerts;
+        Mesh.SetVertices(DisplacedVerts);
         Mesh.RecalculateNormals();
     }
 

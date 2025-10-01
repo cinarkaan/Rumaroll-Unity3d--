@@ -131,8 +131,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorBottom: {r: 0.7509433, g: 0.40664288, b: 0.40664288, a: 1}
-    - _ColorTop: {r: 0.25258097, g: 0.55946034, b: 0.6226415, a: 1}
+    - _ColorBottom: {r: 0.735849, g: 0.48732638, b: 0.48732638, a: 1}
+    - _ColorTop: {r: 0.39048052, g: 0.63374925, b: 0.6830188, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MetallicSmooth: {r: 0, g: 0.5, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
