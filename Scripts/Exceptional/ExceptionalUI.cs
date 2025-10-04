@@ -30,6 +30,8 @@ public class ExceptionalUI : MonoBehaviour
     [SerializeField]
     protected ExceptionalPlatform Platform;
 
+    public TMPTool TMPTool { get; private set; }
+
     public RawImage RawImage => Map;
 
     protected bool IsRotating = false, IsClicked = false;
@@ -42,6 +44,10 @@ public class ExceptionalUI : MonoBehaviour
 
     public bool _GameOver = false;
 
+    protected virtual void Start ()
+    {
+        TMPTool = new(null, 0.05f, 0.3f);
+    }
     public virtual void Forward() { }
     public virtual void Backward() { }
     public virtual void Right() { }
@@ -126,8 +132,6 @@ public class ExceptionalUI : MonoBehaviour
 
         texts.Last().text = "";
 
-        TypeWriter TypeWriter = new(0.1f, 0.3f);
-
         string Message;
 
         int Score = 0, Index = 0;
@@ -167,14 +171,14 @@ public class ExceptionalUI : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(TypeWriter.PlayTypeWriterFade(Message, 30, Images.Last().transform.GetChild(2).GetComponent<TMP_Text>()));
+        StartCoroutine(TMPTool.PlayTypeWriterFade(Message, 30, Images.Last().transform.GetChild(2).GetComponent<TMP_Text>()));
     }
     public void GetScore (ParticleSystem confettie)
     {
         ButtonsManager(false);
         AudioSource.PlayOneShot(AudioClips.Last(), _Volume);
-        TypeWriter typeWriter = new(0.05f, 0.3f);
-        StartCoroutine(typeWriter.PlayTypeWriterFade("CONGRATULATIONS , YOU WON !!!", 32, texts.Last()));
+        //TypeWriter typeWriter = new(0.05f, 0.3f);
+        StartCoroutine(TMPTool.PlayTypeWriterFade("CONGRATULATIONS , YOU WON !!!", 32, texts.Last()));
         StartCoroutine(Score(confettie));
     }
 }

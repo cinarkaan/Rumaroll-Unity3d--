@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ public class Tutorial : MonoBehaviour
 
     [Header("Settings of Tutorials")]
 
-    private readonly TypeWriter TypeWriter = new(0.01f ,0.3f);
+    private readonly TMPTool TMPTool = new(null,0.01f ,0.3f);
     private UIController UIController;
     private Image TalkImage;
     private TMP_Text Talking;
@@ -110,154 +109,9 @@ public class Tutorial : MonoBehaviour
         }
         StartCoroutine(UIController.FadeInOut(Color.clear, new Color(0, 0, 0, 0.6f)));
         StartCoroutine(UIController.ScalerMenu(new Vector3(0f, 0f, 1f), new Vector3(1f, 1f, 1f), 0.8f, TalkImage));
-        yield return StartCoroutine(TypeWriter.PlayTypeWriterFade(FullText, TextSize, Talking));
+        yield return StartCoroutine(TMPTool.PlayTypeWriterFade(FullText, TextSize, Talking));
         StartCoroutine(TouchToCountinue(step));
     }
     
-}
-
-public class TypeWriter
-{
-    public float SpawnInterval = 0.1f;
-    public float FadeDurationText = 0.3f;
-
-    public TypeWriter ()
-    {
-
-    }
-    public TypeWriter(float SpawnInterval, float FadeDurationText)
-    {
-        this.SpawnInterval = SpawnInterval;
-        this.FadeDurationText = FadeDurationText;
-    }
-    public IEnumerator PlayTypeWriterFade(string Text, float TextSize, TMP_Text TMP_Text)
-    {
-        int n = Text.Length;
-     
-        // Total time : Start of the last word + fadeDuration
-        float totalDuration = SpawnInterval * (n - 1) + FadeDurationText;
-        float time = 0f;
-
-        // At the each frame the text regenerate by using only one stringbuilder
-        StringBuilder builder = new();
-
-        TMP_Text.fontSize = TextSize;
-
-        while (time < totalDuration)
-        {
-            builder.Length = 0;
-
-            for (int i = 0; i < n; i++)
-            {
-                char c = Text[i];
-                float charStart = i * SpawnInterval;
-                float t = (time - charStart) / FadeDurationText;
-                t = Mathf.Clamp01(t);
-
-                // Add either space or new line
-                if (c == ' ' || c == '\n')
-                {
-                    builder.Append(c);
-                    continue;
-                }
-
-                if (t <= 0f)
-                {
-                    // Did it start ? alfa = 00 (Full Transparent)
-                    builder.Append("<color=#00000000>");
-                    builder.Append(c);
-                    builder.Append("</color>");
-                }
-                else if (t >= 1f)
-                {
-                    // Fade was complated ? Full black (without tag, opaque)
-                    builder.Append(c);
-                }
-                else
-                {
-                    // 0 < t < 1 ? alfa = between 0?255 
-                    byte alphaByte = (byte)Mathf.RoundToInt(Mathf.Lerp(0, 255, t));
-                    string hex = alphaByte.ToString("X2");  // "00" ... "FF"
-                    builder.Append("<color=#000000");
-                    builder.Append(hex);
-                    builder.Append(">");
-                    builder.Append(c);
-                    builder.Append("</color>");
-                }
-            }
-
-            TMP_Text.text = builder.ToString();
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        TMP_Text.text = Text;
-    }
-    public IEnumerator PlayTypeWriterFade(string Text, int TextSize, Text text)
-    {
-        int n = Text.Length;
-
-        // Total time : Start of the last word + fadeDuration
-        float totalDuration = SpawnInterval * (n - 1) + FadeDurationText;
-        float time = 0f;
-
-        // At the each frame the text regenerate by using only one stringbuilder
-        StringBuilder builder = new();
-
-        text.fontSize = TextSize;
-
-        while (time < totalDuration)
-        {
-            builder.Length = 0;
-
-            for (int i = 0; i < n; i++)
-            {
-                char c = Text[i];
-                float charStart = i * SpawnInterval;
-                float t = (time - charStart) / FadeDurationText;
-                t = Mathf.Clamp01(t);
-
-                // Add either space or new line
-                if (c == ' ' || c == '\n')
-                {
-                    builder.Append(c);
-                    continue;
-                }
-
-                if (t <= 0f)
-                {
-                    // Did it start ? alfa = 00 (Full Transparent)
-                    builder.Append("<color=#00000000>");
-                    builder.Append(c);
-                    builder.Append("</color>");
-                }
-                else if (t >= 1f)
-                {
-                    // Fade was complated ? Full black (without tag, opaque)
-                    builder.Append(c);
-                }
-                else
-                {
-                    // 0 < t < 1 ? alfa = between 0?255 
-                    byte alphaByte = (byte)Mathf.RoundToInt(Mathf.Lerp(0, 255, t));
-                    string hex = alphaByte.ToString("X2");  // "00" ... "FF"
-                    builder.Append("<color=#000000");
-                    builder.Append(hex);
-                    builder.Append(">");
-                    builder.Append(c);
-                    builder.Append("</color>");
-                }
-            }
-
-            text.text = builder.ToString();
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        text.text = Text;
-    }
-
 }
 

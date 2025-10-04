@@ -21,7 +21,7 @@ public class ServerManager : NetworkBehaviour
     public NetworkVariable<bool> Launch = new(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // If the game was stated , the update methods will be run.
 
     // Obstacle & Enemy
-    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner); // Spikes position in the obstacle
+    public NetworkList<Vector2Int> _Spikes = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Spikes position in the obstacle
     public NetworkList<Vector2Int> _Blades = new(new List<Vector2Int>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // // Blades position in the obstacle
     public NetworkList<Vector3> _Path = new(new List<Vector3>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); // Paths in the enemy
 
@@ -36,10 +36,9 @@ public class ServerManager : NetworkBehaviour
 
     private List<ulong> Clients;
     private ulong HostLocalId;
+
     private void Start()
     {
-        Application.targetFrameRate = -1;
-        
         var access = new GameObject("Access");
 
         DontDestroyOnLoad(access);
@@ -112,7 +111,6 @@ public class ServerManager : NetworkBehaviour
     }
     private IEnumerator CheckHostConnection () // Check out whether the host is exist on the server or not
     {
-        Debug.Log("CheckHostConnection");
         while (true)
         {
             if (!Manager.IsConnectedClient && !EndGame)
@@ -163,6 +161,21 @@ public class ServerManager : NetworkBehaviour
             StartCoroutine(DisconnectFromGame(2.5f));
         }
     }
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestServerRpc ()
+    {
+        Stage.Dispose();
+        Difficulty.Dispose();
+        _Spikes.Clear();
+        _Blades.Clear();
+        _Path.Clear();
+        Tiles.Clear();
+        ClientMaterials.Clear();
+        HostMaterials.Clear();
+        WeatherCode.Dispose();
+        Launch.Value = true;
+        RequestFreeClientRpc();
+    }
     [ClientRpc]
     private void KickClientRpc(ulong cliendID)
     {
@@ -188,24 +201,11 @@ public class ServerManager : NetworkBehaviour
     {
         EndGame = true;
     }
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestClearServerRpc()
+    [ClientRpc(RequireOwnership = false)]
+    public void RequestFreeClientRpc()
     {
-        UIControler.SceneLoader.Operation = 2; // Client is ready , remove waiting screen for host
-        Launch.Value = true;
-        Stage.Dispose();
-        Difficulty.Dispose();
-        _Spikes.Clear();
-        _Blades.Clear();
-        _Path.Clear();
-    }
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestClearPlatformListServerRpc()
-    {
-        Tiles.Clear();
-        ClientMaterials.Clear();
-        HostMaterials.Clear();
-        WeatherCode.Dispose();
+        UIControler.TMPTool.SetHeader(null);
+        UIControler.SceneLoader.Operation = 2; // Client is ready , remove waiting screen for host  
     }
 
 }

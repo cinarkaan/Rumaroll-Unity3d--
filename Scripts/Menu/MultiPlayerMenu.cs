@@ -5,44 +5,32 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public enum Difficulty
 {
     Easy,
     Normal,
     Hard
 }
-
-public class MultiPlayerMenu : MonoBehaviour
+public class MultiPlayerMenu : ExceptionalMenu
 {
+    [SerializeField] private NetworkManager manager;
+    [SerializeField] private UnityTransport transport;
+    [SerializeField] private RectTransform roomList;
+    [SerializeField] private TMP_Text roomName;
+    [SerializeField] private TMP_Dropdown stageMenu;
 
-    private MainMenu Menu;
-
-    private RoomDiscovery discovery;
-    private RoomBroadcaster broadcast;
-
-    [SerializeField]
-    private NetworkManager manager;
-    
-    [SerializeField]
-    private UnityTransport transport;
-
-    [SerializeField]
-    private RectTransform roomList;
-
-    [SerializeField]
-    private TMP_Text roomName;
-
-    [SerializeField]
-    private TMP_Dropdown stageMenu;
+    private RoomDiscovery Discovery;
+    private RoomBroadcaster Broadcast;
+    private MainMenu MainMenu;
 
     public GameObject roomPrefab;
 
-
-    private void Start()
+    protected override void Start()
     {
-        Menu = GetComponent<MainMenu>();
-        manager.OnClientStarted += ClientStarted();   
+        manager = FindObjectsOfType<NetworkManager>().First();
+        transport = manager.GetComponent<UnityTransport>();
+        TMPTool = new(Events.Take(2).Cast<TextMeshProUGUI>().ToArray(), 0, 0);
+        MainMenu = GetComponent<MainMenu>();
     }
     private Action ClientStarted()
     {
@@ -66,51 +54,61 @@ public class MultiPlayerMenu : MonoBehaviour
     }
     public void OnSceneLoading(ulong clientId, string sceneName, LoadSceneMode loadSceneMode, AsyncOperation asyncOperation)
     {
-
         if (clientId != manager.LocalClientId) return;
 
         asyncOperation.allowSceneActivation = false; // Is no to be activated the scene that loaded 
 
-        StartCoroutine(Menu.Loader.LoadSceneMultiplayer(asyncOperation)); // Load target scene as async
+        MainMenu.TMPTool_.SetHeader(SceneLoader.Header);
+
+        StartCoroutine(SceneLoader.LoadSceneMultiplayer(asyncOperation)); // Load target scene as async
     }
-    public void backMenuFromMultiplayer()
+    public void BackMenuFromMultiplayer()
     {
-        Menu.PlaySFX();
-        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[0], ""));
-        StartCoroutine(Menu.FadeCanvasGroup(0, 1, Menu.UIMenu[4], ""));
+        PlaySFX();
+        Vector3 start = SelectiveIcon.localPosition;
+        Vector3 end = new(-600f, -45f, 0f);
+        StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[0], ""));
+        StartCoroutine(FadeCanvasGroup(0, 1, UIMenu[1], ""));
+        StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
+        StartCoroutine(MoveIcon(start, end));
+        MainMenu.TMPTool_.SetHeader(Events[2]);
         enabled = false;
     }
     public void CreateGame()
     {
-        Menu.PlaySFX();
-        broadcast = manager.gameObject.AddComponent<RoomBroadcaster>();
-        StartCoroutine(Menu.SelectedIcon(Menu.Icon.localPosition, new Vector3(-600, 40f, 0)));
-        StartCoroutine(Menu.FadeCanvasGroup(1, 1, Menu.UIMenu[5], ""));
-        StartCoroutine(Menu.FadeCanvasGroup(0f, 0.75f, Menu.UIMenu[^1], ""));
+        PlaySFX();
+        Vector3 TargetPosition = new(-600, 120f, 0);
+        Broadcast = manager.gameObject.AddComponent<RoomBroadcaster>();
+        StartCoroutine(MoveIcon(SelectiveIcon.localPosition,TargetPosition));
+        StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
+        StartCoroutine(FadeCanvasGroup(1, 1, UIMenu[2], ""));
+        StartCoroutine(FadeCanvasGroup(0f, 0.75f, UIMenu[^1], ""));
     }
     public void JoinGame()
     {
-        Menu.PlaySFX();
+        PlaySFX();
         roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
-        discovery = manager.gameObject.AddComponent<RoomDiscovery>();
-        StartCoroutine(Menu.SelectedIcon(Menu.Icon.localPosition, new Vector3(-600, -199f, 0f)));
-        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[6], ""));
-        StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[^1], ""));
+        Discovery = manager.gameObject.AddComponent<RoomDiscovery>();
+        Vector3 TargetPosition = new(-600, -125f, 0f);
+        StartCoroutine(MoveIcon(SelectiveIcon.localPosition, TargetPosition));
+        StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[3], ""));
+        StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[^1], ""));
     }
-    public void getRoomNameInput()
+    public void GetRoomNameInput()
     {
-        broadcast.roomName = roomName.text;
+        Broadcast.roomName = roomName.text;
     }
-    public void getSelectedStage()
+    public void GetSelectedStage()
     {
         int selectedStage = stageMenu.value;
-        broadcast.stage += selectedStage;
+        Broadcast.stage += selectedStage;
     }
-    public void create()
+    public void Create()
     {
-        Menu.PlaySFX();
-        broadcast.StartBroadcast();
-        transport.SetConnectionData(broadcast.localIP, 7777);
+        PlaySFX();
+        Broadcast.StartBroadcast();
+        transport.SetConnectionData(Broadcast.localIP, 7777);
         manager.StartHost();
         manager.SceneManager.OnLoad += OnSceneLoading;
         manager.SceneManager.LoadScene("Multiplayer", LoadSceneMode.Additive);
@@ -118,59 +116,58 @@ public class MultiPlayerMenu : MonoBehaviour
     }
     public void BackMultiplayerFromCreate()
     {
-        Menu.PlaySFX();
-        Destroy(broadcast);
-        StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[5], ""));
-        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu.Last(), ""));
+        PlaySFX();
+        Destroy(Broadcast);
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[2], ""));
+        StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[^1], ""));
     }
     public void BackMultiplayerFromJoin()
     {
-        Menu.PlaySFX();
+        PlaySFX();
         foreach (Transform obj in roomList)
             if (obj.name != "Information")
                 Destroy(obj.gameObject);
-        Destroy(discovery);
+        Destroy(Discovery);
         roomList.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "No available hosts";
-        StartCoroutine(Menu.FadeCanvasGroup(0f, 1f, Menu.UIMenu[6], ""));
-        StartCoroutine(Menu.FadeCanvasGroup(1f, 1f, Menu.UIMenu[^1], ""));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[3], ""));
+        StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[^1], ""));
     }
-    public void refresh()
+    public void Refresh()
     {
-        Menu.PlaySFX();
-        discovery.StopAllCoroutines();
-        discovery.StartScanning(ref roomList, ref roomPrefab, ref manager);
+        PlaySFX();
+        Discovery.StopAllCoroutines();
+        Discovery.StartScanning(ref roomList, ref roomPrefab, ref manager);
     }
     public void EasyCheck()
     {
-        if (Menu.Toggles[4].isOn)
+        if (Toggle[0].isOn)
         {
-            broadcast.difficulty = Difficulty.Easy;
-            Menu.Toggles[5].isOn = false;
-            Menu.Toggles[6].isOn = false;
+            Broadcast.difficulty = Difficulty.Easy;
+            Toggle[1].isOn = false;
+            Toggle[2].isOn = false;
         }
     }
     public void NormalCheck()
     {
-        if (Menu.Toggles[5].isOn)
+        if (Toggle[1].isOn)
         {
-            broadcast.difficulty = Difficulty.Normal;
-            Menu.Toggles[4].isOn = false;
-            Menu.Toggles[6].isOn = false;
+            Broadcast.difficulty = Difficulty.Normal;
+            Toggle[0].isOn = false;
+            Toggle[2].isOn = false;
         }
     }
     public void HardCheck()
     {
-        if (Menu.Toggles[6].isOn)
+        if (Toggle[2].isOn)
         {
-            broadcast.difficulty = Difficulty.Hard;
-            Menu.Toggles[5].isOn = false;
-            Menu.Toggles[4].isOn = false;
+            Broadcast.difficulty = Difficulty.Hard;
+            Toggle[0].isOn = false;
+            Toggle[1].isOn = false;
         }
     }
     public void OnEnable()
     {
-        manager = FindObjectsOfType<NetworkManager>().First();
-        transport = manager.GetComponent<UnityTransport>();
+        manager.OnClientStarted += ClientStarted();
     }
     private void OnDestroy()
     {

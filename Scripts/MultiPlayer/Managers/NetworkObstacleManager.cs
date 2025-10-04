@@ -62,6 +62,8 @@ public class NetworkObstacleManager : ExceptionalPlacement
         }
         progress = true;
         NetworkPlatformManager.UnSolution.Clear();
+        NetworkPlatformManager.SolutionPath.Clear();
+
     }
     private void PlaceSpikes ()
     {

@@ -6,42 +6,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : ExceptionalMenu
 {
-
-    [SerializeField] private CanvasGroup[] uiMenu;
-    [SerializeField] public CanvasGroup[] UIMenu => uiMenu;
-    
-    [SerializeField] private RectTransform icon;
-    [SerializeField] public RectTransform Icon => icon;
-
-    [SerializeField] private Toggle[] toggles;
-    [SerializeField] public Toggle[] Toggles => toggles;
-
-    [SerializeField] private SceneLoader loader;
-    [SerializeField] public SceneLoader Loader => loader;
-
-    [SerializeField] private TMP_Text[] events;
-
     [SerializeField] private List<Image> images;
 
-    [SerializeField] private AudioSource _click_Sfx;
-
     [SerializeField] private Slider touchSensitivity;
-    
-    [SerializeField] private float iconDuration = 0.7f;
-    
-    [SerializeField] private float duration;
-
-    private float _sensitivity = 10f;
 
     private MultiPlayerMenu MultiPlayerMenu;
 
-    public ParticleSystem Vfx_Mystical_Scatter;
+    private float SwipeSensitivity = 10f;
 
-    public void Start()
+    public TMPTool TMPTool_ => TMPTool;
+
+    protected override void Start()
     {
-        StartCoroutine(FadeImage(images.First().color, Color.clear, duration,images.First())); // Launch fade animation only when app start
+        StartCoroutine(FadeImage(images.First().color, Color.clear, FadeDuration,images.First())); // Launch fade animation only when app start
 
         MultiPlayerMenu = GetComponent<MultiPlayerMenu>();
 
@@ -56,7 +35,7 @@ public class MainMenu : MonoBehaviour
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(images.Last().rectTransform.root.GetComponent<RectTransform>(), Input.mousePosition, Camera.main, out Vector2 local);
             ParticleSystem _clicked = Instantiate(
-                Vfx_Mystical_Scatter,
+                Clicked,
                 new Vector3(local.x, local.y, 100.5f),
                 Quaternion.Euler(180f, 0f, 90f), images.Last().rectTransform.root);
             _clicked.GetComponent<RectTransform>().localPosition = new Vector3(local.x, local.y, -150);
@@ -64,12 +43,11 @@ public class MainMenu : MonoBehaviour
         }
 
 #endif
-
-        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && uiMenu[2].alpha == 0f && PlayerPrefs.GetInt("Vfx") == 1)
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began && UIMenu[2].alpha == 0f && PlayerPrefs.GetInt("Vfx") == 1)
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(images.Last().rectTransform.root.GetComponent<RectTransform>(), Input.GetTouch(0).position, Camera.main, out Vector2 local);
             ParticleSystem _clicked = Instantiate(
-                Vfx_Mystical_Scatter,
+                Clicked,
                 new Vector3(local.x, local.y, 100.5f),
                 Quaternion.Euler(180f, 0f, 90f), images.Last().rectTransform.root);
             _clicked.GetComponent<RectTransform>().localPosition = new Vector3(local.x, local.y, -150);
@@ -77,8 +55,10 @@ public class MainMenu : MonoBehaviour
         }
 
         float size = Mathf.PingPong(Time.time * 60f, 40f) + 100f;
-        icon.sizeDelta = new Vector2(size, size);
-        icon.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
+        SelectiveIcon.sizeDelta = new Vector2(size, size);
+        SelectiveIcon.GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
+
+        TMPTool.WaveHeader();
     }
     private void Initialize()
     {
@@ -97,143 +77,145 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        events[0].text = ": " + PlayerPrefs.GetInt("Coin").ToString();
-        events[1].text = ": " + PlayerPrefs.GetInt("Diamond").ToString();
-        events[2].text = "OWNED : " + PlayerPrefs.GetInt("Shield").ToString();
-        events[3].text = "OWNED : " + PlayerPrefs.GetInt("Clue").ToString();
-        toggles[1].isOn = PlayerPrefs.GetInt("Sfx") == 1;
-        toggles[2].isOn = PlayerPrefs.GetInt("Vfx") == 1;
-        toggles[3].isOn = PlayerPrefs.GetInt("Post Processing") == 1;
+        Events[0].text = ": " + PlayerPrefs.GetInt("Coin").ToString();
+        Events[1].text = ": " + PlayerPrefs.GetInt("Diamond").ToString();
+        Events[2].text = "OWNED : " + PlayerPrefs.GetInt("Shield").ToString();
+        Events[3].text = "OWNED : " + PlayerPrefs.GetInt("Clue").ToString();
+        Toggle[1].isOn = PlayerPrefs.GetInt("Sfx") == 1;
+        Toggle[2].isOn = PlayerPrefs.GetInt("Vfx") == 1;
+        Toggle[3].isOn = PlayerPrefs.GetInt("Post Processing") == 1;
         touchSensitivity.value = PlayerPrefs.GetFloat("Touch Sensitivity");
+        TMPTool = new(Events.Skip(4).Take(5).Cast<TextMeshProUGUI>().ToArray(),0,0);
+        TMPTool.SetHeader(Events[9]);
     }
-    public void newGameButton ()
+    public void NewGameButton ()
     {
         PlaySFX();
-        Vector3 start = icon.localPosition;
-        Vector3 end = new Vector3(-600f, 47f, 0);
-        StartCoroutine(SelectedIcon(start,end));
+        Vector3 start = SelectiveIcon.localPosition;
+        Vector3 end = new(-600f, 195f, 0);
+        StartCoroutine(MoveIcon(start,end));
         if (PlayerPrefs.GetInt("Stage") > 4)
-        {
-            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-            StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(1.5f, 1.5f, 1), images[1]));
-        }
+            StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(1.2f, 1.2f, 1), images[1]));
         else
-            StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu[3], "Tutorial"));
-
+        {
+            StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
+            StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[3], "Tutorial"));
+        }
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[5], ""));
     }
-    public void yes ()
+    public void Yes ()
     {
         images[1].rectTransform.localScale = Vector3.zero;
         PlayerPrefs.SetInt("Stage", 4);
-        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[3], "Tutorial"));
+        StartCoroutine(FadeCanvasGroup(1, 1, UIMenu[3], "Tutorial"));
+        StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
     }
-    public void no ()
+    public void No ()
     {
-        StartCoroutine(FadeCanvasGroup(1f, 0f, uiMenu.Last(), ""));
+        StartCoroutine(FadeCanvasGroup(1f, 0f, UIMenu[5], ""));
         StartCoroutine(ScalerMenu(images[1].rectTransform.localScale, new Vector3(0, 0, 1),images[1]));
     }
-    public void quitGameButton()
+    public void QuitGameButton()
     {
-        PlaySFX();
         Application.Quit();
     }
-    public void continueButton ()
+    public void ContinueButton ()
     {
         PlaySFX();
-        Vector3 start = icon.localPosition;
-        Vector3 end = new Vector3(-600f, -85f, 0);
-        StartCoroutine(SelectedIcon(start, end));
+        Vector3 start = SelectiveIcon.localPosition;
+        Vector3 end = new(-600f, 75f, 0);
+        StartCoroutine(MoveIcon(start, end));
         if (PlayerPrefs.GetInt("Stage") > 4)
         {
-            StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[2], ""));
-            StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
+            StartCoroutine(FadeCanvasGroup(1, 1, UIMenu[2], ""));
+            StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu.Last(), ""));
+            StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
         }
     }
-    public void buyShield ()
+    public void BuyShield ()
     {
         int current = PlayerPrefs.GetInt("Shield");
         PlayerPrefs.SetInt("Shield", current + 1);
-        events[2].text = "OWNED : " + (current + 1).ToString();
+        Events[2].text = "OWNED : " + (current + 1).ToString();
     }
-    public void buyClue ()
+    public void BuyClue ()
     {
         int current = PlayerPrefs.GetInt("Clue");
         PlayerPrefs.SetInt("Clue", current + 1);
-        events[3].text = "OWNED : " + (current + 1).ToString();
+        Events[3].text = "OWNED : " + (current + 1).ToString();
     }
-    public void backMenu ()
+    public void BackMenu ()
     {
         PlaySFX();
-        StartCoroutine(FadeCanvasGroup(0, 1, uiMenu[2],""));
-        StartCoroutine(FadeCanvasGroup(1f , 1f, uiMenu.Last(), ""));
+        StartCoroutine(FadeCanvasGroup(0, 1, UIMenu[2],""));
+        StartCoroutine(FadeCanvasGroup(1f , 1f, UIMenu[5], ""));
     }
-    public void startGame ()
+    public void StartGame ()
     {
         PlaySFX();
-        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu.Last(), ""));
-        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[3],"Day"));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[5], ""));
+        StartCoroutine(FadeCanvasGroup(1, 1, UIMenu[3],"Day"));
     } 
-    public void settings ()
+    public void Settings ()
     {
         PlaySFX();
-        Vector3 start = icon.localPosition;
-        Vector3 end = new Vector3(-600f, -310f, 0f);
-        StartCoroutine(SelectedIcon(start, end));
-        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[1], ""));
-        StartCoroutine(FadeCanvasGroup(0, 1, uiMenu.First(), ""));
-        StartCoroutine(FadeCanvasGroup(0, 1, uiMenu.Last(), ""));
+        Vector3 start = SelectiveIcon.localPosition;
+        Vector3 end = new(-600f, -155f, 0f);
+        StartCoroutine(MoveIcon(start, end));
+        StartCoroutine(FadeCanvasGroup(1, 1, UIMenu[1], ""));
+        StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
+        StartCoroutine(FadeCanvasGroup(0, 1, UIMenu[0], ""));
+        StartCoroutine(FadeCanvasGroup(0, 1, UIMenu[5], ""));
     }
-    public void multiplayer ()
+    public void Multiplayer ()
     {
-        MultiPlayerMenu.enabled = true;
         PlaySFX();
         if (!WiFi())
         {
             StartCoroutine(ScalerMenu(images.Last().rectTransform.localScale, new Vector3(1f, 1f, 1f), images.Last()));
             return;
         }
-        Vector3 start = icon.localPosition;
-        Vector3 end = new Vector3(-600f, -205f, 0f);
-        StartCoroutine(SelectedIcon(start, end));
-        StartCoroutine(FadeCanvasGroup(1, 1, uiMenu[4], ""));
-        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu[0], ""));
+        MultiPlayerMenu.enabled = true;
+        Vector3 start = SelectiveIcon.localPosition;
+        Vector3 end = new(-600f, -45f, 0f);
+        StartCoroutine(MoveIcon(start, end));
+        TMPTool.SetHeader(Events[10]);
+        StartCoroutine(FadeCanvasGroup(1, 1, UIMenu[4], ""));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[0], ""));
+        StartCoroutine(TMPTool.AnimateTextsOutAllMenu());
+
     }
-    public void saveSettings ()
+    public void SaveSettings ()
     {
         PlaySFX();
-        PlayerPrefs.SetFloat("Touch Sensitivity", _sensitivity);
-        StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu.First(), ""));
-        StartCoroutine(FadeCanvasGroup(0f, 1f, uiMenu[1], ""));
-        StartCoroutine(FadeCanvasGroup(1f, 1f, uiMenu.Last(), ""));
-    }
-    public void checkMusic (bool music)
-    {
-        music = toggles[1].isOn;
-        PlayerPrefs.SetInt("Music", music ? 1 : 0);
+        PlayerPrefs.SetFloat("Touch Sensitivity", SwipeSensitivity);
+        StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[0], ""));
+        StartCoroutine(FadeCanvasGroup(0f, 1f, UIMenu[1], ""));
+        StartCoroutine(FadeCanvasGroup(1f, 1f, UIMenu[5], ""));
     }
     public void CheckSfx (bool Sfx)
     {
-        Sfx = toggles[1].isOn;
+        Sfx = Toggle[1].isOn;
         PlayerPrefs.SetInt("Sfx", Sfx ? 1 : 0);
     }
-    public void CheckVFX (bool vfx)
+    public void CheckVFX (bool Vfx)
     {
-        vfx = toggles[2].isOn;
-        PlayerPrefs.SetInt("Vfx", vfx ? 1 : 0);
+        Vfx = Toggle[2].isOn;
+        PlayerPrefs.SetInt("Vfx", Vfx ? 1 : 0);
     }
-    public void checkFPS(bool fps)
+    public void CheckFPS(bool Fps)
     {
-        fps = toggles[0].isOn;
-        PlayerPrefs.SetInt("Fps", fps ? 1 : 0);
+        Fps = Toggle[0].isOn;
+        PlayerPrefs.SetInt("Fps", Fps ? 1 : 0);
     }
-    public void sliderChanger ()
+    public void SliderChanger ()
     {
-        _sensitivity = touchSensitivity.value;
+        SwipeSensitivity = touchSensitivity.value;
     }
-    public void postProcessingChecker(bool postProcessing)
+    public void PostProcessingChecker(bool PostProcessing)
     {
-        postProcessing = toggles[3].isOn;
-        PlayerPrefs.SetInt("Post Processing", postProcessing ? 1 : 0);
+        PostProcessing = Toggle[3].isOn;
+        PlayerPrefs.SetInt("Post Processing", PostProcessing ? 1 : 0);
     }
     private IEnumerator FadeImage(Color start, Color end, float time,Image image)
     {
@@ -247,17 +229,6 @@ public class MainMenu : MonoBehaviour
         }
         image.color = end;
     }
-    public IEnumerator SelectedIcon (Vector3 start , Vector3 End)
-    {
-        float elapsed = 0f;
-        while(elapsed < iconDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / iconDuration);
-            icon.localPosition = Vector3.Lerp(start, End, t);
-            yield return null;
-        }
-    }
     private IEnumerator ScalerMenu (Vector3 start , Vector3 end,Image image)
     {
         float elapsed = 0f;
@@ -268,25 +239,6 @@ public class MainMenu : MonoBehaviour
             image.rectTransform.localScale = Vector3.Lerp(start, end, t);
             yield return null;
         }
-    }
-    public IEnumerator FadeCanvasGroup(float targetAlpha, float duration, CanvasGroup cv, string name)
-    {
-        float startAlpha = cv.alpha;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            cv.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
-            yield return null;
-        }
-
-        cv.alpha = targetAlpha;
-        cv.interactable = (targetAlpha > 0f);
-        cv.blocksRaycasts = (targetAlpha > 0f);
-
-        if (cv.name == "LoadingScene")
-            StartCoroutine(loader.LoadSceneWithPreparation(name));
     }
     private bool WiFi ()
     {
@@ -311,11 +263,6 @@ public class MainMenu : MonoBehaviour
     public void CloseWarning ()
     {
         StartCoroutine(ScalerMenu(images.Last().rectTransform.localScale, new Vector3(0, 0, 1), images.Last()));
-    }
-    public void PlaySFX ()
-    {
-        if (PlayerPrefs.GetInt("Sfx") == 1)
-            _click_Sfx.Play();
     }
     public void CleanUpDestory ()
     {

@@ -15,7 +15,6 @@ public class NetworkUIController : ExceptionalUI
 
     [SerializeField] private SceneLoader _sceneLoader;
     public SceneLoader SceneLoader => _sceneLoader;
-
     public Text Info => texts[1];
 
     [SerializeField] private Transform _rivalGPS;  
@@ -33,11 +32,12 @@ public class NetworkUIController : ExceptionalUI
     private int OriginalCameraCulling;
 
     private readonly int[] events = { 3, 10, 3, 5 }; // 0 : Diamonds, 1: Coins, 2 : Shields, 3 : Clues. It shows events count.
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        TMPTool.SetHeader(SceneLoader.Header);
         InitializeUserPrefs();
         InitializeScoreTimes();
-        Buttons.Find(c => c.name == "CloseMap").gameObject.SetActive(false);
         StartCoroutine(InitializeMapCamera());
         MapCamController(RawImage);
         if (manager.IsHost)
@@ -128,6 +128,7 @@ public class NetworkUIController : ExceptionalUI
         if (Aspect.target != null)
             Aspect.PivotAspect();
 #endif
+        TMPTool.WaveHeader();
     }
     protected override void InitializeUserPrefs()
     {
@@ -144,6 +145,7 @@ public class NetworkUIController : ExceptionalUI
         Aspect.target = GameObject.Find(playerType).GetComponent<Transform>();
 
         cubeController._gps.position = cubeController.transform.position;
+
     }
     public override void Forward ()
     {
@@ -354,7 +356,7 @@ public class NetworkUIController : ExceptionalUI
     {
         Info.rectTransform.localPosition = new Vector3(-185f, 170f, 0f); // Set the localPositions of information => -113f , 140f
         Info.fontSize = 32;
-        Info.text = "YOUR REWARDS HAS BEEN READY"; // Write it "TAP TO OPEN CHEST"
+        Info.text = "YOUR REWARDS HAS BEEN READIED"; // Write it "TAP TO OPEN CHEST"
 
         Reward reward = Rewards();
 
@@ -388,7 +390,7 @@ public class NetworkUIController : ExceptionalUI
             yield return null;
         }
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         Winning.rectTransform.GetChild(reward.SecondRewardIndex).gameObject.SetActive(true);
 

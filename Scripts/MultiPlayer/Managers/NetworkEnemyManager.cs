@@ -31,13 +31,13 @@ public class NetworkEnemyManager : ExceptionalPath
 
         if (PlatformManager.Stage_ == 12 && ServerManager.Difficulty.Value == 2) // The manager only must be worked at the stage 12 
         {
-            if (ServerManager.IsHost)
+            if (ServerManager.Manager.IsHost)
                 PathFinding();
             else
             {
                 foreach (Vector3 position in ServerManager._Path)
                     Path.Add(position);
-                Free();
+                ServerManager.RequestServerRpc();
                 _pathprogress = true;
             }
 
@@ -45,8 +45,8 @@ public class NetworkEnemyManager : ExceptionalPath
             StartCoroutine(AdjustRouteDirsEnemy(Bulldozer));
         }
         else
-            if (!ServerManager.IsHost)
-                Free();
+            if (!ServerManager.Manager.IsHost)
+                ServerManager.RequestServerRpc();
 
         yield return null;
     }
@@ -176,13 +176,6 @@ public class NetworkEnemyManager : ExceptionalPath
         _resolved.Reverse(); // Reverse path that was processed from last
 
         return _resolved.ToHashSet(); // Return HasSet<Vector2Int>()
-    }
-    private void Free()
-    {
-        ServerManager.RequestClearServerRpc();
-        ServerManager.RequestClearPlatformListServerRpc();
-        ServerManager.UIController_.SceneLoader.Operation = 2;
-        PlatformManager.SolutionPath.Clear();
     }
 
     private void LateUpdate()

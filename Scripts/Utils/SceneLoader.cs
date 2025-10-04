@@ -6,30 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public static string CurrentScene { get; private set; } // Current index when it run
-    
+    public static string CurrentScene { get; private set; } // Current index when it run 
     public TMP_Text LoadingText { get; private set; } // Child text of this script
-    private AsyncOperation AsyncLoad; 
-    private readonly List<GameObject> Root = new(); // Root objects that in the tutorial scene
+    public TMP_Text Header { get; private set; }
 
     // it will be use remowe the waiting screen to be notificated by either host or client from server side on multiplayer
     public int Operation = 1;
 
+    private AsyncOperation AsyncLoad; 
+    private readonly List<GameObject> Root = new(); // Root objects that in the tutorial scene
+    private readonly TMPTool TMPTool = new();
+
+    private void Awake()
+    {
+        Header = transform.GetChild(0).GetComponent<TMP_Text>();
+        LoadingText = transform.GetChild(1).GetComponent<TMP_Text>();
+    }
     private void Start()
     {
         CurrentScene = SceneManager.GetActiveScene().name;
-        LoadingText = transform.GetChild(1).GetComponent<TMP_Text>();
-    }
-    private IEnumerator FadeText ()
-    {
-        float t = 0f;
-        while (true)
-        {
-            float alpha = Mathf.PingPong(t * 1f, 1f);
-            LoadingText.color = new Color(LoadingText.color.r, LoadingText.color.g, LoadingText.color.b, alpha);
-            t += Time.deltaTime;
-            yield return null;
-        }
     }
     public IEnumerator LoadSceneWithPreparation(string targetSceneName)
     {  
@@ -47,7 +42,7 @@ public class SceneLoader : MonoBehaviour
 
         LoadingText.text = "TAP TO CONTINUE";
 
-        StartCoroutine(FadeText());
+        StartCoroutine(TMPTool.FadeText(LoadingText));
 
 #if UNITY_STANDALONE_WIN
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
@@ -110,7 +105,7 @@ public class SceneLoader : MonoBehaviour
         CanvasGroup load = GetComponent<CanvasGroup>();
         float elapsed = 0f;
 
-        StartCoroutine(FadeText());
+        Coroutine TextFade =  StartCoroutine(TMPTool.FadeText(LoadingText));
 
         if (playerType.Equals("Host"))
         {
@@ -135,6 +130,8 @@ public class SceneLoader : MonoBehaviour
         load.alpha = 0f;
         load.interactable = false;
         load.blocksRaycasts = false;
+
+        StopCoroutine(TextFade);
     }
 
 }

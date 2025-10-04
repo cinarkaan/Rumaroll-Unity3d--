@@ -26,8 +26,9 @@ public class UIController : ExceptionalUI
     private Vector2 touchStart;
     private bool isCounter;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         StartCoroutine(PlaceFlag());
         InitializeEvents();
         InitializeButtons();
@@ -44,13 +45,11 @@ public class UIController : ExceptionalUI
             texts.Find(t => t.name == "ShieldCount").text = ": X" + PlayerPrefs.GetInt("Shield").ToString();
         if (texts.Find(t => t.name == "ClueCount") != null)
             texts.Find(t => t.name == "ClueCount").text = ": X" + PlayerPrefs.GetInt("Clue").ToString();
-        texts[0].gameObject.SetActive(PlayerPrefs.GetInt("Fps") > 0 ? true : false);
+        texts[0].gameObject.SetActive(PlayerPrefs.GetInt("Fps") > 0);
         SwipeThreshold = PlayerPrefs.GetFloat("Touch Sensitivity");
     }
     public void InitializeButtons()
     {
-        if (Buttons.Find(b => b != null && b.name == "Close") is Button close)
-            close.gameObject.SetActive(false);
         if (Buttons.Find(b => b != null && b.name == "Shield") is Button shield)
             shield.interactable = PlayerPrefs.GetInt("Shield") > 0;
         if (Buttons.Find(b => b != null && b.name == "Clue") is Button clue)
@@ -70,7 +69,6 @@ public class UIController : ExceptionalUI
             texts[0].text = "FPS : " + ((int)(1f / Time.unscaledDeltaTime));
             TimeSinceLastUpdate = 0f;
         }
-
 #if UNITY_STANDALONE_WIN     
         if (Input.GetKeyDown(KeyCode.A))
             Left();
@@ -140,6 +138,7 @@ public class UIController : ExceptionalUI
         }
 #endif
         Aspect.PivotAspect();
+        TMPTool.WaveHeader();
     }
     protected override void InitializeUserPrefs()
     {
@@ -317,6 +316,7 @@ public class UIController : ExceptionalUI
         loader.GetComponent<CanvasGroup>().alpha = targetAlpha; // Assign new alpha value
         PlayerPrefs.SetInt("Stage", (Stage != 12 && !sceneName.Equals("MainMenu")) ? Stage + 1 : Stage); // Make clear which scene is to be loaded
         yield return new WaitForSeconds(0.5f); // Wait for half second
+        TMPTool.SetHeader(loader.Header);
         StartCoroutine(loader.LoadSceneWithPreparation(sceneName)); // // Prepare to loading new scene 
     }
     public IEnumerator FadeInOut(Color startColor, Color end)
