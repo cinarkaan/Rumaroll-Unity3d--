@@ -70,3 +70,19 @@
 
 <a href="https://drive.google.com/drive/folders/1yEgAlwRgHbMggyiq8FSbbgmhpJVbxaxl?usp=drive_link">Get Access To Downloading Exe File</a>
 
+<h2>Developer Diaries (Next Updates)</h2>
+
+<p>The next updates will be covered on the followings : </p>
+
+<h3>The Profile Menu</h3>
+
+<ul>
+  <li><p>The players will be able to chosen the materials that is consist of the faces of the cube.</p></li>
+  <li><p>Depents on the new maps that is to be published at the new updates , The players will be changed the cube. So it means that players will be able to selected the cube as they wish.</p></li>
+  <li><p>Diffirent style shield & clue effects will be on the store.</p></li>
+  <li><p>The point system. Players will be used these points as they want to buy the new maps.</p></li>
+</ul>
+
+<img src="./SS/WoodenProfile.png">
+
+<img src="./SS/Gothic.png">
