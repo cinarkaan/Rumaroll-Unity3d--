@@ -74,4 +74,15 @@
 
 <a href="https://drive.google.com/drive/folders/1yEgAlwRgHbMggyiq8FSbbgmhpJVbxaxl?usp=drive_link">Get Access To Downloading Exe File</a>
 
+<h2>Developer Diaries</h2>
 
+<p>The next updates will be consisted from the followings : </p>
+
+<img src ="./SS/NewUI.png">
+
+<img src ="./SS/NewMap.png">
+
+<ul>
+  <li>The ui will be updated with more animations & "Ancient Times" theme.</li>
+  <li>The new map as ancient and new cube. (More cubes will be there on the store & profile to be chosen coming soon)</li>
+</ul>
