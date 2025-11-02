@@ -82,7 +82,10 @@
 
 <img src ="./SS/NewMap.png">
 
+<img src ="./SS/Mystical.png">
+
 <ul>
   <li>The ui will be updated with more animations & "Ancient Times" theme.</li>
   <li>The new map as ancient and new cube. (More cubes will be there on the store & profile to be chosen coming soon)</li>
+  <li>The new map & profile which is called as "Mystical" will be at the game coming soon after the called as "Ancient".</li>
 </ul>
