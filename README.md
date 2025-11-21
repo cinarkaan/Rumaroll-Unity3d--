@@ -80,7 +80,15 @@
 
 <img src ="./SS/NewUI.png">
 
-<img src ="./SS/NewMap.png">
+<img src ="./SS/Ancient.png">
+
+<img src ="./SS/Ancient_1.png">
+
+<img src ="./SS/Ancient_2.png">
+
+<img src ="./SS/Ancient_3.png">
+
+<img src ="./SS/Ancient_4.png">
 
 <img src ="./SS/Mystical.png">
 
@@ -89,9 +97,3 @@
   <li>The new map as ancient and new cube. (More cubes will be there on the store & profile to be chosen coming soon)</li>
   <li>The new map & profile which is called as "Mystical" will be at the game coming soon after the called as "Ancient".</li>
 </ul>
-
-<p>Some new sights from the ancient map. It will be there on the game coming soon!!!</p>
-
-<img src ="./SS/Ancient_1.png">
-<img src ="./SS/Ancient_2.png">
-<img src ="./SS/Ancient_3.png">
