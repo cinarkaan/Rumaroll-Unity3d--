@@ -68,18 +68,14 @@
 
 <p> In this scene , player must be pay attendioned to obstacles and enemy that was placed either solution or unsolution ways. Anymore they can collect diamonds to purchase rare item on the store. Also they can use it on this scene. In addition these they can take a review map that is placed right bottom on the screen. The platform that is consist of colorful tiles is created with DFS data structures which is means each colorful tile where is placed in the platform has unique position of places when it restart. We might be take a look with point view just like mix of the open-word and platform games. At the each init of scene , the algorithm will run and generate another unique solution and platform. In addition these , at the last stage of day , you are going to encounter with enemy that has autonomous move features. In here , this system similarity with AI , it runs A* algorithm to find new path on the platform from start to arrive point to make arrive enemy. Also the obstacles that is placed at the previous stage are placed with particular data structures. The execute order is : First one is platform manager , Second one is event manager ,  Third one is Obstacle Manager , Latest is Enemy Manager. Thus the platform had been builded complately.</p>
 
-<a href="https://github.com/cinarkaan/Rumaroll-Unity3d--/blob/master/Scripts/Exceptional/ExceptionalPlatform.cs">To Review The Code For To See Platform Manager - DFS Algorithm</a>
-
-<a href="https://github.com/cinarkaan/Rumaroll-Unity3d--/blob/master/Scripts/SinglePlayer/Managers/EnemyManager.cs">To Review The Code For To See Enemy Manager - A* Algorithm</a>
-
-<a href="https://drive.google.com/drive/folders/1yEgAlwRgHbMggyiq8FSbbgmhpJVbxaxl?usp=drive_link">Get Access To Downloading Exe File</a>
-
 <h2>Developer Diaries</h2>
 
-<p>The next updates will be consisted from the followings : </p>
+<p>Ancient & Mystical (New Maps & Platforms)</p>
 
+<h3>New UI</h3>
 <img src ="./SS/NewUI.png">
 
+<h3>Ancient Profile</h3>
 <img src ="./SS/Ancient.png">
 
 <img src ="./SS/Ancient_1.png">
@@ -90,10 +86,14 @@
 
 <img src ="./SS/Ancient_4.png">
 
+<h3>Mystical Profile</h3>
 <img src ="./SS/Mystical.png">
 
-<ul>
-  <li>The ui will be updated with more animations & "Ancient Times" theme.</li>
-  <li>The new map as ancient and new cube. (More cubes will be there on the store & profile to be chosen coming soon)</li>
-  <li>The new map & profile which is called as "Mystical" will be at the game coming soon after the called as "Ancient".</li>
-</ul>
+<img src ="./SS/Mystical-1.png">
+
+<img src ="./SS/Mystical-2.png">
+
+<img src ="./SS/Mystical-3.png">
+
+<img src ="./SS/Mystical-4.png">
+
