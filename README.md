@@ -75,6 +75,9 @@
 <h3>New UI</h3>
 <img src ="./SS/NewUI.png">
 
+<p>As it progresses , you will explore new different maps ,platforms... e.g</p>
+<img src ="./SS/MapSelection.png">
+
 <h3>Ancient Profile</h3>
 <img src ="./SS/Ancient.png">
 
