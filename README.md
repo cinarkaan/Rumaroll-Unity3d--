@@ -1,5 +1,9 @@
 # RUMAROLL
 
+<h1>!!!SIGNAFICANT!!!</h1>
+
+<p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED AT THE NEXT YEAR (2026) ON THE MOBILE PLATFORM.</p>
+
 <h1>Purpose</h1>
 
 <p>The cube that is colorful is to reach out evacuation point by rolling on the tile that matches with it's bottom face colors. At the each new stage means more extended platform and more difficult obstacles</p>
