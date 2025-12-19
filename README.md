@@ -14,31 +14,33 @@
 
 <h2>MAIN MENU</h2>
 
- <img src="./SS/MainMenu.png">
- 
 <p> The players will start to game in here after lauched app. But if the tutorial passed , they must be started from continuous by passing in the store. Otherwise the recorded game is reseted.</p>
 
 <p> The main menu is the ui that is conducted the origin stream of game. The players might make various processes.</p>
 
-<h2>Settings</h2>
+<img src="./SS/MainMenu.png">
 
-<img src="./SS/Setting.png">
+<h2>Settings</h2>
 
 <p> The players might to prefer to turn off or initialize some settings about the game (e.g sound , vfx ..)</p>
 
-<h2>Continue & Store</h2>
+<img src="./SS/Setting.png">
 
- <img src="./SS/Store.png">
+<h2>Continue & Store</h2>
 
 <p> The players are able to purchase items or see count of items and loots that belongs just before start to game , if they would like</p>
 
-<h2>Profile Menu</h2>
+<img src="./SS/Store.png">
 
-<img src="./SS/Profile.png">
+<h2>Profile Menu</h2>
 
 <p> Player might be assign different materials their cube. The profile menu provides that. Players are able to select the materials , as they wish or the materials can be chosen as randomly.</p>
 
+<img src="./SS/Profile.png">
+
 <h2>Multiplayer</h2>
+
+<p> There are 2 different options. First one is the create game lobby that is settled rooms by players as well as are able to select the platform options (Stage,Difficulty, E.g). If you selected the either normal or hard difficulty , you will encounter either the obstacles or enemy depends on your option. Second one is the lobby that joins players. In a 10 seconds you will be see a room , of course if it exists. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room. The player who won is to be own the rewards end of the stage. The player who reach out to evacuation point wins the game , the first player(host) starts at the (6,6) referance point and the second player(client) starts at the (18,18) referance point. In here two player are connected to each other by using UDP socket protocol. Both two player must have been connected  same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player.  </p>
 
 <img src="./SS/Multiplayer_1.png">
 
@@ -46,15 +48,15 @@
 
 <img src="./SS/Multiplayer_3.png">
 
-<p> There are 2 different options. First one is the create game lobby that is settled rooms by players as well as are able to select the platform options (Stage,Difficulty, E.g). If you selected the either normal or hard difficulty , you will encounter either the obstacles or enemy depends on your option. Second one is the lobby that joins players. In a 10 seconds you will be see a room , of course if it exists. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room. The player who won is to be own the rewards end of the stage. The player who reach out to evacuation point wins the game , the first player(host) starts at the (6,6) referance point and the second player(client) starts at the (18,18) referance point. In here two player are connected to each other by using UDP socket protocol. Both two player must have been connected  same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player.  </p>
-
 <h2>Tutorial - Stage 4 (4 x 4 Grid Platform)</h2>
-
-<img src="./SS/Tutorial.png">
 
 <p> In this scene , player what have to do which is the will be told them by guide  when it start game. Players can collect the coins that is to be spent on the store to purchase items. It is easy stage</p>
 
+<img src="./SS/Tutorial.png">
+
 <h2>Day - From Stage 5 To Stage 12 (5 x 5 - 12 x 12) </h2>
+
+<p> In this scene , player must be pay attendioned to obstacles and enemy that was placed either solution or unsolution ways. Anymore they can collect diamonds to purchase rare item on the store. Also they can use it on this scene. In addition these they can take a review map that is placed right bottom on the screen. The platform that is consist of colorful tiles is created with DFS data structures which is means each colorful tile where is placed in the platform has unique position of places when it restart. We might be take a look with point view just like mix of the open-word and platform games. At the each init of scene , the algorithm will run and generate another unique solution and platform. In addition these , at the last stage of day , you are going to encounter with enemy that has autonomous move features. In here , this system similarity with AI , it runs A* algorithm to find new path on the platform from start to arrive point to make arrive enemy. Also the obstacles that is placed at the previous stage are placed with particular data structures. The execute order is : First one is platform manager , Second one is event manager ,  Third one is Obstacle Manager , Latest is Enemy Manager. Thus the platform had been builded complately.</p>
 
 <img src="./SS/Day_1.png">
 
@@ -66,9 +68,6 @@
 
 <img src="./SS/Day_5.png">
 
-<p> In this scene , player must be pay attendioned to obstacles and enemy that was placed either solution or unsolution ways. Anymore they can collect diamonds to purchase rare item on the store. Also they can use it on this scene. In addition these they can take a review map that is placed right bottom on the screen. The platform that is consist of colorful tiles is created with DFS data structures which is means each colorful tile where is placed in the platform has unique position of places when it restart. We might be take a look with point view just like mix of the open-word and platform games. At the each init of scene , the algorithm will run and generate another unique solution and platform. In addition these , at the last stage of day , you are going to encounter with enemy that has autonomous move features. In here , this system similarity with AI , it runs A* algorithm to find new path on the platform from start to arrive point to make arrive enemy. Also the obstacles that is placed at the previous stage are placed with particular data structures. The execute order is : First one is platform manager , Second one is event manager ,  Third one is Obstacle Manager , Latest is Enemy Manager. Thus the platform had been builded complately.</p>
-
-<h2>Developer Diaries</h2>
 
 <p>Ancient & Mystical (New Maps & Platforms)</p>
 
@@ -99,4 +98,16 @@
 <img src ="./SS/Mystical-3.png">
 
 <img src ="./SS/Mystical-4.png">
+
+<h2>Developer Diaries</h2>
+
+<h3>New Enemy & Obstacles (Mystical & Ancient)</h3>
+
+<img src ="./SS/Diaries_1.png">
+
+<p>The FlameThrower spreads flames. If the player expose the flame over 0.5 seconds , it will be game over. Depends on the stage , the count of the flamethrower will be increase. Be Carefull !!!</p>
+
+<img src ="./SS/Diaries_2.png">
+
+<p>The Dwarf is strolling free around the on the platform. If you are at the view aspect of the dwarf and move toward this aspect , it will notice and attack to you... . So do not try to move if dwarf looks toward you. Be Carefull !!!</p>
 
