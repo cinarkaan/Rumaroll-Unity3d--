@@ -2,6 +2,7 @@
 
 <h1>!!!SIGNAFICANT!!!</h1>
 
+<p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old.</p>
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED AT THE NEXT YEAR (2026) ON THE MOBILE PLATFORM.</p>
 
 <h1>Purpose</h1>
