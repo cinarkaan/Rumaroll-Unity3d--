@@ -116,3 +116,4 @@
 
 <p>The Dwarf is strolling free around the on the platform. If you are at the view aspect of the dwarf and move toward this aspect , it will notice and attack to you... . So do not try to move if dwarf looks toward you. Be Carefull !!!</p>
 
+<p>Dynamic tiles was placed for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. So it changes at the each 3 seconds between dummy and original. !!!</p>
