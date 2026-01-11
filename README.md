@@ -135,6 +135,10 @@ The rendering backends supported are Vulkan 1.0 (Android 10 and above) and OpenG
 
 <p>The FlameThrower spreads flames. If the player expose the flame over 0.5 seconds , it will be game over. Depends on the stage , the count of the flamethrower will be increase. Be Carefull !!!</p>
 
+<img src ="./SS/Cannon&Ancient.png">
+
+<p>The Cannon is spawned on the ANCÝENT map which is next stages. It explodes each certains seconds that has been indicated before it was spanked as difficulty selection!!!</p>
+
 <img src ="./SS/Diaries_2.png">
 
 <p>The Dwarf is strolling free around the on the platform. If you are at the view aspect of the dwarf and move toward this aspect , it will notice and attack to you... . So do not try to move if dwarf looks toward you. Be Carefull !!!</p>
