@@ -137,7 +137,7 @@ The rendering backends supported are Vulkan 1.0 (Android 10 and above) and OpenG
 
 <img src ="./SS/Cannon&Ancient.png">
 
-<p>The Cannon is spawned on the ANCÝENT map which is next stages. It explodes each certains seconds that has been indicated before it was spanked as difficulty selection!!!</p>
+<p>The Cannon is spawned on the ANCIENT map which is next stages. It explodes each certains seconds that has been indicated before it was spanked as difficulty selection!!!</p>
 
 <img src ="./SS/Diaries_2.png">
 
