@@ -139,6 +139,10 @@ The rendering backends supported are Vulkan 1.0 (Android 10 and above) and OpenG
 
 <p>The Cannon is spawned on the ANCIENT map which is next stages. It explodes each certains seconds that has been indicated before it was spanked as difficulty selection!!!</p>
 
+<img src ="./SS/AncientCutter.png">
+
+<p>"The Bone Cutter" just like the colorful map. It spawns environments of thee valuable events(diamonds , emrald). This obstacle spawns depends on the difficulty selection of the user!!!</p>
+
 <img src ="./SS/Diaries_2.png">
 
 <p>The Dwarf is strolling free around the on the platform. If you are at the view aspect of the dwarf and move toward this aspect , it will notice and attack to you... . So do not try to move if dwarf looks toward you. Be Carefull !!!</p>
@@ -149,3 +153,5 @@ The rendering backends supported are Vulkan 1.0 (Android 10 and above) and OpenG
 So it changes at the each 3 seconds between dummy and original. !!!
 Dynamics changes color at the each 3 seconds. !!!
 !!!Depends on the difficulty selection , whether dynamics tile can be existed at the platform...!!!</p>
+
+<h3>HAVE FUN!!!</h3>
