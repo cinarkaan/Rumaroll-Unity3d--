@@ -1,6 +1,6 @@
 # RUMAROLL
 
-<h1>!!!SIGNIFICANT & DO NOT PASS WÝTHOUT READ !!!</h1>
+<h1>!!!SIGNIFICANT & DO NOT PASS WITHOUT READ !!!</h1>
 
 <p>Solo-developed commercial game project targeting Android & iOS platforms.</p>
 
