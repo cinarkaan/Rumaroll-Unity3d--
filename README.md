@@ -1,11 +1,11 @@
 # RUMAROLL
 
-<h1>!!!SIGNAFICANT & READ BEFORE!!!</h1>
+<h1>!!!SIGNIFICANT & DO NOT PASS WÝTHOUT READ !!!</h1>
 
 <p>Solo-developed commercial game project targeting Android & iOS platforms.</p>
 
-<p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old.</p>
-<p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM.</p>
+<p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old name and invalid.</p>
+<p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM(ANDROID +10).</p>
 
 <ul>
     <li>Single Player: 3 maps × 4 stages (12 stages total)</li>
@@ -27,7 +27,7 @@ Please Keep Going To Read And Then Enjoy The My Game</p>
 <h3>Structure Of The Game Graphics</h3>
 <p>The game is developed using Unity and utilizes the Scriptable Render Pipeline (SRP) based on the Universal Render Pipeline (URP). 
 It employs a variety of mobile-optimized shaders, including unlit shaders and custom SRP-compatible shaders written in HLSL under URP fundamentals. 
-The rendering backends supported are Vulkan 1.0 (Android 10 and above) and OpenGL 3.2+.</p>
+The rendering backends supported are Vulkan 1.0+ (Android 10 and above) and OpenGL 3.2+.</p>
 
 <h1>Purpose</h1>
 
@@ -51,107 +51,98 @@ The rendering backends supported are Vulkan 1.0 (Android 10 and above) and OpenG
 
 <h2>Settings</h2>
 
-<p> The players might to prefer to turn off or initialize some settings about the game (e.g sound , vfx ..)</p>
+<p> The players might to prefer to turn off or initialize some settings about the game (e.g sound , vfx ..). 
+The significant note that is the post-processing options is recommended high - performance devices which is higher Android api (+12 , Mali G71, Adreno 540, Adreno 610 or higher) </p>
 
-<img src="./SS/Setting.png">
+<img src="./SS/Settings.png">
 
-<h2>Continue & Store</h2>
-
-<p> The players are able to purchase items or see count of items and loots that belongs just before start to game , if they would like</p>
-
-<img src="./SS/Store.png">
+<h2>Map Selection</h2>
+<p>If you already had started the game by clicking the 'SinglePLayer' , then you would must continue by choosing the map that you have been playing.
+After you selected the map , the game will load the profile screen.</p>
 
 <h2>Profile Menu</h2>
 
 <p> Player might be assign different materials their cube. The profile menu provides that. Players are able to select the materials , as they wish or the materials can be chosen as randomly.</p>
 
-<img src="./SS/Profile.png">
+<img src="./SS/Colorful.png">
+
+<img src="./SS/Ancient.png">
+
+<img src="./SS/Mystical.png">
+
+<h2>Store</h2>
+
+<p> The players are able to purchase items or see count of items and loots that belongs just before start to game , if they would like</p>
+
+<img src="./SS/Store.png">
 
 <h2>Multiplayer</h2>
 
 <p> There are 2 different options. First one is the create game lobby that is settled rooms by players as well as are able to select the platform options (Stage,Difficulty, E.g). If you selected the either normal or hard difficulty , you will encounter either the obstacles or enemy depends on your option. Second one is the lobby that joins players. In a 10 seconds you will be see a room , of course if it exists. Signaficant note : The wifi of device must had been turned on by the players before either create room or join room. The player who won is to be own the rewards end of the stage. The player who reach out to evacuation point wins the game , the first player(host) starts at the (6,6) referance point and the second player(client) starts at the (18,18) referance point. In here two player are connected to each other by using UDP socket protocol. Both two player must have been connected  same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player.  </p>
 
-<img src="./SS/Multiplayer_1.png">
+<img src="./SS/Multiplayer.png">
 
-<img src="./SS/Multiplayer_2.png">
+<img src="./SS/CreateGame.png">
 
-<img src="./SS/Multiplayer_3.png">
+<img src="./SS/JoinGame.png">
 
-<h2>Tutorial - Stage 4 (4 x 4 Grid Platform)</h2>
+<h2>Colorful</h2>
 
-<p> In this scene , player what have to do which is the will be told them by guide  when it start game. Players can collect the coins that is to be spent on the store to purchase items. It is easy stage</p>
+<p>In the begin of the each stage , player what have to do which is the will be told them by guide  when it start game(If you want to keep going without read
+, you can click forward button where is placed top of the left of the screen). The map which is named as 'COLORFUL' contains 4 stage. 
+There are 3 different weather status(Sunny(Flyies Dusty Particules), Rainy and Snowy. The Guide can be skipped , if the player wants to passing it</p>
 
-<img src="./SS/Tutorial.png">
+<img src="./SS/Colorful-1.png">
 
-<h2>Day - From Stage 5 To Stage 12 (5 x 5 - 12 x 12) </h2>
+<img src="./SS/Colorful-2.png">
 
-<p> In this scene , player must be pay attendioned to obstacles and enemy that was placed either solution or unsolution ways. Anymore they can collect diamonds to purchase rare item on the store. Also they can use it on this scene. In addition these they can take a review map that is placed right bottom on the screen. The platform that is consist of colorful tiles is created with DFS data structures which is means each colorful tile where is placed in the platform has unique position of places when it restart. We might be take a look with point view just like mix of the open-word and platform games. At the each init of scene , the algorithm will run and generate another unique solution and platform. In addition these , at the last stage of day , you are going to encounter with enemy that has autonomous move features. In here , this system similarity with AI , it runs A* algorithm to find new path on the platform from start to arrive point to make arrive enemy. Also the obstacles that is placed at the previous stage are placed with particular data structures. The execute order is : First one is platform manager , Second one is event manager ,  Third one is Obstacle Manager , Latest is Enemy Manager. Thus the platform had been builded complately.</p>
+<img src="./SS/Colorful-3.png">
 
-<img src="./SS/Day_1.png">
+<img src="./SS/Colorful-4.png">
 
-<img src="./SS/Day_2.png">
+<img src="./SS/Colorful-5.png">
 
-<img src="./SS/Day_3.png">
+<img src="./SS/Guide.png">
 
-<img src="./SS/Day_4.png">
+<h3>Ancient</h3>
 
-<img src="./SS/Day_5.png">
+<p>The 'Ancient' Map that would be opened after the completed the 'Colorful' map. There is a lava sea where is surrounded of the platform. 
+This map is more complicated and longer than 'Colorful' map. You have to get activated by rotray bridges and take key... 
+Of course watch out the obstacles. Beside this you can explore the emerald loot higher possibility than 'Colorful'</p>
 
-<p>Ancient & Mystical (New Maps & Platforms)</p>
+<img src ="./SS/Ancient-1.png">
 
-<h3>New UI</h3>
-<img src ="./SS/NewUI.png">
+<img src ="./SS/Ancient_Obs.png">
 
-<p>As it progresses , you will explore new different maps ,platforms... e.g</p>
-<img src ="./SS/MapSelection.png">
+<img src ="./SS/Ancient_Cannon.png">
 
-<h3>Ancient Profile</h3>
-<img src ="./SS/Ancient.png">
+<img src ="./SS/Ancient_Activate_Event.png">
 
-<img src ="./SS/Ancient_1.png">
+<img src ="./SS/Ancient_Gate.png">
 
-<img src ="./SS/Ancient_2.png">
+<img src ="./SS/Ancient_Shield_Clue.png">
 
-<img src ="./SS/Ancient_3.png">
+<h3>Mystical</h3>
 
-<img src ="./SS/Ancient_4.png">
+<p>The last map of the game is 'Mystical'. It is less complicated than the 'Ancient' map but more exhausted than it. 
+The magicful atmosphere of it might be surprised you. Watch out the dwarf the last stage !!! </p>
 
-<h3>Mystical Profile</h3>
-<img src ="./SS/Mystical.png">
+<img src ="./SS/Mystical_1.png">
 
-<img src ="./SS/Mystical-1.png">
+<img src ="./SS/Mystical_2.png">
 
-<img src ="./SS/Mystical-2.png">
+<img src ="./SS/Mystical_Activator.png">
 
-<img src ="./SS/Mystical-3.png">
+<img src ="./SS/Mystical_Dwarf.png">
 
-<img src ="./SS/Mystical-4.png">
 
-<h2>Developer Diaries</h2>
-
-<h3>New Enemy & Obstacles (Mystical & Ancient)</h3>
-
-<img src ="./SS/Diaries_1.png">
-
-<p>The FlameThrower spreads flames. If the player expose the flame over 0.5 seconds , it will be game over. Depends on the stage , the count of the flamethrower will be increase. Be Carefull !!!</p>
-
-<img src ="./SS/Cannon&Ancient.png">
-
-<p>The Cannon is spawned on the ANCIENT map which is next stages. It explodes each certains seconds that has been indicated before it was spanked as difficulty selection!!!</p>
-
-<img src ="./SS/AncientCutter.png">
-
-<p>"The Bone Cutter" just like the colorful map. It spawns environments of thee valuable events(diamonds , emrald). This obstacle spawns depends on the difficulty selection of the user!!!</p>
-
-<img src ="./SS/Diaries_2.png">
-
-<p>The Dwarf is strolling free around the on the platform. If you are at the view aspect of the dwarf and move toward this aspect , it will notice and attack to you... . So do not try to move if dwarf looks toward you. Be Carefull !!!</p>
-
-<h3>DYNAMIC TILES</h3>
-
-<p>Dynamic tiles was placed for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
+<h3>ABOUT THE DYNAMIC TILES</h3>
+<p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
 So it changes at the each 3 seconds between dummy and original. !!!
 Dynamics changes color at the each 3 seconds. !!!
 !!!Depends on the difficulty selection , whether dynamics tile can be existed at the platform...!!!</p>
 
 <h3>HAVE FUN!!!</h3>
+
+
+
