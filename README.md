@@ -96,7 +96,7 @@ Both two player must have been connected on the same wi-fi network. Otherwise th
 
 <img src="./SS/JoinGame.png">
 
-<img src="../SS/RewardsMultiplayer.png">
+<img src="./SS/RewardsMultiplayer.png">
 
 <h2>Colorful</h2>
 
