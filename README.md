@@ -1,4 +1,4 @@
-# ROLORA
+﻿# ROLORA
 
 <h1>!!!SIGNIFICANT & DO NOT PASS WITHOUT READ !!!</h1>
 
@@ -7,12 +7,11 @@
 <p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old name and invalid.</p>
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM(ANDROID +10).</p>
 
-## Rolora Gameplay Teaser
-[![Watch the video](https://img.youtube.com/vi/G7CGt85ev9w/maxresdefault.jpg)]
-(https://youtu.be/G7CGt85ev9w)
+## 🎮 Rolora Gameplay Teaser
+[![Rolora Gameplay Teaser](https://img.youtube.com/vi/G7CGt85ev9w/maxresdefault.jpg)](https://youtu.be/G7CGt85ev9w)
 
 <ul>
-    <li>Single Player: 3 maps � 4 stages (12 stages total)</li>
+    <li>Single Player: 3 maps × 4 stages (12 stages total)</li>
     <li>Local Multiplayer: UDP-based local multiplayer over Wi-Fi (LAN)</li>
     <li>Demo version with limited playtime (10 minutes, multiplayer disabled)</li>
     <li> Technologies: Unity, C#, SRP, URP, custom shaders (HLSL), Procedural level generation using data structures (DFS), UDP networking</li>
