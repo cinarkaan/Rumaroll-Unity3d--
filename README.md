@@ -7,8 +7,7 @@
 <p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old name and invalid.</p>
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM(ANDROID +10).</p>
 
-## Rolora Gameplay Teaser
-https://youtu.be/G7CGt85ev9w
+[Rolora Gameplay Teaser](https://youtu.be/G7CGt85ev9w)
 
 <ul>
     <li>Single Player: 3 maps × 4 stages (12 stages total)</li>
