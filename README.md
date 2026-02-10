@@ -66,7 +66,7 @@ After you selected the map , the game will load the profile screen.</p>
 
 <p> Player might be assign different materials their cube. The profile menu provides that. Players are able to select the materials , as they wish or the materials can be chosen as randomly.</p>
 
-<img src="./SS/Colorful.png">
+<img src="./SS/ColorfulProfile.png">
 
 <img src="./SS/Ancient.png">
 
