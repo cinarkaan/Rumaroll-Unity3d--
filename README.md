@@ -8,7 +8,7 @@
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM(ANDROID +10).</p>
 
 ## 🎮 Rolora Gameplay Teaser
-[![Rolora Gameplay Teaser](https://img.youtube.com/vi/G7CGt85ev9w/maxresdefault.jpg)](https://youtu.be/G7CGt85ev9w)
+[![Rolora Gameplay Teaser](https://img.youtube.com/vi/_TYTQAT4XNs/maxresdefault.jpg)](https://youtu.be/_TYTQAT4XNs)
 
 <ul>
     <li>Single Player: 3 maps × 4 stages (12 stages total)</li>
