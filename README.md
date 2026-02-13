@@ -1,8 +1,8 @@
 ﻿# ROLORA
 
-<h1>!!!SIGNIFICANT & DO NOT PASS WITHOUT READ !!!</h1>
+<h1>!!! TECHNICAL HIGHLIGHTS !!!</h1>
 
-<p>Solo-developed commercial game project targeting Android & iOS platforms.</p>
+<p>Solo-developed commercial game project targeting Android & iOS platforms. (IN DEVELOPMENT)</p>
 
 <p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old name and invalid.</p>
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM(ANDROID +10).</p>
