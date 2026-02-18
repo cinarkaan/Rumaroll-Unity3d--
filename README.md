@@ -88,7 +88,9 @@ In a 10 seconds you will be see a room , of course if it exists or created. Sign
 The player who won is to be own the rewards end of the stage. (Coins , Shields , Clues , Diamonds e.g)
 The player who reach out to evacuation point wins the game , the first player(host) starts at the (0,0) referance point and the second player(client) starts at the either (5,5) or (6,6) referance point depends on the difficulty. 
 In here two player are connected to each other by using UDP socket protocol. 
-Both two player must have been connected on the same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player.</p>
+Both two player must have been connected on the same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player.
+For each as you rolled your cube on the unsolution tile(Not Same Material) time , it will be deducted from your total point. 
+Total point contribute to calculating your total score and amount of rewards which is to be opened cards.</p>
 
 <img src="./SS/Multiplayer.png">
 
