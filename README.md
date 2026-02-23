@@ -159,7 +159,7 @@ Each frame has different perfections (e.g., +20% shield duration, resistance for
 It changes from, depends on the currency that is purchased. You can preview by clicking on the material icon. 
 You will see the perfection that belongs on the frame next to the cube after clicking the frame preview.</p>
 
-<img src ="./SS/ColorfulFrame.png">
+<img src ="./SS/FramesForColorful.png">
 
 <img src ="./SS/FramesForAncient.png">
 
