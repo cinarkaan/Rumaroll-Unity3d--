@@ -152,6 +152,18 @@ The magicful atmosphere of it might be surprised you. Watch out the dwarf the la
 
 <img src ="./SS/Mystical_Dwarf.png">
 
+<h2>DEVELOPER DIARIES(ABOUT THE NEXT UPDATE)</h3>
+
+<p>There are various frame options that are able to be selected by the player. 
+Each frame has different perfections (e.g., +20% shield duration, resistance for various obstacles or enemies, and +5% roll speed). 
+It changes from, depends on the currency that is purchased. You can preview by clicking on the material icon. 
+You will see the perfection that belongs on the frame next to the cube after clicking the frame preview.</p>
+
+<img src ="./SS/ColorfulFrame.png">
+
+<img src ="./SS/FramesForAncient.png">
+
+<img src ="./SS/FramesForMystical.png">
 
 <h3>ABOUT THE DYNAMIC TILES</h3>
 <p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
