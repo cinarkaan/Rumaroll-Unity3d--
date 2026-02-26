@@ -159,11 +159,11 @@ Each frame has different perfections (e.g., +20% shield duration, resistance for
 It changes from, depends on the currency that is purchased. You can preview by clicking on the material icon. 
 You will see the perfection that belongs on the frame next to the cube after clicking the frame preview.</p>
 
-<img src ="./SS/FramesForColorful.png">
+<img src ="./SS/FrameColorful.png">
 
-<img src ="./SS/FramesForAncient.png">
+<img src ="./SS/FrameAncient.png">
 
-<img src ="./SS/FramesForMystical.png">
+<img src ="./SS/FrameMystical.png">
 
 <h3>ABOUT THE DYNAMIC TILES</h3>
 <p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
