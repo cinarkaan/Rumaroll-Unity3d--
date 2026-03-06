@@ -90,7 +90,8 @@ The player who reach out to evacuation point wins the game , the first player(ho
 In here two player are connected to each other by using UDP socket protocol. 
 Both two player must have been connected on the same wi-fi network. Otherwise the game will be terminated and ended up on main-menu both two player.
 For each as you rolled your cube on the unsolution tile(Not Same Material) time , it will be deducted from your total point. 
-Total point contribute to calculating your total score and amount of rewards which is to be opened cards.</p>
+Total point contribute to calculating your total score and amount of rewards which is to be opened cards.
+In addition to fetching stats that belong to each player, you can use the button above on the map.</p>
 
 <img src="./SS/Multiplayer.png">
 
