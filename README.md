@@ -100,8 +100,7 @@ Total point contribute to calculating your total score and amount of rewards whi
 
 <img src="./SS/RewardsMultiplayer.png">
 
-<img src="./SS/Multiplayer_.png">
-
+<img src="./SS/Multiplayer_Scene.png">
 
 <h2>Colorful</h2>
 
