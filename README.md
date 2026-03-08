@@ -14,7 +14,7 @@
     <li>Single Player: 3 maps × 4 stages (12 stages total)</li>
     <li>Local Multiplayer: UDP-based local multiplayer over Wi-Fi (LAN)</li>
     <li>Demo version with limited playtime (10 minutes, multiplayer disabled)</li>
-    <li> Technologies: Unity, C#, SRP, URP, custom shaders (HLSL), Procedural level generation using data structures (DFS), UDP networking</li>
+    <li>Technologies: Unity, C#, SRP, URP, custom shaders (Implemented by using HLSL), Procedural level generation using data structures (DFS), Implemented AI gameplay systems using pathfinding algorithms(A*), UDP networking</li>
     <li>Planned commercial release (Android first, iOS next)</li>
 </ul>
 
@@ -28,8 +28,8 @@ Please Keep Going To Read And Then Enjoy The My Game</p>
 
 <h3>Structure Of The Game Graphics</h3>
 <p>The game is developed using Unity and utilizes the Scriptable Render Pipeline (SRP) based on the Universal Render Pipeline (URP). 
-It employs a variety of mobile-optimized shaders, including unlit shaders and custom SRP-compatible shaders written in HLSL under URP fundamentals. 
-The rendering backends supported are Vulkan 1.0+ (Android 10 and above) and OpenGL 3.2+.</p>
+It employs a variety of mobile-optimized shaders, including custom SRP-compatible shaders written in HLSL under URP fundamentals. 
+Created VFX & optimized rendering performance. The rendering backends supported are Vulkan 1.0+ (Android 10 and above) and OpenGL 3.2+.</p>
 
 <h1>Purpose</h1>
 
