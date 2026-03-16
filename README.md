@@ -177,9 +177,9 @@ In the field of the storm, you cannot roll, so the only thing that you have to d
 
 <h3>2 New Frame(CRYSTAL & AIRSOIL)</h3>
 
-<img src ="./SS/FramePanelCrystal.png">
+<img src ="./SS/CrystalFramePanel.png">
 
-<img src ="./SS/FramePanelAirSoil.png">
+<img src ="./SS/AirSoilFramePanel.png">
 
 <h3>ABOUT THE DYNAMIC TILES</h3>
 <p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
