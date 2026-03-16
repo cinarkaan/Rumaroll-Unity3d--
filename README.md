@@ -175,6 +175,12 @@ In the field of the storm, you cannot roll, so the only thing that you have to d
 
 <img src ="./SS/SoulStorm.png">
 
+<h3>2 New Frame(CRYSTAL & AIRSOIL)</h3>
+
+<img src ="./SS/FramePanelCrystal.png">
+
+<img src ="./SS/FramePanelAirsoil.png">
+
 <h3>ABOUT THE DYNAMIC TILES</h3>
 <p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
 So it changes at the each 3 seconds between dummy and original. !!!
