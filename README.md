@@ -175,9 +175,9 @@ In the field of the storm, you cannot roll, so the only thing that you have to d
 
 <img src ="./SS/SoulStorm.png">
 
-<h3>2 New Frame(CRYSTAL & AIRSOIL)</h3>
+<h3>2 New Frames(MARBLE & AIRSOIL)</h3>
 
-<img src ="./SS/CrystalFramePanel.png">
+<img src ="./SS/MarbleFramePanel.png">
 
 <img src ="./SS/AirSoilFramePanel.png">
 
@@ -186,7 +186,6 @@ In the field of the storm, you cannot roll, so the only thing that you have to d
 So it changes at the each 3 seconds between dummy and original. !!!
 Dynamics changes color at the each 3 seconds. !!!
 !!!Depends on the difficulty selection , whether dynamics tile can be existed at the platform...!!!</p>
-
 <h3>HAVE FUN!!!</h3>
 
 
