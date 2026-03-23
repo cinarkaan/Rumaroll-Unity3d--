@@ -182,6 +182,9 @@ In the field of the storm, you cannot roll, so the only thing that you have to d
 <img src ="./SS/AirSoilFramePanel.png">
 
 <h3>THE ANCIENT TURRET(New Obstacle)</h3>
+
+<img src ="./SS/Turret.png">
+
 <p>It is to appear at stage 4 of the ancient map. The ancient turret is rotating 360 degrees in the middle of any platform.
 It has a 45-degree point of view and is able to perceive from a 3-tile distance. 
 Pay attention because it will start to throw arrows as soon as it perceives you. 
