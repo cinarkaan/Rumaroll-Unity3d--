@@ -167,7 +167,7 @@ You will see the perfection that belongs on the frame next to the cube after cli
 
 <img src ="./SS/FramePanelMystical.png">
 
-<h3>SOUL STORM</h3>
+<h3>SOUL STORM(New Enemy)</h3>
 
 <p>The soul storm is to appear at stage 2 in the mystical map. 
 It behaves just like the tornado, but only one thing is different: 
@@ -180,6 +180,17 @@ In the field of the storm, you cannot roll, so the only thing that you have to d
 <img src ="./SS/MarbleFramePanel.png">
 
 <img src ="./SS/AirSoilFramePanel.png">
+
+<h3>THE ANCIENT TURRET(New Obstacle)</h3>
+<p>It is to appear at stage 4 of the ancient map. The ancient turret is rotating 360 degrees in the middle of any platform.
+It has a 45-degree point of view and is able to perceive from a 3-tile distance. 
+Pay attention because it will start to throw arrows as soon as it perceives you. 
+Tiny tips about that: If you have used a either titanium or obsidian frame and activated your shield, 
+each arrow that collides will reduce 2.5 seconds from the shield duration, 
+which means player are not going to be game over directly. .</p>
+
+<h3>The game has been optimized for the devices that use MALİ-G52, and the status of the game against these devices is measured at a minimum of 60 FPS. (Over thermal levels and long game times are exceptions.)</h3>
+
 
 <h3>ABOUT THE DYNAMIC TILES</h3>
 <p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
