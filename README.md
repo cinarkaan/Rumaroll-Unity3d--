@@ -194,6 +194,15 @@ which means player are not going to be game over directly. .</p>
 
 <h3>The game has been optimized for the devices that use MALİ-G52, and the status of the game against these devices is measured at a minimum of 60 FPS. (Over thermal levels and long game times are exceptions.)</h3>
 
+<h3>LOCALIZATION SUPPORT</h3>
+<p>
+The game supports 4 different languages as fully native, which are 
+English <img src="https://flagcdn.com/w20/gb.png" alt="UK Flag">, 
+French <img src="https://flagcdn.com/w20/fr.png" alt="France Flag">, 
+German <img src="https://flagcdn.com/w20/de.png" alt="Germany Flag">, 
+Spanish <img src="https://flagcdn.com/w20/es.png" alt="Spain Flag">. 
+There will be many languages over there after the publication of the game.
+</p>
 
 <h3>ABOUT THE DYNAMIC TILES</h3>
 <p>Dynamic tiles exists for each 3 map. This tiles change properties(colors ,texture) depends on the shader properties. 
