@@ -2,10 +2,16 @@
 
 <h1>!!! TECHNICAL HIGHLIGHTS !!!</h1>
 
+<h2>!!! LISENCE !!!</h>
+
+<p>THIS PROJECT IS NOT OPEN SOURCE. ALL RIGHTS RESERVED.
+THE CONTENT IN THIS REPOSITORY IS PROVIDED FOR VIEWING PURPOSES ONLY. 
+UNAUTHORIZED USE, REPRODUCTION, OR DISTRIBUTION IS STRICTLY PROHIBITED.</p>
+
 <p>Solo-developed commercial game project targeting Android & iOS platforms. (IN DEVELOPMENT)</p>
 
 <p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old name and invalid.</p>
-<p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. GAME WILL BE PUBLISHED COOMING SOON ON THE MOBILE PLATFORM(ANDROID +10).</p>
+<p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. THE GAME WILL BE OPENED TO PRE-REGISTRATION ON THE GOOGLE PLAY STORE AT THE BEGINNING OF MAY FOR THE ANDROID +10.</p>
 
 ## 🎮 Rolora Gameplay Teaser
 [![Rolora Gameplay Teaser](https://img.youtube.com/vi/18XQEAcXmnc/maxresdefault.jpg)](https://youtu.be/18XQEAcXmnc)
@@ -39,9 +45,6 @@ Created VFX & optimized rendering performance. The rendering backends supported 
 
 <h3>Android</h3>
 <p>As you can see , The buttons are placed on the screen of both left and right. You are able to manage by pressing move or another things about ui in here.To turn another point view , you are slightly slide your finger either from left to right or from right to left. This makes to be able to seen another point view towards to cube. </p>
-
-<h3>PC</h3>
-<p>To rolling the cube that you see in the bottom of the screen , you are to press from keyboard 'W','A','S','D'. To get clue , you must press keyboard 'C' as well as activated shield 'R'. If you press 'ESC' pause menu will be opened. If you want to see where you are , you can open map by pressing 'M'. To change aspect view , you can use either left or right arrow from keyboard.</p>
 
 <h2>MAIN MENU</h2>
 
