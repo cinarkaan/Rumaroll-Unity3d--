@@ -10,7 +10,6 @@ UNAUTHORIZED USE, REPRODUCTION, OR DISTRIBUTION IS STRICTLY PROHIBITED.</p>
 
 <p>Solo-developed commercial game project targeting Android & iOS platforms. (IN DEVELOPMENT)</p>
 
-<p>The Name Of The Game Has Been Altered As "ROLORA". So the header that you seen where is on the following is old name and invalid.</p>
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. THE GAME WILL BE OPENED TO PRE-REGISTRATION ON THE GOOGLE PLAY STORE AT THE BEGINNING OF MAY FOR THE ANDROID +10.</p>
 
 ## 🎮 Rolora Gameplay Teaser
