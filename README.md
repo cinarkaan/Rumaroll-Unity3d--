@@ -14,7 +14,7 @@ UNAUTHORIZED USE, REPRODUCTION, OR DISTRIBUTION IS STRICTLY PROHIBITED.</p>
 <p>THIS GAME HAS BEEN BEING DEVELOPED BY ME(KAAN CINAR) WHO IS OWNER OF THE THIS GIT ACCOUNT. THE GAME WILL BE OPENED TO PRE-REGISTRATION ON THE GOOGLE PLAY STORE AT THE BEGINNING OF MAY FOR THE ANDROID +10.</p>
 
 ## 🎮 Rolora Gameplay Teaser
-[![Rolora Gameplay Teaser](https://img.youtube.com/vi/18XQEAcXmnc/maxresdefault.jpg)](https://youtu.be/18XQEAcXmnc)
+[![Rolora Gameplay Teaser](https://img.youtube.com/vi/DsVwCFv9vMI/maxresdefault.jpg)](https://youtu.be/DsVwCFv9vMI)
 
 <ul>
     <li>Single Player: 3 maps × 4 stages (12 stages total)</li>
