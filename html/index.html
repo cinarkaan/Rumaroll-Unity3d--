@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GloryWindGames</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil uyum -->
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      background: #0d0d0d;
+      color: #fff;
+    }
+
+    /* Animasyonlar */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: #000; /* Siyah üst kısım */
+      color: #fff;
+      padding: 50px 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+      animation: fadeIn 1.2s ease-out;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.8em;
+      letter-spacing: 2px;
+    }
+    header p {
+      margin: 10px 0 0;
+      font-size: 1.2em;
+      opacity: 0.85;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #111;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      animation: fadeIn 1.5s ease-out;
+    }
+    nav a {
+      color: #fff;
+      padding: 16px 24px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 3px;
+      background: #fff; /* hover çizgisi beyaz */
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    nav a:hover {
+      color: #fff; /* hover’da da beyaz kalıyor */
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 30px;
+      background: #111;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+      text-align: center;
+      animation: slideUp 1.5s ease-out;
+    }
+    .container h2 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+    .container p {
+      font-size: 1.1em;
+      line-height: 1.7;
+      color: #ddd;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #000;
+      color: #fff;
+      margin-top: 60px;
+      font-size: 0.9em;
+      letter-spacing: 1px;
+      animation: fadeIn 2s ease-out;
+    }
+
+    /* Mobil uyum */
+    @media (max-width: 768px) {
+      header h1 { font-size: 2em; }
+      nav { flex-direction: column; }
+      nav a { text-align: center; padding: 12px; }
+      .container { margin: 20px; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GloryWindGames</h1>
+    <p>KAAN ÇINAR</p>
+  </header>
+
+  <nav>
+    <a href="https://github.com/cinarkaan/Rumaroll-Unity3d--">Rolora</a>
+    <a href="License.html">License</a>
+    <a href="PrivacyPolicy.html">Privacy Policy</a>
+  </nav>
+
+  
+ <div class="container">
+  <h2>About Me</h2>
+  <p>
+    GloryWindGames is an independent studio founded by Kaan Çınar, driven by a passion for creativity and innovation.  
+    With a strong background in Unity, C#, and modern game development practices, I focus on building immersive experiences that blend technical precision with artistic vision.  
+    This website serves as a window into the journey of GloryWindGames — where ideas evolve into engaging projects and every step reflects a commitment to originality and quality.  
+    Explore the <strong>Rolora</strong> section to follow the development diary and gain insights into the creative process behind each release.
+  </p>
+</div>
+
+  <footer>
+    <p>&copy; 2026 GloryWindGames - cinarkaan</p>
+  </footer>
+</body>
+</html>
