@@ -53,7 +53,7 @@ Unauthorized use, reproduction, or distribution is prohibited. For licensing inq
 **Project Status**: In development — Android priority, iOS planned.  
 **Pre‑registration**: Planned to open on Google Play at the last week of April for Android +10.
 
-<## Technical Details and Performance
+## Technical Details and Performance
 
 **Procedural Generation**  
 - **Algorithm**: DFS for platform layout and event placement.  
@@ -169,7 +169,7 @@ The colorful cube must reach the evacuation point by rolling onto tiles that mat
   ![Mystical](./SS/Mystical_Dwarf.png) 
   *Caption: The Mystical map is the final stage of the game, offering a magical atmosphere that feels lighter in complexity than Ancient but more demanding in endurance. Its enchanting visuals and ambience create surprises throughout, while the last stage introduces a formidable dwarf enemy that players must watch out for.*
 
-- ** Localization Support **
+- **Localization Support**
 *Caption: Rolora offers full native localization in four languages —  
 English ![UK Flag](https://flagcdn.com/w20/gb.png),  
 French ![France Flag](https://flagcdn.com/w20/fr.png),  
@@ -177,10 +177,10 @@ German ![Germany Flag](https://flagcdn.com/w20/de.png),
 Spanish ![Spain Flag](https://flagcdn.com/w20/es.png).  
 Additional languages are planned after launch, ensuring wider accessibility and a seamless experience for players worldwide.*
 
-- ** Dynamic Tiles **
+- **Dynamic Tiles**
 *Caption: Dynamic tiles appear across all three maps, changing their properties — such as color and texture — every three seconds based on shader settings. These tiles alternate between dummy and original states, adding unpredictability to the gameplay. Their presence depends on the selected difficulty level, making higher difficulties more challenging and varied.*
 
--- ** Performans & Optimization **
+-- **Performans & Optimization**
 *Caption: The game has been optimized for devices using the Mali‑G52 GPU, achieving a minimum of 60 FPS under normal conditions. Exceptions may occur during extended play sessions or when thermal levels rise.*
 
 ### Enjoy the Game
