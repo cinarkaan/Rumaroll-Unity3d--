@@ -162,7 +162,7 @@ The colorful cube must reach the evacuation point by rolling onto tiles that mat
   *Caption: The Ancient map unlocks after completing Colorful and surrounds players with a dangerous lava sea. It is longer and more complex than Colorful, requiring activation of rotary bridges and collection of keys to progress. Obstacles are more challenging, and emerald loot appears with a higher probability, rewarding careful exploration.*
 
 - **Map Mystical**        
-  ![Mystical](./SS/Mystical_1.png)  
+  ![Mystical](./SS/Mystical_1.png)
   ![Mystical](./SS/Mystical_2.png)
   ![Mystical](./SS/Mystical_3.png)
   ![Mystical](./SS/Mystical_Activator.png)
