@@ -1,4 +1,4 @@
-﻿# ROLORA - Version 1.0.1
+﻿# ROLORA - Version 1.0.2
 
 # Overview
 
@@ -27,6 +27,9 @@ The project is a solo commercial game in active development for Android with iOS
 ## 🎮 Rolora Gameplay Teaser
 [![Rolora Gameplay Teaser](https://img.youtube.com/vi/DsVwCFv9vMI/maxresdefault.jpg)](https://youtu.be/DsVwCFv9vMI)
 
+## Google Play Link
+[![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.glorywindgames.rolora)
+
 **Objective**  
 Roll the cube to the evacuation point. Each time the cube rolls, the face that becomes the bottom must match the tile color or state beneath it. Rolling onto a nonmatching tile deducts time or points depending on the mode.
 
@@ -50,8 +53,7 @@ Unauthorized use, reproduction, or distribution is prohibited. For licensing inq
 
 
 **Developer**: **Kaan Çınar**  
-**Project Status**: In development — Android priority, iOS planned.  
-**Pre‑registration**: Planned to open on Google Play at the last week of April for Android +10.
+**Project Status**: In development & Published On Google Play — Android priority, iOS planned.  
 
 ## Technical Details and Performance
 
@@ -59,6 +61,13 @@ Unauthorized use, reproduction, or distribution is prohibited. For licensing inq
 - **Algorithm**: DFS for platform layout and event placement.  
 - **Reproducibility**: Seedable generation for deterministic runs used in QA and leaderboards.  
 - **Tunable Parameters**: Enemy spawn rate, obstacle frequency, dynamic tile ratio, loot probability.
+
+## Abstract Factory Pattern — Platform Creation
+In Rolora, platform instantiation is implemented using the **Abstract Factory (creational) pattern**. Each map (Colorful, Ancient, Mystical) is backed by its own `PlatformFactory` abstraction and corresponding concrete factory classes. This factory hierarchy provides several key benefits:
+
+- **Easy Extensibility**: New maps or platform types can be introduced simply by adding a new factory, without altering existing code.  
+- **Map‑Specific Customization**: Each factory encapsulates the unique tile sets, dynamic behaviors, and event rules of its respective map, ensuring clean separation of creation logic.  
+- **Testability**: Factories can be replaced with mock implementations, while seed‑based generation enables reproducible runs for QA, multiplayer synchronization, and leaderboard validation.
 
 **AI and Pathfinding**  
 - **Pathfinding**: A* on a grid with controlled replanning frequency.  
