@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <script src="filter.js"></script>
     <meta charset="UTF-8">
@@ -109,14 +110,14 @@
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 40px;
-            text-align: center; 
+            text-align: center;
         }
 
         .screenshot-gallery {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center; 
+            justify-content: center;
             align-items: center;
             margin: 20px 0;
         }
@@ -126,19 +127,19 @@
             height: auto;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .screenshot-gallery img {
-            width: calc(50% - 10px); 
-            min-width: 280px; 
-            max-width: 420px; 
+            width: calc(50% - 10px);
+            min-width: 280px;
+            max-width: 420px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .screenshot-gallery img:hover {
-            transform: scale(1.03); 
-            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.2); 
+            transform: scale(1.03);
+            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.2);
             border-color: var(--accent-color);
         }
 
@@ -152,6 +153,7 @@
             margin-right: auto;
             line-height: 1.5;
         }
+
         .badge-link {
             display: inline-block;
             margin-top: 10px;
@@ -171,7 +173,8 @@
             overflow: hidden;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
@@ -182,9 +185,20 @@
             color: #fff;
         }
 
-        .high-chance { color: var(--success-color); font-weight: bold; }
-        .medium-chance { color: var(--warning-color); font-weight: bold; }
-        .low-chance { color: #f85149; font-weight: bold; }
+        .high-chance {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .medium-chance {
+            color: var(--warning-color);
+            font-weight: bold;
+        }
+
+        .low-chance {
+            color: #f85149;
+            font-weight: bold;
+        }
 
         hr {
             border: 0;
@@ -201,116 +215,130 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <header>
-        <h1>ROLORA</h1>
-        <span class="version-badge">Version 2.0.2 (Is Live)</span>
-    </header>
+    <div class="container">
+        <header>
+            <h1>ROLORA</h1>
+            <span class="version-badge">Version 2.0.2 (Is Live)</span>
+        </header>
 
-    <section id="overview">
-        <h2>Overview</h2>
-        <p><strong>Rolora</strong> is a mobile action‑puzzle adventure where you roll the either color or texture ‑ sided cube across procedurally generated platforms to reach an evacuation point.</p>
-        <p>Each face of the cube must match the tile beneath it; stages grow longer and more challenging as you progress. The project is a solo commercial game in active development for Android with iOS planned next.</p>
-    
-        <h2>Map & Stage Star Rating Thresholds</h2>
-        <p>Players are awarded stars based on their completion time, relative to the thresholds defined for each map and stage.</p>
-    
-        <h3>Rating Rules</h3>
+        <section id="overview">
+            <h2>Overview</h2>
+            <p><strong>Rolora</strong> is a mobile action‑puzzle adventure where you roll the either color or texture ‑
+                sided cube across procedurally generated platforms to reach an evacuation point.</p>
+            <p>Each face of the cube must match the tile beneath it; stages grow longer and more challenging as you
+                progress. The project is a solo commercial game in active development for Android with iOS planned next.
+            </p>
 
-        <p>3 Stars 🌟🌟🌟 : Passed Time is less than or equal to Min Time</p>
-        <p>2 Stars 🌟🌟 : Passed Time is less than or equal to Average Time</p>
-        <p>1 Star  🌟 : Passed Time is less than or equal to Max Time</p>
+            <h2>Map & Stage Star Rating Thresholds</h2>
+            <p>Players are awarded stars based on their completion time, relative to the thresholds defined for each map
+                and stage.</p>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Map</th>
-              <th>Stage</th>
-              <th>Min Time (s)</th>
-              <th>Average Time (s)</th>
-              <th>Max Time (s)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Colorful Map -->
-            <tr>
-              <td rowspan="4"><b>Colorful</b></td>
-              <td>1</td>
-              <td>30s</td>
-              <td>40s</td>
-              <td>50s</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>40s</td>
-              <td>60s</td>
-              <td>70s</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>70s</td>
-              <td>90s</td>
-              <td>110s</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>140s</td>
-              <td>160s</td>
-              <td>180s</td>
-            </tr>
-            <!-- Ancient Map -->
-            <tr>
-              <td rowspan="4"><b>Ancient</b></td>
-              <td>1</td>
-              <td>90s</td>
-              <td>120s</td>
-              <td>150s</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>175s</td>
-              <td>215s</td>
-              <td>245s</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>250s</td>
-              <td>280s</td>
-              <td>310s</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>300s</td>
-              <td>330s</td>
-              <td>360s</td>
-            </tr>
-            <!-- Mystical Map -->
-            <tr>
-              <td rowspan="3"><b>Mystical</b></td>
-              <td>1</td>
-              <td>25s</td>
-              <td>35s</td>
-              <td>45s</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>80s</td>
-              <td>95s</td>
-              <td>105s</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>170s</td>
-              <td>185s</td>
-              <td>200s</td>
-            </tr>
-          </tbody>
-        </table>
+            <h3>Rating Rules</h3>
 
-        <h3>Event Hours - Shield Spawn Rates (Multiplayer)</h3>
-        <table>
+            <p>3 Stars 🌟🌟🌟 : Passed Time is less than or equal to Min Time</p>
+            <p>2 Stars 🌟🌟 : Passed Time is less than or equal to Average Time</p>
+            <p>1 Star 🌟 : Passed Time is less than or equal to Max Time</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Map</th>
+                        <th>Stage</th>
+                        <th>Min Time (s)</th>
+                        <th>Average Time (s)</th>
+                        <th>Max Time (s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Colorful Map -->
+                    <tr>
+                        <td rowspan="4"><b>Colorful</b></td>
+                        <td>1</td>
+                        <td>30s</td>
+                        <td>40s</td>
+                        <td>50s</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>40s</td>
+                        <td>60s</td>
+                        <td>70s</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>70s</td>
+                        <td>90s</td>
+                        <td>110s</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>140s</td>
+                        <td>160s</td>
+                        <td>180s</td>
+                    </tr>
+                    <!-- Ancient Map -->
+                    <tr>
+                        <td rowspan="4"><b>Ancient</b></td>
+                        <td>1</td>
+                        <td>90s</td>
+                        <td>120s</td>
+                        <td>150s</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>175s</td>
+                        <td>215s</td>
+                        <td>245s</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>250s</td>
+                        <td>280s</td>
+                        <td>310s</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>300s</td>
+                        <td>330s</td>
+                        <td>360s</td>
+                    </tr>
+                    <!-- Mystical Map -->
+                    <tr>
+                        <td rowspan="3"><b>Mystical</b></td>
+                        <td>1</td>
+                        <td>25s</td>
+                        <td>35s</td>
+                        <td>45s</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>80s</td>
+                        <td>95s</td>
+                        <td>105s</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>170s</td>
+                        <td>185s</td>
+                        <td>200s</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>🏆 Performance-Based Reward System!</h3>
+            <p>Your completion time now earns you 1 to 3 Stars per level. The better your time, the bigger your payout:</p>
+            <ul>
+                <li>🪙 Coins: Earned coins are multiplied by your Star count (Stars × Base Coins).</li>
+                <li>💎 Diamonds: Earn 2 or more Stars to get Diamonds equal to your Star count.</li>
+                <li>🟢 Emeralds: Go for perfection! Complete a level with 3 Stars to score +3 Emeralds.</li>
+            </ul>
+
+            <h3>Event Hours - Shield Spawn Rates (Multiplayer)</h3>
+
+            <table>
                 <thead>
                     <tr>
                         <th>Start-Time</th>
@@ -345,212 +373,293 @@
                         <td>Low Chance</td>
                     </tr>
                 </tbody>
-        </table>    
-        <blockquote>
-            * Rest of these hours, the shield spawn rate settles at 20%. Shields destroy themselves within 10 seconds if untaken. Protection lasts 7 seconds.
-        </blockquote>
-    </section>
+            </table>
 
-    <section id="how-to-play">
-        <h2>How To Play</h2>
-        <h3>Android</h3>
-        <p>The movement buttons are placed on both the left and right sides of the screen. You can control movement and interact with UI elements by pressing these buttons. To change the point of view, simply slide your finger slightly from left to right or right to left.</p>
-        <h3>Purpose</h3>
-        <p>The colorful cube must reach the evacuation point by rolling onto tiles that match its bottom face color. Each new stage introduces longer platforms and more difficult obstacles.</p>
-    </section>
+            <blockquote>
+                * Rest of these hours, the shield spawn rate settles at 20%. Shields destroy themselves within 10
+                seconds if untaken. Protection lasts 7 seconds.
+            </blockquote>
 
-    <section id="gameplay">
-        <h2>Gameplay</h2>
-        
-        <h3>🎮 Rolora Gameplay Teaser</h3>
-        <a href="https://youtu.be/601w5neWXB0" target="_blank">
-            <img src="https://img.youtube.com/vi/601w5neWXB0/maxresdefault.jpg" alt="Rolora Gameplay Teaser" style="max-width: 400px;">
-        </a>
+            <h3>Rating Rules For Multiplayer</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Difficulty</th>
+                        <th>Min Time (s)</th>
+                        <th>Average Time (s)</th>
+                        <th>Max Time (s)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Easy</b></td>
+                        <td>65s</td>
+                        <td>75s</td>
+                        <td>90s</td>
+                    </tr>
+                    <tr>
+                        <td><b>Normal</b></td>
+                        <td>65s</td>
+                        <td>75s</td>
+                        <td>90s</td>
+                    </tr>
+                    <tr>
+                        <td><b>Hard</b></td>
+                        <td>75s</td>
+                        <td>85s</td>
+                        <td>95s</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <h3>Google Play Link</h3>
-        <a href="https://play.google.com/store/apps/details?id=com.glorywindgames.rolora" class="badge-link">
-            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
-        </a>
-
-        <p><strong>Objective:</strong> Roll the cube to the evacuation point. Each time the cube rolls, the face that becomes the bottom must match the tile color or state beneath it. Rolling onto a nonmatching tile deducts time or points depending on the mode.</p>
-
-        <div class="grid">
-            <div class="card">
-                <h3>Controls</h3>
-                <ul>
-                    <li><strong>Movement:</strong> On‑screen left and right buttons.</li>
-                    <li><strong>Camera:</strong> Swipe left or right to rotate the view around the cube.</li>
-                    <li><strong>UI:</strong> Inventory, stats, and contextual action buttons are available in the HUD.</li>
-                </ul>
+            <p>The amounts of the reward cards that is taken from chest is to calculation with following formula</p>
+                
+            <div class="container" style="font-family: Arial, sans-serif; font-size: 18px; display: flex; align-items: center; gap: 6px;">
+                <span>
+                    RewardAmount = Round (
+                </span>
+                <span>
+                    Amount &times;
+                </span>
+                <div style="display: flex; flex-direction: column; text-align: center;">
+                    <span style="border-bottom: 1.5px solid #fff1f1; padding: 0 4px;">
+                        PointScore + Point
+                    </span>
+                    <span>
+                        200
+                    </span>
+                </div>
+                <span>
+                    )
+                </span>
             </div>
-            <div class="card">
-                <h3>Progression</h3>
-                <ul>
-                    <li><strong>Maps:</strong> Colorful, Ancient, Mystical — each map contains four stages.</li>
-                    <li><strong>Dynamic Tiles:</strong> Alternates states every 3 seconds based on custom shader settings.Tiles toggle between original and dummy states every 3 seconds.</li>
-                    <li><strong>Customization:</strong> Frames and materials provide modifiers (e.g., <strong>+20% shield duration</strong>).</li>
-                </ul>
+        </section>
+
+        <section id="how-to-play">
+            <h2>How To Play</h2>
+            <h3>Android</h3>
+            <p>The movement buttons are placed on both the left and right sides of the screen. You can control movement
+                and interact with UI elements by pressing these buttons. To change the point of view, simply slide your
+                finger slightly from left to right or right to left.</p>
+            <h3>Purpose</h3>
+            <p>The colorful cube must reach the evacuation point by rolling onto tiles that match its bottom face color.
+                Each new stage introduces longer platforms and more difficult obstacles.</p>
+        </section>
+
+        <section id="gameplay">
+            <h2>Gameplay</h2>
+
+            <h3>🎮 Rolora Gameplay Teaser</h3>
+            <a href="https://youtu.be/601w5neWXB0" target="_blank">
+                <img src="https://img.youtube.com/vi/601w5neWXB0/maxresdefault.jpg" alt="Rolora Gameplay Teaser"
+                    style="max-width: 400px;">
+            </a>
+
+            <h3>Google Play Link</h3>
+            <a href="https://play.google.com/store/apps/details?id=com.glorywindgames.rolora" class="badge-link">
+                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                    alt="Get it on Google Play">
+            </a>
+
+            <p><strong>Objective:</strong> Roll the cube to the evacuation point. Each time the cube rolls, the face
+                that becomes the bottom must match the tile color or state beneath it. Rolling onto a nonmatching tile
+                deducts time or points depending on the mode.</p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Controls</h3>
+                    <ul>
+                        <li><strong>Movement:</strong> On‑screen left and right buttons.</li>
+                        <li><strong>Camera:</strong> Swipe left or right to rotate the view around the cube.</li>
+                        <li><strong>UI:</strong> Inventory, stats, and contextual action buttons are available in the
+                            HUD.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Progression</h3>
+                    <ul>
+                        <li><strong>Maps:</strong> Colorful, Ancient, Mystical — each map contains four stages.</li>
+                        <li><strong>Dynamic Tiles:</strong> Alternates states every 3 seconds based on custom shader
+                            settings.Tiles toggle between original and dummy states every 3 seconds.</li>
+                        <li><strong>Customization:</strong> Frames and materials provide modifiers (e.g., <strong>+20%
+                                shield duration</strong>).</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="key-features">
-        <h2>Key Features</h2>
-        <ul>
-            <li><strong>Game Modes:</strong> Single player (3 maps × 4 stages = 12 stages) and local multiplayer (LAN).</li>
-            <li><strong>Core Mechanic:</strong> Color‑matching cube — the cube’s bottom face must match the tile you roll onto.</li>
-            <li><strong>Procedural Levels:</strong> DFS‑based generation with seed support for reproducible runs.</li>
-            <li><strong>AI:</strong> Enemies use A* pathfinding with dynamic replanning.</li>
-            <li><strong>Networking:</strong> UDP‑based LAN multiplayer with lightweight reliability for critical messages.</li>
-            <li><strong>Engine and Rendering:</strong> Unity, C#, URP (SRP), custom HLSL shaders; Vulkan 1.0+ and OpenGL ES 3.2+ backends.</li>
-            <li><strong>Localization:</strong> Native support for English, French, German, Spanish.</li>
-            <li><strong>Performance Target:</strong> Optimized for Mali‑G52 devices with a measured baseline of 60 FPS under normal conditions.</li>
-        </ul>
-    </section>
-
-    <section id="technical-details">
-        <h2>Technical Details and Performance</h2>
-        
-        <h3>Procedural Generation</h3>
-        <p><strong>Algorithm:</strong> DFS for platform layout and event placement. Seedable generation ensures deterministic runs for QA and leaderboards. Tunable parameters include enemy spawn rate, obstacle frequency, dynamic tile ratio, and loot probability.</p>
-
-        <h3>Abstract Factory Pattern — Platform Creation</h3>
-        <p>In Rolora, platform instantiation is implemented using the <strong>Abstract Factory pattern</strong>. Each map is backed by its own <code>PlatformFactory</code> abstraction. This provides easy extensibility, map-specific customization, and testability.</p>
-
-        <h3>AI, Rendering & Networking</h3>
-        <ul>
-            <li><strong>AI & Pathfinding:</strong> A* on a grid with grouped path updates and LOD for distant agents.</li>
-            <li><strong>Rendering:</strong> URP with mobile‑optimized HLSL shaders. Employs GPU instancing and reduced shader variants.</li>
-            <li><strong>Networking:</strong> UDP protocol with application‑level reliability. LAN broadcast/mDNS for lobby discovery.</li>
-        </ul>
-    </section>
-
-    <section id="screenshots">
-        <h2>Assets Screenshots and Captions</h2>
-        <div class="screenshot-group">
-            <h3>Main Menu & Settings</h3>
-            <div class="screenshot-gallery">
-                <img src="assets/MenuRenewed.png" alt="Main Menu">
-                <img src="assets/Settings.png" alt="Settings">
-            </div>
-            <div class="caption">Main menu with progression tracking and settings toggles (Language, Graphics, Audio).</div>
-        </div>
-
-        <div class="screenshot-group">
-            <h3>Multiplayer LAN Play</h3>
-            <p>Discovery via UDP broadcast. Win condition: First player to reach the evacuation point wins.</p>
-            <div class="screenshot-gallery">
-                <img src="assets/Multiplayer.png" alt="Multiplayer Lobby">
-                <img src="assets/CreateGame.png" alt="Create Game">
-                <img src="assets/JoinGame.png" alt="Join Game">
-                <img src="assets/RewardsMultiplayer.png" alt="Rewards">
-                <img src="assets/MultiplayerEvent.png" alt="In Game">
-            </div>
-            <div class="caption">Lobby system, host configurations, in-game stats, and rewards calculation screens.</div>
-        </div>
-
-        <div class="screenshot-group">
-            <h3>Maps</h3>
-            <div class="screenshot-gallery">
-                <img src="assets/MapSelection.png" alt="Map Selection">
-                <img src="assets/StageSelection.png" alt="Stage Selection">
-            </div>
-            <div class="caption">Choose maps & stage. You must complate at least 3 stage where is currently placed map, if you are passing next map</div>
-        </div>
-
-          <div class="screenshot-group">
-            <h3>Profile ,Customization & Store</h3>
-            <div class="screenshot-gallery">
-                <img src="assets/Colorful-Profile-1.png" alt="Profile Colorful 1">
-                <img src="assets/Colorful-Profile-2.png" alt="Profile Colorful 2">
-                <img src="assets/Colorful_Flag_Selection.png" alt="Profile Colorful Flag">
-                <img src="assets/Ancient-Profile-1.png" alt="Profile Ancient 1">
-                <img src="assets/Ancient-Profile-2.png" alt="Profile Ancient 2">                
-                <img src="assets/Ancient_Flag_Selection.png" alt="Profile Ancient Flag">
-                <img src="assets/Mystical-Profile-1.png" alt="Profile Mystical 1">
-                <img src="assets/Mystical-Profile-2.png" alt="Profile Mystical 2">                
-                <img src="assets/Mystical_Flag_Selection.png" alt="Profile Mystical Flag">
-                <img src="assets/Store.png" alt="Store">
-            </div>
-            <div class="caption">Preview cosmetics/materials, and view stat modifiers in your Profile.</div>
-        </div>
-
-        <div class="screenshot-group">
-            <h3>Map: Colorful</h3>
-            <div class="screenshot-gallery">
-                <img src="assets/Colorful-Renewed-1.png" alt="Colorful 1">
-                <img src="assets/Colorful-Renewed-2.png" alt="Colorful 2">
-                <img src="assets/Colorful-Renewed-3.png" alt="Colorful 3">
-            </div>
-            <div class="caption">Features 4 stages with dynamic weather conditions (sunny, rainy, snowy).</div>
-        </div>
-
-        <div class="screenshot-group">
-            <h3>Map: Ancient</h3>
-            <div class="screenshot-gallery">
-                <img src="assets/AncientRenewed-1.png" alt="Ancient 1">
-                <img src="assets/AncientRenewed-2.png" alt="Ancient 2">
-                <img src="assets/AncientRenewed-3.png" alt="Ancient 3">
-            </div>
-            <div class="caption">Surrounded by a lava sea, requiring activation of rotary bridges and keys.</div>
-        </div>
-
-        <div class="screenshot-group">
-            <h3>Map: Mystical</h3>
-            <div class="screenshot-gallery">
-                <img src="assets/Mystical-Renewed-1.png" alt="Mystical 1">
-                <img src="assets/Mystical-Renewed-2.png" alt="Mystical 2">
-                <img src="assets/Mystical-Renewed-3.png" alt="Mystical 3">
-            </div>
-            <div class="caption">Enchanting visuals with high endurance demands, featuring a formidable dwarf enemy.</div>
-        </div>
-
-        <div class="card">
-            <h3>Localization & Optimization</h3>
-            <p>
-                <strong>Languages:</strong> 
-                <img src="https://flagcdn.com/w20/gb.png" alt="UK"> English, 
-                <img src="https://flagcdn.com/w20/fr.png" alt="FR"> French, 
-                <img src="https://flagcdn.com/w20/de.png" alt="DE"> German, 
-                <img src="https://flagcdn.com/w20/es.png" alt="ES"> Spanish.
-            </p>
-            <p><strong>Optimization:</strong> Solid 60 FPS target on Mali-G52 GPUs.</p>
-        </div>
-    </section>
-
-    <section id="dev-diaries-v202">
-        <h2>Developer Diaries - Rolora v2.0.2 (What's New v2.0.2)</h2>
-        <div class="caption">
-        
-            <h3>Gameplay</h3>
-                <p>Code refactoring and bug fixes</p>
-            <h3>Shader & VFX Improvements</h3>
+        <section id="key-features">
+            <h2>Key Features</h2>
             <ul>
-                <li><p>Visual Improvements. The particle systems has been updated and renewed</p></li>    
-                <li><p>GPU optimizations: Better FPS For the devices support a higher refresh rate than 60 Hz.</p></li>    
-                <li><p></p></li>    
+                <li><strong>Game Modes:</strong> Single player (3 maps × 4 stages = 12 stages) and local multiplayer
+                    (LAN).</li>
+                <li><strong>Core Mechanic:</strong> Color‑matching cube — the cube’s bottom face must match the tile you
+                    roll onto.</li>
+                <li><strong>Procedural Levels:</strong> DFS‑based generation with seed support for reproducible runs.
+                </li>
+                <li><strong>AI:</strong> Enemies use A* pathfinding with dynamic replanning.</li>
+                <li><strong>Networking:</strong> UDP‑based LAN multiplayer with lightweight reliability for critical
+                    messages.</li>
+                <li><strong>Engine and Rendering:</strong> Unity, C#, URP (SRP), custom HLSL shaders; Vulkan 1.0+ and
+                    OpenGL ES 3.2+ backends.</li>
+                <li><strong>Localization:</strong> Native support for English, French, German, Spanish.</li>
+                <li><strong>Performance Target:</strong> Optimized for Mali‑G52 devices with a measured baseline of 60
+                    FPS under normal conditions.</li>
             </ul>
-        </div>    
-    </section>
+        </section>
 
-    <section id="dev-diaries-v203">
-        <h2>Developer Diaries - Rolora v2.0.3 (Coming Soon)</h2>
-        <h3>NEW MAP - POISONED</h3>
-        <div class="screenshot-gallery">
-            <img src="assets/Poisoned-1.png" alt="Poisoned 1">
-            <img src="assets/Poisoned-2.png" alt="Poisoned 2">
-        </div>
-        <div class="caption">A hazardous environment surrounded by a toxic sea, presenting biohazard obstacles and dangerous new enemies.
-        The cube is able to roll where is fitted as either even or odd number with the surface of the tile and bottom faces of the cube, 
-        which is matched the bottom face of the cube that is rolled as either even or odd with the tile.</div>
-    </section>
+        <section id="technical-details">
+            <h2>Technical Details and Performance</h2>
 
-    <footer style="text-align: center; margin-top: 50px;">
-        <h2>Enjoy the Game!</h2>
-        <p class="caption">Copyright © 2026 Kaan Çınar All rights reserved.</p>
-    </footer>
+            <h3>Procedural Generation</h3>
+            <p><strong>Algorithm:</strong> DFS for platform layout and event placement. Seedable generation ensures
+                deterministic runs for QA and leaderboards. Tunable parameters include enemy spawn rate, obstacle
+                frequency, dynamic tile ratio, and loot probability.</p>
 
-</div>
+            <h3>Abstract Factory Pattern — Platform Creation</h3>
+            <p>In Rolora, platform instantiation is implemented using the <strong>Abstract Factory pattern</strong>.
+                Each map is backed by its own <code>PlatformFactory</code> abstraction. This provides easy
+                extensibility, map-specific customization, and testability.</p>
 
+            <h3>AI, Rendering & Networking</h3>
+            <ul>
+                <li><strong>AI & Pathfinding:</strong> A* on a grid with grouped path updates and LOD for distant
+                    agents.</li>
+                <li><strong>Rendering:</strong> URP with mobile‑optimized HLSL shaders. Employs GPU instancing and
+                    reduced shader variants.</li>
+                <li><strong>Networking:</strong> UDP protocol with application‑level reliability. LAN broadcast/mDNS for
+                    lobby discovery.</li>
+            </ul>
+        </section>
+
+        <section id="screenshots">
+            <h2>Assets Screenshots and Captions</h2>
+            <div class="screenshot-group">
+                <h3>Main Menu & Settings</h3>
+                <div class="screenshot-gallery">
+                    <img src="assets/MenuRenewed.png" alt="Main Menu">
+                    <img src="assets/Settings.png" alt="Settings">
+                </div>
+                <div class="caption">Main menu with progression tracking and settings toggles (Language, Graphics,
+                    Audio).</div>
+            </div>
+
+            <div class="screenshot-group">
+                <h3>Multiplayer LAN Play</h3>
+                <p>Discovery via UDP broadcast. Win condition: First player to reach the evacuation point wins.</p>
+                <div class="screenshot-gallery">
+                    <img src="assets/Multiplayer.png" alt="Multiplayer Lobby">
+                    <img src="assets/CreateGame.png" alt="Create Game">
+                    <img src="assets/JoinGame.png" alt="Join Game">
+                    <img src="assets/RewardsMultiplayer.png" alt="Rewards">
+                    <img src="assets/MultiplayerEvent.png" alt="In Game">
+                </div>
+                <div class="caption">Lobby system, host configurations, in-game stats, and rewards calculation screens.
+                </div>
+            </div>
+
+            <div class="screenshot-group">
+                <h3>Maps</h3>
+                <div class="screenshot-gallery">
+                    <img src="assets/MapSelection.png" alt="Map Selection">
+                    <img src="assets/StageSelection.png" alt="Stage Selection">
+                </div>
+                <div class="caption">Choose maps & stage. You must complate at least 3 stage where is currently placed
+                    map, if you are passing next map</div>
+            </div>
+
+            <div class="screenshot-group">
+                <h3>Profile ,Customization & Store</h3>
+                <div class="screenshot-gallery">
+                    <img src="assets/Colorful-Profile-1.png" alt="Profile Colorful 1">
+                    <img src="assets/Colorful-Profile-2.png" alt="Profile Colorful 2">
+                    <img src="assets/Colorful_Flag_Selection.png" alt="Profile Colorful Flag">
+                    <img src="assets/Ancient-Profile-1.png" alt="Profile Ancient 1">
+                    <img src="assets/Ancient-Profile-2.png" alt="Profile Ancient 2">
+                    <img src="assets/Ancient_Flag_Selection.png" alt="Profile Ancient Flag">
+                    <img src="assets/Mystical-Profile-1.png" alt="Profile Mystical 1">
+                    <img src="assets/Mystical-Profile-2.png" alt="Profile Mystical 2">
+                    <img src="assets/Mystical_Flag_Selection.png" alt="Profile Mystical Flag">
+                    <img src="assets/Store.png" alt="Store">
+                </div>
+                <div class="caption">Preview cosmetics/materials, and view stat modifiers in your Profile.</div>
+            </div>
+
+            <div class="screenshot-group">
+                <h3>Map: Colorful</h3>
+                <div class="screenshot-gallery">
+                    <img src="assets/Colorful-Renewed-1.png" alt="Colorful 1">
+                    <img src="assets/Colorful-Renewed-2.png" alt="Colorful 2">
+                    <img src="assets/Colorful-Renewed-3.png" alt="Colorful 3">
+                </div>
+                <div class="caption">Features 4 stages with dynamic weather conditions (sunny, rainy, snowy).</div>
+            </div>
+
+            <div class="screenshot-group">
+                <h3>Map: Ancient</h3>
+                <div class="screenshot-gallery">
+                    <img src="assets/AncientRenewed-1.png" alt="Ancient 1">
+                    <img src="assets/AncientRenewed-2.png" alt="Ancient 2">
+                    <img src="assets/AncientRenewed-3.png" alt="Ancient 3">
+                </div>
+                <div class="caption">Surrounded by a lava sea, requiring activation of rotary bridges and keys.</div>
+            </div>
+
+            <div class="screenshot-group">
+                <h3>Map: Mystical</h3>
+                <div class="screenshot-gallery">
+                    <img src="assets/Mystical-Renewed-1.png" alt="Mystical 1">
+                    <img src="assets/Mystical-Renewed-2.png" alt="Mystical 2">
+                    <img src="assets/Mystical-Renewed-3.png" alt="Mystical 3">
+                </div>
+                <div class="caption">Enchanting visuals with high endurance demands, featuring a formidable dwarf enemy.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Localization & Optimization</h3>
+                <p>
+                    <strong>Languages:</strong>
+                    <img src="https://flagcdn.com/w20/gb.png" alt="UK"> English,
+                    <img src="https://flagcdn.com/w20/fr.png" alt="FR"> French,
+                    <img src="https://flagcdn.com/w20/de.png" alt="DE"> German,
+                    <img src="https://flagcdn.com/w20/es.png" alt="ES"> Spanish.
+                </p>
+                <p><strong>Optimization:</strong> Solid 60 FPS target on Mali-G52 GPUs.</p>
+            </div>
+        </section>
+
+        <section id="dev-diaries-v202">
+            <h2>Developer Diaries - Rolora v2.0.2 (What's New v2.0.2)</h2>
+            <div class="caption">
+                <ul>
+                    <li><p>Fixed critical bugs and improved core codebase.</p></li>
+                    <li><p>Enhanced multiplayer stability for a smoother network experience.</p></li>
+                    <li><p>Added new VFX and upgraded existing visual effects.</p></li>
+                    <li><p>Performance-Based Reward System : Clear levels faster to earn up to 3 Stars and boost your end-game rewards!</p></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="dev-diaries-v203">
+            <h2>Developer Diaries - Rolora v2.0.3 (Coming Soon)</h2>
+            <h3>NEW MAP - POISONED</h3>
+            <div class="screenshot-gallery">
+                <img src="assets/Poisoned-1.png" alt="Poisoned 1">
+                <img src="assets/Poisoned-2.png" alt="Poisoned 2">
+            </div>
+            <div class="caption">A hazardous environment surrounded by a toxic sea, presenting biohazard obstacles and
+                dangerous new enemies.
+                The cube is able to roll where is fitted as either even or odd number with the surface of the tile and
+                bottom faces of the cube,
+                which is matched the bottom face of the cube that is rolled as either even or odd with the tile.</div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 50px;">
+            <h2>Enjoy the Game!</h2>
+            <p class="caption">Copyright © 2026 Kaan Çınar All rights reserved.</p>
+        </footer>
+    </div>
 </body>
+
 </html>

@@ -32,6 +32,14 @@ Players are awarded stars based on their completion time, relative to the thresh
 | | 2 | 80s | 95s | 105s |
 | | 3 | 170s | 185s | 200s |
 
+### 🏆 Performance-Based Reward System!
+
+Your completion time now earns you 1 to 3 Stars per level. The better your time, the bigger your payout:
+
+* 🪙 **Coins:** Earned coins are multiplied by your Star count (Stars × Base Coins).
+* 💎 **Diamonds:** Earn 2 or more Stars to get Diamonds equal to your Star count.
+* 🟢 **Emeralds:** Go for perfection! Complete a level with 3 Stars to score +3 Emeralds.
+
 ---
 
 ### Event Hours For Multiplayer
@@ -40,13 +48,24 @@ Players are awarded stars based on their completion time, relative to the thresh
 | 09:00 AM | 07:00 PM | **55%** | Medium Chance 
 | 08:00 PM | 00:00 AM | **90%** | High Chance 
 | 00:00 AM | 09:00 AM | **20%** | Low Chance
-| 19:00 PM | 20:00 PM | **20%** | Low Chance
+| 19:00 PM | 20:00 PM | **20%** | Low Chance            
 
 - *Caption : At the multiplayer scene, the event spawn rates depend on the time of the day; the shield item is to be spawned by the server.*
 - *Caption : If the shield is not taken by any player, it will be destoryed itself within 10 seconds.*
 - *Caption : The protected duration of the shield is setted 7 seconds at the multiplayer.*
 - *Caption : The perfections that get from frames are not validated in the multiplayer, except from the "DarkIvy" frame, which is protected against the dwarf at the mystical map.*
 - *Caption : Rest of the these day times , the shield spawn rates is to be settled as %20.*
+
+## Rating Rules For Multiplayer
+| Difficulty | Min Time (s) | Average Time (s) | Max Time (s) |
+| :--- | :---: | :---: | :---: |
+| **Easy** | 65s | 75s | 90s |
+| **Normal** | 65s | 75s | 90s |
+| **Hard** | 75s | 85s | 95s |
+
+<p>The amounts of the reward cards that is taken from chest is to calculation with following formula <br><br></p>
+
+<img src="https://latex.codecogs.com/svg.image?\color{white}\text{RewardAmount}=\text{Round}\left(\text{Amount}\times\frac{\text{PointScore}+\text{Point}}{200}\right)" alt="Reward Formula" />
 
 # How To Play
 
@@ -224,11 +243,10 @@ Additional languages are planned after launch, ensuring wider accessibility and 
 ---
 
 ### Developer Diaries - Rolora v2.0.2 (What's new v2.0.2)
-- *Caption: Code refactoring and bug fixes.*
-
-- **Shader & VFX Improvements**
-- *Caption: Visual Improvements. The particle systems has been updated and renewed*
-- *Caption: GPU optimizations: Better FPS For the devices support a higher refresh rate than 60 Hz.*
+- *Caption: Fixed critical bugs and improved core codebase.*
+- *Caption: Enhanced multiplayer stability for a smoother network experience.*
+- *Caption: Added new VFX and upgraded existing visual effects.*
+- *Caption: Performance-Based Reward System : Clear levels faster to earn up to 3 Stars and boost your end-game rewards!*
 ---
 
 ### Developer Diaries - Rolora v2.0.3 (Coming Soon)
