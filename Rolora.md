@@ -81,7 +81,7 @@ The colorful cube must reach the evacuation point by rolling onto tiles that mat
 ## Gameplay
 
 ## 🎮 Rolora Gameplay Teaser
-[![Rolora Gameplay Teaser](https://img.youtube.com/vi/601w5neWXB0/maxresdefault.jpg)](https://youtu.be/601w5neWXB0)
+[![Rolora Gameplay Teaser](https://img.youtube.com/vi/-9lWSLFgWiM/maxresdefault.jpg)](https://youtu.be/-9lWSLFgWiM)
 
 ## Google Play Link
 [![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.glorywindgames.rolora)
