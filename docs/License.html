@@ -4,95 +4,140 @@
   <script src="filter.js"></script>
   <meta charset="UTF-8">
   <title>License - GloryWindGames</title> 
-  <link rel="icon" type="image/png" href="../SS/DeveloperIcon.png">
+  <link rel="icon" type="image/png" href="assets/DeveloperIcon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden; /* Scroll çubuğunu tamamen engeller */
+      font-family: 'Segoe UI', Arial, sans-serif;
       background: #0d0d0d;
       color: #fff;
-      line-height: 1.7;
     }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
     header {
       background: #000;
       color: #fff;
-      padding: 40px 20px;
+      padding: 15px 20px;
       text-align: center;
       box-shadow: 0 4px 8px rgba(0,0,0,0.6);
       animation: fadeIn 1.2s ease-out;
+      flex-shrink: 0;
     }
+
     header h1 {
       margin: 0;
-      font-size: 2.5em;
+      font-size: 1.8em;
       letter-spacing: 2px;
     }
+
+    header p {
+      margin: 5px 0 0 0;
+      color: #ddd;
+      font-size: 0.9em;
+    }
+
     .content {
       max-width: 900px;
-      margin: 40px auto;
-      padding: 30px;
+      width: 90%;
+      margin: 0 auto;
+      padding: 20px 30px;
       background: #111;
       border-radius: 12px;
       box-shadow: 0 6px 15px rgba(0,0,0,0.6);
       animation: slideUp 1.5s ease-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+      max-height: calc(100vh - 160px); /* Dışarı taşmaması için dinamik yükseklik */
     }
+
     h2 {
       color: #fff;
       border-bottom: 2px solid #fff;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+      padding-bottom: 4px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+      font-size: 1.1em;
     }
+
     p {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: #ddd;
+      font-size: 0.85em;
+      line-height: 1.4;
     }
+
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 12px;
       background: #000;
       color: #fff;
-      margin-top: 60px;
-      font-size: 0.9em;
+      font-size: 0.85em;
       letter-spacing: 1px;
       animation: fadeIn 2s ease-out;
+      flex-shrink: 0;
     }
+
+    footer p {
+      margin: 0;
+    }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
+      from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(40px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @media (max-width: 768px) {
-      header h1 { font-size: 2em; }
-      .content { margin: 20px; padding: 20px; }
+      header h1 { font-size: 1.4em; }
+      .content { width: 95%; padding: 15px; }
+      h2 { font-size: 1em; }
+      p { font-size: 0.78em; margin-bottom: 6px; }
     }
   </style>
 </head>
 <body>
+
 <header>
-  <h1>License Agreement</h1>
-  <p>&copy; 2026 GloryWindGames - Kaan Cinar</p>
+  <h1>LISENCE AGREEMENT</h1>
+  <p>&copy; 2026 GloryWindGames - Kaan Çınar</p>
 </header>
 
-  <div class="content">
-    <h2>Copyright Notice</h2>
-    <p>Copyright (c) 2026 Kaan Cinar / GLORY WIND Games. All rights reserved.</p>
+<div class="content">
+  <h2>Copyright Notice</h2>
+  <p>Copyright (c) 2026 Kaan Çınar/ GLORY WIND Games. All rights reserved.</p>
 
-    <h2>Usage Terms</h2>
-    <p>This repository is provided for informational and promotional purposes only. All content, including but not limited to images, videos, design elements, documentation, and written materials, is the exclusive property of the author.</p>
+  <h2>Usage Terms</h2>
+  <p>This repository is provided for informational and promotional purposes only. All content, including but not limited to images, videos, design elements, documentation, and written materials, is the exclusive property of the author.</p>
 
-    <h2>Restrictions</h2>
-    <p>No part of this repository may be copied, reproduced, distributed, modified, or used in any form without explicit prior written permission.</p>
+  <h2>Restrictions</h2>
+  <p>No part of this repository may be copied, reproduced, distributed, modified, or used in any form without explicit prior written permission.</p>
 
-    <h2>Intellectual Property</h2>
-    <p>This repository does not grant any rights to use the game, its assets, or any associated intellectual property.</p>
-  </div>
+  <h2>Intellectual Property</h2>
+  <p>This repository does not grant any rights to use the game, its assets, or any associated intellectual property.</p>
+</div>
 
-  <footer>
-    <p>&copy; 2026 GloryWindGames - All Rights Reserved</p>
-  </footer>
+<footer>
+  <p>&copy; 2026 GloryWindGames - All Rights Reserved</p>
+</footer>
 
 </body>
 </html>
