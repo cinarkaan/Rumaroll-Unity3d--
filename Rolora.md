@@ -1,4 +1,4 @@
-﻿# ROLORA - Version 2.0.2 (Is Live)
+﻿# ROLORA - Version 2.0.3 (Is Live)
 
 # Overview
 
@@ -81,7 +81,7 @@ The colorful cube must reach the evacuation point by rolling onto tiles that mat
 ## Gameplay
 
 ## 🎮 Rolora Gameplay Teaser
-[![Rolora Gameplay Teaser](https://img.youtube.com/vi/-9lWSLFgWiM/maxresdefault.jpg)](https://youtu.be/-9lWSLFgWiM)
+[![Rolora Gameplay Teaser](https://img.youtube.com/vi/ODF8o4Q7pYg/maxresdefault.jpg)](https://youtu.be/ODF8o4Q7pYg)
 
 ## Google Play Link
 [![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.glorywindgames.rolora)
@@ -212,21 +212,21 @@ In Rolora, platform instantiation is implemented using the **Abstract Factory (c
   *Caption: Purchase cosmetics and view owned items before starting a stage.*
 
 - **Map Colorful**        
-  ![Colorful-1](./docs/assets/Colorful-Renewed-1.png)  
-  ![Colorful-2](./docs/assets/Colorful-Renewed-2.png) 
-  ![Colorful-2](./docs/assets/Colorful-Renewed-3.png)  
+  ![Colorful-1](./docs/assets/Colorful-1.png)  
+  ![Colorful-2](./docs/assets/Colorful-2.png) 
+  ![Colorful-2](./docs/assets/Colorful-3.png)  
   *Caption: The Colorful map introduces four stages, each beginning with a guide that explains the objectives. Players can skip the guide using the forward button if they prefer. Across the stages, three dynamic weather conditions appear — sunny with floating dust particles, rainy, and snowy — adding variety and atmosphere to the gameplay.*
 
 - **Map Ancient**        
-  ![Ancient](./docs/assets/AncientRenewed-1.png)  
-  ![Ancient](./docs/assets/AncientRenewed-2.png)  
-  ![Ancient](./docs/assets/AncientRenewed-3.png)  
+  ![Ancient](./docs/assets/Ancient-1.png)  
+  ![Ancient](./docs/assets/Ancient-2.png)  
+  ![Ancient](./docs/assets/Ancient-3.png)  
   *Caption: The Ancient map unlocks after completing Colorful and surrounds players with a dangerous lava sea. It is longer and more complex than Colorful, requiring activation of rotary bridges and collection of keys to progress. Obstacles are more challenging, and emerald loot appears with a higher probability, rewarding careful exploration.*
 
 - **Map Mystical**        
-  ![Mystical](./docs/assets/Mystical-Renewed-1.png)
-  ![Mystical](./docs/assets/Mystical-Renewed-2.png)
-  ![Mystical](./docs/assets/Mystical-Renewed-3.png)	 
+  ![Mystical](./docs/assets/Mystical-1.png)
+  ![Mystical](./docs/assets/Mystical-2.png)
+  ![Mystical](./docs/assets/Mystical-3.png)	 
   *Caption: The Mystical map is the final stage of the game, offering a magical atmosphere that feels lighter in complexity than Ancient but more demanding in endurance. Its enchanting visuals and ambience create surprises throughout, while the last stage introduces a formidable dwarf enemy that players must watch out for.*
 
 - **Localization Support**
@@ -242,14 +242,14 @@ Additional languages are planned after launch, ensuring wider accessibility and 
 
 ---
 
-### Developer Diaries - Rolora v2.0.2 (What's new v2.0.2)
-- *Caption: Fixed critical bugs and improved core codebase.*
-- *Caption: Enhanced multiplayer stability for a smoother network experience.*
-- *Caption: Added new VFX and upgraded existing visual effects.*
-- *Caption: Performance-Based Reward System : Clear levels faster to earn up to 3 Stars and boost your end-game rewards!*
+### Developer Diaries - Rolora v2.0.3 (What's new v2.0.3)
+- *Caption: 🎨 Dynamic Visuals: Tile styles now dynamically change based on your selected frame!*
+- *Caption: ⚡ Performance Improvements: Enhanced shader and core optimizations for smoother gameplay.*
+- *Caption: 📦 Visual Enhancements: Refined and updated 3D models throughout the game.*
+- *Caption: 🛠️ Bug Fixes: Resolved minor bugs and improved overall system stability.*
 ---
 
-### Developer Diaries - Rolora v2.0.3 (Coming Soon)
+### Developer Diaries - (Coming Soon)
 - **NEW MAP - POISONED**
 - ![Poisoned](./docs/assets/Poisoned-1.png)
 - ![Poisoned](./docs/assets/Poisoned-2.png)
