@@ -81,7 +81,7 @@ The colorful cube must reach the evacuation point by rolling onto tiles that mat
 ## Gameplay
 
 ## 🎮 Rolora Gameplay Teaser
-[![Rolora Gameplay Teaser](https://img.youtube.com/vi/ODF8o4Q7pYg/maxresdefault.jpg)](https://youtu.be/ODF8o4Q7pYg)
+[![Rolora Gameplay Teaser](https://img.youtube.com/vi/LFZt4rVvXNk/maxresdefault.jpg)](https://youtu.be/LFZt4rVvXNk)
 
 ## Google Play Link
 [![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.glorywindgames.rolora)
@@ -242,11 +242,13 @@ Additional languages are planned after launch, ensuring wider accessibility and 
 
 ---
 
-### Developer Diaries - Rolora v2.0.3 (What's new v2.0.3)
-- *Caption: 🎨 Dynamic Visuals: Tile styles now dynamically change based on your selected frame!*
-- *Caption: ⚡ Performance Improvements: Enhanced shader and core optimizations for smoother gameplay.*
-- *Caption: 📦 Visual Enhancements: Refined and updated 3D models throughout the game.*
-- *Caption: 🛠️ Bug Fixes: Resolved minor bugs and improved overall system stability.*
+### Developer Diaries - Rolora v2.0.5 (In A Week / What's new v2.0.5)
+- *Caption: 🎨 Dynamic Visuals: Tile styles now change with your selected frame!*
+- *Caption: 🎮 GPGS & Cloud Save: Sign in to back up progress and unlock achievements!*
+- *Caption: 🛠️ Bug Fixes: Minor bugs resolved for better stability.*
+- *Caption: 🛒 In-App Purchases: New in-app purchase options added.*
+- *Caption: 🎓 Tutorial: Revamped onboarding experience.*
+- *Caption: ⚡ Performance: Shader and code optimizations for smoother gameplay.*
 ---
 
 ### Developer Diaries - (Coming Soon)
