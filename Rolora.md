@@ -1,4 +1,4 @@
-﻿# ROLORA - Version 2.0.3 (Is Live)
+﻿# ROLORA - Version 2.0.7 (Is Live)
 
 # Overview
 
@@ -242,7 +242,7 @@ Additional languages are planned after launch, ensuring wider accessibility and 
 
 ---
 
-### Developer Diaries - Rolora v2.0.5 (In A Week / What's new v2.0.5)
+### Developer Diaries - Rolora v2.0.7 (What's new v2.0.7)
 - *Caption: 🎨 Dynamic Visuals: Tile styles now change with your selected frame!*
 - *Caption: 🎮 GPGS & Cloud Save: Sign in to back up progress and unlock achievements!*
 - *Caption: 🛠️ Bug Fixes: Minor bugs resolved for better stability.*
